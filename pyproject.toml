@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "visualizer"
+name = "SeqSee"
 version = "0.1.0"
 description = "A universal visualization tool for spectral sequences of all kinds"
 authors = ["Joey Beauvais-Feisthauer <joeybf@wayne.edu>"]
@@ -7,8 +7,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-
+jinja2 = "^3"
+jsonschema = "^4"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+seqsee = 'seqsee.main:main'

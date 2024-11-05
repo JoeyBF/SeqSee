@@ -1,0 +1,188 @@
+<!-- template.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ data.header.title }}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* Dynamically generated CSS styles */
+    {{ css_styles }}
+
+    #tooltip {
+      position: absolute;
+      display: none;
+      pointer-events: none;
+      background-color: white;
+      border: 1px solid black;
+      padding: 5px;
+      font-size: 14px;
+      z-index: 10;
+    }
+
+    .axis {
+      stroke: black;
+      stroke-width: 2px;
+    }
+
+    .tick {
+      stroke: black;
+      stroke-width: 1px;
+    }
+  </style>
+</head>
+
+<body style="visibility: hidden">
+  <div id="canvas-container">
+    <svg id="svg-canvas" width="100%" height="100%">
+      <defs>
+        <!-- Define the arrowhead markers -->
+        <marker id='arrow-simple' orient="auto" markerWidth='3' markerHeight='4' refX='0.1' refY='2' fill="context-fill"
+          stroke="context-stroke">
+          <path d='M0,0 V4 L2,2 Z' />
+        </marker>
+        <!-- Define the grid pattern -->
+        <pattern id="grid" width="{{ 2*spacing }}" height="{{ 2*spacing }}" patternUnits="userSpaceOnUse">
+          <path d="M {{ 2*spacing }} 0 L 0 0 0 {{ 2*spacing }}" fill="none" stroke="#ccc" stroke-width="1" />
+        </pattern>
+      </defs>
+      <g id="content-group" class="svg-pan-zoom_viewport">
+        <!-- Apply the grid pattern to a large background rectangle -->
+        <rect id="grid-background" width="100%" height="100%" fill="url(#grid)" />
+        <!-- Nodes and Edges generated statically by Python -->
+        {{ static_svg_content }}
+      </g>
+      <g id="axes-group">
+        <!-- X-axis -->
+        <line x1="{{ 0.6*spacing }}" y1="{{ 0.6*spacing }}" y2="{{ 0.6*spacing }}" class="axis" />
+        <!-- Y-axis -->
+        <line x1="{{ 0.6*spacing }}" y1="{{ 0.6*spacing }}" x2="{{ 0.6*spacing }}" class="axis" />
+        <!-- Blocks under and to the left to hide the content -->
+        <rect id="x-block" x="0" y="0" fill="white" />
+        <rect id="y-block" x="0" y="0" fill="white" />
+      </g>
+    </svg>
+  </div>
+  <div id="tooltip"></div>
+  <!-- Include KaTeX JS -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.js" crossorigin="anonymous"></script>
+  <!-- Include svg-pan-zoom Library -->
+  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+  <script>
+    (function () {
+      const canvasHeight = document.documentElement.clientHeight;
+      const canvasWidth = document.documentElement.clientWidth;
+      const spacing = {{ spacing }};
+
+    // Adjust y-values for all elements in content-group
+    document
+      .querySelectorAll("#content-group line, #content-group circle")
+      .forEach((element) => {
+        if (element.tagName === "line") {
+          const y1 = parseFloat(element.getAttribute("y1"));
+          const y2 = parseFloat(element.getAttribute("y2"));
+          element.setAttribute("y1", canvasHeight - y1);
+          element.setAttribute("y2", canvasHeight - y2);
+        } else if (element.tagName === "circle") {
+          const cy = parseFloat(element.getAttribute("cy"));
+          element.setAttribute("cy", canvasHeight - cy);
+        }
+      });
+
+    // Adjust y-value for grid transformation
+    document
+      .getElementById("grid-background")
+      .setAttribute(
+        "transform",
+        `scale(1 -1) translate(0 -${canvasHeight})`
+      );
+
+    // Put in end values for axes and apply y-flip
+    document
+      .querySelectorAll("#axes-group line")
+      .forEach((element) => {
+        if (element.getAttribute("x2") === null) {
+          element.setAttribute("x2", canvasWidth);
+        }
+        if (element.getAttribute("y2") === null) {
+          element.setAttribute("y2", canvasHeight);
+        }
+        if (element.getAttribute("y1") !== null) {
+          const y1 = parseFloat(element.getAttribute("y1"));
+          element.setAttribute("y1", canvasHeight - y1);
+        }
+        if (element.getAttribute("y2") !== null) {
+          const y2 = parseFloat(element.getAttribute("y2"));
+          element.setAttribute("y2", canvasHeight - y2);
+        }
+      });
+
+    // Do the same for axis blocks
+    document
+      .querySelectorAll("#axes-group rect")
+      .forEach((element) => {
+        const offset = 0.6 * spacing;
+
+        if (element.id === "x-block") {
+          element.setAttribute("width", canvasWidth);
+          element.setAttribute("height", offset);
+          element.setAttribute("y", canvasHeight - offset);
+        } else if (element.id === "y-block") {
+          element.setAttribute("width", offset);
+          element.setAttribute("height", canvasHeight);
+        }
+      });
+
+    // Initialize svg-pan-zoom for panning and zooming
+    window.panZoom = svgPanZoom("#svg-canvas", {
+      zoomEnabled: true,
+      fit: true,
+      center: true,
+      minZoom: 0.5,
+      maxZoom: 10,
+      panEnabled: true,
+    });
+
+    // Pan slightly so the origin is visible
+    window.panZoom.panBy({ x: (2 * 0.6) * spacing, y: -(2 * 0.6) * spacing });
+
+    // Add hover events to nodes for tooltips
+    document.querySelectorAll(".node").forEach((node) => {
+      node.addEventListener("mouseover", function (event) {
+        const label = this.getAttribute("data-label");
+        if (label) {
+          const renderedLabel = katex.renderToString(label, {
+            throwOnError: false,
+          });
+          tooltip.innerHTML = renderedLabel;
+          tooltip.style.display = "block";
+        }
+      });
+      node.addEventListener("mousemove", function (event) {
+        tooltip.style.left = event.clientX + 10 + "px";
+        tooltip.style.top = event.clientY + 10 + "px";
+      });
+      node.addEventListener("mouseout", function (event) {
+        tooltip.style.display = "none";
+      });
+    });
+
+    // Show the SVG after y-values are adjusted
+    document.body.style.visibility = "visible";
+    }) ();
+  </script>
+</body>
+
+</html>

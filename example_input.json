@@ -1,0 +1,61 @@
+{
+  "$schema": "./visualizer/input_schema.json",
+  "header": {
+    "title": "Example",
+    "dimensions": {"width": 5, "height": 5},
+    "defaultAttributes": {
+      "node": [ {"color": "gray", "shape": "circle", "size": "1.4"} ],
+      "edge": [ {"color": "gray", "thickness": "1"}                 ]
+    },
+    "aliases": {
+      "attributes": {
+        "tau1": [ {"color": "red"} ]
+      },
+      "colors": {"gray": "#666666", "red": "#FF0000", "magenta": "#FF00FF"}
+    }
+  },
+  "nodes": {
+    "1"   : { "x": 0, "y": 0                                         },
+    "h0"  : { "x": 0, "y": 1, "label": "h_0"                         },
+    "h0^2": { "x": 0, "y": 2                                         },
+    "h0^3": { "x": 0, "y": 3                                         },
+    "h1"  : { "x": 1, "y": 1, "label": "h_1"                         },
+    "h1^2": { "x": 2, "y": 2                                         },
+    "h2"  : { "x": 3, "y": 1, "label": "h_2"                         },
+    "h0h2": { "x": 3, "y": 2                                         },
+    "h1^3": { "x": 3, "y": 3                                         },
+    "h1^4": { "x": 4, "y": 4,                 "attributes": ["tau1"] }
+  },
+  "edges": [
+    {"source": "1", "target": "h0"},
+    {"source": "1", "target": "h1"},
+    {"source": "1", "target": "h2"},
+    {"source": "h0", "target": "h0^2"},
+    {"source": "h0", "target": "h0h2"},
+    {"source": "h0^2", "target": "h0^3"},
+    {
+      "source": "h0^2",
+      "target": "h1^3",
+      "attributes": [ {"color": "magenta"} ]
+    },
+    {
+      "source": "h0^3",
+      "offset": {"x": 0, "y": 0.7},
+      "attributes": [ {"arrowTip": "simple"} ]
+    },
+    {"source": "h1", "target": "h1^2"},
+    {"source": "h1^2", "target": "h1^3"},
+    {"source": "h2", "target": "h0h2"},
+    {
+      "source": "h0h2",
+      "target": "h1^3",
+      "attributes": [ {"color": "magenta"} ]
+    },
+    { "source": "h1^3", "target": "h1^4", "attributes": ["tau1"] },
+    {
+      "source": "h1^4",
+      "offset": {"x": 0.7, "y": 0.7},
+      "attributes": [ "tau1", {"arrowTip": "simple"} ]
+    }
+  ]
+}
