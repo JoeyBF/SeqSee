@@ -1,30 +1,42 @@
 {
-  "$schema": "./visualizer/input_schema.json",
+  "$schema": "./seqsee/input_schema.json",
   "header": {
-    "title": "Example",
-    "dimensions": {"width": 5, "height": 5},
+    "title": "Example $E_2$-page",
+    "dimensions": {"scale": 80, "width": 6, "height": 6},
     "defaultAttributes": {
-      "node": [ {"color": "gray", "shape": "circle", "size": "1.4"} ],
-      "edge": [ {"color": "gray", "thickness": "1"}                 ]
+      "nodes": [ {"color": "gray", "shape": "circle", "size": "0.03"} ],
+      "edges": [ {"color": "gray", "thickness": "0.02", "lineStyle": "solid"} ]
     },
     "aliases": {
       "attributes": {
-        "tau1": [ {"color": "red"} ]
+        "tau1": [ {"color": "tau1color"} ]
       },
-      "colors": {"gray": "#666666", "red": "#FF0000", "magenta": "#FF00FF"}
+      "colors": {
+        "gray"     : "#666666",
+        "tau1color": "#DD0000",
+        "magenta"  : "#FF00FF"
+      }
     }
   },
   "nodes": {
-    "1"   : { "x": 0, "y": 0                                         },
-    "h0"  : { "x": 0, "y": 1, "label": "h_0"                         },
-    "h0^2": { "x": 0, "y": 2                                         },
-    "h0^3": { "x": 0, "y": 3                                         },
-    "h1"  : { "x": 1, "y": 1, "label": "h_1"                         },
-    "h1^2": { "x": 2, "y": 2                                         },
-    "h2"  : { "x": 3, "y": 1, "label": "h_2"                         },
-    "h0h2": { "x": 3, "y": 2                                         },
-    "h1^3": { "x": 3, "y": 3                                         },
-    "h1^4": { "x": 4, "y": 4,                 "attributes": ["tau1"] }
+    "1": {
+      "x": 0,
+      "y": 0,
+      "attributes": [ {"color": "#000000", "size": "0.5"} ]
+    },
+    "h0": {"x": 0, "y": 1, "label": "h_0"},
+    "h0^2": {"x": 0, "y": 2},
+    "h0^3": {"x": 0, "y": 3},
+    "h1": {"x": 1, "y": 1, "label": "h_1"},
+    "h1^2": {"x": 2, "y": 2},
+    "h2": {"x": 3, "y": 1, "label": "h_2"},
+    "h0h2": {"x": 3, "y": 2},
+    "h1^3": {"x": 3, "y": 3},
+    "h1^4": {
+      "x": 4,
+      "y": 4,
+      "attributes": [ "tau1", {"size": "0.2"} ]
+    }
   },
   "edges": [
     {"source": "1", "target": "h0"},

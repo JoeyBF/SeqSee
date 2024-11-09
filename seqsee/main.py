@@ -6,7 +6,9 @@ from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from jinja2 import Environment, FileSystemLoader
 
-# The distance between successive x or y coordinates. Units are in pixels.
+# The distance between successive x or y coordinates. Units are in pixels. This will be fixed
+# throughout the html file, but zooming is implemented through a transformation matrix applied to
+# the <g> element that contains the nodes, edges, and background grid.
 scale = 50
 
 
@@ -25,6 +27,10 @@ class CssStyle:
 
     def __getitem__(self, key):
         return self._styles[key]
+
+    def keys(self):
+        """Return keys of the style dict."""
+        return self._styles.keys()
 
     def items(self):
         """Return iterable contents."""
@@ -60,7 +66,9 @@ class CssStyle:
 
         for name, value in self.items():
             # If the sub node is a sub-style...
-            if isinstance(value, dict) or isinstance(value, CssStyle):
+            if isinstance(value, dict):
+                subnodes.append((name, CssStyle(value)))
+            elif isinstance(value, CssStyle):
                 subnodes.append((name, value))
             # Else, it's a string, and thus, a single style element
             elif (
@@ -93,7 +101,12 @@ class CssStyle:
                 parent=(parent.strip() + " " + subnode[0]).strip()
             )
 
-        return result
+        if parent == "":
+            ret = "\n".join(result)
+        else:
+            ret = result
+
+        return ret
 
 
 global_css = CssStyle()
@@ -112,72 +125,97 @@ def load_template():
     return template
 
 
-def generate_style_from_attributes(attributes):
-    """This function generates CSS styles from the attributes of a node or edge. Note that it
-    ignores style aliases, that are handled by the CSS itself."""
+def style_and_aliases_from_attributes(attributes):
+    """Given a list of attributes, return a CssStyle object that contains the union of all raw
+    attribute objects, and a list of aliases. We return the aliases separately because we may want
+    to specify them in a `class` attribute instead of a `style` attribute."""
+
     new_style = CssStyle()
+    aliases = []
     for attr in attributes:
         if isinstance(attr, dict):
             # This is a raw attribute object
             for key, value in attr.items():
                 if key == "color":
-                    new_style += {"fill": value, "stroke": value}
+                    if (value_key := "." + value) in global_css.keys():
+                        new_style += global_css[value_key]
+                    else:
+                        new_style += {"fill": value, "stroke": value}
                 elif key == "size":
                     new_style += {"r": scale * float(value)}
                 elif key == "thickness":
-                    new_style += {"stroke-width": value}
+                    new_style += {"stroke-width": scale * float(value)}
                 elif key == "arrowTip":
-                    new_style += f"marker-end: url(#arrow-{value});\n"
+                    new_style += {"marker-end": f"url(#arrow-{value})"}
         elif isinstance(attr, str):
             # This is a style alias
-            new_style += global_css["." + attr]
-    return new_style
+            aliases.append(attr)
+    return (new_style, aliases)
+
+
+def generate_style(style, aliases):
+    """Collapse a list of styles and aliases into a single style object."""
+    style = copy.deepcopy(style)
+    for alias in aliases:
+        style.append(global_css["." + alias])
+    return style
 
 
 def generate_static_svg_content(data):
-    static_svg_content = "<g id='edges-group'>\n"
 
-    # Generate edges
-    for edge in data.get("edges", []):
-        source = data["nodes"][edge["source"]]
-        if "target" in edge:
-            target = data["nodes"][edge["target"]]
-            target_x = target["x"] * scale
-            target_y = target["y"] * scale
-        elif "offset" in edge:
-            target_x = (source["x"] + edge["offset"]["x"]) * scale
-            target_y = (source["y"] + edge["offset"]["y"]) * scale
-        else:
-            # Impossible due to schema
-            raise NotImplementedError
+    def generate_nodes(data):
+        nodes_svg = '<g id="nodes-group">\n'
 
-        x1 = source["x"] * scale
-        y1 = source["y"] * scale
+        for node_id, node in data.get("nodes", {}).items():
+            cx = node["x"] * scale
+            cy = node["y"] * scale
 
-        attributes = edge.get("attributes", [])
-        styles = generate_style_from_attributes(attributes)
+            attributes = node.get("attributes", [])
+            style, aliases = style_and_aliases_from_attributes(attributes)
+            style = style.generate(indent=0).replace("\n", " ").strip(" {}")
+            if style:
+                style = f'style="{style}"'
+            aliases = " ".join(aliases)
 
-        static_svg_content += f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" style="{styles.generate()}"></line>\n'
+            label = node.get("label", "")
 
-    static_svg_content += '</g><g id="nodes-group">\n'
+            nodes_svg += f'<circle id="{node_id}" class="{aliases}" cx="{cx}" cy="{cy}" {style} data-label="{label}"></circle>\n'
 
-    # Generate nodes
-    for node_id, node in data.get("nodes", {}).items():
-        cx = node["x"] * scale
-        cy = node["y"] * scale
-        attributes = node.get("attributes", [])
-        classes = " ".join([attr for attr in attributes if isinstance(attr, str)])
-        if any([isinstance(attr, dict) and "size" in attr for attr in attributes]):
-            radius = scale * int(next((attr["size"] for attr in attributes)))
-            r_tag = f"r={radius}px"
-        else:
-            r_tag = ""
-        label = node.get("label", "")
+        nodes_svg += "</g>\n"
+        return nodes_svg
 
-        static_svg_content += f'<circle id="{node_id}" cx="{cx}" cy="{cy}" {r_tag} data-label="{label}"></circle>\n'
+    def generate_edges(data):
+        edges_svg = '<g id="edges-group">\n'
+        for edge in data.get("edges", []):
+            source = data["nodes"][edge["source"]]
+            if "target" in edge:
+                target = data["nodes"][edge["target"]]
+                target_x = target["x"] * scale
+                target_y = target["y"] * scale
+            elif "offset" in edge:
+                target_x = (source["x"] + edge["offset"]["x"]) * scale
+                target_y = (source["y"] + edge["offset"]["y"]) * scale
+            else:
+                # Impossible due to schema
+                raise NotImplementedError
 
-    static_svg_content += "</g>\n"
-    return static_svg_content
+            x1 = source["x"] * scale
+            y1 = source["y"] * scale
+
+            attributes = edge.get("attributes", [])
+            style, aliases = style_and_aliases_from_attributes(attributes)
+            style = style.generate(indent=0).replace("\n", " ").strip(" {}")
+            if style:
+                style = f'style="{style}"'
+            aliases = " ".join(aliases)
+
+            edges_svg += f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="{aliases}" {style}></line>\n'
+
+        edges_svg += "</g>\n"
+        return edges_svg
+
+    # We generate nodes after edges so that they are drawn on top
+    return generate_edges(data) + generate_nodes(data)
 
 
 def generate_html(data):
@@ -186,7 +224,10 @@ def generate_html(data):
     template = load_template()
     html_output = template.render(
         data=data,
+        title=data.get("header", {}).get("title", "").replace("$", ""),
         spacing=scale,
+        chart_width=data.get("header", {}).get("dimensions", {}).get("width", 10),
+        chart_height=data.get("header", {}).get("dimensions", {}).get("height", 10),
         css_styles=global_css.generate(),
         static_svg_content=static_svg_content,
     )
@@ -208,22 +249,22 @@ def generate_css_styles(data):
             css_class = "line"
         else:
             raise ValueError
-        global_css += {css_class: generate_style_from_attributes(attributes_list)}
+        style, aliases = style_and_aliases_from_attributes(attributes_list)
+        global_css += {css_class: generate_style(style, aliases)}
 
     # Generate CSS classes for color aliases
     for color_name, color_value in color_aliases.items():
-        global_css += {color_name: {"fill": color_value, "stroke": color_value}}
+        global_css += {"." + color_name: {"fill": color_value, "stroke": color_value}}
 
     # Generate CSS classes for attribute aliases
     for alias_name, attributes_list in attribute_aliases.items():
-        global_css += {
-            "." + alias_name: generate_style_from_attributes(attributes_list)
-        }
+        style, aliases = style_and_aliases_from_attributes(attributes_list)
+        global_css += {"." + alias_name: generate_style(style, aliases)}
 
 
 def main():
     if len(sys.argv) != 3:
-        print("Usage: visualizer <input.json> <output.html>")
+        print("Usage: seqsee <input.json> <output.html>")
         sys.exit(1)
 
     input_file = sys.argv[1]
@@ -241,6 +282,9 @@ def main():
         print("Input JSON validation error:")
         print(e)
         sys.exit(1)
+
+    global scale
+    scale = data.get("header", {}).get("dimensions", {}).get("scale", 50)
 
     # Generate HTML
     html_content = generate_html(data)

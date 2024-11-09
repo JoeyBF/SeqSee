@@ -19,9 +19,11 @@
         "dimensions": {
           "type": "object",
           "properties": {
-            "width" : {"type": "integer", "default": 10},
-            "height": {"type": "integer", "default": 10}
-          }
+            "scale" : {"type": "number" , "default": 100},
+            "width" : {"type": "integer", "default":  10},
+            "height": {"type": "integer", "default":  10}
+          },
+          "additionalProperties": false
         },
         "defaultAttributes": {
           "type": "object",
@@ -45,7 +47,8 @@
           },
           "additionalProperties": false
         }
-      }
+      },
+      "additionalProperties": false
     },
     "nodes": {
       "type": "object",
