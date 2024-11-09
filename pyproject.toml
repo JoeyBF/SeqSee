@@ -7,8 +7,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+compact-json = "^1"
 jinja2 = "^3"
 jsonschema = "^4"
+pandas = "^2"
 
 [build-system]
 requires = ["poetry-core"]
@@ -16,3 +18,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 seqsee = 'seqsee.main:main'
+jsonmaker = 'seqsee.jsonmaker:main'
