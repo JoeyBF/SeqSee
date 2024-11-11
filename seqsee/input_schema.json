@@ -6,7 +6,8 @@
       "items": {
         "type": ["string", "object"],
         "additionalProperties": {"type": "string"}
-      }
+      },
+      "default": []
     },
     "color": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"}
   },
@@ -15,13 +16,15 @@
     "header": {
       "type": "object",
       "properties": {
-        "title": {"type": "string"},
-        "dimensions": {
+        "chart": {
           "type": "object",
           "properties": {
-            "scale" : {"type": "number" , "default": 100},
-            "width" : {"type": "integer", "default":  10},
-            "height": {"type": "integer", "default":  10}
+            "title"      : {"type": "string" , "default": ""    },
+            "width"      : {"type": "integer", "default": 32    },
+            "height"     : {"type": "integer", "default": 20    },
+            "scale"      : {"type": "number" , "default": 100.00},
+            "nodeSize"   : {"type": "number" , "default": 0.04  },
+            "nodeSpacing": {"type": "number" , "default": 0.02  }
           },
           "additionalProperties": false
         },
@@ -89,6 +92,5 @@
         "additionalProperties": false
       }
     }
-  },
-  "required": ["header"]
+  }
 }

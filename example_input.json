@@ -1,10 +1,16 @@
 {
   "$schema": "./seqsee/input_schema.json",
   "header": {
-    "title": "Example $E_2$-page",
-    "dimensions": {"scale": 80, "width": 6, "height": 6},
+    "chart": {
+      "title": "Example $E_2$-page",
+      "width": 6,
+      "height": 6,
+      "scale": 80,
+      "nodeSize": 0.03,
+      "nodeSpacing": 0
+    },
     "defaultAttributes": {
-      "nodes": [ {"color": "gray", "shape": "circle", "size": "0.03"} ],
+      "nodes": [ {"color": "gray", "shape": "circle"} ],
       "edges": [ {"color": "gray", "thickness": "0.02", "lineStyle": "solid"} ]
     },
     "aliases": {
@@ -28,6 +34,7 @@
     "h0^2": {"x": 0, "y": 2},
     "h0^3": {"x": 0, "y": 3},
     "h1": {"x": 1, "y": 1, "label": "h_1"},
+    "h1'": {"x": 1, "y": 1, "position": -1, "label": "h_1'"},
     "h1^2": {"x": 2, "y": 2},
     "h2": {"x": 3, "y": 1, "label": "h_2"},
     "h0h2": {"x": 3, "y": 2},
