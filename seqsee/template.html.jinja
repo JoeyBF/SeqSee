@@ -14,7 +14,7 @@
       font-weight: 500;
       font-size: 20pt;
       margin: 0;
-      overflow: visible;
+      overflow: hidden;
     }
 
     .katex {
@@ -51,8 +51,17 @@
     }
 
     .tick {
-      stroke: black;
+      font-size: 12pt;
+    }
+
+    .x-tick {
       text-anchor: middle;
+      dominant-baseline: hanging;
+    }
+
+    .y-tick {
+      text-anchor: end;
+      dominant-baseline: middle;
     }
   </style>
 </head>
@@ -71,17 +80,19 @@
           <path id="grid-path" d="M {{ 2*spacing }} 0 L 0 0 0 {{ 2*spacing }}" fill="none"/>
         </pattern>
       </defs>
-      <g id="content-group" class="svg-pan-zoom_viewport">
-        <!-- Apply the grid pattern to a large background rectangle -->
-        <rect id="grid-background" width="{{ chart_width * spacing }}px" height="{{ chart_height * spacing }}px" fill="url(#grid)" />
-        <!-- Write title in the top left corner -->
-        <foreignObject id="title-container" x="{{spacing}}px" width="100%" height="100%">
-          <div xmlns="http://www.w3.org/1999/xhtml" id="title">
-            {{ data.header.title }}
-          </div>
-        </foreignObject>
-        <!-- Nodes and Edges generated statically by Python -->
-        {{ static_svg_content }}
+      <g id="content-offset" transform="translate({{ 0.6*2*spacing }} -{{ 0.6*2*spacing }})">
+        <g id="content-group" class="svg-pan-zoom_viewport">
+          <!-- Apply the grid pattern to a large background rectangle -->
+          <rect id="grid-background" width="{{ chart_width * spacing }}px" height="{{ chart_height * spacing }}px" fill="url(#grid)" />
+          <!-- Write title in the top left corner -->
+          <foreignObject id="title-container" x="{{spacing}}px" width="100%" height="100%" style="white-space: nowrap">
+            <div xmlns="http://www.w3.org/1999/xhtml" id="title">
+              {{ data.header.chart.title }}
+            </div>
+          </foreignObject>
+          <!-- Nodes and Edges generated statically by Python -->
+          {{ static_svg_content }}
+        </g>
       </g>
       <g id="axes-group">
         <!-- X-axis -->
@@ -93,10 +104,10 @@
         <rect id="y-block" fill="white" />
         <!-- Coordinate labels -->
         {% for i in range(0, chart_width + 1, 2) %}
-          <text x="{{ i * spacing }}" y="{{ 0 }}" class="tick">{{ i }}</text>
+          <text x="{{ (0.6*2 + i) * spacing }}" y="{{ 0.5 * spacing }}" class="tick x-tick">{{ i }}</text>
         {% endfor %}
         {% for j in range(0, chart_height + 1, 2) %}
-          <text x="{{ 0 }}" y="{{ j * spacing }}" class="tick">{{ j }}</text>
+          <text x="{{ 0.5 * spacing }}" y="{{ (0.6*2 + j) * spacing }}" class="tick y-tick">{{ j }}</text>
         {% endfor %}
       </g>
     </svg>
@@ -276,40 +287,44 @@
         center: false,
         minZoom: 0.1,
         maxZoom: 10,
+        zoomScaleSensitivity: 0.4,
         panEnabled: true,
       });
-
-      onResize();
 
       // Show the SVG after y-values are adjusted
       document.body.style.visibility = "visible";
 
       window.addEventListener("keydown", function (event) {
-        event.preventDefault();
 
         // Add arrow key controls for panning
         const panSpeed = spacing;
         if (event.key === "ArrowUp") {
+          event.preventDefault();
           window.panZoom.panBy({ x: 0, y: panSpeed });
         } else if (event.key === "ArrowDown") {
+          event.preventDefault();
           window.panZoom.panBy({ x: 0, y: -panSpeed });
         } else if (event.key === "ArrowLeft") {
+          event.preventDefault();
           window.panZoom.panBy({ x: panSpeed, y: 0 });
         } else if (event.key === "ArrowRight") {
+          event.preventDefault();
           window.panZoom.panBy({ x: -panSpeed, y: 0 });
         }
 
         // Add + and - key controls for zooming
         if (event.key === "+" || event.key === "=") {
+          event.preventDefault();
           window.panZoom.zoomIn();
         } else if (event.key === "-" || event.key === "_") {
+          event.preventDefault();
           window.panZoom.zoomOut();
         }
 
         // Add backspace key control for resetting pan and zoom
         if (event.key === "Backspace") {
+          event.preventDefault();
           window.panZoom.reset();
-          {# window.panZoom.panBy({ x: (2 * 0.6) * spacing, y: -(2 * 0.6) * spacing }); #}
         }
       });
 
