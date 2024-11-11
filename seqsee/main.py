@@ -1,8 +1,9 @@
 import copy
 import json
+import jsonschema
 import sys
 import os
-from jsonschema import validate
+from collections import defaultdict
 from jsonschema.exceptions import ValidationError
 from jinja2 import Environment, FileSystemLoader
 
@@ -119,10 +120,28 @@ def load_schema():
     return schema
 
 
+schema = load_schema()
+
+
 def load_template():
     env = Environment(loader=FileSystemLoader(searchpath=os.path.dirname(__file__)))
     template = env.get_template("template.html.jinja")
     return template
+
+
+def get_value_or_schema_default(data, path):
+    current_value = data
+    parent_path, last = path[:-1], path[-1]
+    for key in parent_path:
+        current_value = current_value.get(key, {})
+    current_value = current_value.get(last, None)
+    if current_value is not None:
+        return current_value
+
+    default_value = schema
+    for key in path:
+        default_value = default_value["properties"][key]
+    return default_value["default"]
 
 
 def style_and_aliases_from_attributes(attributes):
@@ -161,73 +180,107 @@ def generate_style(style, aliases):
     return style
 
 
-def generate_static_svg_content(data):
+def calculate_absolute_positions(data):
+    """This modifies `data` in-place to add attributes `absoluteX` and `absoluteY`"""
 
-    def generate_nodes(data):
-        nodes_svg = '<g id="nodes-group">\n'
+    nodes_by_bidegree = defaultdict(list)
 
-        for node_id, node in data.get("nodes", {}).items():
-            cx = node["x"] * scale
-            cy = node["y"] * scale
+    # Group nodes by bidegree
+    for node_id, node in data.get("nodes", {}).items():
+        x, y = node["x"], node["y"]
+        nodes_by_bidegree[x, y].append(node_id)
 
-            attributes = node.get("attributes", [])
-            style, aliases = style_and_aliases_from_attributes(attributes)
-            style = style.generate(indent=0).replace("\n", " ").strip(" {}")
-            if style:
-                style = f'style="{style}"'
-            aliases = " ".join(aliases)
+    # Sort bidegrees by the `position` attribute of the nodes
+    for bidegree, nodes in nodes_by_bidegree.items():
+        nodes_by_bidegree[bidegree] = sorted(
+            nodes, key=lambda node_id: data["nodes"][node_id].get("position", 0)
+        )
 
-            label = node.get("label", "")
+    # Add absolute positions to nodes
+    node_spacing = get_value_or_schema_default(data, ["header", "chart", "nodeSpacing"])
+    node_size = get_value_or_schema_default(data, ["header", "chart", "nodeSize"])
+    distance_between_centers = node_spacing + 2 * node_size
+    for (x, y), nodes in nodes_by_bidegree.items():
+        bidegree_rank = len(nodes)
+        first_center_to_last_center = (bidegree_rank - 1) * distance_between_centers
+        for i, node_id in enumerate(nodes):
+            data["nodes"][node_id]["absoluteX"] = (
+                x - first_center_to_last_center / 2 + i * distance_between_centers
+            )
+            data["nodes"][node_id]["absoluteY"] = y
 
-            nodes_svg += f'<circle id="{node_id}" class="{aliases}" cx="{cx}" cy="{cy}" {style} data-label="{label}"></circle>\n'
 
-        nodes_svg += "</g>\n"
-        return nodes_svg
+def generate_nodes_svg(data):
+    nodes_svg = '<g id="nodes-group">\n'
 
-    def generate_edges(data):
-        edges_svg = '<g id="edges-group">\n'
-        for edge in data.get("edges", []):
-            source = data["nodes"][edge["source"]]
-            if "target" in edge:
-                target = data["nodes"][edge["target"]]
-                target_x = target["x"] * scale
-                target_y = target["y"] * scale
-            elif "offset" in edge:
-                target_x = (source["x"] + edge["offset"]["x"]) * scale
-                target_y = (source["y"] + edge["offset"]["y"]) * scale
-            else:
-                # Impossible due to schema
-                raise NotImplementedError
+    for node_id, node in data.get("nodes", {}).items():
+        cx = node["absoluteX"] * scale
+        cy = node["absoluteY"] * scale
 
-            x1 = source["x"] * scale
-            y1 = source["y"] * scale
+        attributes = node.get("attributes", [])
+        style, aliases = style_and_aliases_from_attributes(attributes)
+        style = style.generate(indent=0).replace("\n", " ").strip(" {}")
+        if style:
+            style = f'style="{style}"'
+        aliases = " ".join(aliases)
 
-            attributes = edge.get("attributes", [])
-            style, aliases = style_and_aliases_from_attributes(attributes)
-            style = style.generate(indent=0).replace("\n", " ").strip(" {}")
-            if style:
-                style = f'style="{style}"'
-            aliases = " ".join(aliases)
+        label = node.get("label", "")
 
-            edges_svg += f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="{aliases}" {style}></line>\n'
+        nodes_svg += f'<circle id="{node_id}" class="{aliases}" cx="{cx}" cy="{cy}" {style} data-label="{label}"></circle>\n'
 
-        edges_svg += "</g>\n"
-        return edges_svg
+    nodes_svg += "</g>\n"
+    return nodes_svg
 
+
+def generate_edges_svg(data):
+    edges_svg = '<g id="edges-group">\n'
+
+    for edge in data.get("edges", []):
+        source = data["nodes"][edge["source"]]
+        if "target" in edge:
+            target = data["nodes"][edge["target"]]
+            target_x = target["absoluteX"] * scale
+            target_y = target["absoluteY"] * scale
+        elif "offset" in edge:
+            target_x = (source["absoluteX"] + edge["offset"]["x"]) * scale
+            target_y = (source["absoluteY"] + edge["offset"]["y"]) * scale
+        else:
+            # Impossible due to schema
+            raise NotImplementedError
+
+        x1 = source["absoluteX"] * scale
+        y1 = source["absoluteY"] * scale
+
+        attributes = edge.get("attributes", [])
+        style, aliases = style_and_aliases_from_attributes(attributes)
+        style = style.generate(indent=0).replace("\n", " ").strip(" {}")
+        if style:
+            style = f'style="{style}"'
+        aliases = " ".join(aliases)
+
+        edges_svg += f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="{aliases}" {style}></line>\n'
+
+    edges_svg += "</g>\n"
+    return edges_svg
+
+
+def generate_svg(data):
+    calculate_absolute_positions(data)
     # We generate nodes after edges so that they are drawn on top
-    return generate_edges(data) + generate_nodes(data)
+    return generate_edges_svg(data) + generate_nodes_svg(data)
 
 
 def generate_html(data):
     generate_css_styles(data)
-    static_svg_content = generate_static_svg_content(data)
+    static_svg_content = generate_svg(data)
+    title = get_value_or_schema_default(data, ["header", "chart", "title"])
     template = load_template()
     html_output = template.render(
         data=data,
-        title=data.get("header", {}).get("title", "").replace("$", ""),
+        title=title.replace("$", ""),
         spacing=scale,
-        chart_width=data.get("header", {}).get("dimensions", {}).get("width", 10),
-        chart_height=data.get("header", {}).get("dimensions", {}).get("height", 10),
+        chart_width=get_value_or_schema_default(data, ["header", "chart", "width"]),
+        chart_height=get_value_or_schema_default(data, ["header", "chart", "height"]),
         css_styles=global_css.generate(),
         static_svg_content=static_svg_content,
     )
@@ -243,14 +296,21 @@ def generate_css_styles(data):
 
     # Generate CSS classes for defaultAttributes
     for element_type, attributes_list in default_attributes.items():
+        style, aliases = style_and_aliases_from_attributes(attributes_list)
+        generated_style = generate_style(style, aliases)
+
         if element_type == "nodes":
             css_class = "circle"
+            node_size = get_value_or_schema_default(
+                data, ["header", "chart", "nodeSize"]
+            )
+            generated_style += {"stroke-width": 0, "r": scale * node_size}
         elif element_type == "edges":
             css_class = "line"
         else:
             raise ValueError
-        style, aliases = style_and_aliases_from_attributes(attributes_list)
-        global_css += {css_class: generate_style(style, aliases)}
+
+        global_css += {css_class: generated_style}
 
     # Generate CSS classes for color aliases
     for color_name, color_value in color_aliases.items():
@@ -274,10 +334,9 @@ def main():
     with open(input_file, "r") as f:
         data = json.load(f)
 
-    # Load schema and validate
-    schema = load_schema()
+    # validate against schema
     try:
-        validate(instance=data, schema=schema)
+        jsonschema.validate(instance=data, schema=schema)
     except ValidationError as e:
         print("Input JSON validation error:")
         print(e)
