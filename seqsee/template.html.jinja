@@ -14,7 +14,7 @@
       font-weight: 500;
       font-size: 20pt;
       margin: 0;
-      overflow: hidden;
+      overflow: visible;
     }
 
     .katex {
@@ -52,7 +52,7 @@
 
     .tick {
       stroke: black;
-      stroke-width: 1px;
+      text-anchor: middle;
     }
   </style>
 </head>
@@ -89,8 +89,15 @@
         <!-- Y-axis -->
         <line id="y-axis" class="axis" />
         <!-- Blocks under and to the left to hide the content -->
-        <rect id="x-block" x="0" y="0" fill="white" />
-        <rect id="y-block" x="0" y="0" fill="white" />
+        <rect id="x-block" fill="white" />
+        <rect id="y-block" fill="white" />
+        <!-- Coordinate labels -->
+        {% for i in range(0, chart_width + 1, 2) %}
+          <text x="{{ i * spacing }}" y="{{ 0 }}" class="tick">{{ i }}</text>
+        {% endfor %}
+        {% for j in range(0, chart_height + 1, 2) %}
+          <text x="{{ 0 }}" y="{{ j * spacing }}" class="tick">{{ j }}</text>
+        {% endfor %}
       </g>
     </svg>
   </div>
@@ -184,6 +191,14 @@
             element.setAttribute("width", offset);
             element.setAttribute("height", canvasHeight);
           }
+        });
+
+      // And ticks
+      document
+        .querySelectorAll("#axes-group text")
+        .forEach((element) => {
+          const y = parseFloat(element.getAttribute("y"));
+          element.setAttribute("y", canvasHeight - y);
         });
 
       function onResize() {
