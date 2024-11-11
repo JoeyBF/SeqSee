@@ -266,6 +266,38 @@
 
       onResize();
 
+      // Show the SVG after y-values are adjusted
+      document.body.style.visibility = "visible";
+
+      window.addEventListener("keydown", function (event) {
+        event.preventDefault();
+
+        // Add arrow key controls for panning
+        const panSpeed = spacing;
+        if (event.key === "ArrowUp") {
+          window.panZoom.panBy({ x: 0, y: panSpeed });
+        } else if (event.key === "ArrowDown") {
+          window.panZoom.panBy({ x: 0, y: -panSpeed });
+        } else if (event.key === "ArrowLeft") {
+          window.panZoom.panBy({ x: panSpeed, y: 0 });
+        } else if (event.key === "ArrowRight") {
+          window.panZoom.panBy({ x: -panSpeed, y: 0 });
+        }
+
+        // Add + and - key controls for zooming
+        if (event.key === "+" || event.key === "=") {
+          window.panZoom.zoomIn();
+        } else if (event.key === "-" || event.key === "_") {
+          window.panZoom.zoomOut();
+        }
+
+        // Add backspace key control for resetting pan and zoom
+        if (event.key === "Backspace") {
+          window.panZoom.reset();
+          {# window.panZoom.panBy({ x: (2 * 0.6) * spacing, y: -(2 * 0.6) * spacing }); #}
+        }
+      });
+
       // Add hover events to nodes for tooltips
       document.querySelectorAll("circle").forEach((node) => {
         node.addEventListener("mouseover", function (event) {
@@ -286,9 +318,6 @@
           tooltip.style.display = "none";
         });
       });
-
-      // Show the SVG after y-values are adjusted
-      document.body.style.visibility = "visible";
     }) ();
   </script>
 </body>
