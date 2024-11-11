@@ -7,6 +7,11 @@
   <title>{{ title }}</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <!-- KaTeX for math rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <!-- svg-pan-zoom for obvious reasons -->
+  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
   <style>
     body {
       font-family: "Computer Modern Serif", serif;
@@ -80,19 +85,17 @@
           <path id="grid-path" d="M {{ 2*spacing }} 0 L 0 0 0 {{ 2*spacing }}" fill="none"/>
         </pattern>
       </defs>
-      <g id="content-offset" transform="translate({{ 0.6*2*spacing }} -{{ 0.6*2*spacing }})">
-        <g id="content-group" class="svg-pan-zoom_viewport">
-          <!-- Apply the grid pattern to a large background rectangle -->
-          <rect id="grid-background" width="{{ chart_width * spacing }}px" height="{{ chart_height * spacing }}px" fill="url(#grid)" />
-          <!-- Write title in the top left corner -->
-          <foreignObject id="title-container" x="{{spacing}}px" width="100%" height="100%" style="white-space: nowrap">
-            <div xmlns="http://www.w3.org/1999/xhtml" id="title">
-              {{ data.header.chart.title }}
-            </div>
-          </foreignObject>
-          <!-- Nodes and Edges generated statically by Python -->
-          {{ static_svg_content }}
-        </g>
+      <g id="content-group" class="svg-pan-zoom_viewport">
+        <!-- Apply the grid pattern to a large background rectangle -->
+        <rect id="grid-background" width="{{ chart_width * spacing }}px" height="{{ chart_height * spacing }}px" fill="url(#grid)" />
+        <!-- Write title in the top left corner -->
+        <foreignObject id="title-container" x="{{spacing}}px" width="100%" height="100%" style="white-space: nowrap">
+          <div xmlns="http://www.w3.org/1999/xhtml" id="title">
+            {{ data.header.chart.title }}
+          </div>
+        </foreignObject>
+        <!-- Nodes and Edges generated statically by Python -->
+        {{ static_svg_content }}
       </g>
       <g id="axes-group">
         <!-- X-axis -->
@@ -100,24 +103,25 @@
         <!-- Y-axis -->
         <line id="y-axis" class="axis" />
         <!-- Blocks under and to the left to hide the content -->
-        <rect id="x-block" fill="white" />
-        <rect id="y-block" fill="white" />
-        <!-- Coordinate labels -->
-        {% for i in range(0, chart_width + 1, 2) %}
-          <text x="{{ (0.6*2 + i) * spacing }}" y="{{ 0.5 * spacing }}" class="tick x-tick">{{ i }}</text>
-        {% endfor %}
-        {% for j in range(0, chart_height + 1, 2) %}
-          <text x="{{ 0.5 * spacing }}" y="{{ (0.6*2 + j) * spacing }}" class="tick y-tick">{{ j }}</text>
-        {% endfor %}
+        <rect id="x-block" x="0" y="0" fill="white" />
+        <rect id="y-block" x="0" y="0" fill="white" />
+        <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
+        <g id="ticks" class="tick">
+          <g id="x-ticks" class="x-tick">
+            {% for i in range(0, chart_width + 1, 2) %}
+              <text x="{{ i * spacing }}" y="{{ 0.5 * spacing }}">{{ i }}</text>
+            {% endfor %}
+          </g>
+          <g id="y-ticks" class="y-tick">
+            {% for j in range(0, chart_height + 1, 2) %}
+              <text x="{{ 0.5 * spacing }}" y="{{ j * spacing }}">{{ j }}</text>
+            {% endfor %}
+          </g>
+        </g>
       </g>
     </svg>
   </div>
   <div id="tooltip"></div>
-  <!-- Include KaTeX JS -->
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
-  <!-- Include svg-pan-zoom Library -->
-  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
   <script>
     (function () {
       var canvasHeight = document.documentElement.clientHeight;
@@ -272,13 +276,35 @@
         titleContainer.setAttribute("y", newCanvasHeight - nonInvertedY);
         
         // Reset pan, then pan slightly so the origin is visible
-        window.panZoom.resetPan();
+        window.panZoom.reset();
         window.panZoom.panBy({ x: (2 * 0.6) * spacing, y: -(2 * 0.6) * spacing });
 
         canvasHeight = newCanvasHeight;
         canvasWidth = newCanvasWidth;
       }
       window.addEventListener("resize", onResize);
+
+      // Handler to zoom axes when grid is zoomed
+      function handleCTM(ctm) {
+        const scale = ctm.a;
+        const xTranslate = ctm.e;
+        const yTranslate = ctm.f;
+
+        document.querySelectorAll("#x-ticks").forEach((element) => {
+          element.setAttribute("transform", `translate(${xTranslate} 0)`);
+        });
+        document.querySelectorAll("#x-ticks text").forEach((element) => {
+          const xCoord = parseInt(element.textContent) * spacing;
+          element.setAttribute("x", xCoord * scale);
+        });
+        document.querySelectorAll("#y-ticks").forEach((element) => {
+          element.setAttribute("transform", `translate(0 ${yTranslate})`);
+        });
+        document.querySelectorAll("#y-ticks text").forEach((element) => {
+          const yCoord = parseInt(element.textContent) * spacing;
+          element.setAttribute("y", (canvasHeight - yCoord) * scale);
+        });
+      }
 
       // Initialize svg-pan-zoom for panning and zooming
       window.panZoom = svgPanZoom("#svg-canvas", {
@@ -287,9 +313,12 @@
         center: false,
         minZoom: 0.1,
         maxZoom: 10,
-        zoomScaleSensitivity: 0.4,
+        zoomScaleSensitivity: 0.15,
         panEnabled: true,
+        onUpdatedCTM: handleCTM
       });
+
+      onResize();
 
       // Show the SVG after y-values are adjusted
       document.body.style.visibility = "visible";
@@ -324,7 +353,7 @@
         // Add backspace key control for resetting pan and zoom
         if (event.key === "Backspace") {
           event.preventDefault();
-          window.panZoom.reset();
+          onResize();
         }
       });
 
