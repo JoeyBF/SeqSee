@@ -164,7 +164,25 @@ def style_and_aliases_from_attributes(attributes):
                 elif key == "thickness":
                     new_style += {"stroke-width": scale * float(value)}
                 elif key == "arrowTip":
-                    new_style += {"marker-end": f"url(#arrow-{value})"}
+                    if value == "none":
+                        new_style += {"marker-end": "none"}
+                    else:
+                        new_style += {"marker-end": f"url(#arrow-{value})"}
+                elif key == "pattern":
+                    # We only support a few hardcoded patterns
+                    if value == "solid":
+                        new_style += {"stroke-dasharray": "none"}
+                    elif value == "dashed":
+                        new_style += {"stroke-dasharray": "5, 5"}
+                    elif value == "dotted":
+                        new_style += {
+                            "stroke-dasharray": "0, 2",
+                            "stroke-linecap": "round",
+                        }
+                    # Other values impossible due to schema
+                else:
+                    # Just treat it as a raw CSS attribute
+                    new_style += {key: value}
         elif isinstance(attr, str):
             # This is a style alias
             aliases.append(attr)
@@ -200,6 +218,7 @@ def calculate_absolute_positions(data):
                 "position", default_position
             ),
         )
+
     # Get defaults and compute constants
     node_size = get_value_or_schema_default(data, ["header", "chart", "nodeSize"])
     node_spacing = get_value_or_schema_default(data, ["header", "chart", "nodeSpacing"])

@@ -5,6 +5,13 @@
       "type": "array",
       "items": {
         "type": ["string", "object"],
+        "properties": {
+          "color"    : {"type": "string"}                       ,
+          "size"     : {"type": "string"}                       ,
+          "thickness": {"type": "string"}                       ,
+          "arrowTip" : { "enum": ["simple", "none"] }           ,
+          "pattern"  : { "enum": ["solid", "dashed", "dotted"] }
+        },
         "additionalProperties": {"type": "string"}
       },
       "default": []

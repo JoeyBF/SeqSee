@@ -196,7 +196,7 @@ def main():
         },
         "defaultAttributes": {
             "nodes": [{"color": "gray", "shape": "circle"}],
-            "edges": [{"color": "gray", "thickness": "0.02", "lineStyle": "solid"}],
+            "edges": [{"color": "gray", "thickness": "0.02", "pattern": "solid"}],
         },
         "aliases": {
             "attributes": {
@@ -211,8 +211,8 @@ def main():
                 "t4": [{"color": "orange"}],
                 "t5": [{"color": "orange"}],
                 "t6": [{"color": "orange"}],
-                "p": [{"lineStyle": "dashed"}],
-                "h": [{"lineStyle": "dotted"}],
+                "p": [{"pattern": "dashed"}],
+                "h": [{"pattern": "dotted"}],
                 "free": [{"arrowTip": "simple"}],
                 "h1tower": [{"color": "red", "arrowTip": "simple"}],
             },
