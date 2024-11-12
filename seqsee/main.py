@@ -130,18 +130,16 @@ def load_template():
 
 
 def get_value_or_schema_default(data, path):
-    current_value = data
-    parent_path, last = path[:-1], path[-1]
-    for key in parent_path:
-        current_value = current_value.get(key, {})
-    current_value = current_value.get(last, None)
-    if current_value is not None:
+    try:
+        current_value = data
+        for key in path:
+            current_value = current_value[key]
         return current_value
-
-    default_value = schema
-    for key in path:
-        default_value = default_value["properties"][key]
-    return default_value["default"]
+    except KeyError:
+        default_value = schema
+        for key in path:
+            default_value = default_value["properties"][key]
+        return default_value["default"]
 
 
 def style_and_aliases_from_attributes(attributes):
