@@ -1,22 +1,36 @@
-import json
 import pandas as pd
 import re
 import sys
-from .main import load_schema
-from collections import defaultdict
 from compact_json import Formatter
 from jsonschema import validate
+from seqsee import load_schema
 
-
-# Match the words 'D' and 't', respectively
-substitute_Delta = re.compile(r"\bD\b")
-substitute_tau = re.compile(r"\bt\b")
-# Matches words starting with latin letters (group 1) and
-# ending with numbers or a comma (,) (group 2).
-# NB: Caret (^) is a word separator.
-make_subscript = re.compile(r"\b([a-zA-Z]+)([\d,]+)\b")
-# Matches terms of the form '(letters)^(numbers)'
-make_exponents = re.compile(r"\b([a-zA-Z]+)\^(\d+)\b")
+# Regular expressions for substitutions
+substitutions = [
+    # Matches the dot operator, which is rendered as a centered dot in LaTeX
+    (re.compile(r"\."), r"\\cdot"),
+    # Matches the string "DD" and replaces it with "{D}". This is necessary if we want to handle
+    # both "DD" -> "D" and "D" -> "\Delta".
+    (re.compile(r"DD"), r"{D}"),
+    # Matches the string "D" and replaces it with "\Delta", but only if it is not surrounded by
+    # curly braces. The `(?<!...)` and `(?!...)` expressions are negative lookbehind and negative
+    # lookahead, respectively. They ensure that whatever we are matching is in the right "context",
+    # i.e. in this case not being in square brackets, but without including that context in the
+    # match. This is necessary to avoid replacing the "D" in "{D}".
+    (re.compile(r"(?<!{)D(?!})"), r"\\Delta"),
+    # Matches the word "t" and replaces it with "\tau". This 't' character needs to be surrounded by
+    # either the beginning or end of the line, or a non-word character (something that matches
+    # `\W`).
+    (re.compile(r"\bt\b"), r"\\tau"),
+    # Matches word expressions starting with a non-empty string of latin letters and curly braces
+    # (group 1) and ending with a non-empty string of numbers or commas (,) (group 2). We insert an
+    # underscore between the two groups and wrap the second one in curly braces. This ensures that
+    # subscripts are correctly rendered in LaTeX. NB: Caret (^) is a word separator.
+    (re.compile(r"\b([a-zA-Z{}]+)([\d,]+)\b"), r"\1_{\2}"),
+    # Matches terms of the form '(letters or curly braces)^(numbers)', and wraps the second group in
+    # curly braces. This ensures that superscripts are correctly rendered in LaTeX.
+    (re.compile(r"\b([a-zA-Z{}]+)\^(\d+)\b"), r"\1^{\2}"),
+]
 
 arrow_length = 0.7
 
@@ -39,26 +53,29 @@ def extract_edge_attributes(row, edge_type, nodes):
     if edge_type == "dr":
         ret.append("dr")
     elif target_node in nodes:
-        # Edges into a node inherit the attributes of their target
+        # Edges into a node inherit the attributes of their target, as long as they aren't
+        # differentials
         target_node_attributes = nodes.get(target_node, {}).get("attributes", [])
         ret.extend(target_node_attributes)
     if target_node == "loc":
+        # This edge is an arrow
         if edge_type == "h1":
+            # We treat h1 towers differently because they are also always red
             ret.append("h1tower")
         else:
             ret.append({"arrowTip": "simple"})
     if pd.notna(target_info):
+        # The info field has other instructions for the edge. We treat them as aliases and let
+        # SeqSee handle them.
         ret.extend(target_info.split(" "))
 
     return ret
 
 
 def label_from_node_name(node_name):
-    # Regular expressions working their magic:
-    label = substitute_Delta.sub(r"\\Delta", node_name)
-    label = substitute_tau.sub(r"\\tau", label)
-    label = make_subscript.sub(r"\1_{\2}", label)
-    label = make_exponents.sub(r"\1^{\2}", label)
+    label = node_name
+    for pattern, replacement in substitutions:
+        label = pattern.sub(replacement, label)
     return label
 
 
@@ -73,65 +90,8 @@ def deduplicate_name(name):
     return (name, False)
 
 
-def main():
-    if len(sys.argv) != 3:
-        print("Usage: jsonmaker <input.csv> <output.json>")
-        sys.exit(1)
-
-    input_file = sys.argv[1]
-    output_file = sys.argv[2]
-
-    # Define the JSON schema
-    schema = load_schema()
-
-    # Load CSV data
-    df = pd.read_csv(input_file)
-
-    # Build the JSON object based on the schema
-    json_data = {
-        "header": {
-            "chart": {
-                "title": "The $E_2$-page of the motivic Adams spectral sequence",
-                "width": 120,
-                "height": 60,
-            },
-            "defaultAttributes": {
-                "nodes": [{"color": "gray", "shape": "circle"}],
-                "edges": [{"color": "gray", "thickness": "0.02", "lineStyle": "solid"}],
-            },
-            "aliases": {
-                "attributes": {
-                    "tau1": [{"color": "red"}],
-                    "tau2": [{"color": "blue"}],
-                    "tau3": [{"color": "green"}],
-                    "tau4plus": [{"color": "purple"}],
-                    "dr": [{"color": "darkcyan"}],
-                    "t": [{"color": "magenta"}],
-                    "t2": [{"color": "orange"}],
-                    "t3": [{"color": "orange"}],
-                    "t4": [{"color": "orange"}],
-                    "t5": [{"color": "orange"}],
-                    "t6": [{"color": "orange"}],
-                    "p": [{"lineStyle": "dashed"}],
-                    "h": [{"lineStyle": "dotted"}],
-                    "free": [{"arrowTip": "simple"}],
-                    "h1tower": [{"color": "red", "arrowTip": "simple"}],
-                },
-                "colors": {
-                    "darkcyan": "#00B3B3",
-                    "gray": "#666666",
-                    "red": "#FF0000",
-                    "magenta": "#FF00FF",
-                },
-            },
-        },
-        "nodes": {},
-        "edges": [],
-    }
-
-    bidegree_to_rank = defaultdict(int)
-
-    # Process nodes first
+def nodes_to_json(df):
+    nodes = {}
     for _, row in df.iterrows():
         # Process node information
 
@@ -141,18 +101,22 @@ def main():
 
         x = int(row["stem"])
         y = int(row["Adams filtration"])
-        bidegree_to_rank[x, y] += 1
-        json_data["nodes"][node_name] = {
+        node_data = {
             "x": x,
             "y": y,
-            "position": bidegree_to_rank[x, y] - 1,
-            "label": label_from_node_name(node_name),
+            "label": label_from_node_name(node_name) + f"\:({row['weight']})",
         }
+        if pd.notna(row["shift"]):
+            node_data["position"] = row["shift"]
         if attributes := extract_node_attributes(row):
             # Only add an attributes key if there are attributes to add
-            json_data["nodes"][node_name]["attributes"] = attributes
+            node_data["attributes"] = attributes
+        nodes[node_name] = node_data
+    return nodes
 
-    # Process edges after, since they depend on nodes
+
+def edges_to_json(df, nodes):
+    edges = []
     for _, row in df.iterrows():
         node_name, _ = deduplicate_name(row["name"])
         for edge_type in ["h0", "h1", "h2", "dr"]:
@@ -165,7 +129,7 @@ def main():
                 # "label": edge_type,
             }
             if pd.notna(target_node):
-                if target_node in json_data["nodes"]:
+                if target_node in nodes:
                     # This is a structline
                     edge_data["target"] = target_node
                 elif target_node == "loc":
@@ -196,13 +160,74 @@ def main():
                 # no edge to be drawn
                 continue
 
-            if attributes := extract_edge_attributes(
-                row, edge_type, nodes=json_data["nodes"]
-            ):
+            if attributes := extract_edge_attributes(row, edge_type, nodes=nodes):
                 # Only add an attributes key if there are attributes to add
                 edge_data["attributes"] = attributes
 
-            json_data["edges"].append(edge_data)
+            edges.append(edge_data)
+    return edges
+
+
+def main():
+    if len(sys.argv) != 3:
+        print("Usage: jsonmaker <input.csv> <output.json>")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    output_file = sys.argv[2]
+
+    # Define the JSON schema
+    schema = load_schema()
+
+    # Load CSV data
+    df = pd.read_csv(input_file)
+
+    # Build a header that complies with the schema
+    header = {
+        "chart": {
+            "title": "The $E_2$-page of the motivic Adams spectral sequence",
+            "width": 120,
+            "height": 60,
+        },
+        "defaultAttributes": {
+            "nodes": [{"color": "gray", "shape": "circle"}],
+            "edges": [{"color": "gray", "thickness": "0.02", "lineStyle": "solid"}],
+        },
+        "aliases": {
+            "attributes": {
+                "tau1": [{"color": "red"}],
+                "tau2": [{"color": "blue"}],
+                "tau3": [{"color": "green"}],
+                "tau4plus": [{"color": "purple"}],
+                "dr": [{"color": "darkcyan"}],
+                "t": [{"color": "magenta"}],
+                "t2": [{"color": "orange"}],
+                "t3": [{"color": "orange"}],
+                "t4": [{"color": "orange"}],
+                "t5": [{"color": "orange"}],
+                "t6": [{"color": "orange"}],
+                "p": [{"lineStyle": "dashed"}],
+                "h": [{"lineStyle": "dotted"}],
+                "free": [{"arrowTip": "simple"}],
+                "h1tower": [{"color": "red", "arrowTip": "simple"}],
+            },
+            "colors": {
+                "darkcyan": "#00B3B3",
+                "gray": "#666666",
+                "red": "#FF0000",
+                "magenta": "#FF00FF",
+            },
+        },
+    }
+
+    # Process nodes first
+    nodes = nodes_to_json(df)
+
+    # Process edges after, since they depend on nodes
+    edges = edges_to_json(df, nodes)
+
+    # Combine the data into a single JSON object
+    json_data = {"header": header, "nodes": nodes, "edges": edges}
 
     # Validation and output
     try:
