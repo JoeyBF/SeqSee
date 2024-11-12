@@ -395,35 +395,43 @@
 
       window.addEventListener("keydown", function (event) {
 
-        // Add arrow key controls for panning
         const panSpeed = spacing;
-        if (event.key === "ArrowUp") {
-          event.preventDefault();
-          window.panZoom.panBy({ x: 0, y: panSpeed });
-        } else if (event.key === "ArrowDown") {
-          event.preventDefault();
-          window.panZoom.panBy({ x: 0, y: -panSpeed });
-        } else if (event.key === "ArrowLeft") {
-          event.preventDefault();
-          window.panZoom.panBy({ x: panSpeed, y: 0 });
-        } else if (event.key === "ArrowRight") {
-          event.preventDefault();
-          window.panZoom.panBy({ x: -panSpeed, y: 0 });
-        }
-
-        // Add + and - key controls for zooming
-        if (event.key === "+" || event.key === "=") {
-          event.preventDefault();
-          window.panZoom.zoomIn();
-        } else if (event.key === "-" || event.key === "_") {
-          event.preventDefault();
-          window.panZoom.zoomOut();
-        }
-
-        // Add backspace key control for resetting pan and zoom
-        if (event.key === "Backspace") {
-          event.preventDefault();
-          onResize();
+        switch (event.key) {
+          // Add arrow key controls for panning
+          case "ArrowUp":
+            event.preventDefault();
+            window.panZoom.panBy({ x: 0, y: panSpeed });
+            break;
+          case "ArrowDown":
+            event.preventDefault();
+            window.panZoom.panBy({ x: 0, y: -panSpeed });
+            break;
+          case "ArrowLeft":
+            event.preventDefault();
+            window.panZoom.panBy({ x: panSpeed, y: 0 });
+            break;
+          case "ArrowRight":
+            event.preventDefault();
+            window.panZoom.panBy({ x: -panSpeed, y: 0 });
+            break;
+          // Add + and - key controls for zooming
+          case "+":
+          case "=":
+            event.preventDefault();
+            window.panZoom.zoomIn();
+            break;
+          case "-":
+          case "_":
+            event.preventDefault();
+            window.panZoom.zoomOut();
+            break;
+          // Add controls for resetting pan and zoom
+          case "Backspace":
+          case "0":
+          case ")":
+            event.preventDefault();
+            onResize();
+            break;
         }
       });
 
