@@ -32,6 +32,11 @@ substitutions = [
     (re.compile(r"\b([a-zA-Z{}]+)\^(\d+)\b"), r"\1^{\2}"),
 ]
 
+# Regular expression for detecting "again" suffixes. We strip anything that is whitespace followed
+# by any number of non-word characters, then the word "again", and then anything else until the end
+# of the line.
+detect_again = re.compile(r"\s\W*again.*")
+
 arrow_length = 0.7
 
 
@@ -85,8 +90,8 @@ def deduplicate_name(name):
     # I suggest we change the csv format to remove the "again" suffixes, and instead have a
     # semicolon-separated list of names for the targets of the edges. However, the input is
     # from a legacy dataset, so I don't have control over that.
-    if "again" in name:
-        return (name.replace(" again2", "").replace(" again", ""), True)
+    if detect_again.search(name):
+        return (detect_again.sub("", name).strip("("), True)
     return (name, False)
 
 
