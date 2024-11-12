@@ -1,6 +1,7 @@
 import copy
 import json
 import jsonschema
+import math
 import sys
 import os
 from collections import defaultdict
@@ -189,23 +190,37 @@ def calculate_absolute_positions(data):
         nodes_by_bidegree[x, y].append(node_id)
 
     # Sort bidegrees by the `position` attribute of the nodes
+    default_position = schema["properties"]["nodes"]["additionalProperties"][
+        "properties"
+    ]["position"]["default"]
     for bidegree, nodes in nodes_by_bidegree.items():
         nodes_by_bidegree[bidegree] = sorted(
-            nodes, key=lambda node_id: data["nodes"][node_id].get("position", 0)
+            nodes,
+            key=lambda node_id: data["nodes"][node_id].get(
+                "position", default_position
+            ),
         )
-
-    # Add absolute positions to nodes
-    node_spacing = get_value_or_schema_default(data, ["header", "chart", "nodeSpacing"])
+    # Get defaults and compute constants
     node_size = get_value_or_schema_default(data, ["header", "chart", "nodeSize"])
+    node_spacing = get_value_or_schema_default(data, ["header", "chart", "nodeSpacing"])
+    node_slope = get_value_or_schema_default(data, ["header", "chart", "nodeSlope"])
+
     distance_between_centers = node_spacing + 2 * node_size
+    if node_slope is not None:
+        rotation_theta = math.atan(node_slope)
+    else:
+        rotation_theta = math.pi / 2
+    sin_theta = math.sin(rotation_theta)
+    cos_theta = math.cos(rotation_theta)
+
+    # Calculate absolute positions
     for (x, y), nodes in nodes_by_bidegree.items():
         bidegree_rank = len(nodes)
         first_center_to_last_center = (bidegree_rank - 1) * distance_between_centers
         for i, node_id in enumerate(nodes):
-            data["nodes"][node_id]["absoluteX"] = (
-                x - first_center_to_last_center / 2 + i * distance_between_centers
-            )
-            data["nodes"][node_id]["absoluteY"] = y
+            offset = -first_center_to_last_center / 2 + i * distance_between_centers
+            data["nodes"][node_id]["absoluteX"] = x + offset * cos_theta
+            data["nodes"][node_id]["absoluteY"] = y + offset * sin_theta
 
 
 def generate_nodes_svg(data):
