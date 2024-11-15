@@ -26,13 +26,13 @@
         "chart": {
           "type": "object",
           "properties": {
-            "title"      : { "type": "string"          , "default": ""     },
-            "width"      : { "type": "integer"         , "default": 32     },
-            "height"     : { "type": "integer"         , "default": 20     },
-            "scale"      : { "type": "number"          , "default": 100.00 },
-            "nodeSize"   : { "type": "number"          , "default": 0.04   },
-            "nodeSpacing": { "type": "number"          , "default": 0.02   },
-            "nodeSlope"  : { "type": ["number", "null"], "default": 0.00   }
+            "title"      : { "type": "string"           , "default": ""     },
+            "width"      : { "type": ["integer", "null"], "default": null   },
+            "height"     : { "type": ["integer", "null"], "default": null   },
+            "scale"      : { "type": "number"           , "default": 100.00 },
+            "nodeSize"   : { "type": "number"           , "default": 0.04   },
+            "nodeSpacing": { "type": "number"           , "default": 0.02   },
+            "nodeSlope"  : { "type": ["number", "null"] , "default": 0.00   }
           },
           "additionalProperties": false
         },

@@ -40,9 +40,32 @@ detect_again = re.compile(r"\s\W*again.*")
 arrow_length = 0.7
 
 
+def try_get_key(row, key, default=None):
+    try:
+        return row[key]
+    except KeyError:
+        return default
+
+
+def edge_offset(edge_type, arrow_length=1):
+    if edge_type == "h0":
+        offset = {"x": 0, "y": 1}
+    elif edge_type == "h1":
+        offset = {"x": 1, "y": 1}
+    elif edge_type == "h2":
+        offset = {"x": 3, "y": 1}
+    elif edge_type == "dr":
+        offset = {"x": -1, "y": 2}
+    else:
+        raise ValueError
+    for key in offset:
+        offset[key] *= arrow_length
+    return offset
+
+
 def extract_node_attributes(row):
     ret = []
-    if pd.notna(row["tautorsion"]):
+    if row.get("tautorsion", []):
         torsion = int(row["tautorsion"])
         if torsion >= 4:
             ret.append("tau4plus")
@@ -54,15 +77,18 @@ def extract_node_attributes(row):
 def extract_edge_attributes(row, edge_type, nodes):
     ret = []
     target_node = row[f"{edge_type}target"]
-    target_info = row[f"{edge_type}info"]
+    # Info fields are sometimes missing, so we default to an empty string
+    target_info = try_get_key(row, f"{edge_type}info")
     if edge_type == "dr":
         ret.append("dr")
     elif target_node in nodes:
         # Edges into a node inherit the attributes of their target, as long as they aren't
         # differentials
-        target_node_attributes = nodes.get(target_node, {}).get("attributes", [])
+        target_node_attributes = try_get_key(
+            nodes.get(target_node, {}), "attributes", default=[]
+        )
         ret.extend(target_node_attributes)
-    if target_node == "loc":
+    if target_node == "loc" or target_info == "loc":
         # This edge is an arrow
         if edge_type == "h1":
             # We treat h1 towers differently because they are also always red
@@ -71,8 +97,15 @@ def extract_edge_attributes(row, edge_type, nodes):
             ret.append({"arrowTip": "simple"})
     if pd.notna(target_info):
         # The info field has other instructions for the edge. We treat them as aliases and let
-        # SeqSee handle them.
-        ret.extend(target_info.split(" "))
+        # SeqSee handle them. The only exception is "h", which we need to tag with "edge_type" so
+        # the correct alias is applied.
+        if isinstance(target_info, float):
+            target_info = str(int(target_info))
+        extra_attributes = target_info.split(" ")
+        if "h" in extra_attributes:
+            extra_attributes.remove("h")
+            extra_attributes.append(f"h{edge_type}")
+        ret.extend(extra_attributes)
 
     return ret
 
@@ -85,13 +118,18 @@ def label_from_node_name(node_name):
 
 
 def deduplicate_name(name):
-    """Deduplicate names by removing the "again" suffix. We also return whether the name was a
-    duplicate."""
+    """Deduplicate names by removing all variations of 'again'. We also return whether the name was
+    a duplicate."""
     # I suggest we change the csv format to remove the "again" suffixes, and instead have a
     # semicolon-separated list of names for the targets of the edges. However, the input is
     # from a legacy dataset, so I don't have control over that.
+
+    # First strip outer opening and closing parentheses if both are present. This makes it possible
+    # for the regex to only match suffixes, while not affecting the rest of the name.
+    if name.startswith("(") and name.endswith(")"):
+        name = name[1:-1]
     if detect_again.search(name):
-        return (detect_again.sub("", name).strip("("), True)
+        return (detect_again.sub("", name), True)
     return (name, False)
 
 
@@ -109,9 +147,11 @@ def nodes_to_json(df):
         node_data = {
             "x": x,
             "y": y,
-            "label": label_from_node_name(node_name) + f"\:({row['weight']})",
+            "label": label_from_node_name(node_name),
         }
-        if pd.notna(row["shift"]):
+        if try_get_key(row, "weight", None):
+            node_data["label"] += f"\\:({row['weight']})"
+        if try_get_key(row, "shift", None):
             node_data["position"] = row["shift"]
         if attributes := extract_node_attributes(row):
             # Only add an attributes key if there are attributes to add
@@ -126,8 +166,11 @@ def edges_to_json(df, nodes):
         node_name, _ = deduplicate_name(row["name"])
         for edge_type in ["h0", "h1", "h2", "dr"]:
             target_col = f"{edge_type}target"
-            target_info = f"{edge_type}info"
+            info_col = f"{edge_type}info"
+            if target_col not in row:
+                continue
             target_node = row[target_col]
+            target_info = try_get_key(row, info_col, "")
             edge_data = {
                 "source": node_name,
                 # We can label edges, but it's not necessary for this example
@@ -137,30 +180,17 @@ def edges_to_json(df, nodes):
                 if target_node in nodes:
                     # This is a structline
                     edge_data["target"] = target_node
-                elif target_node == "loc":
+                elif target_node == "loc" or target_info == "loc":
                     # This is an arrow
-                    if edge_type == "h0":
-                        x_offset = 0 * arrow_length
-                        y_offset = 1 * arrow_length
-                    elif edge_type == "h1":
-                        x_offset = 1 * arrow_length
-                        y_offset = 1 * arrow_length
-                    else:
-                        raise ValueError
-                    edge_data["offset"] = {"x": x_offset, "y": y_offset}
+                    edge_data["offset"] = edge_offset(edge_type, arrow_length)
                 else:
                     print(
                         f"Invalid target node: ({target_node}) for {edge_type} on ({node_name})"
                     )
                     continue
-            elif row[target_info] == "free":
+            elif target_info and (target_info == "free" or target_info == "loc"):
                 # This is also an arrow, but with a different notation
-                if edge_type == "dr":
-                    x_offset = -1 * arrow_length
-                    y_offset = 2 * arrow_length
-                else:
-                    raise ValueError
-                edge_data["offset"] = {"x": x_offset, "y": y_offset}
+                edge_data["offset"] = edge_offset(edge_type, arrow_length)
             else:
                 # no edge to be drawn
                 continue
@@ -170,6 +200,17 @@ def edges_to_json(df, nodes):
                 edge_data["attributes"] = attributes
 
             edges.append(edge_data)
+        # Check for `tauextn` if we're printing an E_infinity page
+        if "tauextn" in row and pd.notna(row["tauextn"]):
+            target_node = row["tauextn"]
+            if target_node in nodes:
+                edges.append(
+                    {
+                        "source": node_name,
+                        "target": target_node,
+                        "attributes": ["tauextn"],
+                    }
+                )
     return edges
 
 
@@ -191,8 +232,6 @@ def main():
     header = {
         "chart": {
             "title": "The $E_2$-page of the motivic Adams spectral sequence",
-            "width": 120,
-            "height": 60,
         },
         "defaultAttributes": {
             "nodes": [{"color": "gray", "shape": "circle"}],
@@ -202,9 +241,19 @@ def main():
             "attributes": {
                 "tau1": [{"color": "red"}],
                 "tau2": [{"color": "blue"}],
-                "tau3": [{"color": "green"}],
+                "tau3": [{"color": "darkgreen"}],
                 "tau4plus": [{"color": "purple"}],
                 "dr": [{"color": "darkcyan"}],
+                "2": [{"color": "darkcyan"}],
+                "3": [{"color": "red"}],
+                "4": [{"color": "darkgreen"}],
+                "5": [{"color": "blue"}],
+                "6": [{"color": "orange"}],
+                "7": [{"color": "orange"}],
+                "8": [{"color": "orange"}],
+                "9": [{"color": "orange"}],
+                "10": [{"color": "orange"}],
+                "11": [{"color": "orange"}],
                 "t": [{"color": "magenta"}],
                 "t2": [{"color": "orange"}],
                 "t3": [{"color": "orange"}],
@@ -212,12 +261,16 @@ def main():
                 "t5": [{"color": "orange"}],
                 "t6": [{"color": "orange"}],
                 "p": [{"pattern": "dashed"}],
-                "h": [{"pattern": "dotted"}],
+                "hh0": [{"color": "red"}],
+                "hh1": [{"color": "blue"}],
+                "hh2": [{"color": "darkgreen"}],
+                "tauextn": [{"color": "darkgreen"}],
                 "free": [{"arrowTip": "simple"}],
                 "h1tower": [{"color": "red", "arrowTip": "simple"}],
             },
             "colors": {
                 "darkcyan": "#00B3B3",
+                "darkgreen": "#00B300",
                 "gray": "#666666",
                 "red": "#FF0000",
                 "magenta": "#FF00FF",

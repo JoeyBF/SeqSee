@@ -143,10 +143,26 @@ def get_value_or_schema_default(data, path):
         return default_value["default"]
 
 
+def cssify_name(name):
+    """
+    Get a CSS-safe identifier from a name.
+
+    This is more complicated than just adding a period. This is because aliases can start with
+    numbers, but CSS classes cannot.
+    """
+    if name.isnumeric():
+        name = "n" + name
+    return "." + name
+
+
 def style_and_aliases_from_attributes(attributes):
-    """Given a list of attributes, return a CssStyle object that contains the union of all raw
-    attribute objects, and a list of aliases. We return the aliases separately because we may want
-    to specify them in a `class` attribute instead of a `style` attribute."""
+    """
+    Given a list of attributes, return a CssStyle object that contains the union of all raw
+    attribute objects, and a list of aliases.
+
+    We return the aliases separately because we may want to specify them in a `class` attribute
+    instead of a `style` attribute.
+    """
 
     new_style = CssStyle()
     aliases = []
@@ -155,7 +171,7 @@ def style_and_aliases_from_attributes(attributes):
             # This is a raw attribute object
             for key, value in attr.items():
                 if key == "color":
-                    if (value_key := "." + value) in global_css.keys():
+                    if (value_key := cssify_name(value)) in global_css.keys():
                         new_style += global_css[value_key]
                     else:
                         new_style += {"fill": value, "stroke": value}
@@ -185,7 +201,7 @@ def style_and_aliases_from_attributes(attributes):
                     new_style += {key: value}
         elif isinstance(attr, str):
             # This is a style alias
-            aliases.append(attr)
+            aliases.append(cssify_name(attr).removeprefix("."))
     return (new_style, aliases)
 
 
@@ -193,8 +209,52 @@ def generate_style(style, aliases):
     """Collapse a list of styles and aliases into a single style object."""
     style = copy.deepcopy(style)
     for alias in aliases:
-        style.append(global_css["." + alias])
+        style.append(global_css[cssify_name(alias)])
     return style
+
+
+def ensure_json_path_is_defined(data, path):
+    """
+    Ensure that the path exists in the JSON data, creating it if necessary.
+
+    This modifies `data` in-place. The data structure at `path` will be a json object, which is
+    equivalent to a Python `dict`.
+    """
+
+    current_value = data
+    for key in path:
+        if key not in current_value:
+            current_value[key] = {}
+        current_value = current_value[key]
+
+
+def compute_chart_dimensions(data):
+    """
+    This modifies `data` in-place to set `header.chart.width` and `header.chart.height`, if they are
+    `null` in the input.
+
+    The width and height are calculated based on the positions of the nodes in the chart. We give
+    the smallest even size that makes the last column/row empty. They default to x = 32 and y = 20
+    if there are no nodes.
+    """
+
+    nodes = data.get("nodes", {})
+
+    def compute_dimension(dim_name, coord_name, default):
+        if data.get("header", {}).get("chart", {}).get(dim_name) is None:
+            ensure_json_path_is_defined(data, ["header", "chart", dim_name])
+            # Smallest even number strictly greater than the maximum coordinate of any node
+            dimension = 2 * (
+                max((node[coord_name] for node in nodes.values()), default=default) // 2
+                + 1
+            )
+            data["header"]["chart"][dim_name] = dimension
+
+    # Arbitrary default values that make the chart look nice. These are used if there are no nodes
+    compute_dimension("width", "x", 32)
+    compute_dimension("height", "y", 20)
+
+    return
 
 
 def calculate_absolute_positions(data):
@@ -304,6 +364,7 @@ def generate_svg(data):
 
 def generate_html(data):
     generate_css_styles(data)
+    compute_chart_dimensions(data)
     static_svg_content = generate_svg(data)
     title = get_value_or_schema_default(data, ["header", "chart", "title"])
     template = load_template()
@@ -346,12 +407,14 @@ def generate_css_styles(data):
 
     # Generate CSS classes for color aliases
     for color_name, color_value in color_aliases.items():
-        global_css += {"." + color_name: {"fill": color_value, "stroke": color_value}}
+        global_css += {
+            cssify_name(color_name): {"fill": color_value, "stroke": color_value}
+        }
 
     # Generate CSS classes for attribute aliases
     for alias_name, attributes_list in attribute_aliases.items():
         style, aliases = style_and_aliases_from_attributes(attributes_list)
-        global_css += {"." + alias_name: generate_style(style, aliases)}
+        global_css += {cssify_name(alias_name): generate_style(style, aliases)}
 
 
 def main():
