@@ -7,8 +7,8 @@
         "type": ["string", "object"],
         "properties": {
           "color"    : {"type": "string"}                       ,
-          "size"     : {"type": "string"}                       ,
-          "thickness": {"type": "string"}                       ,
+          "size"     : {"type": "number"}                       ,
+          "thickness": {"type": "number"}                       ,
           "arrowTip" : { "enum": ["simple", "none"] }           ,
           "pattern"  : { "enum": ["solid", "dashed", "dotted"] }
         },

@@ -250,9 +250,9 @@ def compute_chart_dimensions(data):
             )
             data["header"]["chart"][dim_name] = dimension
 
-    # Arbitrary default values that make the chart look nice. These are used if there are no nodes
-    compute_dimension("width", "x", 32)
-    compute_dimension("height", "y", 20)
+    # Arbitrary default values. These are only used if there are no nodes.
+    compute_dimension("width", "x", 0)
+    compute_dimension("height", "y", 0)
 
     return
 
@@ -383,33 +383,41 @@ def generate_html(data):
 def generate_css_styles(data):
     global global_css
 
-    color_aliases = data.get("header", {}).get("aliases", {}).get("colors", {})
-    attribute_aliases = data.get("header", {}).get("aliases", {}).get("attributes", {})
-    default_attributes = data.get("header", {}).get("defaultAttributes", {})
+    color_aliases = get_value_or_schema_default(data, ["header", "aliases", "colors"])
+    attribute_aliases = get_value_or_schema_default(
+        data, ["header", "aliases", "attributes"]
+    )
 
-    # Generate CSS classes for defaultAttributes
-    for element_type, attributes_list in default_attributes.items():
-        style, aliases = style_and_aliases_from_attributes(attributes_list)
-        generated_style = generate_style(style, aliases)
+    # We do nodes and edges separately because they have default values, but defaultAttributes
+    # itself doesn't. We don't want to give it a default value either, because the user should be
+    # able to specify only one and have the other one be the default.
+    default_node_attributes = get_value_or_schema_default(
+        data, ["header", "defaultAttributes", "nodes"]
+    )
+    default_edge_attributes = get_value_or_schema_default(
+        data, ["header", "defaultAttributes", "edges"]
+    )
 
-        if element_type == "nodes":
-            css_class = "circle"
-            node_size = get_value_or_schema_default(
-                data, ["header", "chart", "nodeSize"]
-            )
-            generated_style += {"stroke-width": 0, "r": scale * node_size}
-        elif element_type == "edges":
-            css_class = "line"
-        else:
-            raise ValueError
-
-        global_css += {css_class: generated_style}
-
-    # Generate CSS classes for color aliases
+    # Generate CSS classes for color aliases. We do it first because we may need to reference them
+    # in the default attributes.
     for color_name, color_value in color_aliases.items():
         global_css += {
             cssify_name(color_name): {"fill": color_value, "stroke": color_value}
         }
+
+    # Generate CSS classes for defaultAttributes
+    ## First for nodes
+    style, aliases = style_and_aliases_from_attributes(default_node_attributes)
+    generated_style = generate_style(style, aliases)
+
+    node_size = get_value_or_schema_default(data, ["header", "chart", "nodeSize"])
+    generated_style += {"stroke-width": 0, "r": scale * node_size}
+
+    global_css += {"circle": generated_style}
+
+    ## Then for edges
+    style, aliases = style_and_aliases_from_attributes(default_edge_attributes)
+    global_css += {"line": generate_style(style, aliases)}
 
     # Generate CSS classes for attribute aliases
     for alias_name, attributes_list in attribute_aliases.items():
@@ -438,7 +446,7 @@ def main():
         sys.exit(1)
 
     global scale
-    scale = data.get("header", {}).get("dimensions", {}).get("scale", 50)
+    scale = get_value_or_schema_default(data, ["header", "chart", "scale"])
 
     # Generate HTML
     html_content = generate_html(data)
