@@ -1,0 +1,651 @@
+<!-- template.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title></title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <!-- KaTeX for math rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <!-- svg-pan-zoom for obvious reasons -->
+  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+  <!-- Hammer.js for touch controls -->
+  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+  <style>
+    body {
+      font-family: "Computer Modern Serif", serif;
+      font-variant: small-caps;
+      font-weight: 500;
+      font-size: 20pt;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .katex {
+      font-size: 1em !important;
+    }
+
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+    }
+
+    #grid-path {
+      stroke: #ccc;
+      stroke-width: 1;
+    }
+
+/* Dynamically generated CSS styles */
+.darkcyan {
+    fill: #00B3B3;
+    stroke: #00B3B3;
+}
+
+.darkgreen {
+    fill: #00B300;
+    stroke: #00B300;
+}
+
+.gray {
+    fill: #666666;
+    stroke: #666666;
+}
+
+.red {
+    fill: #FF0000;
+    stroke: #FF0000;
+}
+
+.magenta {
+    fill: #FF00FF;
+    stroke: #FF00FF;
+}
+
+circle {
+    fill: black;
+    stroke: black;
+    stroke-width: 0px;
+    r: 2.4px;
+}
+
+line {
+    stroke-width: 1.2px;
+    stroke-dasharray: none;
+}
+
+.tau1 {
+    fill: #DD0000;
+    stroke: #DD0000;
+}
+
+.tau2 {
+    fill: blue;
+    stroke: blue;
+}
+
+.tau3 {
+    fill: #00B300;
+    stroke: #00B300;
+}
+
+.tau4plus {
+    fill: purple;
+    stroke: purple;
+}
+
+.dr {
+    fill: #00B3B3;
+    stroke: #00B3B3;
+}
+
+.n2 {
+    fill: #00B3B3;
+    stroke: #00B3B3;
+}
+
+.n3 {
+    fill: #FF0000;
+    stroke: #FF0000;
+}
+
+.n4 {
+    fill: #00B300;
+    stroke: #00B300;
+}
+
+.n5 {
+    fill: blue;
+    stroke: blue;
+}
+
+.n6 {
+    fill: orange;
+    stroke: orange;
+}
+
+.n7 {
+    fill: orange;
+    stroke: orange;
+}
+
+.n8 {
+    fill: orange;
+    stroke: orange;
+}
+
+.n9 {
+    fill: orange;
+    stroke: orange;
+}
+
+.n10 {
+    fill: orange;
+    stroke: orange;
+}
+
+.n11 {
+    fill: orange;
+    stroke: orange;
+}
+
+.t {
+    fill: #FF00FF;
+    stroke: #FF00FF;
+}
+
+.t2 {
+    fill: orange;
+    stroke: orange;
+}
+
+.t3 {
+    fill: orange;
+    stroke: orange;
+}
+
+.t4 {
+    fill: orange;
+    stroke: orange;
+}
+
+.t5 {
+    fill: orange;
+    stroke: orange;
+}
+
+.t6 {
+    fill: orange;
+    stroke: orange;
+}
+
+.p {
+    stroke-dasharray: 5, 5;
+}
+
+.hh0 {
+    fill: #FF0000;
+    stroke: #FF0000;
+}
+
+.hh1 {
+    fill: blue;
+    stroke: blue;
+}
+
+.hh2 {
+    fill: #00B300;
+    stroke: #00B300;
+}
+
+.tauextn {
+    fill: #00B300;
+    stroke: #00B300;
+}
+
+.free {
+    marker-end: url(#arrow-simple);
+}
+
+.h1tower {
+    marker-end: url(#arrow-simple);
+    fill: #FF0000;
+    stroke: #FF0000;
+}
+
+.tau1color {
+    fill: #DD0000;
+    stroke: #DD0000;
+}
+
+
+    #tooltip {
+      position: absolute;
+      display: none;
+      pointer-events: none;
+      background-color: white;
+      border: 1px solid black;
+      padding: 5px;
+      z-index: 10;
+    }
+
+    .axis {
+      stroke: black;
+      stroke-width: 2px;
+    }
+
+    .tick {
+      font-size: 12pt;
+    }
+
+    .x-tick {
+      text-anchor: middle;
+      dominant-baseline: hanging;
+    }
+
+    .y-tick {
+      text-anchor: end;
+      dominant-baseline: middle;
+    }
+  </style>
+</head>
+
+<body style="visibility: hidden">
+  <div id="canvas-container">
+    <svg id="svg-canvas" width="100%" height="100%">
+      <defs>
+        <!-- Define the arrowhead markers -->
+        <marker id='arrow-simple' orient="auto" markerWidth='3' markerHeight='4' refX='0.1' refY='2' fill="context-fill"
+          stroke="context-stroke">
+          <path d='M0,0 V4 L2,2 Z' />
+        </marker>
+        <!-- Define the grid pattern -->
+        <pattern id="grid" width="120.0" height="120.0" patternUnits="userSpaceOnUse">
+          <path id="grid-path" d="M 120.0 0 L 0 0 0 120.0" fill="none"/>
+        </pattern>
+      </defs>
+      <g id="content-group" class="svg-pan-zoom_viewport">
+        <!-- Apply the grid pattern to a large background rectangle -->
+        <rect id="grid-background" width="120.0px" height="120.0px" fill="url(#grid)" />
+        <!-- Write title in the top left corner -->
+        <foreignObject id="title-container" x="60.0px" width="100%" height="100%" style="white-space: nowrap">
+          <div xmlns="http://www.w3.org/1999/xhtml" id="title">
+            
+          </div>
+        </foreignObject>
+        <!-- Nodes and Edges generated statically by Python -->
+        <g id="edges-group">
+</g>
+<g id="nodes-group">
+<circle id="1" class="" cx="0.0" cy="0.0"  data-label="1"></circle>
+</g>
+
+      </g>
+      <g id="axes-group">
+        <!-- X-axis -->
+        <line id="x-axis" class="axis" />
+        <!-- Y-axis -->
+        <line id="y-axis" class="axis" />
+        <!-- Blocks under and to the left to hide the content -->
+        <rect id="x-block" x="0" y="0" fill="white" />
+        <rect id="y-block" x="0" y="0" fill="white" />
+        <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
+        <g id="ticks" class="tick">
+          <g id="x-ticks" class="x-tick">
+            
+              <text x="0.0" y="30.0">0</text>
+            
+              <text x="120.0" y="30.0">2</text>
+            
+          </g>
+          <g id="y-ticks" class="y-tick">
+            
+              <text x="30.0" y="0.0">0</text>
+            
+              <text x="30.0" y="120.0">2</text>
+            
+          </g>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div id="tooltip"></div>
+  <script>
+    (function () {
+      var canvasHeight = document.documentElement.clientHeight;
+      var canvasWidth = document.documentElement.clientWidth;
+      const chartWidth = 2;
+      const chartHeight = 2;
+      const spacing = 60.0;
+
+      // Render title
+      window.renderMathInElement(document.getElementById("title"), {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ],
+        // • rendering keys, e.g.:
+        throwOnError : false
+      });
+
+      // Scale and position title
+      const bBox = document.getElementById("title").getBoundingClientRect();
+      const titleContainer = document.getElementById("title-container");
+      titleContainer.setAttribute("width", (chartHeight - 2) * spacing);
+      titleContainer.setAttribute("height", bBox.height);
+      const nonInvertedY = (chartHeight - 1) * spacing + bBox.height / 2
+      titleContainer.setAttribute("y", canvasHeight - nonInvertedY);
+
+      // Adjust y-values for all elements in content-group
+      document
+        .querySelectorAll("#content-group line, #content-group circle")
+        .forEach((element) => {
+          if (element.tagName === "line") {
+            const y1 = parseFloat(element.getAttribute("y1"));
+            const y2 = parseFloat(element.getAttribute("y2"));
+            element.setAttribute("y1", canvasHeight - y1);
+            element.setAttribute("y2", canvasHeight - y2);
+          } else if (element.tagName === "circle") {
+            const cy = parseFloat(element.getAttribute("cy"));
+            element.setAttribute("cy", canvasHeight - cy);
+          }
+        });
+
+      // Adjust y-value for grid transformation
+      document
+        .getElementById("grid-background")
+        .setAttribute(
+          "transform",
+          `scale(1 -1) translate(0 -${canvasHeight})`
+        );
+
+      const axisSpacing = 0.6 * spacing;
+
+      // Put in end values for axes and apply y-flip
+      document
+        .querySelectorAll("#axes-group line")
+        .forEach((element) => {
+          if (element.id === "x-axis") {
+            element.setAttribute("x1", axisSpacing);
+            element.setAttribute("y1", canvasHeight - axisSpacing);
+            element.setAttribute("x2", canvasWidth);
+            element.setAttribute("y2", canvasHeight - axisSpacing);
+          } else if (element.id === "y-axis") {
+            element.setAttribute("x1", axisSpacing);
+            element.setAttribute("y1", canvasHeight - axisSpacing);
+            element.setAttribute("x2", axisSpacing);
+            element.setAttribute("y2", 0);
+          }
+        });
+
+      // Do the same for axis blocks
+      document
+        .querySelectorAll("#axes-group rect")
+        .forEach((element) => {
+          const offset = axisSpacing;
+
+          if (element.id === "x-block") {
+            element.setAttribute("width", canvasWidth);
+            element.setAttribute("height", offset);
+            element.setAttribute("y", canvasHeight - offset);
+          } else if (element.id === "y-block") {
+            element.setAttribute("width", offset);
+            element.setAttribute("height", canvasHeight);
+          }
+        });
+
+      // And ticks
+      document
+        .querySelectorAll("#axes-group text")
+        .forEach((element) => {
+          const y = parseFloat(element.getAttribute("y"));
+          element.setAttribute("y", canvasHeight - y);
+        });
+
+      function onResize() {
+        const newCanvasHeight = document.documentElement.clientHeight;
+        const newCanvasWidth = document.documentElement.clientWidth;
+        const yOffset = newCanvasHeight - canvasHeight;
+
+        // Adjust y-values for all elements in content-group
+        document
+          .querySelectorAll("#content-group line, #content-group circle")
+          .forEach((element) => {
+            if (element.tagName === "line") {
+              const y1 = parseFloat(element.getAttribute("y1"));
+              const y2 = parseFloat(element.getAttribute("y2"));
+              element.setAttribute("y1", y1 + yOffset);
+              element.setAttribute("y2", y2 + yOffset);
+            } else if (element.tagName === "circle") {
+              const cy = parseFloat(element.getAttribute("cy"));
+              element.setAttribute("cy", cy + yOffset);
+            }
+          });
+
+        // Adjust y-value for grid transformation
+        document
+          .getElementById("grid-background")
+          .setAttribute(
+            "transform",
+            `scale(1 -1) translate(0 -${newCanvasHeight})`
+          );
+
+        // Put in end values for axes and apply y-flip
+        document
+          .querySelectorAll("#axes-group line")
+          .forEach((element) => {
+            if (element.id === "x-axis") {
+              element.setAttribute("y1", newCanvasHeight - axisSpacing);
+              element.setAttribute("x2", newCanvasWidth);
+              element.setAttribute("y2", newCanvasHeight - axisSpacing);
+            } else if (element.id === "y-axis") {
+              element.setAttribute("y1", newCanvasHeight - axisSpacing);
+            }
+          });
+
+        // Do the same for axis blocks
+        document
+          .querySelectorAll("#axes-group rect")
+          .forEach((element) => {
+            const offset = axisSpacing;
+
+            if (element.id === "x-block") {
+              element.setAttribute("width", newCanvasWidth);
+              element.setAttribute("y", newCanvasHeight - offset);
+            } else if (element.id === "y-block") {
+              element.setAttribute("height", newCanvasHeight);
+            }
+          });
+
+        // Adjust title position
+        const titleContainer = document.getElementById("title-container");
+        titleContainer.setAttribute("y", newCanvasHeight - nonInvertedY);
+        
+        // Reset pan, then pan slightly so the origin is visible
+        window.panZoom.reset();
+        window.panZoom.panBy({ x: (2 * 0.6) * spacing, y: -(2 * 0.6) * spacing });
+
+        canvasHeight = newCanvasHeight;
+        canvasWidth = newCanvasWidth;
+      }
+      window.addEventListener("resize", onResize);
+
+      // Handler to zoom axes when grid is zoomed
+      function handleCTM(ctm) {
+        const scale = ctm.a;
+        const xTranslate = ctm.e;
+        const yTranslate = ctm.f;
+
+        document.querySelectorAll("#x-ticks").forEach((element) => {
+          element.setAttribute("transform", `translate(${xTranslate} 0)`);
+        });
+        document.querySelectorAll("#x-ticks text").forEach((element) => {
+          const xCoord = parseInt(element.textContent) * spacing;
+          element.setAttribute("x", xCoord * scale);
+        });
+        document.querySelectorAll("#y-ticks").forEach((element) => {
+          element.setAttribute("transform", `translate(0 ${yTranslate})`);
+        });
+        document.querySelectorAll("#y-ticks text").forEach((element) => {
+          const yCoord = parseInt(element.textContent) * spacing;
+          element.setAttribute("y", (canvasHeight - yCoord) * scale);
+        });
+      }
+
+      // Initialize Hammer.js for touch controls.
+      // Taken from https://github.com/bumbu/svg-pan-zoom/blob/master/demo/mobile.html
+      const hammerEventsHandler = {
+        haltEventListeners: ['touchstart', 'touchend', 'touchmove', 'touchleave', 'touchcancel'],
+        init: function(options) {
+          var instance = options.instance
+            , initialScale = 1
+            , pannedX = 0
+            , pannedY = 0
+
+          // Init Hammer
+          // Listen only for pointer and touch events
+          this.hammer = Hammer(options.svgElement, {
+            inputClass: Hammer.SUPPORT_POINTER_EVENTS ? Hammer.PointerEventInput : Hammer.TouchInput
+          })
+
+          // Enable pinch
+          this.hammer.get('pinch').set({enable: true})
+
+          // Handle double tap
+          this.hammer.on('doubletap', function(ev){
+            instance.zoomAtPoint(ev.center.x, ev.center.y)
+          })
+
+          // Handle pan
+          this.hammer.on('panstart panmove', function(ev){
+            // Fix https://github.com/hammerjs/hammer.js/issues/1134 using
+            // https://github.com/hammerjs/hammer.js/issues/871#issuecomment-179143062
+            if (Date.now() - lastPinchTime < 200) {
+              console.log("Ignored pan after pinch!");
+              return;
+            }
+
+            // On pan start reset panned variables
+            if (ev.type === 'panstart') {
+              pannedX = 0
+              pannedY = 0
+            }
+
+            // Pan only the difference
+            instance.panBy({x: ev.deltaX - pannedX, y: ev.deltaY - pannedY})
+            pannedX = ev.deltaX
+            pannedY = ev.deltaY
+          })
+
+          // Handle pinch
+          var lastPinchTime;
+          this.hammer.on('pinchstart pinchmove', function(ev){
+            lastPinchTime = Date.now();
+            // On pinch start remember initial zoom
+            if (ev.type === 'pinchstart') {
+              initialScale = instance.getZoom()
+              instance.zoomAtPoint(initialScale * ev.scale, {x: ev.center.x, y: ev.center.y})
+            }
+
+            instance.zoomAtPoint(initialScale * ev.scale, {x: ev.center.x, y: ev.center.y})
+          })
+
+          // Prevent moving the page on some devices when panning over SVG
+          options.svgElement.addEventListener('touchmove', function(e){ e.preventDefault(); });
+        },
+        destroy: function(){
+          this.hammer.destroy()
+        }
+      }
+
+      // Initialize svg-pan-zoom for panning and zooming
+      window.panZoom = svgPanZoom("#svg-canvas", {
+        zoomEnabled: true,
+        panEnabled: true,
+        fit: false,
+        center: false,
+        minZoom: 0.1,
+        maxZoom: 10,
+        zoomScaleSensitivity: 0.15,
+        onUpdatedCTM: handleCTM,
+        customEventsHandler: hammerEventsHandler,
+
+      });
+
+      onResize();
+
+      // Show the SVG after y-values are adjusted
+      document.body.style.visibility = "visible";
+
+      window.addEventListener("keydown", function (event) {
+
+        const panSpeed = spacing;
+        switch (event.key) {
+          // Add arrow key controls for panning
+          case "ArrowUp":
+            event.preventDefault();
+            window.panZoom.panBy({ x: 0, y: panSpeed });
+            break;
+          case "ArrowDown":
+            event.preventDefault();
+            window.panZoom.panBy({ x: 0, y: -panSpeed });
+            break;
+          case "ArrowLeft":
+            event.preventDefault();
+            window.panZoom.panBy({ x: panSpeed, y: 0 });
+            break;
+          case "ArrowRight":
+            event.preventDefault();
+            window.panZoom.panBy({ x: -panSpeed, y: 0 });
+            break;
+          // Add + and - key controls for zooming
+          case "+":
+          case "=":
+            event.preventDefault();
+            window.panZoom.zoomIn();
+            break;
+          case "-":
+          case "_":
+            event.preventDefault();
+            window.panZoom.zoomOut();
+            break;
+          // Add controls for resetting pan and zoom
+          case "Backspace":
+          case "0":
+          case ")":
+            event.preventDefault();
+            onResize();
+            break;
+        }
+      });
+
+      // Add hover events to nodes for tooltips
+      document.querySelectorAll("circle").forEach((node) => {
+        node.addEventListener("mouseover", function (event) {
+          const label = this.getAttribute("data-label");
+          if (label) {
+            const renderedLabel = katex.renderToString(label, {
+              throwOnError: false,
+            });
+            tooltip.innerHTML = renderedLabel;
+            tooltip.style.display = "block";
+          }
+        });
+        node.addEventListener("mousemove", function (event) {
+          tooltip.style.left = event.clientX + 10 + "px";
+          tooltip.style.top = event.clientY + 10 + "px";
+        });
+        node.addEventListener("mouseout", function (event) {
+          tooltip.style.display = "none";
+        });
+      });
+    }) ();
+  </script>
+</body>
+
+</html>

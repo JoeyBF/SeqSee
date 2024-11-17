@@ -1,0 +1,1416 @@
+<!-- template.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title></title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <!-- KaTeX for math rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <!-- svg-pan-zoom for obvious reasons -->
+  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+  <!-- Hammer.js for touch controls -->
+  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+  <style>
+    body {
+      font-family: "Computer Modern Serif", serif;
+      font-variant: small-caps;
+      font-weight: 500;
+      font-size: 20pt;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .katex {
+      font-size: 1em !important;
+    }
+
+    #canvas-container {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+    }
+
+    #grid-path {
+      stroke: #ccc;
+      stroke-width: 1;
+    }
+
+/* Dynamically generated CSS styles */
+.darkcyan {
+    fill: #00B3B3;
+    stroke: #00B3B3;
+}
+
+.darkgreen {
+    fill: #00B300;
+    stroke: #00B300;
+}
+
+.gray {
+    fill: #666666;
+    stroke: #666666;
+}
+
+.red {
+    fill: #FF0000;
+    stroke: #FF0000;
+}
+
+.magenta {
+    fill: #FF00FF;
+    stroke: #FF00FF;
+}
+
+circle {
+    fill: #666666;
+    stroke: #666666;
+    stroke-width: 0px;
+    r: 2.4px;
+}
+
+line {
+    fill: #666666;
+    stroke: #666666;
+    stroke-width: 1.2px;
+    stroke-dasharray: none;
+}
+
+.tau1 {
+    fill: #FF0000;
+    stroke: #FF0000;
+}
+
+.tau2 {
+    fill: blue;
+    stroke: blue;
+}
+
+.tau3 {
+    fill: #00B300;
+    stroke: #00B300;
+}
+
+.tau4plus {
+    fill: purple;
+    stroke: purple;
+}
+
+.dr {
+    fill: #00B3B3;
+    stroke: #00B3B3;
+}
+
+.n2 {
+    fill: #00B3B3;
+    stroke: #00B3B3;
+}
+
+.n3 {
+    fill: #FF0000;
+    stroke: #FF0000;
+}
+
+.n4 {
+    fill: #00B300;
+    stroke: #00B300;
+}
+
+.n5 {
+    fill: blue;
+    stroke: blue;
+}
+
+.n6 {
+    fill: orange;
+    stroke: orange;
+}
+
+.n7 {
+    fill: orange;
+    stroke: orange;
+}
+
+.n8 {
+    fill: orange;
+    stroke: orange;
+}
+
+.n9 {
+    fill: orange;
+    stroke: orange;
+}
+
+.n10 {
+    fill: orange;
+    stroke: orange;
+}
+
+.n11 {
+    fill: orange;
+    stroke: orange;
+}
+
+.t {
+    fill: #FF00FF;
+    stroke: #FF00FF;
+}
+
+.t2 {
+    fill: orange;
+    stroke: orange;
+}
+
+.t3 {
+    fill: orange;
+    stroke: orange;
+}
+
+.t4 {
+    fill: orange;
+    stroke: orange;
+}
+
+.t5 {
+    fill: orange;
+    stroke: orange;
+}
+
+.t6 {
+    fill: orange;
+    stroke: orange;
+}
+
+.p {
+    stroke-dasharray: 5, 5;
+}
+
+.hh0 {
+    fill: #FF0000;
+    stroke: #FF0000;
+}
+
+.hh1 {
+    fill: blue;
+    stroke: blue;
+}
+
+.hh2 {
+    fill: #00B300;
+    stroke: #00B300;
+}
+
+.tauextn {
+    fill: #00B300;
+    stroke: #00B300;
+}
+
+.free {
+    marker-end: url(#arrow-simple);
+}
+
+.h1tower {
+    marker-end: url(#arrow-simple);
+    fill: #FF0000;
+    stroke: #FF0000;
+}
+
+
+    #tooltip {
+      position: absolute;
+      display: none;
+      pointer-events: none;
+      background-color: white;
+      border: 1px solid black;
+      padding: 5px;
+      z-index: 10;
+    }
+
+    .axis {
+      stroke: black;
+      stroke-width: 2px;
+    }
+
+    .tick {
+      font-size: 12pt;
+    }
+
+    .x-tick {
+      text-anchor: middle;
+      dominant-baseline: hanging;
+    }
+
+    .y-tick {
+      text-anchor: end;
+      dominant-baseline: middle;
+    }
+  </style>
+</head>
+
+<body style="visibility: hidden">
+  <div id="canvas-container">
+    <svg id="svg-canvas" width="100%" height="100%">
+      <defs>
+        <!-- Define the arrowhead markers -->
+        <marker id='arrow-simple' orient="auto" markerWidth='3' markerHeight='4' refX='0.1' refY='2' fill="context-fill"
+          stroke="context-stroke">
+          <path d='M0,0 V4 L2,2 Z' />
+        </marker>
+        <!-- Define the grid pattern -->
+        <pattern id="grid" width="120.0" height="120.0" patternUnits="userSpaceOnUse">
+          <path id="grid-path" d="M 120.0 0 L 0 0 0 120.0" fill="none"/>
+        </pattern>
+      </defs>
+      <g id="content-group" class="svg-pan-zoom_viewport">
+        <!-- Apply the grid pattern to a large background rectangle -->
+        <rect id="grid-background" width="6720.0px" height="3360.0px" fill="url(#grid)" />
+        <!-- Write title in the top left corner -->
+        <foreignObject id="title-container" x="60.0px" width="100%" height="100%" style="white-space: nowrap">
+          <div xmlns="http://www.w3.org/1999/xhtml" id="title">
+            
+          </div>
+        </foreignObject>
+        <!-- Nodes and Edges generated statically by Python -->
+        <g id="edges-group">
+<line x1="3120.0" y1="720.0" x2="3180.0" y2="780.0" class="hh1" ></line>
+<line x1="4320.0" y1="960.0" x2="4380.0" y2="1020.0" class="hh1" ></line>
+<line x1="4680.0" y1="960.0" x2="4740.0" y2="1020.0" class="hh1" ></line>
+<line x1="4980.0" y1="840.0" x2="5040.0" y2="900.0" class="hh1" ></line>
+<line x1="5340.0" y1="840.0" x2="5400.0" y2="900.0" class="hh1" ></line>
+<line x1="5520.0" y1="1200.0" x2="5580.0" y2="1260.0" class="hh1" ></line>
+<line x1="6000.0" y1="1080.0" x2="6060.0" y2="1140.0" class="hh1" ></line>
+<line x1="6003.0" y1="1200.0" x2="6063.0" y2="1260.0" class="hh1" ></line>
+<line x1="6120.0" y1="660.0" x2="6180.0" y2="720.0" class="hh1" ></line>
+<line x1="6180.0" y1="1080.0" x2="6240.0" y2="1140.0" class="hh1" ></line>
+<line x1="6540.0" y1="840.0" x2="6600.0" y2="900.0" class="hh1" ></line>
+<line x1="6537.0" y1="1080.0" x2="6600.0" y2="1140.0" class="p" ></line>
+<line x1="6543.0" y1="1080.0" x2="6600.0" y2="1140.0" class="p" ></line>
+<line x1="60.0" y1="60.0" x2="102.0" y2="102.0" class="h1tower" ></line>
+<line x1="300.0" y1="180.0" x2="342.0" y2="222.0" class="h1tower" ></line>
+<line x1="480.0" y1="180.0" x2="522.0" y2="222.0" class="h1tower" ></line>
+<line x1="540.0" y1="300.0" x2="582.0" y2="342.0" class="h1tower" ></line>
+<line x1="660.0" y1="240.0" x2="702.0" y2="282.0" class="h1tower" ></line>
+<line x1="780.0" y1="420.0" x2="822.0" y2="462.0" class="h1tower" ></line>
+<line x1="840.0" y1="240.0" x2="900.0" y2="300.0" class="" ></line>
+<line x1="960.0" y1="420.0" x2="1002.0" y2="462.0" class="h1tower" ></line>
+<line x1="1020.0" y1="540.0" x2="1062.0" y2="582.0" class="h1tower" ></line>
+<line x1="1140.0" y1="480.0" x2="1182.0" y2="522.0" class="h1tower" ></line>
+<line x1="1260.0" y1="660.0" x2="1302.0" y2="702.0" class="h1tower" ></line>
+<line x1="1320.0" y1="420.0" x2="1380.0" y2="480.0" class="" ></line>
+<line x1="1440.0" y1="660.0" x2="1482.0" y2="702.0" class="h1tower" ></line>
+<line x1="1500.0" y1="780.0" x2="1542.0" y2="822.0" class="h1tower" ></line>
+<line x1="1620.0" y1="720.0" x2="1662.0" y2="762.0" class="h1tower" ></line>
+<line x1="1680.0" y1="480.0" x2="1740.0" y2="540.0" class="" ></line>
+<line x1="1740.0" y1="900.0" x2="1782.0" y2="942.0" class="h1tower" ></line>
+<line x1="1920.0" y1="900.0" x2="1962.0000000000002" y2="942.0" class="h1tower" ></line>
+<line x1="1980.0" y1="1020.0" x2="2022.0000000000002" y2="1062.0" class="h1tower" ></line>
+<line x1="2040.0" y1="480.0" x2="2100.0" y2="540.0" class="" ></line>
+<line x1="2100.0" y1="960.0" x2="2142.0" y2="1002.0" class="h1tower" ></line>
+<line x1="2220.0" y1="1140.0" x2="2262.0" y2="1182.0" class="h1tower" ></line>
+<line x1="2400.0" y1="1140.0" x2="2442.0" y2="1182.0" class="h1tower" ></line>
+<line x1="2460.0" y1="1260.0" x2="2502.0" y2="1302.0" class="h1tower" ></line>
+<line x1="2520.0" y1="660.0" x2="2580.0" y2="720.0" class="" ></line>
+<line x1="2580.0" y1="1200.0" x2="2622.0" y2="1242.0" class="h1tower" ></line>
+<line x1="2700.0" y1="1380.0" x2="2742.0" y2="1422.0" class="h1tower" ></line>
+<line x1="2760.0" y1="420.0" x2="2820.0" y2="480.0" class="" ></line>
+<line x1="2760.0" y1="660.0" x2="2820.0" y2="720.0" class="" ></line>
+<line x1="2820.0" y1="480.0" x2="2880.0" y2="540.0" class="" ></line>
+<line x1="2880.0" y1="540.0" x2="2940.0" y2="600.0" class="" ></line>
+<line x1="2880.0" y1="720.0" x2="2940.0" y2="780.0" class="" ></line>
+<line x1="2880.0" y1="1380.0" x2="2922.0" y2="1422.0" class="h1tower" ></line>
+<line x1="2940.0" y1="600.0" x2="3000.0" y2="660.0" class="" ></line>
+<line x1="2940.0" y1="1500.0" x2="2982.0" y2="1542.0" class="h1tower" ></line>
+<line x1="3000.0" y1="540.0" x2="3060.0" y2="600.0" class="" ></line>
+<line x1="3000.0" y1="660.0" x2="3060.0" y2="720.0" class="" ></line>
+<line x1="3060.0" y1="600.0" x2="3120.0" y2="660.0" class="" ></line>
+<line x1="3060.0" y1="720.0" x2="3120.0" y2="780.0" class="" ></line>
+<line x1="3060.0" y1="1440.0" x2="3102.0" y2="1482.0" class="h1tower" ></line>
+<line x1="3120.0" y1="660.0" x2="3180.0" y2="720.0" class="" ></line>
+<line x1="3180.0" y1="540.0" x2="3240.0" y2="600.0" class="" ></line>
+<line x1="3180.0" y1="600.0" x2="3240.0" y2="660.0" class="" ></line>
+<line x1="3180.0" y1="720.0" x2="3240.0" y2="780.0" class="" ></line>
+<line x1="3180.0" y1="1620.0" x2="3222.0" y2="1662.0" class="h1tower" ></line>
+<line x1="3240.0" y1="600.0" x2="3300.0" y2="660.0" class="" ></line>
+<line x1="3240.0" y1="660.0" x2="3300.0" y2="720.0" class="" ></line>
+<line x1="3240.0" y1="780.0" x2="3300.0" y2="840.0" class="" ></line>
+<line x1="3300.0" y1="660.0" x2="3360.0" y2="720.0" class="" ></line>
+<line x1="3300.0" y1="720.0" x2="3360.0" y2="780.0" class="" ></line>
+<line x1="3300.0" y1="840.0" x2="3360.0" y2="900.0" class="" ></line>
+<line x1="3360.0" y1="600.0" x2="3420.0" y2="660.0" class="" ></line>
+<line x1="3360.0" y1="720.0" x2="3420.0" y2="780.0" class="" ></line>
+<line x1="3360.0" y1="900.0" x2="3420.0" y2="960.0" class="" ></line>
+<line x1="3360.0" y1="1620.0" x2="3402.0" y2="1662.0" class="h1tower" ></line>
+<line x1="3420.0" y1="660.0" x2="3480.0" y2="720.0" class="" ></line>
+<line x1="3420.0" y1="780.0" x2="3480.0" y2="840.0" class="" ></line>
+<line x1="3420.0" y1="1740.0" x2="3462.0" y2="1782.0" class="h1tower" ></line>
+<line x1="3480.0" y1="720.0" x2="3540.0" y2="780.0" class="" ></line>
+<line x1="3480.0" y1="780.0" x2="3540.0" y2="840.0" class="" ></line>
+<line x1="3480.0" y1="840.0" x2="3540.0" y2="900.0" class="" ></line>
+<line x1="3540.0" y1="600.0" x2="3600.0" y2="660.0" class="" ></line>
+<line x1="3540.0" y1="780.0" x2="3600.0" y2="840.0" class="" ></line>
+<line x1="3540.0" y1="840.0" x2="3600.0" y2="900.0" class="" ></line>
+<line x1="3540.0" y1="900.0" x2="3600.0" y2="960.0" class="" ></line>
+<line x1="3540.0" y1="1680.0" x2="3582.0" y2="1722.0" class="h1tower" ></line>
+<line x1="3600.0" y1="840.0" x2="3660.0" y2="900.0" class="" ></line>
+<line x1="3600.0" y1="900.0" x2="3660.0" y2="960.0" class="" ></line>
+<line x1="3660.0" y1="780.0" x2="3720.0" y2="840.0" class="" ></line>
+<line x1="3660.0" y1="900.0" x2="3720.0" y2="960.0" class="" ></line>
+<line x1="3660.0" y1="1860.0" x2="3702.0" y2="1902.0" class="h1tower" ></line>
+<line x1="3720.0" y1="840.0" x2="3780.0" y2="900.0" class="" ></line>
+<line x1="3720.0" y1="960.0" x2="3780.0" y2="1020.0" class="" ></line>
+<line x1="3780.0" y1="900.0" x2="3840.0" y2="960.0" class="" ></line>
+<line x1="3840.0" y1="840.0" x2="3900.0" y2="900.0" class="" ></line>
+<line x1="3840.0" y1="1860.0" x2="3882.0" y2="1902.0" class="h1tower" ></line>
+<line x1="3900.0" y1="900.0" x2="3960.0" y2="960.0" class="" ></line>
+<line x1="3900.0" y1="1980.0" x2="3942.0" y2="2022.0000000000002" class="h1tower" ></line>
+<line x1="3960.0" y1="960.0" x2="4020.0" y2="1020.0" class="" ></line>
+<line x1="4020.0" y1="780.0" x2="4080.0" y2="840.0" class="" ></line>
+<line x1="4020.0" y1="1920.0" x2="4062.0" y2="1962.0000000000002" class="h1tower" ></line>
+<line x1="4080.0" y1="960.0" x2="4140.0" y2="1020.0" class="" ></line>
+<line x1="4140.0" y1="2100.0" x2="4182.0" y2="2142.0" class="h1tower" ></line>
+<line x1="4320.0" y1="2100.0" x2="4362.0" y2="2142.0" class="h1tower" ></line>
+<line x1="4380.0" y1="840.0" x2="4440.0" y2="900.0" class="" ></line>
+<line x1="4380.0" y1="2220.0" x2="4422.0" y2="2262.0" class="h1tower" ></line>
+<line x1="4440.0" y1="960.0" x2="4500.0" y2="1020.0" class="" ></line>
+<line x1="4500.0" y1="2160.0" x2="4542.0" y2="2202.0" class="h1tower" ></line>
+<line x1="4560.0" y1="960.0" x2="4620.0" y2="1020.0" class="" ></line>
+<line x1="4620.0" y1="2340.0" x2="4662.0" y2="2382.0" class="h1tower" ></line>
+<line x1="4740.0" y1="840.0" x2="4800.0" y2="900.0" class="" ></line>
+<line x1="4800.0" y1="2340.0" x2="4842.0" y2="2382.0" class="h1tower" ></line>
+<line x1="4860.0" y1="2460.0" x2="4902.0" y2="2502.0" class="h1tower" ></line>
+<line x1="4920.0" y1="960.0" x2="4980.0" y2="1020.0" class="" ></line>
+<line x1="4920.0" y1="1140.0" x2="4980.0" y2="1200.0" class="" ></line>
+<line x1="4980.0" y1="2400.0" x2="5022.0" y2="2442.0" class="h1tower" ></line>
+<line x1="5100.0" y1="840.0" x2="5160.0" y2="900.0" class="" ></line>
+<line x1="5100.0" y1="2580.0" x2="5142.0" y2="2622.0" class="h1tower" ></line>
+<line x1="5160.0" y1="900.0" x2="5220.0" y2="960.0" class="" ></line>
+<line x1="5160.0" y1="1140.0" x2="5220.0" y2="1200.0" class="" ></line>
+<line x1="5220.0" y1="960.0" x2="5280.0" y2="1020.0" class="" ></line>
+<line x1="5280.0" y1="1020.0" x2="5340.0" y2="1080.0" class="" ></line>
+<line x1="5280.0" y1="1200.0" x2="5340.0" y2="1260.0" class="" ></line>
+<line x1="5280.0" y1="2580.0" x2="5322.0" y2="2622.0" class="h1tower" ></line>
+<line x1="5340.0" y1="1080.0" x2="5397.0" y2="1140.0" class="" ></line>
+<line x1="5340.0" y1="2700.0" x2="5382.0" y2="2742.0" class="h1tower" ></line>
+<line x1="5400.0" y1="720.0" x2="5460.0" y2="780.0" class="" ></line>
+<line x1="5400.0" y1="900.0" x2="5460.0" y2="960.0" class="" ></line>
+<line x1="5400.0" y1="1020.0" x2="5460.0" y2="1080.0" class="" ></line>
+<line x1="5397.0" y1="1140.0" x2="5457.0" y2="1200.0" class="" ></line>
+<line x1="5403.0" y1="1140.0" x2="5463.0" y2="1200.0" class="" ></line>
+<line x1="5460.0" y1="960.0" x2="5520.0" y2="1020.0" class="" ></line>
+<line x1="5460.0" y1="1080.0" x2="5520.0" y2="1140.0" class="" ></line>
+<line x1="5457.0" y1="1200.0" x2="5520.0" y2="1260.0" class="" ></line>
+<line x1="5460.0" y1="2640.0" x2="5502.0" y2="2682.0" class="h1tower" ></line>
+<line x1="5520.0" y1="1020.0" x2="5580.0" y2="1080.0" class="" ></line>
+<line x1="5520.0" y1="1140.0" x2="5580.0" y2="1200.0" class="" ></line>
+<line x1="5580.0" y1="1020.0" x2="5640.0" y2="1080.0" class="" ></line>
+<line x1="5580.0" y1="1080.0" x2="5637.0" y2="1140.0" class="" ></line>
+<line x1="5580.0" y1="1200.0" x2="5640.0" y2="1260.0" class="" ></line>
+<line x1="5580.0" y1="2820.0" x2="5622.0" y2="2862.0" class="h1tower" ></line>
+<line x1="5640.0" y1="900.0" x2="5700.0" y2="960.0" class="" ></line>
+<line x1="5640.0" y1="1020.0" x2="5700.0" y2="1080.0" class="" ></line>
+<line x1="5640.0" y1="1080.0" x2="5700.0" y2="1140.0" class="" ></line>
+<line x1="5637.0" y1="1140.0" x2="5697.0" y2="1200.0" class="" ></line>
+<line x1="5643.0" y1="1140.0" x2="5703.0" y2="1200.0" class="" ></line>
+<line x1="5640.0" y1="1260.0" x2="5700.0" y2="1320.0" class="" ></line>
+<line x1="5700.0" y1="960.0" x2="5760.0" y2="1020.0" class="" ></line>
+<line x1="5700.0" y1="1080.0" x2="5760.0" y2="1140.0" class="" ></line>
+<line x1="5700.0" y1="1140.0" x2="5757.0" y2="1200.0" class="" ></line>
+<line x1="5697.0" y1="1200.0" x2="5760.0" y2="1260.0" class="" ></line>
+<line x1="5700.0" y1="1320.0" x2="5760.0" y2="1380.0" class="" ></line>
+<line x1="5760.0" y1="1020.0" x2="5820.0" y2="1080.0" class="" ></line>
+<line x1="5760.0" y1="1080.0" x2="5820.0" y2="1140.0" class="" ></line>
+<line x1="5760.0" y1="1140.0" x2="5820.0" y2="1200.0" class="" ></line>
+<line x1="5757.0" y1="1200.0" x2="5817.0" y2="1260.0" class="" ></line>
+<line x1="5763.0" y1="1200.0" x2="5823.0" y2="1260.0" class="" ></line>
+<line x1="5760.0" y1="1380.0" x2="5820.0" y2="1440.0" class="" ></line>
+<line x1="5760.0" y1="2820.0" x2="5802.0" y2="2862.0" class="h1tower" ></line>
+<line x1="5820.0" y1="600.0" x2="5880.0" y2="660.0" class="" ></line>
+<line x1="5820.0" y1="1020.0" x2="5880.0" y2="1080.0" class="" ></line>
+<line x1="5820.0" y1="1080.0" x2="5880.0" y2="1140.0" class="" ></line>
+<line x1="5820.0" y1="1140.0" x2="5880.0" y2="1200.0" class="" ></line>
+<line x1="5820.0" y1="1200.0" x2="5880.0" y2="1260.0" class="" ></line>
+<line x1="5817.0" y1="1260.0" x2="5880.0" y2="1320.0" class="" ></line>
+<line x1="5820.0" y1="2940.0" x2="5862.0" y2="2982.0" class="h1tower" ></line>
+<line x1="5880.0" y1="660.0" x2="5940.0" y2="720.0" class="" ></line>
+<line x1="5880.0" y1="900.0" x2="5940.0" y2="960.0" class="" ></line>
+<line x1="5880.0" y1="1020.0" x2="5937.0" y2="1080.0" class="" ></line>
+<line x1="5880.0" y1="1080.0" x2="5940.0" y2="1140.0" class="" ></line>
+<line x1="5880.0" y1="1140.0" x2="5940.0" y2="1200.0" class="" ></line>
+<line x1="5880.0" y1="1200.0" x2="5940.0" y2="1260.0" class="" ></line>
+<line x1="5880.0" y1="1260.0" x2="5940.0" y2="1320.0" class="" ></line>
+<line x1="5880.0" y1="1320.0" x2="5940.0" y2="1380.0" class="" ></line>
+<line x1="5940.0" y1="720.0" x2="6000.0" y2="780.0" class="" ></line>
+<line x1="5937.0" y1="1080.0" x2="5997.0" y2="1140.0" class="" ></line>
+<line x1="5943.0" y1="1080.0" x2="6003.0" y2="1140.0" class="" ></line>
+<line x1="5940.0" y1="1140.0" x2="5997.0" y2="1200.0" class="" ></line>
+<line x1="5940.0" y1="1200.0" x2="6000.0" y2="1260.0" class="" ></line>
+<line x1="5940.0" y1="1260.0" x2="6000.0" y2="1320.0" class="" ></line>
+<line x1="5940.0" y1="1320.0" x2="6000.0" y2="1380.0" class="" ></line>
+<line x1="5940.0" y1="1380.0" x2="6000.0" y2="1440.0" class="" ></line>
+<line x1="5940.0" y1="2880.0" x2="5982.0" y2="2922.0" class="h1tower" ></line>
+<line x1="6000.0" y1="780.0" x2="6060.0" y2="840.0" class="" ></line>
+<line x1="5997.0" y1="1140.0" x2="6060.0" y2="1200.0" class="" ></line>
+<line x1="5997.0" y1="1200.0" x2="6057.0" y2="1260.0" class="" ></line>
+<line x1="6000.0" y1="1320.0" x2="6060.0" y2="1380.0" class="" ></line>
+<line x1="6000.0" y1="1380.0" x2="6060.0" y2="1440.0" class="" ></line>
+<line x1="6060.0" y1="840.0" x2="6120.0" y2="900.0" class="" ></line>
+<line x1="6060.0" y1="1020.0" x2="6120.0" y2="1080.0" class="" ></line>
+<line x1="6060.0" y1="1080.0" x2="6120.0" y2="1140.0" class="" ></line>
+<line x1="6060.0" y1="1140.0" x2="6120.0" y2="1200.0" class="" ></line>
+<line x1="6057.0" y1="1260.0" x2="6120.0" y2="1320.0" class="" ></line>
+<line x1="6060.0" y1="1380.0" x2="6120.0" y2="1440.0" class="" ></line>
+<line x1="6060.0" y1="3060.0" x2="6102.0" y2="3102.0" class="h1tower" ></line>
+<line x1="6120.0" y1="780.0" x2="6180.0" y2="840.0" class="" ></line>
+<line x1="6120.0" y1="900.0" x2="6180.0" y2="960.0" class="" ></line>
+<line x1="6120.0" y1="1080.0" x2="6180.0" y2="1140.0" class="" ></line>
+<line x1="6120.0" y1="1140.0" x2="6180.0" y2="1200.0" class="" ></line>
+<line x1="6120.0" y1="1200.0" x2="6180.0" y2="1260.0" class="" ></line>
+<line x1="6120.0" y1="1260.0" x2="6180.0" y2="1320.0" class="" ></line>
+<line x1="6120.0" y1="1320.0" x2="6180.0" y2="1380.0" class="" ></line>
+<line x1="6120.0" y1="1440.0" x2="6180.0" y2="1500.0" class="" ></line>
+<line x1="6180.0" y1="720.0" x2="6240.0" y2="780.0" class="" ></line>
+<line x1="6180.0" y1="840.0" x2="6240.0" y2="900.0" class="" ></line>
+<line x1="6180.0" y1="960.0" x2="6240.0" y2="1020.0" class="" ></line>
+<line x1="6180.0" y1="1140.0" x2="6240.0" y2="1200.0" class="" ></line>
+<line x1="6180.0" y1="1200.0" x2="6240.0" y2="1260.0" class="" ></line>
+<line x1="6180.0" y1="1260.0" x2="6240.0" y2="1320.0" class="" ></line>
+<line x1="6180.0" y1="1320.0" x2="6240.0" y2="1380.0" class="" ></line>
+<line x1="6180.0" y1="1380.0" x2="6240.0" y2="1440.0" class="" ></line>
+<line x1="6240.0" y1="780.0" x2="6300.0" y2="840.0" class="" ></line>
+<line x1="6240.0" y1="900.0" x2="6300.0" y2="960.0" class="" ></line>
+<line x1="6240.0" y1="960.0" x2="6300.0" y2="1020.0" class="" ></line>
+<line x1="6240.0" y1="1020.0" x2="6300.0" y2="1080.0" class="" ></line>
+<line x1="6240.0" y1="1080.0" x2="6300.0" y2="1140.0" class="" ></line>
+<line x1="6240.0" y1="1200.0" x2="6300.0" y2="1260.0" class="" ></line>
+<line x1="6240.0" y1="1320.0" x2="6300.0" y2="1380.0" class="" ></line>
+<line x1="6240.0" y1="1380.0" x2="6300.0" y2="1440.0" class="" ></line>
+<line x1="6240.0" y1="3060.0" x2="6282.0" y2="3102.0" class="h1tower" ></line>
+<line x1="6300.0" y1="780.0" x2="6360.0" y2="840.0" class="" ></line>
+<line x1="6300.0" y1="840.0" x2="6357.0" y2="900.0" class="" ></line>
+<line x1="6300.0" y1="960.0" x2="6360.0" y2="1020.0" class="" ></line>
+<line x1="6300.0" y1="1080.0" x2="6360.0" y2="1140.0" class="" ></line>
+<line x1="6300.0" y1="1140.0" x2="6360.0" y2="1200.0" class="" ></line>
+<line x1="6300.0" y1="1260.0" x2="6360.0" y2="1320.0" class="" ></line>
+<line x1="6300.0" y1="1380.0" x2="6360.0" y2="1440.0" class="" ></line>
+<line x1="6300.0" y1="3180.0" x2="6342.0" y2="3222.0" class="h1tower" ></line>
+<line x1="6360.0" y1="780.0" x2="6420.0" y2="840.0" class="" ></line>
+<line x1="6360.0" y1="840.0" x2="6420.0" y2="900.0" class="" ></line>
+<line x1="6357.0" y1="900.0" x2="6417.0" y2="960.0" class="" ></line>
+<line x1="6363.0" y1="900.0" x2="6423.0" y2="960.0" class="" ></line>
+<line x1="6360.0" y1="1020.0" x2="6417.0" y2="1080.0" class="" ></line>
+<line x1="6360.0" y1="1140.0" x2="6420.0" y2="1200.0" class="" ></line>
+<line x1="6360.0" y1="1200.0" x2="6417.0" y2="1260.0" class="" ></line>
+<line x1="6360.0" y1="1260.0" x2="6420.0" y2="1320.0" class="" ></line>
+<line x1="6360.0" y1="1320.0" x2="6420.0" y2="1380.0" class="" ></line>
+<line x1="6360.0" y1="1440.0" x2="6420.0" y2="1500.0" class="" ></line>
+<line x1="6420.0" y1="840.0" x2="6480.0" y2="900.0" class="" ></line>
+<line x1="6420.0" y1="900.0" x2="6480.0" y2="960.0" class="" ></line>
+<line x1="6417.0" y1="960.0" x2="6477.0" y2="1020.0" class="" ></line>
+<line x1="6423.0" y1="960.0" x2="6483.0" y2="1020.0" class="" ></line>
+<line x1="6417.0" y1="1080.0" x2="6477.0" y2="1140.0" class="" ></line>
+<line x1="6423.0" y1="1080.0" x2="6483.0" y2="1140.0" class="" ></line>
+<line x1="6420.0" y1="1200.0" x2="6480.0" y2="1260.0" class="" ></line>
+<line x1="6417.0" y1="1260.0" x2="6477.0" y2="1320.0" class="" ></line>
+<line x1="6423.0" y1="1260.0" x2="6483.0" y2="1320.0" class="" ></line>
+<line x1="6420.0" y1="1320.0" x2="6480.0" y2="1380.0" class="" ></line>
+<line x1="6420.0" y1="1380.0" x2="6477.0" y2="1440.0" class="" ></line>
+<line x1="6420.0" y1="3120.0" x2="6462.0" y2="3162.0" class="h1tower" ></line>
+<line x1="6480.0" y1="840.0" x2="6540.0" y2="900.0" class="" ></line>
+<line x1="6480.0" y1="900.0" x2="6540.0" y2="960.0" class="" ></line>
+<line x1="6480.0" y1="960.0" x2="6540.0" y2="1020.0" class="" ></line>
+<line x1="6477.0" y1="1020.0" x2="6537.0" y2="1080.0" class="" ></line>
+<line x1="6483.0" y1="1020.0" x2="6543.0" y2="1080.0" class="" ></line>
+<line x1="6477.0" y1="1140.0" x2="6540.0" y2="1200.0" class="" ></line>
+<line x1="6480.0" y1="1260.0" x2="6540.0" y2="1320.0" class="" ></line>
+<line x1="6477.0" y1="1320.0" x2="6540.0" y2="1380.0" class="" ></line>
+<line x1="6480.0" y1="1380.0" x2="6540.0" y2="1440.0" class="" ></line>
+<line x1="6483.0" y1="1440.0" x2="6540.0" y2="1500.0" class="" ></line>
+<line x1="6540.0" y1="780.0" x2="6600.0" y2="840.0" class="" ></line>
+<line x1="6540.0" y1="900.0" x2="6603.0" y2="960.0" class="" ></line>
+<line x1="6540.0" y1="960.0" x2="6603.0" y2="1020.0" class="" ></line>
+<line x1="6540.0" y1="1020.0" x2="6600.0" y2="1080.0" class="" ></line>
+<line x1="6540.0" y1="1200.0" x2="6600.0" y2="1260.0" class="" ></line>
+<line x1="6540.0" y1="1260.0" x2="6600.0" y2="1320.0" class="" ></line>
+<line x1="6540.0" y1="1320.0" x2="6600.0" y2="1380.0" class="" ></line>
+<line x1="6540.0" y1="1380.0" x2="6600.0" y2="1440.0" class="" ></line>
+<line x1="6540.0" y1="1440.0" x2="6600.0" y2="1500.0" class="" ></line>
+<line x1="6540.0" y1="3300.0" x2="6582.0" y2="3342.0" class="h1tower" ></line>
+</g>
+<g id="nodes-group">
+<circle id="M^2 g" class="" cx="6597.0" cy="960.0"  data-label="M^{2} g\:(60)"></circle>
+<circle id="_t h0 e0^3" class="" cx="3120.0" cy="720.0"  data-label="\overline{\tau h_{0} e_{0}^{3}}\:(28)"></circle>
+<circle id="_t h0 e0^3 g" class="" cx="4320.0" cy="960.0"  data-label="\overline{\tau h_{0} e_{0}^{3} g}\:(40)"></circle>
+<circle id="_t h0 e0 g^3" class="" cx="4680.0" cy="960.0"  data-label="\overline{\tau h_{0} e_{0} g^{3}}\:(44)"></circle>
+<circle id="_t M h0 e0 g" class="" cx="4980.0" cy="840.0"  data-label="\overline{\tau M h_{0} e_{0} g}\:(44)"></circle>
+<circle id="_t M h2 g^2" class="" cx="5340.0" cy="840.0"  data-label="\overline{\tau M h_{2} g^{2}}\:(48)"></circle>
+<circle id="_t h0 d0 e0 g^3" class="" cx="5520.0" cy="1200.0"  data-label="\overline{\tau h_{0} d_{0} e_{0} g^{3}}\:(52)"></circle>
+<circle id="_t M h0 e0^2 g" class="" cx="6000.0" cy="1080.0"  data-label="\overline{\tau M h_{0} e_{0}^{2} g}\:(54)"></circle>
+<circle id="_t D^2 h0 e0^3" class="" cx="6003.0" cy="1200.0"  data-label="\overline{\tau \Delta^{2} h_{0} e_{0}^{3}}\:(52)"></circle>
+<circle id="_t^2 c1 H1 g" class="" cx="6120.0" cy="660.0"  data-label="\overline{\tau^{2} c_{1} H_{1} g}\:(53)"></circle>
+<circle id="_t M h0 e0 g^2" class="" cx="6180.0" cy="1080.0"  data-label="\overline{\tau M h_{0} e_{0} g^{2}}\:(56)"></circle>
+<circle id="_t M D1 P h2" class="" cx="6540.0" cy="840.0"  data-label="\overline{\tau M \Delta_{1} P h_{2}}\:(56)"></circle>
+<circle id="h1^6 x103,12" class="" cx="6537.0" cy="1080.0"  data-label="h_{1}^{6} x_{103,12}\:(60)"></circle>
+<circle id="M D1 P h1^4" class="" cx="6543.0" cy="1080.0"  data-label="M \Delta_{1} P h_{1}^{4}\:(60)"></circle>
+<circle id="h1" class="" cx="60.0" cy="60.0"  data-label="h_{1}\:(1)"></circle>
+<circle id="_h1^4" class="" cx="300.0" cy="180.0"  data-label="\overline{h_{1}^{4}}\:(3)"></circle>
+<circle id="c0" class="" cx="480.0" cy="180.0"  data-label="c_{0}\:(5)"></circle>
+<circle id="P h1" class="" cx="540.0" cy="300.0"  data-label="P h_{1}\:(5)"></circle>
+<circle id="_h1^2 c0" class="" cx="660.0" cy="240.0"  data-label="\overline{h_{1}^{2} c_{0}}\:(6)"></circle>
+<circle id="_P h1^4" class="" cx="780.0" cy="420.0"  data-label="\overline{P h_{1}^{4}}\:(7)"></circle>
+<circle id="d0" class="" cx="840.0" cy="240.0"  data-label="d_{0}\:(8)"></circle>
+<circle id="h1 d0" class="" cx="900.0" cy="300.0"  data-label="h_{1} d_{0}\:(9)"></circle>
+<circle id="P c0" class="" cx="960.0" cy="420.0"  data-label="P c_{0}\:(9)"></circle>
+<circle id="P^2 h1" class="" cx="1020.0" cy="540.0"  data-label="P^{2} h_{1}\:(9)"></circle>
+<circle id="_P h1^2 c0" class="" cx="1140.0" cy="480.0"  data-label="\overline{P h_{1}^{2} c_{0}}\:(10)"></circle>
+<circle id="_P^2 h1^4" class="" cx="1260.0" cy="660.0"  data-label="\overline{P^{2} h_{1}^{4}}\:(11)"></circle>
+<circle id="c0 d0" class="" cx="1320.0" cy="420.0"  data-label="c_{0} d_{0}\:(13)"></circle>
+<circle id="h1 c0 d0" class="" cx="1380.0" cy="480.0"  data-label="h_{1} c_{0} d_{0}\:(14)"></circle>
+<circle id="P^2 c0" class="" cx="1440.0" cy="660.0"  data-label="P^{2} c_{0}\:(13)"></circle>
+<circle id="P^3 h1" class="" cx="1500.0" cy="780.0"  data-label="P^{3} h_{1}\:(13)"></circle>
+<circle id="_P^2 h1^2 c0" class="" cx="1620.0" cy="720.0"  data-label="\overline{P^{2} h_{1}^{2} c_{0}}\:(14)"></circle>
+<circle id="d0^2" class="" cx="1680.0" cy="480.0"  data-label="d_{0}^{2}\:(16)"></circle>
+<circle id="h1 d0^2" class="" cx="1740.0" cy="540.0"  data-label="h_{1} d_{0}^{2}\:(17)"></circle>
+<circle id="_P^3 h1^4" class="" cx="1740.0" cy="900.0"  data-label="\overline{P^{3} h_{1}^{4}}\:(15)"></circle>
+<circle id="P^2 d0" class="" cx="1800.0" cy="720.0"  data-label="P^{2} d_{0}\:(16)"></circle>
+<circle id="P^3 c0" class="" cx="1920.0" cy="900.0"  data-label="P^{3} c_{0}\:(17)"></circle>
+<circle id="P^4 h1" class="" cx="1980.0" cy="1020.0"  data-label="P^{4} h_{1}\:(17)"></circle>
+<circle id="e0^2" class="" cx="2040.0" cy="480.0"  data-label="e_{0}^{2}\:(20)"></circle>
+<circle id="h1 e0^2" class="" cx="2100.0" cy="540.0"  data-label="h_{1} e_{0}^{2}\:(21)"></circle>
+<circle id="_P^3 h1^2 c0" class="" cx="2100.0" cy="960.0"  data-label="\overline{P^{3} h_{1}^{2} c_{0}}\:(18)"></circle>
+<circle id="_P^4 h1^4" class="" cx="2220.0" cy="1140.0"  data-label="\overline{P^{4} h_{1}^{4}}\:(19)"></circle>
+<circle id="u" class="" cx="2340.0" cy="540.0"  data-label="u\:(21)"></circle>
+<circle id="P^4 c0" class="" cx="2400.0" cy="1140.0"  data-label="P^{4} c_{0}\:(21)"></circle>
+<circle id="P^5 h1" class="" cx="2460.0" cy="1260.0"  data-label="P^{5} h_{1}\:(21)"></circle>
+<circle id="c0 e0^2" class="" cx="2520.0" cy="660.0"  data-label="c_{0} e_{0}^{2}\:(25)"></circle>
+<circle id="h1 c0 e0^2" class="" cx="2580.0" cy="720.0"  data-label="h_{1} c_{0} e_{0}^{2}\:(26)"></circle>
+<circle id="_P^4 h1^2 c0" class="" cx="2580.0" cy="1200.0"  data-label="\overline{P^{4} h_{1}^{2} c_{0}}\:(22)"></circle>
+<circle id="_P^5 h1^4" class="" cx="2700.0" cy="1380.0"  data-label="\overline{P^{5} h_{1}^{4}}\:(23)"></circle>
+<circle id="B1" class="" cx="2760.0" cy="420.0"  data-label="B_{1}\:(25)"></circle>
+<circle id="u'" class="" cx="2760.0" cy="660.0"  data-label="u'\:(25)"></circle>
+<circle id="P^4 d0" class="" cx="2760.0" cy="1200.0"  data-label="P^{4} d_{0}\:(24)"></circle>
+<circle id="h1 B1" class="" cx="2820.0" cy="480.0"  data-label="h_{1} B_{1}\:(26)"></circle>
+<circle id="h1 u'" class="" cx="2820.0" cy="720.0"  data-label="h_{1} u'\:(26)"></circle>
+<circle id="h1^2 B1" class="" cx="2880.0" cy="540.0"  data-label="h_{1}^{2} B_{1}\:(27)"></circle>
+<circle id="d0 e0^2" class="" cx="2880.0" cy="720.0"  data-label="d_{0} e_{0}^{2}\:(28)"></circle>
+<circle id="P^5 c0" class="" cx="2880.0" cy="1380.0"  data-label="P^{5} c_{0}\:(25)"></circle>
+<circle id="h1^3 B1" class="" cx="2940.0" cy="600.0"  data-label="h_{1}^{3} B_{1}\:(28)"></circle>
+<circle id="h1 d0 e0^2" class="" cx="2940.0" cy="780.0"  data-label="h_{1} d_{0} e_{0}^{2}\:(29)"></circle>
+<circle id="P^6 h1" class="" cx="2940.0" cy="1500.0"  data-label="P^{6} h_{1}\:(25)"></circle>
+<circle id="_h1^3 B1" class="" cx="3000.0" cy="540.0"  data-label="\overline{h_{1}^{3} B_{1}}\:(27)"></circle>
+<circle id="h1^4 B1" class="" cx="3000.0" cy="660.0"  data-label="h_{1}^{4} B_{1}\:(29)"></circle>
+<circle id="_h1^4 B1" class="" cx="3060.0" cy="600.0"  data-label="\overline{h_{1}^{4} B_{1}}\:(28)"></circle>
+<circle id="h1^5 B1" class="" cx="3060.0" cy="720.0"  data-label="h_{1}^{5} B_{1}\:(30)"></circle>
+<circle id="_P^5 h1^2 c0" class="" cx="3060.0" cy="1440.0"  data-label="\overline{P^{5} h_{1}^{2} c_{0}}\:(26)"></circle>
+<circle id="_h1^5 B1" class="" cx="3120.0" cy="660.0"  data-label="\overline{h_{1}^{5} B_{1}}\:(29)"></circle>
+<circle id="h1^6 B1" class="" cx="3120.0" cy="780.0"  data-label="h_{1}^{6} B_{1}\:(31)"></circle>
+<circle id="B8" class="" cx="3180.0" cy="540.0"  data-label="B_{8}\:(29)"></circle>
+<circle id="x'" class="" cx="3180.0" cy="600.0"  data-label="x'\:(28)"></circle>
+<circle id="_h1^6 B1" class="" cx="3180.0" cy="720.0"  data-label="\overline{h_{1}^{6} B_{1}}\:(30)"></circle>
+<circle id="d0 u" class="" cx="3180.0" cy="780.0"  data-label="d_{0} u\:(29)"></circle>
+<circle id="_P^6 h1^4" class="" cx="3180.0" cy="1620.0"  data-label="\overline{P^{6} h_{1}^{4}}\:(27)"></circle>
+<circle id="h1 B8" class="" cx="3240.0" cy="600.0"  data-label="h_{1} B_{8}\:(30)"></circle>
+<circle id="h1 x'" class="" cx="3240.0" cy="660.0"  data-label="h_{1} x'\:(29)"></circle>
+<circle id="_h1^7 B1" class="" cx="3240.0" cy="780.0"  data-label="\overline{h_{1}^{7} B_{1}}\:(31)"></circle>
+<circle id="h1^2 B8" class="" cx="3300.0" cy="660.0"  data-label="h_{1}^{2} B_{8}\:(31)"></circle>
+<circle id="h1^2 x'" class="" cx="3300.0" cy="720.0"  data-label="h_{1}^{2} x'\:(30)"></circle>
+<circle id="_h1^8 B1" class="" cx="3300.0" cy="840.0"  data-label="\overline{h_{1}^{8} B_{1}}\:(32)"></circle>
+<circle id="_h1^2 B8" class="" cx="3360.0" cy="600.0"  data-label="\overline{h_{1}^{2} B_{8}}\:(30)"></circle>
+<circle id="h1^3 B8" class="" cx="3360.0" cy="720.0"  data-label="h_{1}^{3} B_{8}\:(32)"></circle>
+<circle id="h1^3 x'" class="" cx="3360.0" cy="780.0"  data-label="h_{1}^{3} x'\:(31)"></circle>
+<circle id="_h1^9 B1" class="" cx="3360.0" cy="900.0"  data-label="\overline{h_{1}^{9} B_{1}}\:(33)"></circle>
+<circle id="P^6 c0" class="" cx="3360.0" cy="1620.0"  data-label="P^{6} c_{0}\:(29)"></circle>
+<circle id="_h1^3 B8" class="" cx="3420.0" cy="660.0"  data-label="\overline{h_{1}^{3} B_{8}}\:(31)"></circle>
+<circle id="h1^4 B8" class="" cx="3420.0" cy="780.0"  data-label="h_{1}^{4} B_{8}\:(33)"></circle>
+<circle id="_h1^10 B1" class="" cx="3420.0" cy="960.0"  data-label="\overline{h_{1}^{10} B_{1}}\:(34)"></circle>
+<circle id="P^7 h1" class="" cx="3420.0" cy="1740.0"  data-label="P^{7} h_{1}\:(29)"></circle>
+<circle id="_h1^4 B8" class="" cx="3480.0" cy="720.0"  data-label="\overline{h_{1}^{4} B_{8}}\:(32)"></circle>
+<circle id="_h1^4 x'" class="" cx="3480.0" cy="780.0"  data-label="\overline{h_{1}^{4} x'}\:(31)"></circle>
+<circle id="h1^5 B8" class="" cx="3480.0" cy="840.0"  data-label="h_{1}^{5} B_{8}\:(34)"></circle>
+<circle id="B21" class="" cx="3540.0" cy="600.0"  data-label="B_{21}\:(32)"></circle>
+<circle id="_h1^5 B8" class="" cx="3540.0" cy="780.0"  data-label="\overline{h_{1}^{5} B_{8}}\:(33)"></circle>
+<circle id="_h1^5 x'" class="" cx="3540.0" cy="840.0"  data-label="\overline{h_{1}^{5} x'}\:(32)"></circle>
+<circle id="h1^6 B8" class="" cx="3540.0" cy="900.0"  data-label="h_{1}^{6} B_{8}\:(35)"></circle>
+<circle id="_P^6 h1^2 c0" class="" cx="3540.0" cy="1680.0"  data-label="\overline{P^{6} h_{1}^{2} c_{0}}\:(30)"></circle>
+<circle id="h1 B21" class="" cx="3600.0" cy="660.0"  data-label="h_{1} B_{21}\:(33)"></circle>
+<circle id="_h1^6 B8" class="" cx="3600.0" cy="840.0"  data-label="\overline{h_{1}^{6} B_{8}}\:(34)"></circle>
+<circle id="_h1^6 x'" class="" cx="3600.0" cy="900.0"  data-label="\overline{h_{1}^{6} x'}\:(33)"></circle>
+<circle id="h1^7 B8" class="" cx="3600.0" cy="960.0"  data-label="h_{1}^{7} B_{8}\:(36)"></circle>
+<circle id="c0 x'" class="" cx="3660.0" cy="780.0"  data-label="c_{0} x'\:(33)"></circle>
+<circle id="_h1^7 B8" class="" cx="3660.0" cy="900.0"  data-label="\overline{h_{1}^{7} B_{8}}\:(35)"></circle>
+<circle id="_h1^7 x'" class="" cx="3660.0" cy="960.0"  data-label="\overline{h_{1}^{7} x'}\:(34)"></circle>
+<circle id="_P^7 h1^4" class="" cx="3660.0" cy="1860.0"  data-label="\overline{P^{7} h_{1}^{4}}\:(31)"></circle>
+<circle id="h1 c0 x'" class="" cx="3720.0" cy="840.0"  data-label="h_{1} c_{0} x'\:(34)"></circle>
+<circle id="_h1^8 B8" class="" cx="3720.0" cy="960.0"  data-label="\overline{h_{1}^{8} B_{8}}\:(36)"></circle>
+<circle id="_t P^2 h0 d0^2 e0" class="" cx="3720.0" cy="1200.0"  data-label="\overline{\tau P^{2} h_{0} d_{0}^{2} e_{0}}\:(32)"></circle>
+<circle id="P^6 d0" class="" cx="3720.0" cy="1680.0"  data-label="P^{6} d_{0}\:(32)"></circle>
+<circle id="h1^2 c0 x'" class="" cx="3780.0" cy="900.0"  data-label="h_{1}^{2} c_{0} x'\:(35)"></circle>
+<circle id="_h1^9 B8" class="" cx="3780.0" cy="1020.0"  data-label="\overline{h_{1}^{9} B_{8}}\:(37)"></circle>
+<circle id="U" class="" cx="3840.0" cy="840.0"  data-label="U\:(34)"></circle>
+<circle id="h1^3 c0 x'" class="" cx="3840.0" cy="960.0"  data-label="h_{1}^{3} c_{0} x'\:(36)"></circle>
+<circle id="P^7 c0" class="" cx="3840.0" cy="1860.0"  data-label="P^{7} c_{0}\:(33)"></circle>
+<circle id="h1 U" class="" cx="3900.0" cy="900.0"  data-label="h_{1} U\:(35)"></circle>
+<circle id="P^8 h1" class="" cx="3900.0" cy="1980.0"  data-label="P^{8} h_{1}\:(33)"></circle>
+<circle id="h1^2 U" class="" cx="3960.0" cy="960.0"  data-label="h_{1}^{2} U\:(36)"></circle>
+<circle id="B8 d0" class="" cx="4020.0" cy="780.0"  data-label="B_{8} d_{0}\:(37)"></circle>
+<circle id="d0 x'" class="" cx="4020.0" cy="840.0"  data-label="d_{0} x'\:(36)"></circle>
+<circle id="h1^3 U" class="" cx="4020.0" cy="1020.0"  data-label="h_{1}^{3} U\:(37)"></circle>
+<circle id="_P^7 h1^2 c0" class="" cx="4020.0" cy="1920.0"  data-label="\overline{P^{7} h_{1}^{2} c_{0}}\:(34)"></circle>
+<circle id="h1 B8 d0" class="" cx="4080.0" cy="840.0"  data-label="h_{1} B_{8} d_{0}\:(38)"></circle>
+<circle id="e0^4" class="" cx="4080.0" cy="960.0"  data-label="e_{0}^{4}\:(40)"></circle>
+<circle id="h1 e0^4" class="" cx="4140.0" cy="1020.0"  data-label="h_{1} e_{0}^{4}\:(41)"></circle>
+<circle id="_P^8 h1^4" class="" cx="4140.0" cy="2100.0"  data-label="\overline{P^{8} h_{1}^{4}}\:(35)"></circle>
+<circle id="P^8 c0" class="" cx="4320.0" cy="2100.0"  data-label="P^{8} c_{0}\:(37)"></circle>
+<circle id="M d0^2" class="" cx="4380.0" cy="840.0"  data-label="M d_{0}^{2}\:(40)"></circle>
+<circle id="D h1 d0 e0^2" class="" cx="4380.0" cy="1020.0"  data-label="\Delta h_{1} d_{0} e_{0}^{2}\:(41)"></circle>
+<circle id="P^9 h1" class="" cx="4380.0" cy="2220.0"  data-label="P^{9} h_{1}\:(37)"></circle>
+<circle id="M h1 d0^2" class="" cx="4440.0" cy="900.0"  data-label="M h_{1} d_{0}^{2}\:(41)"></circle>
+<circle id="e0^2 g^2" class="" cx="4440.0" cy="960.0"  data-label="e_{0}^{2} g^{2}\:(44)"></circle>
+<circle id="h1 e0^2 g^2" class="" cx="4500.0" cy="1020.0"  data-label="h_{1} e_{0}^{2} g^{2}\:(45)"></circle>
+<circle id="_P^8 h1^2 c0" class="" cx="4500.0" cy="2160.0"  data-label="\overline{P^{8} h_{1}^{2} c_{0}}\:(38)"></circle>
+<circle id="D^2 d0^2" class="" cx="4560.0" cy="960.0"  data-label="\Delta^{2} d_{0}^{2}\:(40)"></circle>
+<circle id="D^2 h1 d0^2" class="" cx="4620.0" cy="1020.0"  data-label="\Delta^{2} h_{1} d_{0}^{2}\:(41)"></circle>
+<circle id="_P^9 h1^4" class="" cx="4620.0" cy="2340.0"  data-label="\overline{P^{9} h_{1}^{4}}\:(39)"></circle>
+<circle id="P^8 d0" class="" cx="4680.0" cy="2160.0"  data-label="P^{8} d_{0}\:(40)"></circle>
+<circle id="M e0^2" class="" cx="4740.0" cy="840.0"  data-label="M e_{0}^{2}\:(44)"></circle>
+<circle id="D h1 e0^2 g" class="" cx="4740.0" cy="1020.0"  data-label="\Delta h_{1} e_{0}^{2} g\:(45)"></circle>
+<circle id="M h1 e0^2" class="" cx="4800.0" cy="900.0"  data-label="M h_{1} e_{0}^{2}\:(45)"></circle>
+<circle id="P^9 c0" class="" cx="4800.0" cy="2340.0"  data-label="P^{9} c_{0}\:(41)"></circle>
+<circle id="P^10 h1" class="" cx="4860.0" cy="2460.0"  data-label="P^{10} h_{1}\:(41)"></circle>
+<circle id="D^2 e0^2" class="" cx="4920.0" cy="960.0"  data-label="\Delta^{2} e_{0}^{2}\:(44)"></circle>
+<circle id="c0 e0^2 g^2" class="" cx="4920.0" cy="1140.0"  data-label="c_{0} e_{0}^{2} g^{2}\:(49)"></circle>
+<circle id="D^2 h1 e0^2" class="" cx="4980.0" cy="1020.0"  data-label="\Delta^{2} h_{1} e_{0}^{2}\:(45)"></circle>
+<circle id="h1 c0 e0^2 g^2" class="" cx="4980.0" cy="1200.0"  data-label="h_{1} c_{0} e_{0}^{2} g^{2}\:(50)"></circle>
+<circle id="_P^9 h1^2 c0" class="" cx="4980.0" cy="2400.0"  data-label="\overline{P^{9} h_{1}^{2} c_{0}}\:(42)"></circle>
+<circle id="M D h1 d0" class="" cx="5040.0" cy="900.0"  data-label="M \Delta h_{1} d_{0}\:(45)"></circle>
+<circle id="M g^2" class="" cx="5100.0" cy="840.0"  data-label="M g^{2}\:(48)"></circle>
+<circle id="_P^10 h1^4" class="" cx="5100.0" cy="2580.0"  data-label="\overline{P^{10} h_{1}^{4}}\:(43)"></circle>
+<circle id="M h1 g^2" class="" cx="5160.0" cy="900.0"  data-label="M h_{1} g^{2}\:(49)"></circle>
+<circle id="D c0 e0^2 g" class="" cx="5160.0" cy="1140.0"  data-label="\Delta c_{0} e_{0}^{2} g\:(49)"></circle>
+<circle id="M h1^2 g^2" class="" cx="5220.0" cy="960.0"  data-label="M h_{1}^{2} g^{2}\:(50)"></circle>
+<circle id="D^3 h1 d0" class="" cx="5220.0" cy="1020.0"  data-label="\Delta^{3} h_{1} d_{0}\:(45)"></circle>
+<circle id="D h1 c0 e0^2 g" class="" cx="5220.0" cy="1200.0"  data-label="\Delta h_{1} c_{0} e_{0}^{2} g\:(50)"></circle>
+<circle id="M h1^3 g^2" class="" cx="5280.0" cy="1020.0"  data-label="M h_{1}^{3} g^{2}\:(51)"></circle>
+<circle id="e0^4 g" class="" cx="5280.0" cy="1200.0"  data-label="e_{0}^{4} g\:(52)"></circle>
+<circle id="P^10 c0" class="" cx="5280.0" cy="2580.0"  data-label="P^{10} c_{0}\:(45)"></circle>
+<circle id="M h1^4 g^2" class="" cx="5340.0" cy="1080.0"  data-label="M h_{1}^{4} g^{2}\:(52)"></circle>
+<circle id="h1 e0^4 g" class="" cx="5340.0" cy="1260.0"  data-label="h_{1} e_{0}^{4} g\:(53)"></circle>
+<circle id="P^11 h1" class="" cx="5340.0" cy="2700.0"  data-label="P^{11} h_{1}\:(45)"></circle>
+<circle id="M^2" class="" cx="5400.0" cy="720.0"  data-label="M^{2}\:(48)"></circle>
+<circle id="M D h1 g" class="" cx="5400.0" cy="900.0"  data-label="M \Delta h_{1} g\:(49)"></circle>
+<circle id="M c0 e0 g" class="" cx="5400.0" cy="1020.0"  data-label="M c_{0} e_{0} g\:(51)"></circle>
+<circle id="M h1^5 g^2" class="" cx="5397.0" cy="1140.0"  data-label="M h_{1}^{5} g^{2}\:(53)"></circle>
+<circle id="D^2 c0 e0^2" class="" cx="5403.0" cy="1140.0"  data-label="\Delta^{2} c_{0} e_{0}^{2}\:(49)"></circle>
+<circle id="M^2 h1" class="" cx="5460.0" cy="780.0"  data-label="M^{2} h_{1}\:(49)"></circle>
+<circle id="M D h1^2 g" class="" cx="5460.0" cy="960.0"  data-label="M \Delta h_{1}^{2} g\:(50)"></circle>
+<circle id="M h1 c0 e0 g" class="" cx="5460.0" cy="1080.0"  data-label="M h_{1} c_{0} e_{0} g\:(52)"></circle>
+<circle id="M h1^6 g^2" class="" cx="5457.0" cy="1200.0"  data-label="M h_{1}^{6} g^{2}\:(54)"></circle>
+<circle id="D^2 h1 c0 e0^2" class="" cx="5463.0" cy="1200.0"  data-label="\Delta^{2} h_{1} c_{0} e_{0}^{2}\:(50)"></circle>
+<circle id="_P^10 h1^2 c0" class="" cx="5460.0" cy="2640.0"  data-label="\overline{P^{10} h_{1}^{2} c_{0}}\:(46)"></circle>
+<circle id="M D h1^3 g" class="" cx="5520.0" cy="1020.0"  data-label="M \Delta h_{1}^{3} g\:(51)"></circle>
+<circle id="M h1^2 c0 e0 g" class="" cx="5520.0" cy="1140.0"  data-label="M h_{1}^{2} c_{0} e_{0} g\:(53)"></circle>
+<circle id="M h1^7 g^2" class="" cx="5520.0" cy="1260.0"  data-label="M h_{1}^{7} g^{2}\:(55)"></circle>
+<circle id="M c0 g^2" class="" cx="5580.0" cy="1020.0"  data-label="M c_{0} g^{2}\:(53)"></circle>
+<circle id="M D h1^4 g" class="" cx="5580.0" cy="1080.0"  data-label="M \Delta h_{1}^{4} g\:(52)"></circle>
+<circle id="M h1^3 c0 e0 g" class="" cx="5580.0" cy="1200.0"  data-label="M h_{1}^{3} c_{0} e_{0} g\:(54)"></circle>
+<circle id="D h1 e0^4" class="" cx="5580.0" cy="1260.0"  data-label="\Delta h_{1} e_{0}^{4}\:(53)"></circle>
+<circle id="_P^11 h1^4" class="" cx="5580.0" cy="2820.0"  data-label="\overline{P^{11} h_{1}^{4}}\:(47)"></circle>
+<circle id="M D^2 h1" class="" cx="5640.0" cy="900.0"  data-label="M \Delta^{2} h_{1}\:(49)"></circle>
+<circle id="M D c0 e0" class="" cx="5640.0" cy="1020.0"  data-label="M \Delta c_{0} e_{0}\:(51)"></circle>
+<circle id="M h1 c0 g^2" class="" cx="5640.0" cy="1080.0"  data-label="M h_{1} c_{0} g^{2}\:(54)"></circle>
+<circle id="M D h1^5 g" class="" cx="5637.0" cy="1140.0"  data-label="M \Delta h_{1}^{5} g\:(53)"></circle>
+<circle id="D^3 c0 d0" class="" cx="5643.0" cy="1140.0"  data-label="\Delta^{3} c_{0} d_{0}\:(49)"></circle>
+<circle id="M h1^4 c0 e0 g" class="" cx="5640.0" cy="1260.0"  data-label="M h_{1}^{4} c_{0} e_{0} g\:(55)"></circle>
+<circle id="_t P^6 h0 d0^2 e0" class="" cx="5640.0" cy="2160.0"  data-label="\overline{\tau P^{6} h_{0} d_{0}^{2} e_{0}}\:(48)"></circle>
+<circle id="P^10 d0" class="" cx="5640.0" cy="2640.0"  data-label="P^{10} d_{0}\:(48)"></circle>
+<circle id="D^2 M h1^2" class="" cx="5700.0" cy="960.0"  data-label="\Delta^{2} M h_{1}^{2}\:(50)"></circle>
+<circle id="M D h1 c0 e0" class="" cx="5700.0" cy="1080.0"  data-label="M \Delta h_{1} c_{0} e_{0}\:(52)"></circle>
+<circle id="M h1^2 c0 g^2" class="" cx="5700.0" cy="1140.0"  data-label="M h_{1}^{2} c_{0} g^{2}\:(55)"></circle>
+<circle id="M D h1^6 g" class="" cx="5697.0" cy="1200.0"  data-label="M \Delta h_{1}^{6} g\:(54)"></circle>
+<circle id="D^3 h1 c0 d0" class="" cx="5703.0" cy="1200.0"  data-label="\Delta^{3} h_{1} c_{0} d_{0}\:(50)"></circle>
+<circle id="M h1^5 c0 e0 g" class="" cx="5700.0" cy="1320.0"  data-label="M h_{1}^{5} c_{0} e_{0} g\:(56)"></circle>
+<circle id="D^2 M h1^3" class="" cx="5760.0" cy="1020.0"  data-label="\Delta^{2} M h_{1}^{3}\:(51)"></circle>
+<circle id="M e0^3" class="" cx="5760.0" cy="1080.0"  data-label="M e_{0}^{3}\:(54)"></circle>
+<circle id="M D h1^2 c0 e0" class="" cx="5760.0" cy="1140.0"  data-label="M \Delta h_{1}^{2} c_{0} e_{0}\:(53)"></circle>
+<circle id="M h1^3 c0 g^2" class="" cx="5757.0" cy="1200.0"  data-label="M h_{1}^{3} c_{0} g^{2}\:(56)"></circle>
+<circle id="D^2 d0 e0^2" class="" cx="5763.0" cy="1200.0"  data-label="\Delta^{2} d_{0} e_{0}^{2}\:(52)"></circle>
+<circle id="M D h1^7 g" class="" cx="5760.0" cy="1260.0"  data-label="M \Delta h_{1}^{7} g\:(55)"></circle>
+<circle id="M h1^6 c0 e0 g" class="" cx="5760.0" cy="1380.0"  data-label="M h_{1}^{6} c_{0} e_{0} g\:(57)"></circle>
+<circle id="P^11 c0" class="" cx="5760.0" cy="2820.0"  data-label="P^{11} c_{0}\:(49)"></circle>
+<circle id="M D1" class="" cx="5820.0" cy="600.0"  data-label="M \Delta_{1}\:(52)"></circle>
+<circle id="M D c0 g" class="" cx="5820.0" cy="1020.0"  data-label="M \Delta c_{0} g\:(53)"></circle>
+<circle id="D^2 M h1^4" class="" cx="5820.0" cy="1080.0"  data-label="\Delta^{2} M h_{1}^{4}\:(52)"></circle>
+<circle id="M h1 e0^3" class="" cx="5820.0" cy="1140.0"  data-label="M h_{1} e_{0}^{3}\:(55)"></circle>
+<circle id="M D h1^3 c0 e0" class="" cx="5820.0" cy="1200.0"  data-label="M \Delta h_{1}^{3} c_{0} e_{0}\:(54)"></circle>
+<circle id="M h1^4 c0 g^2" class="" cx="5817.0" cy="1260.0"  data-label="M h_{1}^{4} c_{0} g^{2}\:(57)"></circle>
+<circle id="D^2 h1 d0 e0^2" class="" cx="5823.0" cy="1260.0"  data-label="\Delta^{2} h_{1} d_{0} e_{0}^{2}\:(53)"></circle>
+<circle id="M h1^7 c0 e0 g" class="" cx="5820.0" cy="1440.0"  data-label="M h_{1}^{7} c_{0} e_{0} g\:(58)"></circle>
+<circle id="P^12 h1" class="" cx="5820.0" cy="2940.0"  data-label="P^{12} h_{1}\:(49)"></circle>
+<circle id="M D1 h1" class="" cx="5880.0" cy="660.0"  data-label="M \Delta_{1} h_{1}\:(53)"></circle>
+<circle id="M^2 c0" class="" cx="5880.0" cy="900.0"  data-label="M^{2} c_{0}\:(53)"></circle>
+<circle id="_M D^2 h1^4" class="" cx="5880.0" cy="1020.0"  data-label="\overline{M \Delta^{2} h_{1}^{4}}\:(51)"></circle>
+<circle id="M D h1 c0 g" class="" cx="5880.0" cy="1080.0"  data-label="M \Delta h_{1} c_{0} g\:(54)"></circle>
+<circle id="D^2 M h1^5" class="" cx="5880.0" cy="1140.0"  data-label="\Delta^{2} M h_{1}^{5}\:(53)"></circle>
+<circle id="M h1^2 e0^3" class="" cx="5880.0" cy="1200.0"  data-label="M h_{1}^{2} e_{0}^{3}\:(56)"></circle>
+<circle id="M D h1^4 c0 e0" class="" cx="5880.0" cy="1260.0"  data-label="M \Delta h_{1}^{4} c_{0} e_{0}\:(55)"></circle>
+<circle id="M h1^5 c0 g^2" class="" cx="5880.0" cy="1320.0"  data-label="M h_{1}^{5} c_{0} g^{2}\:(58)"></circle>
+<circle id="M D1 h1^2" class="" cx="5940.0" cy="720.0"  data-label="M \Delta_{1} h_{1}^{2}\:(54)"></circle>
+<circle id="M^2 h1 c0" class="" cx="5940.0" cy="960.0"  data-label="M^{2} h_{1} c_{0}\:(54)"></circle>
+<circle id="_D^2 M h1^5" class="" cx="5937.0" cy="1080.0"  data-label="\overline{D^{2} M h_{1}^{5}}\:(52)"></circle>
+<circle id="M e0^2 g" class="" cx="5943.0" cy="1080.0"  data-label="M e_{0}^{2} g\:(56)"></circle>
+<circle id="M D h1^2 c0 g" class="" cx="5940.0" cy="1140.0"  data-label="M \Delta h_{1}^{2} c_{0} g\:(55)"></circle>
+<circle id="D^2 M h1^6" class="" cx="5940.0" cy="1200.0"  data-label="\Delta^{2} M h_{1}^{6}\:(54)"></circle>
+<circle id="M h1^3 e0^3" class="" cx="5940.0" cy="1260.0"  data-label="M h_{1}^{3} e_{0}^{3}\:(57)"></circle>
+<circle id="M D h1^5 c0 e0" class="" cx="5940.0" cy="1320.0"  data-label="M \Delta h_{1}^{5} c_{0} e_{0}\:(56)"></circle>
+<circle id="M h1^6 c0 g^2" class="" cx="5940.0" cy="1380.0"  data-label="M h_{1}^{6} c_{0} g^{2}\:(59)"></circle>
+<circle id="_P^11 h1^2 c0" class="" cx="5940.0" cy="2880.0"  data-label="\overline{P^{11} h_{1}^{2} c_{0}}\:(50)"></circle>
+<circle id="M D1 h1^3" class="" cx="6000.0" cy="780.0"  data-label="M \Delta_{1} h_{1}^{3}\:(55)"></circle>
+<circle id="_D^2 M h1^6" class="" cx="5997.0" cy="1140.0"  data-label="\overline{D^{2} M h_{1}^{6}}\:(53)"></circle>
+<circle id="M h1 e0^2 g" class="" cx="6003.0" cy="1140.0"  data-label="M h_{1} e_{0}^{2} g\:(57)"></circle>
+<circle id="M D h1^3 c0 g" class="" cx="5997.0" cy="1200.0"  data-label="M \Delta h_{1}^{3} c_{0} g\:(56)"></circle>
+<circle id="D^2 M h1^7" class="" cx="6000.0" cy="1260.0"  data-label="\Delta^{2} M h_{1}^{7}\:(55)"></circle>
+<circle id="M h1^4 e0^3" class="" cx="6000.0" cy="1320.0"  data-label="M h_{1}^{4} e_{0}^{3}\:(58)"></circle>
+<circle id="M D h1^6 c0 e0" class="" cx="6000.0" cy="1380.0"  data-label="M \Delta h_{1}^{6} c_{0} e_{0}\:(57)"></circle>
+<circle id="M h1^7 c0 g^2" class="" cx="6000.0" cy="1440.0"  data-label="M h_{1}^{7} c_{0} g^{2}\:(60)"></circle>
+<circle id="M D1 h1^4" class="" cx="6060.0" cy="840.0"  data-label="M \Delta_{1} h_{1}^{4}\:(56)"></circle>
+<circle id="M D^2 c0" class="" cx="6060.0" cy="1020.0"  data-label="M \Delta^{2} c_{0}\:(53)"></circle>
+<circle id="M D^2 P" class="" cx="6060.0" cy="1080.0"  data-label="M \Delta^{2} P\:(52)"></circle>
+<circle id="M D h1 d0 e0" class="" cx="6060.0" cy="1140.0"  data-label="M \Delta h_{1} d_{0} e_{0}\:(55)"></circle>
+<circle id="_D^2 M h1^7" class="" cx="6060.0" cy="1200.0"  data-label="\overline{D^{2} M h_{1}^{7}}\:(54)"></circle>
+<circle id="M D h1^4 c0 g" class="" cx="6057.0" cy="1260.0"  data-label="M \Delta h_{1}^{4} c_{0} g\:(57)"></circle>
+<circle id="D^3 h1 d0^2" class="" cx="6063.0" cy="1260.0"  data-label="\Delta^{3} h_{1} d_{0}^{2}\:(53)"></circle>
+<circle id="M h1^5 e0^3" class="" cx="6060.0" cy="1380.0"  data-label="M h_{1}^{5} e_{0}^{3}\:(59)"></circle>
+<circle id="M D h1^7 c0 e0" class="" cx="6060.0" cy="1440.0"  data-label="M \Delta h_{1}^{7} c_{0} e_{0}\:(58)"></circle>
+<circle id="_P^12 h1^4" class="" cx="6060.0" cy="3060.0"  data-label="\overline{P^{12} h_{1}^{4}}\:(51)"></circle>
+<circle id="_M D1 h1^4" class="" cx="6120.0" cy="780.0"  data-label="\overline{M \Delta_{1} h_{1}^{4}}\:(55)"></circle>
+<circle id="M D1 h1^5" class="" cx="6120.0" cy="900.0"  data-label="M \Delta_{1} h_{1}^{5}\:(57)"></circle>
+<circle id="D^2 M h1 c0" class="" cx="6120.0" cy="1080.0"  data-label="\Delta^{2} M h_{1} c_{0}\:(54)"></circle>
+<circle id="D^2 M P h1" class="" cx="6120.0" cy="1140.0"  data-label="\Delta^{2} M P h_{1}\:(53)"></circle>
+<circle id="M D h1^2 d0 e0" class="" cx="6120.0" cy="1200.0"  data-label="M \Delta h_{1}^{2} d_{0} e_{0}\:(56)"></circle>
+<circle id="M P D c0 e0" class="" cx="6120.0" cy="1260.0"  data-label="M P \Delta c_{0} e_{0}\:(55)"></circle>
+<circle id="M D h1^5 c0 g" class="" cx="6120.0" cy="1320.0"  data-label="M \Delta h_{1}^{5} c_{0} g\:(58)"></circle>
+<circle id="M h1^6 e0^3" class="" cx="6120.0" cy="1440.0"  data-label="M h_{1}^{6} e_{0}^{3}\:(60)"></circle>
+<circle id="x103,12" class="" cx="6180.0" cy="720.0"  data-label="x_{103,12}\:(54)"></circle>
+<circle id="_M D1 h1^5" class="" cx="6180.0" cy="840.0"  data-label="\overline{M \Delta_{1} h_{1}^{5}}\:(56)"></circle>
+<circle id="M D1 h1^6" class="" cx="6180.0" cy="960.0"  data-label="M \Delta_{1} h_{1}^{6}\:(58)"></circle>
+<circle id="D^2 M h1^2 c0" class="" cx="6180.0" cy="1140.0"  data-label="\Delta^{2} M h_{1}^{2} c_{0}\:(55)"></circle>
+<circle id="D^2 M P h1^2" class="" cx="6180.0" cy="1200.0"  data-label="\Delta^{2} M P h_{1}^{2}\:(54)"></circle>
+<circle id="M D h1^3 d0 e0" class="" cx="6180.0" cy="1260.0"  data-label="M \Delta h_{1}^{3} d_{0} e_{0}\:(57)"></circle>
+<circle id="M P D h1 c0 e0" class="" cx="6180.0" cy="1320.0"  data-label="M P \Delta h_{1} c_{0} e_{0}\:(56)"></circle>
+<circle id="M D h1^6 c0 g" class="" cx="6180.0" cy="1380.0"  data-label="M \Delta h_{1}^{6} c_{0} g\:(59)"></circle>
+<circle id="M h1^7 e0^3" class="" cx="6180.0" cy="1500.0"  data-label="M h_{1}^{7} e_{0}^{3}\:(61)"></circle>
+<circle id="h1 x103,12" class="" cx="6240.0" cy="780.0"  data-label="h_{1} x_{103,12}\:(55)"></circle>
+<circle id="_M D1 h1^6" class="" cx="6240.0" cy="900.0"  data-label="\overline{M \Delta_{1} h_{1}^{6}}\:(57)"></circle>
+<circle id="M^2 d0" class="" cx="6240.0" cy="960.0"  data-label="M^{2} d_{0}\:(56)"></circle>
+<circle id="M D1 h1^7" class="" cx="6240.0" cy="1020.0"  data-label="M \Delta_{1} h_{1}^{7}\:(59)"></circle>
+<circle id="_M D^2 h1^2 c0" class="" cx="6240.0" cy="1080.0"  data-label="\overline{M \Delta^{2} h_{1}^{2} c_{0}}\:(54)"></circle>
+<circle id="M D h1 e0^2" class="" cx="6240.0" cy="1140.0"  data-label="M \Delta h_{1} e_{0}^{2}\:(57)"></circle>
+<circle id="D^2 M h1^3 c0" class="" cx="6240.0" cy="1200.0"  data-label="\Delta^{2} M h_{1}^{3} c_{0}\:(56)"></circle>
+<circle id="D^2 M P h1^3" class="" cx="6240.0" cy="1260.0"  data-label="\Delta^{2} M P h_{1}^{3}\:(55)"></circle>
+<circle id="M D h1^4 d0 e0" class="" cx="6240.0" cy="1320.0"  data-label="M \Delta h_{1}^{4} d_{0} e_{0}\:(58)"></circle>
+<circle id="M P D h1^2 c0 e0" class="" cx="6240.0" cy="1380.0"  data-label="M P \Delta h_{1}^{2} c_{0} e_{0}\:(57)"></circle>
+<circle id="M D h1^7 c0 g" class="" cx="6240.0" cy="1440.0"  data-label="M \Delta h_{1}^{7} c_{0} g\:(60)"></circle>
+<circle id="P^12 c0" class="" cx="6240.0" cy="3060.0"  data-label="P^{12} c_{0}\:(53)"></circle>
+<circle id="M D1 c0" class="" cx="6300.0" cy="780.0"  data-label="M \Delta_{1} c_{0}\:(57)"></circle>
+<circle id="h1^2 x103,12" class="" cx="6300.0" cy="840.0"  data-label="h_{1}^{2} x_{103,12}\:(56)"></circle>
+<circle id="_M D1 h1^7" class="" cx="6300.0" cy="960.0"  data-label="\overline{M \Delta_{1} h_{1}^{7}}\:(58)"></circle>
+<circle id="M^2 h1 d0" class="" cx="6300.0" cy="1020.0"  data-label="M^{2} h_{1} d_{0}\:(57)"></circle>
+<circle id="M D1 h1^8" class="" cx="6300.0" cy="1080.0"  data-label="M \Delta_{1} h_{1}^{8}\:(60)"></circle>
+<circle id="_D^2 M h1^3 c0" class="" cx="6300.0" cy="1140.0"  data-label="\overline{D^{2} M h_{1}^{3} c_{0}}\:(55)"></circle>
+<circle id="D^2 M h1^4 c0" class="" cx="6300.0" cy="1260.0"  data-label="\Delta^{2} M h_{1}^{4} c_{0}\:(57)"></circle>
+<circle id="M D h1^5 d0 e0" class="" cx="6300.0" cy="1380.0"  data-label="M \Delta h_{1}^{5} d_{0} e_{0}\:(59)"></circle>
+<circle id="M P D h1^3 c0 e0" class="" cx="6300.0" cy="1440.0"  data-label="M P \Delta h_{1}^{3} c_{0} e_{0}\:(58)"></circle>
+<circle id="P^13 h1" class="" cx="6300.0" cy="3180.0"  data-label="P^{13} h_{1}\:(53)"></circle>
+<circle id="_h1^2 x103,12" class="" cx="6360.0" cy="780.0"  data-label="\overline{h_{1}^{2} x_{103,12}}\:(55)"></circle>
+<circle id="M D1 h1 c0" class="" cx="6360.0" cy="840.0"  data-label="M \Delta_{1} h_{1} c_{0}\:(58)"></circle>
+<circle id="h1^3 x103,12" class="" cx="6357.0" cy="900.0"  data-label="h_{1}^{3} x_{103,12}\:(57)"></circle>
+<circle id="M D1 P h1" class="" cx="6363.0" cy="900.0"  data-label="M \Delta_{1} P h_{1}\:(57)"></circle>
+<circle id="_M D1 h1^8" class="" cx="6360.0" cy="1020.0"  data-label="\overline{M \Delta_{1} h_{1}^{8}}\:(59)"></circle>
+<circle id="M D1 h1^9" class="" cx="6360.0" cy="1140.0"  data-label="M \Delta_{1} h_{1}^{9}\:(61)"></circle>
+<circle id="_D^2 M h1^4 c0" class="" cx="6360.0" cy="1200.0"  data-label="\overline{D^{2} M h_{1}^{4} c_{0}}\:(56)"></circle>
+<circle id="_M D^2 P h1^4" class="" cx="6360.0" cy="1260.0"  data-label="\overline{M \Delta^{2} P h_{1}^{4}}\:(55)"></circle>
+<circle id="D^2 M h1^5 c0" class="" cx="6360.0" cy="1320.0"  data-label="\Delta^{2} M h_{1}^{5} c_{0}\:(58)"></circle>
+<circle id="M D h1^6 d0 e0" class="" cx="6360.0" cy="1440.0"  data-label="M \Delta h_{1}^{6} d_{0} e_{0}\:(60)"></circle>
+<circle id="_h1^3 x103,12" class="" cx="6420.0" cy="840.0"  data-label="\overline{h_{1}^{3} x_{103,12}}\:(56)"></circle>
+<circle id="M D1 h1^2 c0" class="" cx="6420.0" cy="900.0"  data-label="M \Delta_{1} h_{1}^{2} c_{0}\:(59)"></circle>
+<circle id="h1^4 x103,12" class="" cx="6417.0" cy="960.0"  data-label="h_{1}^{4} x_{103,12}\:(58)"></circle>
+<circle id="M D1 P h1^2" class="" cx="6423.0" cy="960.0"  data-label="M \Delta_{1} P h_{1}^{2}\:(58)"></circle>
+<circle id="_M D1 h1^9" class="" cx="6417.0" cy="1080.0"  data-label="\overline{M \Delta_{1} h_{1}^{9}}\:(60)"></circle>
+<circle id="M D^2 d0" class="" cx="6423.0" cy="1080.0"  data-label="M \Delta^{2} d_{0}\:(56)"></circle>
+<circle id="M D1 h1^10" class="" cx="6420.0" cy="1200.0"  data-label="M \Delta_{1} h_{1}^{10}\:(62)"></circle>
+<circle id="_D^2 M h1^5 c0" class="" cx="6417.0" cy="1260.0"  data-label="\overline{D^{2} M h_{1}^{5} c_{0}}\:(57)"></circle>
+<circle id="M c0 e0^2 g" class="" cx="6423.0" cy="1260.0"  data-label="M c_{0} e_{0}^{2} g\:(61)"></circle>
+<circle id="_D^2 M P h1^5" class="" cx="6420.0" cy="1320.0"  data-label="\overline{D^{2} M P h_{1}^{5}}\:(56)"></circle>
+<circle id="D^2 M h1^6 c0" class="" cx="6420.0" cy="1380.0"  data-label="\Delta^{2} M h_{1}^{6} c_{0}\:(59)"></circle>
+<circle id="M D h1^7 d0 e0" class="" cx="6420.0" cy="1500.0"  data-label="M \Delta h_{1}^{7} d_{0} e_{0}\:(61)"></circle>
+<circle id="_P^12 h1^2 c0" class="" cx="6420.0" cy="3120.0"  data-label="\overline{P^{12} h_{1}^{2} c_{0}}\:(54)"></circle>
+<circle id="_M D1 h1^2 c0" class="" cx="6480.0" cy="840.0"  data-label="\overline{M \Delta_{1} h_{1}^{2} c_{0}}\:(58)"></circle>
+<circle id="_h1^4 x103,12" class="" cx="6480.0" cy="900.0"  data-label="\overline{h_{1}^{4} x_{103,12}}\:(57)"></circle>
+<circle id="M D1 h1^3 c0" class="" cx="6480.0" cy="960.0"  data-label="M \Delta_{1} h_{1}^{3} c_{0}\:(60)"></circle>
+<circle id="h1^5 x103,12" class="" cx="6477.0" cy="1020.0"  data-label="h_{1}^{5} x_{103,12}\:(59)"></circle>
+<circle id="M D1 P h1^3" class="" cx="6483.0" cy="1020.0"  data-label="M \Delta_{1} P h_{1}^{3}\:(59)"></circle>
+<circle id="_M D1 h1^10" class="" cx="6477.0" cy="1140.0"  data-label="\overline{M \Delta_{1} h_{1}^{10}}\:(61)"></circle>
+<circle id="M D^2 h1 d0" class="" cx="6483.0" cy="1140.0"  data-label="M \Delta^{2} h_{1} d_{0}\:(57)"></circle>
+<circle id="M D1 h1^11" class="" cx="6480.0" cy="1260.0"  data-label="M \Delta_{1} h_{1}^{11}\:(63)"></circle>
+<circle id="_D^2 M h1^6 c0" class="" cx="6477.0" cy="1320.0"  data-label="\overline{D^{2} M h_{1}^{6} c_{0}}\:(58)"></circle>
+<circle id="M h1 c0 e0^2 g" class="" cx="6483.0" cy="1320.0"  data-label="M h_{1} c_{0} e_{0}^{2} g\:(62)"></circle>
+<circle id="_D^2 M P h1^6" class="" cx="6480.0" cy="1380.0"  data-label="\overline{D^{2} M P h_{1}^{6}}\:(57)"></circle>
+<circle id="D^2 M h1^7 c0" class="" cx="6477.0" cy="1440.0"  data-label="\Delta^{2} M h_{1}^{7} c_{0}\:(60)"></circle>
+<circle id="e0^4 g^2" class="" cx="6483.0" cy="1440.0"  data-label="e_{0}^{4} g^{2}\:(64)"></circle>
+<circle id="x109,13" class="" cx="6540.0" cy="780.0"  data-label="x_{109,13}\:(57)"></circle>
+<circle id="_M D1 h1^3 c0" class="" cx="6540.0" cy="900.0"  data-label="\overline{M \Delta_{1} h_{1}^{3} c_{0}}\:(59)"></circle>
+<circle id="_h1^5 x103,12" class="" cx="6540.0" cy="960.0"  data-label="\overline{h_{1}^{5} x_{103,12}}\:(58)"></circle>
+<circle id="M D1 h1^4 c0" class="" cx="6540.0" cy="1020.0"  data-label="M \Delta_{1} h_{1}^{4} c_{0}\:(61)"></circle>
+<circle id="_M D1 h1^11" class="" cx="6540.0" cy="1200.0"  data-label="\overline{M \Delta_{1} h_{1}^{11}}\:(62)"></circle>
+<circle id="M D^2 P c0" class="" cx="6540.0" cy="1260.0"  data-label="M \Delta^{2} P c_{0}\:(57)"></circle>
+<circle id="M D1 h1^12" class="" cx="6540.0" cy="1320.0"  data-label="M \Delta_{1} h_{1}^{12}\:(64)"></circle>
+<circle id="_D^2 M h1^7 c0" class="" cx="6540.0" cy="1380.0"  data-label="\overline{D^{2} M h_{1}^{7} c_{0}}\:(59)"></circle>
+<circle id="_D^2 M P h1^7" class="" cx="6540.0" cy="1440.0"  data-label="\overline{D^{2} M P h_{1}^{7}}\:(58)"></circle>
+<circle id="h1 e0^4 g^2" class="" cx="6540.0" cy="1500.0"  data-label="h_{1} e_{0}^{4} g^{2}\:(65)"></circle>
+<circle id="_P^13 h1^4" class="" cx="6540.0" cy="3300.0"  data-label="\overline{P^{13} h_{1}^{4}}\:(55)"></circle>
+<circle id="h1 x109,13" class="" cx="6600.0" cy="840.0"  data-label="h_{1} x_{109,13}\:(58)"></circle>
+<circle id="x110,15" class="" cx="6600.0" cy="900.0"  data-label="x_{110,15}\:(57)"></circle>
+<circle id="_M D1 h1^4 c0" class="" cx="6603.0" cy="960.0"  data-label="\overline{M \Delta_{1} h_{1}^{4} c_{0}}\:(60)"></circle>
+<circle id="_M D1 P h1^4" class="" cx="6597.0" cy="1020.0"  data-label="\overline{M \Delta_{1} P h_{1}^{4}}\:(59)"></circle>
+<circle id="_h1^6 x103,12" class="" cx="6603.0" cy="1020.0"  data-label="\overline{h_{1}^{6} x_{103,12}}\:(59)"></circle>
+<circle id="M D1 h1^5 c0" class="" cx="6600.0" cy="1080.0"  data-label="M \Delta_{1} h_{1}^{5} c_{0}\:(62)"></circle>
+<circle id="M D1 P h1^5" class="" cx="6600.0" cy="1140.0"  data-label="M \Delta_{1} P h_{1}^{5}\:(61)"></circle>
+<circle id="_M D1 h1^12" class="" cx="6600.0" cy="1260.0"  data-label="\overline{M \Delta_{1} h_{1}^{12}}\:(63)"></circle>
+<circle id="D^2 M P h1 c0" class="" cx="6600.0" cy="1320.0"  data-label="\Delta^{2} M P h_{1} c_{0}\:(58)"></circle>
+<circle id="M D1 h1^13" class="" cx="6600.0" cy="1380.0"  data-label="M \Delta_{1} h_{1}^{13}\:(65)"></circle>
+<circle id="_D^2 M h1^8 c0" class="" cx="6600.0" cy="1440.0"  data-label="\overline{D^{2} M h_{1}^{8} c_{0}}\:(60)"></circle>
+<circle id="_D^2 M P h1^8" class="" cx="6600.0" cy="1500.0"  data-label="\overline{D^{2} M P h_{1}^{8}}\:(59)"></circle>
+</g>
+
+      </g>
+      <g id="axes-group">
+        <!-- X-axis -->
+        <line id="x-axis" class="axis" />
+        <!-- Y-axis -->
+        <line id="y-axis" class="axis" />
+        <!-- Blocks under and to the left to hide the content -->
+        <rect id="x-block" x="0" y="0" fill="white" />
+        <rect id="y-block" x="0" y="0" fill="white" />
+        <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
+        <g id="ticks" class="tick">
+          <g id="x-ticks" class="x-tick">
+            
+              <text x="0.0" y="30.0">0</text>
+            
+              <text x="120.0" y="30.0">2</text>
+            
+              <text x="240.0" y="30.0">4</text>
+            
+              <text x="360.0" y="30.0">6</text>
+            
+              <text x="480.0" y="30.0">8</text>
+            
+              <text x="600.0" y="30.0">10</text>
+            
+              <text x="720.0" y="30.0">12</text>
+            
+              <text x="840.0" y="30.0">14</text>
+            
+              <text x="960.0" y="30.0">16</text>
+            
+              <text x="1080.0" y="30.0">18</text>
+            
+              <text x="1200.0" y="30.0">20</text>
+            
+              <text x="1320.0" y="30.0">22</text>
+            
+              <text x="1440.0" y="30.0">24</text>
+            
+              <text x="1560.0" y="30.0">26</text>
+            
+              <text x="1680.0" y="30.0">28</text>
+            
+              <text x="1800.0" y="30.0">30</text>
+            
+              <text x="1920.0" y="30.0">32</text>
+            
+              <text x="2040.0" y="30.0">34</text>
+            
+              <text x="2160.0" y="30.0">36</text>
+            
+              <text x="2280.0" y="30.0">38</text>
+            
+              <text x="2400.0" y="30.0">40</text>
+            
+              <text x="2520.0" y="30.0">42</text>
+            
+              <text x="2640.0" y="30.0">44</text>
+            
+              <text x="2760.0" y="30.0">46</text>
+            
+              <text x="2880.0" y="30.0">48</text>
+            
+              <text x="3000.0" y="30.0">50</text>
+            
+              <text x="3120.0" y="30.0">52</text>
+            
+              <text x="3240.0" y="30.0">54</text>
+            
+              <text x="3360.0" y="30.0">56</text>
+            
+              <text x="3480.0" y="30.0">58</text>
+            
+              <text x="3600.0" y="30.0">60</text>
+            
+              <text x="3720.0" y="30.0">62</text>
+            
+              <text x="3840.0" y="30.0">64</text>
+            
+              <text x="3960.0" y="30.0">66</text>
+            
+              <text x="4080.0" y="30.0">68</text>
+            
+              <text x="4200.0" y="30.0">70</text>
+            
+              <text x="4320.0" y="30.0">72</text>
+            
+              <text x="4440.0" y="30.0">74</text>
+            
+              <text x="4560.0" y="30.0">76</text>
+            
+              <text x="4680.0" y="30.0">78</text>
+            
+              <text x="4800.0" y="30.0">80</text>
+            
+              <text x="4920.0" y="30.0">82</text>
+            
+              <text x="5040.0" y="30.0">84</text>
+            
+              <text x="5160.0" y="30.0">86</text>
+            
+              <text x="5280.0" y="30.0">88</text>
+            
+              <text x="5400.0" y="30.0">90</text>
+            
+              <text x="5520.0" y="30.0">92</text>
+            
+              <text x="5640.0" y="30.0">94</text>
+            
+              <text x="5760.0" y="30.0">96</text>
+            
+              <text x="5880.0" y="30.0">98</text>
+            
+              <text x="6000.0" y="30.0">100</text>
+            
+              <text x="6120.0" y="30.0">102</text>
+            
+              <text x="6240.0" y="30.0">104</text>
+            
+              <text x="6360.0" y="30.0">106</text>
+            
+              <text x="6480.0" y="30.0">108</text>
+            
+              <text x="6600.0" y="30.0">110</text>
+            
+              <text x="6720.0" y="30.0">112</text>
+            
+          </g>
+          <g id="y-ticks" class="y-tick">
+            
+              <text x="30.0" y="0.0">0</text>
+            
+              <text x="30.0" y="120.0">2</text>
+            
+              <text x="30.0" y="240.0">4</text>
+            
+              <text x="30.0" y="360.0">6</text>
+            
+              <text x="30.0" y="480.0">8</text>
+            
+              <text x="30.0" y="600.0">10</text>
+            
+              <text x="30.0" y="720.0">12</text>
+            
+              <text x="30.0" y="840.0">14</text>
+            
+              <text x="30.0" y="960.0">16</text>
+            
+              <text x="30.0" y="1080.0">18</text>
+            
+              <text x="30.0" y="1200.0">20</text>
+            
+              <text x="30.0" y="1320.0">22</text>
+            
+              <text x="30.0" y="1440.0">24</text>
+            
+              <text x="30.0" y="1560.0">26</text>
+            
+              <text x="30.0" y="1680.0">28</text>
+            
+              <text x="30.0" y="1800.0">30</text>
+            
+              <text x="30.0" y="1920.0">32</text>
+            
+              <text x="30.0" y="2040.0">34</text>
+            
+              <text x="30.0" y="2160.0">36</text>
+            
+              <text x="30.0" y="2280.0">38</text>
+            
+              <text x="30.0" y="2400.0">40</text>
+            
+              <text x="30.0" y="2520.0">42</text>
+            
+              <text x="30.0" y="2640.0">44</text>
+            
+              <text x="30.0" y="2760.0">46</text>
+            
+              <text x="30.0" y="2880.0">48</text>
+            
+              <text x="30.0" y="3000.0">50</text>
+            
+              <text x="30.0" y="3120.0">52</text>
+            
+              <text x="30.0" y="3240.0">54</text>
+            
+              <text x="30.0" y="3360.0">56</text>
+            
+          </g>
+        </g>
+      </g>
+    </svg>
+  </div>
+  <div id="tooltip"></div>
+  <script>
+    (function () {
+      var canvasHeight = document.documentElement.clientHeight;
+      var canvasWidth = document.documentElement.clientWidth;
+      const chartWidth = 112;
+      const chartHeight = 56;
+      const spacing = 60.0;
+
+      // Render title
+      window.renderMathInElement(document.getElementById("title"), {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ],
+        // • rendering keys, e.g.:
+        throwOnError : false
+      });
+
+      // Scale and position title
+      const bBox = document.getElementById("title").getBoundingClientRect();
+      const titleContainer = document.getElementById("title-container");
+      titleContainer.setAttribute("width", (chartHeight - 2) * spacing);
+      titleContainer.setAttribute("height", bBox.height);
+      const nonInvertedY = (chartHeight - 1) * spacing + bBox.height / 2
+      titleContainer.setAttribute("y", canvasHeight - nonInvertedY);
+
+      // Adjust y-values for all elements in content-group
+      document
+        .querySelectorAll("#content-group line, #content-group circle")
+        .forEach((element) => {
+          if (element.tagName === "line") {
+            const y1 = parseFloat(element.getAttribute("y1"));
+            const y2 = parseFloat(element.getAttribute("y2"));
+            element.setAttribute("y1", canvasHeight - y1);
+            element.setAttribute("y2", canvasHeight - y2);
+          } else if (element.tagName === "circle") {
+            const cy = parseFloat(element.getAttribute("cy"));
+            element.setAttribute("cy", canvasHeight - cy);
+          }
+        });
+
+      // Adjust y-value for grid transformation
+      document
+        .getElementById("grid-background")
+        .setAttribute(
+          "transform",
+          `scale(1 -1) translate(0 -${canvasHeight})`
+        );
+
+      const axisSpacing = 0.6 * spacing;
+
+      // Put in end values for axes and apply y-flip
+      document
+        .querySelectorAll("#axes-group line")
+        .forEach((element) => {
+          if (element.id === "x-axis") {
+            element.setAttribute("x1", axisSpacing);
+            element.setAttribute("y1", canvasHeight - axisSpacing);
+            element.setAttribute("x2", canvasWidth);
+            element.setAttribute("y2", canvasHeight - axisSpacing);
+          } else if (element.id === "y-axis") {
+            element.setAttribute("x1", axisSpacing);
+            element.setAttribute("y1", canvasHeight - axisSpacing);
+            element.setAttribute("x2", axisSpacing);
+            element.setAttribute("y2", 0);
+          }
+        });
+
+      // Do the same for axis blocks
+      document
+        .querySelectorAll("#axes-group rect")
+        .forEach((element) => {
+          const offset = axisSpacing;
+
+          if (element.id === "x-block") {
+            element.setAttribute("width", canvasWidth);
+            element.setAttribute("height", offset);
+            element.setAttribute("y", canvasHeight - offset);
+          } else if (element.id === "y-block") {
+            element.setAttribute("width", offset);
+            element.setAttribute("height", canvasHeight);
+          }
+        });
+
+      // And ticks
+      document
+        .querySelectorAll("#axes-group text")
+        .forEach((element) => {
+          const y = parseFloat(element.getAttribute("y"));
+          element.setAttribute("y", canvasHeight - y);
+        });
+
+      function onResize() {
+        const newCanvasHeight = document.documentElement.clientHeight;
+        const newCanvasWidth = document.documentElement.clientWidth;
+        const yOffset = newCanvasHeight - canvasHeight;
+
+        // Adjust y-values for all elements in content-group
+        document
+          .querySelectorAll("#content-group line, #content-group circle")
+          .forEach((element) => {
+            if (element.tagName === "line") {
+              const y1 = parseFloat(element.getAttribute("y1"));
+              const y2 = parseFloat(element.getAttribute("y2"));
+              element.setAttribute("y1", y1 + yOffset);
+              element.setAttribute("y2", y2 + yOffset);
+            } else if (element.tagName === "circle") {
+              const cy = parseFloat(element.getAttribute("cy"));
+              element.setAttribute("cy", cy + yOffset);
+            }
+          });
+
+        // Adjust y-value for grid transformation
+        document
+          .getElementById("grid-background")
+          .setAttribute(
+            "transform",
+            `scale(1 -1) translate(0 -${newCanvasHeight})`
+          );
+
+        // Put in end values for axes and apply y-flip
+        document
+          .querySelectorAll("#axes-group line")
+          .forEach((element) => {
+            if (element.id === "x-axis") {
+              element.setAttribute("y1", newCanvasHeight - axisSpacing);
+              element.setAttribute("x2", newCanvasWidth);
+              element.setAttribute("y2", newCanvasHeight - axisSpacing);
+            } else if (element.id === "y-axis") {
+              element.setAttribute("y1", newCanvasHeight - axisSpacing);
+            }
+          });
+
+        // Do the same for axis blocks
+        document
+          .querySelectorAll("#axes-group rect")
+          .forEach((element) => {
+            const offset = axisSpacing;
+
+            if (element.id === "x-block") {
+              element.setAttribute("width", newCanvasWidth);
+              element.setAttribute("y", newCanvasHeight - offset);
+            } else if (element.id === "y-block") {
+              element.setAttribute("height", newCanvasHeight);
+            }
+          });
+
+        // Adjust title position
+        const titleContainer = document.getElementById("title-container");
+        titleContainer.setAttribute("y", newCanvasHeight - nonInvertedY);
+        
+        // Reset pan, then pan slightly so the origin is visible
+        window.panZoom.reset();
+        window.panZoom.panBy({ x: (2 * 0.6) * spacing, y: -(2 * 0.6) * spacing });
+
+        canvasHeight = newCanvasHeight;
+        canvasWidth = newCanvasWidth;
+      }
+      window.addEventListener("resize", onResize);
+
+      // Handler to zoom axes when grid is zoomed
+      function handleCTM(ctm) {
+        const scale = ctm.a;
+        const xTranslate = ctm.e;
+        const yTranslate = ctm.f;
+
+        document.querySelectorAll("#x-ticks").forEach((element) => {
+          element.setAttribute("transform", `translate(${xTranslate} 0)`);
+        });
+        document.querySelectorAll("#x-ticks text").forEach((element) => {
+          const xCoord = parseInt(element.textContent) * spacing;
+          element.setAttribute("x", xCoord * scale);
+        });
+        document.querySelectorAll("#y-ticks").forEach((element) => {
+          element.setAttribute("transform", `translate(0 ${yTranslate})`);
+        });
+        document.querySelectorAll("#y-ticks text").forEach((element) => {
+          const yCoord = parseInt(element.textContent) * spacing;
+          element.setAttribute("y", (canvasHeight - yCoord) * scale);
+        });
+      }
+
+      // Initialize Hammer.js for touch controls.
+      // Taken from https://github.com/bumbu/svg-pan-zoom/blob/master/demo/mobile.html
+      const hammerEventsHandler = {
+        haltEventListeners: ['touchstart', 'touchend', 'touchmove', 'touchleave', 'touchcancel'],
+        init: function(options) {
+          var instance = options.instance
+            , initialScale = 1
+            , pannedX = 0
+            , pannedY = 0
+
+          // Init Hammer
+          // Listen only for pointer and touch events
+          this.hammer = Hammer(options.svgElement, {
+            inputClass: Hammer.SUPPORT_POINTER_EVENTS ? Hammer.PointerEventInput : Hammer.TouchInput
+          })
+
+          // Enable pinch
+          this.hammer.get('pinch').set({enable: true})
+
+          // Handle double tap
+          this.hammer.on('doubletap', function(ev){
+            instance.zoomAtPoint(ev.center.x, ev.center.y)
+          })
+
+          // Handle pan
+          this.hammer.on('panstart panmove', function(ev){
+            // Fix https://github.com/hammerjs/hammer.js/issues/1134 using
+            // https://github.com/hammerjs/hammer.js/issues/871#issuecomment-179143062
+            if (Date.now() - lastPinchTime < 200) {
+              console.log("Ignored pan after pinch!");
+              return;
+            }
+
+            // On pan start reset panned variables
+            if (ev.type === 'panstart') {
+              pannedX = 0
+              pannedY = 0
+            }
+
+            // Pan only the difference
+            instance.panBy({x: ev.deltaX - pannedX, y: ev.deltaY - pannedY})
+            pannedX = ev.deltaX
+            pannedY = ev.deltaY
+          })
+
+          // Handle pinch
+          var lastPinchTime;
+          this.hammer.on('pinchstart pinchmove', function(ev){
+            lastPinchTime = Date.now();
+            // On pinch start remember initial zoom
+            if (ev.type === 'pinchstart') {
+              initialScale = instance.getZoom()
+              instance.zoomAtPoint(initialScale * ev.scale, {x: ev.center.x, y: ev.center.y})
+            }
+
+            instance.zoomAtPoint(initialScale * ev.scale, {x: ev.center.x, y: ev.center.y})
+          })
+
+          // Prevent moving the page on some devices when panning over SVG
+          options.svgElement.addEventListener('touchmove', function(e){ e.preventDefault(); });
+        },
+        destroy: function(){
+          this.hammer.destroy()
+        }
+      }
+
+      // Initialize svg-pan-zoom for panning and zooming
+      window.panZoom = svgPanZoom("#svg-canvas", {
+        zoomEnabled: true,
+        panEnabled: true,
+        fit: false,
+        center: false,
+        minZoom: 0.1,
+        maxZoom: 10,
+        zoomScaleSensitivity: 0.15,
+        onUpdatedCTM: handleCTM,
+        customEventsHandler: hammerEventsHandler,
+
+      });
+
+      onResize();
+
+      // Show the SVG after y-values are adjusted
+      document.body.style.visibility = "visible";
+
+      window.addEventListener("keydown", function (event) {
+
+        const panSpeed = spacing;
+        switch (event.key) {
+          // Add arrow key controls for panning
+          case "ArrowUp":
+            event.preventDefault();
+            window.panZoom.panBy({ x: 0, y: panSpeed });
+            break;
+          case "ArrowDown":
+            event.preventDefault();
+            window.panZoom.panBy({ x: 0, y: -panSpeed });
+            break;
+          case "ArrowLeft":
+            event.preventDefault();
+            window.panZoom.panBy({ x: panSpeed, y: 0 });
+            break;
+          case "ArrowRight":
+            event.preventDefault();
+            window.panZoom.panBy({ x: -panSpeed, y: 0 });
+            break;
+          // Add + and - key controls for zooming
+          case "+":
+          case "=":
+            event.preventDefault();
+            window.panZoom.zoomIn();
+            break;
+          case "-":
+          case "_":
+            event.preventDefault();
+            window.panZoom.zoomOut();
+            break;
+          // Add controls for resetting pan and zoom
+          case "Backspace":
+          case "0":
+          case ")":
+            event.preventDefault();
+            onResize();
+            break;
+        }
+      });
+
+      // Add hover events to nodes for tooltips
+      document.querySelectorAll("circle").forEach((node) => {
+        node.addEventListener("mouseover", function (event) {
+          const label = this.getAttribute("data-label");
+          if (label) {
+            const renderedLabel = katex.renderToString(label, {
+              throwOnError: false,
+            });
+            tooltip.innerHTML = renderedLabel;
+            tooltip.style.display = "block";
+          }
+        });
+        node.addEventListener("mousemove", function (event) {
+          tooltip.style.left = event.clientX + 10 + "px";
+          tooltip.style.top = event.clientY + 10 + "px";
+        });
+        node.addEventListener("mouseout", function (event) {
+          tooltip.style.display = "none";
+        });
+      });
+    }) ();
+  </script>
+</body>
+
+</html>

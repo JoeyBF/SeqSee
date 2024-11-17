@@ -1,17 +1,8 @@
 {
-  "$schema": "../seqsee/input_schema.json",
   "header": {
-    "chart": {
-      "title": "Example $E_2$-page",
-      "width": 10,
-      "height": null,
-      "scale": 80,
-      "nodeSize": 0.03,
-      "nodeSpacing": 0
-    },
     "defaultAttributes": {
-      "nodes": [ {"color": "gray"                                       } ],
-      "edges": [ {"color": "gray", "thickness": 0.02, "pattern": "solid"} ]
+      "nodes": [ {"color": "gray"                   } ],
+      "edges": [ {"color": "gray", "thickness": 0.02} ]
     },
     "aliases": {
       "attributes": {
@@ -25,25 +16,16 @@
     }
   },
   "nodes": {
-    "1": {
-      "x": 0,
-      "y": 0,
-      "attributes": [ {"color": "#000000", "size": 0.4} ]
-    },
-    "h0": {"x": 0, "y": 1, "label": "h_0"},
-    "h0^2": {"x": 0, "y": 2},
-    "h0^3": {"x": 0, "y": 3},
-    "h1": {"x": 1, "y": 1, "label": "h_1"},
-    "h1'": {"x": 1, "y": 1, "position": -1, "label": "h_1'"},
-    "h1^2": {"x": 2, "y": 2},
-    "h2": {"x": 3, "y": 1, "label": "h_2"},
-    "h0h2": {"x": 3, "y": 2},
-    "h1^3": {"x": 3, "y": 3},
-    "h1^4": {
-      "x": 4,
-      "y": 4,
-      "attributes": [ "tau1", {"size": 0.2} ]
-    }
+    "1"   : { "x": 0, "y": 0                                         },
+    "h0"  : { "x": 0, "y": 1, "label": "h_0"                         },
+    "h0^2": { "x": 0, "y": 2                                         },
+    "h0^3": { "x": 0, "y": 3                                         },
+    "h1"  : { "x": 1, "y": 1, "label": "h_1"                         },
+    "h1^2": { "x": 2, "y": 2                                         },
+    "h2"  : { "x": 3, "y": 1, "label": "h_2"                         },
+    "h0h2": { "x": 3, "y": 2                                         },
+    "h1^3": { "x": 3, "y": 3                                         },
+    "h1^4": { "x": 4, "y": 4,                 "attributes": ["tau1"] }
   },
   "edges": [
     {"source": "1", "target": "h0"},

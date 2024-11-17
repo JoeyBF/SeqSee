@@ -19,6 +19,15 @@ For convenience, this repository also includes a tool called `jsonmaker`, which 
 files (such as those found [here](https://zenodo.org/records/6987157) or
 [here](https://zenodo.org/records/6987227)) into JSON files following the SeqSee schema.
 
+The script `convert_all` takes every CSV file in `csv/` and converts it to a JSON file using
+`jsonmaker`, then converts every JSON file in `json/` to an HTML file using `SeqSee`.
+
+## Controls
+
+- `-` key: Zoom out
+- `+` key: Zoom in
+- `0` key or `backspace`: Reset view
+
 ## Input Schema
 
 The input JSON file contains three primary sections: `header`, `nodes`, and `edges`. Each section
@@ -54,10 +63,11 @@ Contains global settings for chart configuration.
     - `null`: Vertical alignment
 
 - **`defaultAttributes`**: Specifies default visual attributes for nodes and edges.
-  - **`nodes`**: An [attribute list](#attribute-lists) applied to all nodes by default. **Note:**
-    Specifying default node size here overrides automatic spacing; node size should generally be set
-    in `header/chart/nodeSize` for automatic spacing.
-  - **`edges`**: An [attribute list](#attribute-lists) applied to all edges by default.
+  - **`nodes`**: An [attribute list](#attribute-lists) applied to all nodes by default. Defaults to
+    `[ {"color": "black"} ]` **Note:** Specifying default node size here overrides automatic
+    spacing; node size should generally be set in `header/chart/nodeSize` for automatic spacing.
+  - **`edges`**: An [attribute list](#attribute-lists) applied to all edges by default. Defaults to
+    `[ {"thickness": 0.02, "pattern": "solid"} ]`
 
 - **`aliases`**: Allows shorthand for reusable colors and attributes.
   - **`colors`**: Maps color names to valid CSS color values.
@@ -124,3 +134,72 @@ remain, later entries in the list override previous ones.
     "nodes": { "1": {"x": 0, "y": 0, "label": "1"} }
   }
   ```
+
+- The first few stems of the 2-primary $\mathbb{C}$-motivic Adams spectral sequence:
+
+```json
+{
+  "header": {
+    "defaultAttributes": {
+      "nodes": [ {"color": "gray"                   } ],
+      "edges": [ {"color": "gray", "thickness": 0.02} ]
+    },
+    "aliases": {
+      "attributes": {
+        "tau1": [ {"color": "tau1color"} ]
+      },
+      "colors": {
+        "gray"     : "#666666",
+        "tau1color": "#DD0000",
+        "magenta"  : "#FF00FF"
+      }
+    }
+  },
+  "nodes": {
+    "1"   : { "x": 0, "y": 0                                         },
+    "h0"  : { "x": 0, "y": 1, "label": "h_0"                         },
+    "h0^2": { "x": 0, "y": 2                                         },
+    "h0^3": { "x": 0, "y": 3                                         },
+    "h1"  : { "x": 1, "y": 1, "label": "h_1"                         },
+    "h1^2": { "x": 2, "y": 2                                         },
+    "h2"  : { "x": 3, "y": 1, "label": "h_2"                         },
+    "h0h2": { "x": 3, "y": 2                                         },
+    "h1^3": { "x": 3, "y": 3                                         },
+    "h1^4": { "x": 4, "y": 4,                 "attributes": ["tau1"] }
+  },
+  "edges": [
+    {"source": "1", "target": "h0"},
+    {"source": "1", "target": "h1"},
+    {"source": "1", "target": "h2"},
+    {"source": "h0", "target": "h0^2"},
+    {"source": "h0", "target": "h0h2"},
+    {"source": "h0^2", "target": "h0^3"},
+    {
+      "source": "h0^2",
+      "target": "h1^3",
+      "attributes": [ {"color": "magenta"} ]
+    },
+    {
+      "source": "h0^3",
+      "offset": {"x": 0, "y": 0.7},
+      "attributes": [ {"arrowTip": "simple"} ]
+    },
+    {"source": "h1", "target": "h1^2"},
+    {"source": "h1^2", "target": "h1^3"},
+    {"source": "h2", "target": "h0h2"},
+    {
+      "source": "h0h2",
+      "target": "h1^3",
+      "attributes": [ {"color": "magenta"} ]
+    },
+    { "source": "h1^3", "target": "h1^4", "attributes": ["tau1"] },
+    {
+      "source": "h1^4",
+      "offset": {"x": 0.7, "y": 0.7},
+      "attributes": [ "tau1", {"arrowTip": "simple"} ]
+    }
+  ]
+}
+```
+
+For significantly more involved examples, see the `json/` directory.
