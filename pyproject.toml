@@ -19,3 +19,4 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 seqsee = 'seqsee.main:main'
 jsonmaker = 'seqsee.jsonmaker:main'
+convert_all = 'seqsee.convert_all:main'

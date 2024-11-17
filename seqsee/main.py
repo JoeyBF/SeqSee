@@ -425,14 +425,7 @@ def generate_css_styles(data):
         global_css += {cssify_name(alias_name): generate_style(style, aliases)}
 
 
-def main():
-    if len(sys.argv) != 3:
-        print("Usage: seqsee <input.json> <output.html>")
-        sys.exit(1)
-
-    input_file = sys.argv[1]
-    output_file = sys.argv[2]
-
+def process_json(input_file, output_file):
     # Load input JSON
     with open(input_file, "r") as f:
         data = json.load(f)
@@ -456,6 +449,17 @@ def main():
         f.write(html_content)
 
     print(f"Generated {output_file} successfully.")
+
+
+def main():
+    if len(sys.argv) != 3:
+        print("Usage: seqsee <input.json> <output.html>")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    output_file = sys.argv[2]
+
+    process_json(input_file, output_file)
 
 
 if __name__ == "__main__":

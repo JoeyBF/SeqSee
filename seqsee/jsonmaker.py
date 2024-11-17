@@ -7,6 +7,8 @@ from seqsee import load_schema
 
 # Regular expressions for substitutions
 substitutions = [
+    # Matches any string starting with an underscore, and surrounds it in \overline{}
+    (re.compile(r"^_(.*)$"), r"\\overline{\1}"),
     # Matches the dot operator, which is rendered as a centered dot in LaTeX
     (re.compile(r"\."), r"\\cdot"),
     # Matches the string "DD" and replaces it with "{D}". This is necessary if we want to handle
@@ -42,6 +44,8 @@ arrow_length = 0.7
 
 def try_get_key(row, key, default=None):
     try:
+        if pd.isna(row[key]):
+            return default
         return row[key]
     except KeyError:
         return default
@@ -95,7 +99,7 @@ def extract_edge_attributes(row, edge_type, nodes):
             ret.append("h1tower")
         else:
             ret.append({"arrowTip": "simple"})
-    if pd.notna(target_info):
+    if target_info:
         # The info field has other instructions for the edge. We treat them as aliases and let
         # SeqSee handle them. The only exception is "h", which we need to tag with "edge_type" so
         # the correct alias is applied.
@@ -214,14 +218,7 @@ def edges_to_json(df, nodes):
     return edges
 
 
-def main():
-    if len(sys.argv) != 3:
-        print("Usage: jsonmaker <input.csv> <output.json>")
-        sys.exit(1)
-
-    input_file = sys.argv[1]
-    output_file = sys.argv[2]
-
+def process_csv(input_file, output_file):
     # Define the JSON schema
     schema = load_schema()
 
@@ -230,12 +227,9 @@ def main():
 
     # Build a header that complies with the schema
     header = {
-        "chart": {
-            "title": "The $E_2$-page of the motivic Adams spectral sequence",
-        },
         "defaultAttributes": {
-            "nodes": [{"color": "gray", "shape": "circle"}],
-            "edges": [{"color": "gray", "thickness": "0.02", "pattern": "solid"}],
+            "nodes": [{"color": "gray"}],
+            "edges": [{"color": "gray", "thickness": 0.02, "pattern": "solid"}],
         },
         "aliases": {
             "attributes": {
@@ -266,7 +260,7 @@ def main():
                 "hh2": [{"color": "darkgreen"}],
                 "tauextn": [{"color": "darkgreen"}],
                 "free": [{"arrowTip": "simple"}],
-                "h1tower": [{"color": "red", "arrowTip": "simple"}],
+                "h1tower": ["tau1", {"arrowTip": "simple"}],
             },
             "colors": {
                 "darkcyan": "#00B3B3",
@@ -296,6 +290,17 @@ def main():
         print("JSON data successfully generated and validated against the schema.")
     except Exception as e:
         print("Validation error:", e)
+
+
+def main():
+    if len(sys.argv) != 3:
+        print("Usage: jsonmaker <input.csv> <output.json>")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    output_file = sys.argv[2]
+
+    process_csv(input_file, output_file)
 
 
 if __name__ == "__main__":
