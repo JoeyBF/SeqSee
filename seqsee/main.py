@@ -131,6 +131,13 @@ def load_template():
 
 
 def get_value_or_schema_default(data, path):
+    """
+    Attempt to get a value from `data` at the given path.
+
+    If it is not specified, get the default value from the schema. The schema is always assumed to
+    contain a default value for the given path.
+    """
+
     try:
         current_value = data
         for key in path:
@@ -157,7 +164,7 @@ def cssify_name(name):
 
 def style_and_aliases_from_attributes(attributes):
     """
-    Given a list of attributes, return a CssStyle object that contains the union of all raw
+    Given a list of attributes, return a `CssStyle` object that contains the union of all raw
     attribute objects, and a list of aliases.
 
     We return the aliases separately because we may want to specify them in a `class` attribute
@@ -172,8 +179,10 @@ def style_and_aliases_from_attributes(attributes):
             for key, value in attr.items():
                 if key == "color":
                     if (value_key := cssify_name(value)) in global_css.keys():
+                        # This is a color alias
                         new_style += global_css[value_key]
                     else:
+                        # This is a CSS color value
                         new_style += {"fill": value, "stroke": value}
                 elif key == "size":
                     new_style += {"r": scale * float(value)}
@@ -183,6 +192,9 @@ def style_and_aliases_from_attributes(attributes):
                     if value == "none":
                         new_style += {"marker-end": "none"}
                     else:
+                        # We only support a few hardcoded arrow tips. To define a new arrow tip
+                        # `foo`, you need to define a `<marker>` element with id `arrow-foo` in the
+                        # template file. See the `arrow-simple` marker for an example.
                         new_style += {"marker-end": f"url(#arrow-{value})"}
                 elif key == "pattern":
                     # We only support a few hardcoded patterns
@@ -197,7 +209,7 @@ def style_and_aliases_from_attributes(attributes):
                         }
                     # Other values impossible due to schema
                 else:
-                    # Just treat it as a raw CSS attribute
+                    # Just treat the key-value pair as raw CSS
                     new_style += {key: value}
         elif isinstance(attr, str):
             # This is a style alias
@@ -206,7 +218,7 @@ def style_and_aliases_from_attributes(attributes):
 
 
 def generate_style(style, aliases):
-    """Collapse a list of styles and aliases into a single style object."""
+    """Collapse a list of styles and aliases into a single `CssStyle` object."""
     style = copy.deepcopy(style)
     for alias in aliases:
         style.append(global_css[cssify_name(alias)])
@@ -217,8 +229,8 @@ def ensure_json_path_is_defined(data, path):
     """
     Ensure that the path exists in the JSON data, creating it if necessary.
 
-    This modifies `data` in-place. The data structure at `path` will be a json object, which is
-    equivalent to a Python `dict`.
+    This modifies `data` in-place. If the path doesn't already exist, we create a JSON object, which
+    is equivalent to a Python `dict`.
     """
 
     current_value = data
@@ -234,8 +246,8 @@ def compute_chart_dimensions(data):
     `null` in the input.
 
     The width and height are calculated based on the positions of the nodes in the chart. We give
-    the smallest even size that makes the last column/row empty. They default to x = 32 and y = 20
-    if there are no nodes.
+    the smallest even size that makes the last column/row empty. We default to a 2x2 grid if there
+    are no nodes.
     """
 
     nodes = data.get("nodes", {})
@@ -254,11 +266,14 @@ def compute_chart_dimensions(data):
     compute_dimension("width", "x", 0)
     compute_dimension("height", "y", 0)
 
-    return
-
 
 def calculate_absolute_positions(data):
-    """This modifies `data` in-place to add attributes `absoluteX` and `absoluteY`"""
+    """
+    Compute the final positions of the nodes in the chart.
+
+    This modifies `data` in-place to add attributes `absoluteX` and `absoluteY`. They will be used
+    by the SVG generation code to place the nodes at the correct positions and to draw the edges.
+    """
 
     nodes_by_bidegree = defaultdict(list)
 
@@ -285,12 +300,13 @@ def calculate_absolute_positions(data):
     node_slope = get_value_or_schema_default(data, ["header", "chart", "nodeSlope"])
 
     distance_between_centers = node_spacing + 2 * node_size
+
+    # Calculate the angle of the line that the nodes will be placed on
     if node_slope is not None:
-        rotation_theta = math.atan(node_slope)
+        theta = math.atan(node_slope)
     else:
-        rotation_theta = math.pi / 2
-    sin_theta = math.sin(rotation_theta)
-    cos_theta = math.cos(rotation_theta)
+        # null means vertical
+        theta = math.pi / 2
 
     # Calculate absolute positions
     for (x, y), nodes in nodes_by_bidegree.items():
@@ -298,11 +314,13 @@ def calculate_absolute_positions(data):
         first_center_to_last_center = (bidegree_rank - 1) * distance_between_centers
         for i, node_id in enumerate(nodes):
             offset = -first_center_to_last_center / 2 + i * distance_between_centers
-            data["nodes"][node_id]["absoluteX"] = x + offset * cos_theta
-            data["nodes"][node_id]["absoluteY"] = y + offset * sin_theta
+            data["nodes"][node_id]["absoluteX"] = x + offset * math.cos(theta)
+            data["nodes"][node_id]["absoluteY"] = y + offset * math.sin(theta)
 
 
 def generate_nodes_svg(data):
+    """Generate an SVG <g> element containing all nodes."""
+
     nodes_svg = '<g id="nodes-group">\n'
 
     for node_id, node in data.get("nodes", {}).items():
@@ -325,6 +343,8 @@ def generate_nodes_svg(data):
 
 
 def generate_edges_svg(data):
+    """Generate an SVG <g> element containing all edges."""
+
     edges_svg = '<g id="edges-group">\n'
 
     for edge in data.get("edges", []):
@@ -357,23 +377,24 @@ def generate_edges_svg(data):
 
 
 def generate_svg(data):
+    # First make sure that the absolute positions are calculated
     calculate_absolute_positions(data)
     # We generate nodes after edges so that they are drawn on top
     return generate_edges_svg(data) + generate_nodes_svg(data)
 
 
 def generate_html(data):
+    # Generate CSS styles to be placed in <head>
     generate_css_styles(data)
+    # Calculate chart dimensions
     compute_chart_dimensions(data)
+    # Generate SVG content
     static_svg_content = generate_svg(data)
-    title = get_value_or_schema_default(data, ["header", "chart", "title"])
+
     template = load_template()
     html_output = template.render(
         data=data,
-        title=title.replace("$", ""),
         spacing=scale,
-        chart_width=get_value_or_schema_default(data, ["header", "chart", "width"]),
-        chart_height=get_value_or_schema_default(data, ["header", "chart", "height"]),
         css_styles=global_css.generate(),
         static_svg_content=static_svg_content,
     )
@@ -381,6 +402,7 @@ def generate_html(data):
 
 
 def generate_css_styles(data):
+    """Populate the global_css variable with CSS classes for color and attribute aliases."""
     global global_css
 
     color_aliases = get_value_or_schema_default(data, ["header", "aliases", "colors"])

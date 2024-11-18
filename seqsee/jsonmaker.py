@@ -43,6 +43,12 @@ arrow_length = 0.7
 
 
 def try_get_key(row, key, default=None):
+    """
+    Get a key from a row.
+
+    Return a default value if the key is not present or the value is `nan`.
+    """
+
     try:
         if pd.isna(row[key]):
             return default
@@ -115,6 +121,7 @@ def extract_edge_attributes(row, edge_type, nodes):
 
 
 def label_from_node_name(node_name):
+    """Apply substitutions to a node name to generate a label."""
     label = node_name
     for pattern, replacement in substitutions:
         label = pattern.sub(replacement, label)
@@ -172,14 +179,11 @@ def edges_to_json(df, nodes):
             target_col = f"{edge_type}target"
             info_col = f"{edge_type}info"
             if target_col not in row:
+                # In some CSVs, the target column is missing completely
                 continue
             target_node = row[target_col]
             target_info = try_get_key(row, info_col, "")
-            edge_data = {
-                "source": node_name,
-                # We can label edges, but it's not necessary for this example
-                # "label": edge_type,
-            }
+            edge_data = {"source": node_name}
             if pd.notna(target_node):
                 if target_node in nodes:
                     # This is a structline
@@ -192,7 +196,7 @@ def edges_to_json(df, nodes):
                         f"Invalid target node: ({target_node}) for {edge_type} on ({node_name})"
                     )
                     continue
-            elif target_info and (target_info == "free" or target_info == "loc"):
+            elif target_info == "free" or target_info == "loc":
                 # This is also an arrow, but with a different notation
                 edge_data["offset"] = edge_offset(edge_type, arrow_length)
             else:
@@ -205,8 +209,7 @@ def edges_to_json(df, nodes):
 
             edges.append(edge_data)
         # Check for `tauextn` if we're printing an E_infinity page
-        if "tauextn" in row and pd.notna(row["tauextn"]):
-            target_node = row["tauextn"]
+        if target_node := try_get_key(row, "tauextn"):
             if target_node in nodes:
                 edges.append(
                     {

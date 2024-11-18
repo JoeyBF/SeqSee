@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>{{ title }}</title>
+  <title>{{ data.header.chart.get("title", "").replace("$", "") }}</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
   <!-- KaTeX for math rendering -->
@@ -24,6 +24,7 @@
       overflow: hidden;
     }
 
+    /* KaTeX font size fix */
     .katex {
       font-size: 1em !important;
     }
@@ -73,6 +74,7 @@
   </style>
 </head>
 
+<!-- We set `visibility: visible` in JS after some preprocessing -->
 <body style="visibility: hidden">
   <div id="canvas-container">
     <svg id="svg-canvas" width="100%" height="100%">
@@ -88,8 +90,8 @@
         </pattern>
       </defs>
       <g id="content-group" class="svg-pan-zoom_viewport">
-        <!-- Apply the grid pattern to a large background rectangle -->
-        <rect id="grid-background" width="{{ chart_width * spacing }}px" height="{{ chart_height * spacing }}px" fill="url(#grid)" />
+        <!-- Apply the grid pattern to a background rectangle -->
+        <rect id="grid-background" width="{{ data.header.chart.width * spacing }}px" height="{{ data.header.chart.height * spacing }}px" fill="url(#grid)" />
         <!-- Write title in the top left corner -->
         <foreignObject id="title-container" x="{{spacing}}px" width="100%" height="100%" style="white-space: nowrap">
           <div xmlns="http://www.w3.org/1999/xhtml" id="title">
@@ -110,12 +112,12 @@
         <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
         <g id="ticks" class="tick">
           <g id="x-ticks" class="x-tick">
-            {% for i in range(0, chart_width + 1, 2) %}
+            {% for i in range(0, data.header.chart.width + 1, 2) %}
               <text x="{{ i * spacing }}" y="{{ 0.5 * spacing }}">{{ i }}</text>
             {% endfor %}
           </g>
           <g id="y-ticks" class="y-tick">
-            {% for j in range(0, chart_height + 1, 2) %}
+            {% for j in range(0, data.header.chart.height + 1, 2) %}
               <text x="{{ 0.5 * spacing }}" y="{{ j * spacing }}">{{ j }}</text>
             {% endfor %}
           </g>
