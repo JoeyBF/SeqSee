@@ -28,6 +28,62 @@ The script `convert_all` takes every CSV file in `csv/` and converts it to a JSO
 - `+` key: Zoom in
 - `0` key or `backspace`: Reset view
 
+## Running SeqSee
+
+`SeqSee` is packaged with Poetry for easy dependency management and script execution. Below are the
+instructions for setting up and running `SeqSee`.
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+- **Python** 3.11+
+- **Poetry** for dependency management
+
+### Installation
+
+1. **Clone the Repository:**
+
+   ```bash
+   git clone git@github.com:JoeyBF/SeqSee.git
+   cd SeqSee
+   ```
+
+2. **Initialize the Environment:** Install the scripts using Poetry:
+
+   ```bash
+   poetry shell
+   poetry install
+   ```
+
+### Usage
+
+Once set up, you can use the following commands:
+
+- **Generate a Spectral Sequence Chart**:
+
+  ```bash
+  seqsee input_file.json output_chart.html
+  ```
+
+- **Convert CSV to JSON**: To convert CSV data to a JSON file compatible with `SeqSee`, use:
+
+  ```bash
+  jsonmaker input_file.csv output_file.json
+  ```
+
+- **Convert Multiple Files**: For batch conversion or processing:
+
+  ```bash
+  convert_all
+  ```
+
+  This will convert every CSV file in `csv/` to a JSON file in `json/`, then converts every JSON
+  file in `json/` to an HTML chart in `html/`.
+
+These commands are registered as Poetry scripts, so they can be run directly after activating the
+environment with `poetry shell`.
+
 ## Input Schema
 
 The input JSON file contains three primary sections: `header`, `nodes`, and `edges`. Each section
