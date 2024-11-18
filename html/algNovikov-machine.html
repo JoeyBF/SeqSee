@@ -24,6 +24,7 @@
       overflow: hidden;
     }
 
+    /* KaTeX font size fix */
     .katex {
       font-size: 1em !important;
     }
@@ -250,6 +251,7 @@ line {
   </style>
 </head>
 
+<!-- We set `visibility: visible` in JS after some preprocessing -->
 <body style="visibility: hidden">
   <div id="canvas-container">
     <svg id="svg-canvas" width="100%" height="100%">
@@ -265,7 +267,7 @@ line {
         </pattern>
       </defs>
       <g id="content-group" class="svg-pan-zoom_viewport">
-        <!-- Apply the grid pattern to a large background rectangle -->
+        <!-- Apply the grid pattern to a background rectangle -->
         <rect id="grid-background" width="7320.0px" height="2520.0px" fill="url(#grid)" />
         <!-- Write title in the top left corner -->
         <foreignObject id="title-container" x="60.0px" width="100%" height="100%" style="white-space: nowrap">
@@ -8229,12 +8231,18 @@ line {
   </div>
   <div id="tooltip"></div>
   <script>
-    (function () {
-      var canvasHeight = document.documentElement.clientHeight;
-      var canvasWidth = document.documentElement.clientWidth;
+    function applyOffsetToElement(element, attributeName, offset) {
+      const currentValue = parseFloat(element.getAttribute(attributeName));
+      element.setAttribute(attributeName, currentValue + offset);
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      var canvasHeight = 0;
+      var canvasWidth = 0;
       const chartWidth = 122;
       const chartHeight = 42;
       const spacing = 60.0;
+      const axisSpacing = 0.6 * spacing;
 
       // Render title
       window.renderMathInElement(document.getElementById("title"), {
@@ -8244,101 +8252,98 @@ line {
           {left: '\\(', right: '\\)', display: false},
           {left: '\\[', right: '\\]', display: true}
         ],
-        // • rendering keys, e.g.:
         throwOnError : false
       });
 
-      // Scale and position title
+      // Scale title
       const bBox = document.getElementById("title").getBoundingClientRect();
       const titleContainer = document.getElementById("title-container");
       titleContainer.setAttribute("width", (chartHeight - 2) * spacing);
       titleContainer.setAttribute("height", bBox.height);
-      const nonInvertedY = (chartHeight - 1) * spacing + bBox.height / 2
-      titleContainer.setAttribute("y", canvasHeight - nonInvertedY);
 
-      // Adjust y-values for all elements in content-group
+      // Negate all y-coordinates:
+
+      // - Title
+      const nonInvertedY = (chartHeight - 1) * spacing + bBox.height / 2
+      titleContainer.setAttribute("y", -nonInvertedY);
+
+      // - all elements in content-group
       document
-        .querySelectorAll("#content-group line, #content-group circle")
+        .querySelectorAll("#content-group *")
         .forEach((element) => {
           if (element.tagName === "line") {
             const y1 = parseFloat(element.getAttribute("y1"));
             const y2 = parseFloat(element.getAttribute("y2"));
-            element.setAttribute("y1", canvasHeight - y1);
-            element.setAttribute("y2", canvasHeight - y2);
+            element.setAttribute("y1", -y1);
+            element.setAttribute("y2", -y2);
           } else if (element.tagName === "circle") {
             const cy = parseFloat(element.getAttribute("cy"));
-            element.setAttribute("cy", canvasHeight - cy);
+            element.setAttribute("cy", -cy);
+          } else if (element.id === "title-container") {
+            const y = parseFloat(element.getAttribute("y"));
+            element.setAttribute("y", -y);
           }
         });
 
-      // Adjust y-value for grid transformation
-      document
-        .getElementById("grid-background")
-        .setAttribute(
-          "transform",
-          `scale(1 -1) translate(0 -${canvasHeight})`
-        );
-
-      const axisSpacing = 0.6 * spacing;
-
-      // Put in end values for axes and apply y-flip
+      // - axes
       document
         .querySelectorAll("#axes-group line")
         .forEach((element) => {
           if (element.id === "x-axis") {
             element.setAttribute("x1", axisSpacing);
-            element.setAttribute("y1", canvasHeight - axisSpacing);
+            element.setAttribute("y1", -axisSpacing);
             element.setAttribute("x2", canvasWidth);
-            element.setAttribute("y2", canvasHeight - axisSpacing);
+            element.setAttribute("y2", -axisSpacing);
           } else if (element.id === "y-axis") {
             element.setAttribute("x1", axisSpacing);
-            element.setAttribute("y1", canvasHeight - axisSpacing);
+            element.setAttribute("y1", -axisSpacing);
             element.setAttribute("x2", axisSpacing);
-            element.setAttribute("y2", 0);
+            element.setAttribute("y2", canvasHeight);
           }
         });
 
-      // Do the same for axis blocks
+      // - axis blocks
       document
         .querySelectorAll("#axes-group rect")
         .forEach((element) => {
-          const offset = axisSpacing;
-
           if (element.id === "x-block") {
             element.setAttribute("width", canvasWidth);
-            element.setAttribute("height", offset);
-            element.setAttribute("y", canvasHeight - offset);
+            element.setAttribute("height", axisSpacing);
+            element.setAttribute("y", -axisSpacing);
           } else if (element.id === "y-block") {
-            element.setAttribute("width", offset);
-            element.setAttribute("height", canvasHeight);
+            element.setAttribute("width", axisSpacing);
+            element.setAttribute("height", 0);
           }
         });
 
-      // And ticks
+      // - ticks
       document
         .querySelectorAll("#axes-group text")
         .forEach((element) => {
           const y = parseFloat(element.getAttribute("y"));
-          element.setAttribute("y", canvasHeight - y);
+          element.setAttribute("y", -y);
         });
 
+      // Handler for resizing the canvas. Adjusts all y-values by comparing the
+      // new and old canvas sizes. Since we have already negated all y-values,
+      // we only need to add an offset everywhere.
       function onResize() {
         const newCanvasHeight = document.documentElement.clientHeight;
         const newCanvasWidth = document.documentElement.clientWidth;
+        const xOffset = newCanvasWidth - canvasWidth;
         const yOffset = newCanvasHeight - canvasHeight;
 
         // Adjust y-values for all elements in content-group
         document
-          .querySelectorAll("#content-group line, #content-group circle")
+          .querySelectorAll("#content-group *")
           .forEach((element) => {
             if (element.tagName === "line") {
-              const y1 = parseFloat(element.getAttribute("y1"));
-              const y2 = parseFloat(element.getAttribute("y2"));
-              element.setAttribute("y1", y1 + yOffset);
-              element.setAttribute("y2", y2 + yOffset);
+              applyOffsetToElement(element, "y1", yOffset);
+              applyOffsetToElement(element, "y2", yOffset);
             } else if (element.tagName === "circle") {
-              const cy = parseFloat(element.getAttribute("cy"));
-              element.setAttribute("cy", cy + yOffset);
+              applyOffsetToElement(element, "cy", yOffset);
+            } else if (element.id === "title-container") {
+              applyOffsetToElement(element, "y", yOffset);
             }
           });
 
@@ -8355,11 +8360,11 @@ line {
           .querySelectorAll("#axes-group line")
           .forEach((element) => {
             if (element.id === "x-axis") {
-              element.setAttribute("y1", newCanvasHeight - axisSpacing);
-              element.setAttribute("x2", newCanvasWidth);
-              element.setAttribute("y2", newCanvasHeight - axisSpacing);
+              applyOffsetToElement(element, "y1", yOffset);
+              applyOffsetToElement(element, "x2", xOffset);
+              applyOffsetToElement(element, "y2", yOffset);
             } else if (element.id === "y-axis") {
-              element.setAttribute("y1", newCanvasHeight - axisSpacing);
+              applyOffsetToElement(element, "y1", yOffset);
             }
           });
 
@@ -8367,23 +8372,28 @@ line {
         document
           .querySelectorAll("#axes-group rect")
           .forEach((element) => {
-            const offset = axisSpacing;
-
             if (element.id === "x-block") {
-              element.setAttribute("width", newCanvasWidth);
-              element.setAttribute("y", newCanvasHeight - offset);
+              applyOffsetToElement(element, "width", xOffset);
+              applyOffsetToElement(element, "y", yOffset);
             } else if (element.id === "y-block") {
-              element.setAttribute("height", newCanvasHeight);
+              applyOffsetToElement(element, "height", yOffset);
             }
+          });
+
+        // And ticks
+        document
+          .querySelectorAll("#axes-group text")
+          .forEach((element) => {
+            applyOffsetToElement(element, "y", yOffset);
           });
 
         // Adjust title position
         const titleContainer = document.getElementById("title-container");
-        titleContainer.setAttribute("y", newCanvasHeight - nonInvertedY);
+        applyOffsetToElement(titleContainer, "y", yOffset);
         
         // Reset pan, then pan slightly so the origin is visible
         window.panZoom.reset();
-        window.panZoom.panBy({ x: (2 * 0.6) * spacing, y: -(2 * 0.6) * spacing });
+        window.panZoom.panBy({ x: 2 * axisSpacing, y: -2 * axisSpacing });
 
         canvasHeight = newCanvasHeight;
         canvasWidth = newCanvasWidth;
@@ -8559,7 +8569,7 @@ line {
           tooltip.style.display = "none";
         });
       });
-    }) ();
+    });
   </script>
 </body>
 
