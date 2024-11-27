@@ -5,7 +5,7 @@ takes a JSON file as input, which conforms to the SeqSee schema, and outputs a s
 file. This file includes an SVG figure representing the spectral sequence and JavaScript for
 interactivity.
 
-Because the files `SeqSee` generates have a few dependencies, they cannot be used offline. However,
+The files that `SeqSee` generates have a few dependencies, so they cannot be used offline. However,
 these dependencies are small and likely to be cached after the HTML file is opened for the first
 time. Specifically, they depend on:
 
@@ -17,10 +17,12 @@ time. Specifically, they depend on:
 
 For convenience, this repository also includes a tool called `jsonmaker`, which can convert CSV
 files (such as those found [here](https://zenodo.org/records/6987157) or
-[here](https://zenodo.org/records/6987227)) into JSON files following the SeqSee schema.
+[here](https://zenodo.org/records/6987227)) into JSON files following the SeqSee schema.  This tool
+primarily serves as a template.  Each project generates data in its own format, and each project needs a customized tool for writing JSON files following the SeqSee schema.
 
-The script `convert_all` takes every CSV file in `csv/` and converts it to a JSON file using
-`jsonmaker`, then converts every JSON file in `json/` to an HTML file using `SeqSee`.
+
+For demonstration purposes, the script `convert_all` takes every CSV file in `csv/` and converts it to a JSON file using
+`jsonmaker`.  Then it converts every JSON file in `json/` to an HTML file using `SeqSee`.
 
 ## Controls
 
@@ -66,7 +68,7 @@ Once set up, you can use the following commands:
   seqsee input_file.json output_chart.html
   ```
 
-- **Convert CSV to JSON**: To convert CSV data to a JSON file compatible with `SeqSee`, use:
+- **Convert CSV to JSON**: To convert the CSV data in `csv/` to a JSON file compatible with `SeqSee`, use:
 
   ```bash
   jsonmaker input_file.csv output_file.json
@@ -78,7 +80,7 @@ Once set up, you can use the following commands:
   convert_all
   ```
 
-  This will convert every CSV file in `csv/` to a JSON file in `json/`, then converts every JSON
+  This script converts every CSV file in `csv/` to a JSON file in `json/`, then converts every JSON
   file in `json/` to an HTML chart in `html/`.
 
 These commands are registered as Poetry scripts, so they can be run directly after activating the
@@ -100,8 +102,7 @@ To validate the JSON file against the SeqSee schema in compatible IDEs, add `"$s
 Contains global settings for chart configuration.
 
 - **`chart`**: Holds metadata and configuration for the spectral sequence visualization.
-  - **`title`**: A string representing the chart title, allowing LaTeX syntax for mathematical
-    expressions. Displayed in the chart's top-left corner and rendered with KaTeX. Also used as the
+  - **`title`**: A string representing the chart title.  Used as the
     HTML page title, with LaTeX markers removed. Defaults to an empty string.
   - **`width`**: The chart width, or `null` for automatic detection based on `nodes`. Defaults to
     `null`.
@@ -114,9 +115,9 @@ Contains global settings for chart configuration.
     their circumferences. Defaults to `0.02`.
   - **`nodeSlope`**: The slope of the line along which nodes are positioned:
     - `0`: Horizontal alignment
-    - `1`: 45° diagonal
-    - `-2`: 60° clockwise diagonal
     - `null`: Vertical alignment
+    - Any floating point value is accepted.
+
 
 - **`defaultAttributes`**: Specifies default visual attributes for nodes and edges.
   - **`nodes`**: An [attribute list](#attribute-lists) applied to all nodes by default. Defaults to
@@ -138,7 +139,7 @@ with the following properties:
 - **`x`**: X-coordinate (required).
 - **`y`**: Y-coordinate (required).
 - **`position`**: An integer representing the index position within a bidegree. Negative values are
-  positioned further left, and positive values are positioned further right. Defaults to `0`.
+  positioned further left, and positive values are positioned further right. Defaults to `0`.  Ties are broken by the order in which the nodes occur in the input JSON.
 - **`label`**: A LaTeX string for the node label, displayed in a tooltip on hover.
 - **`attributes`**: An [attribute list](#attribute-lists) for node-specific styling.
 
@@ -148,7 +149,7 @@ Defines directed or undirected edges between nodes.
 
 - **`source`**: The identifier of the starting node (required).
 - **`target`**: The identifier of the ending node. Exactly one of `target` or `offset` is required.
-- **`offset`**: Relative positioning from the source node, if `target` is not specified.
+- **`offset`**: Relative positioning from the source node, if `target` is not specified.  Used for "free" edges, often styled as arrows, that only have one endpoint at a node.
   - **`x`**: X-offset from the source node.
   - **`y`**: Y-offset from the source node.
 - **`attributes`**: An [attribute list](#attribute-lists) for edge-specific styling.
@@ -156,7 +157,7 @@ Defines directed or undirected edges between nodes.
 #### Attribute Lists
 
 Attribute lists are arrays of styling properties defining the visual characteristics of nodes and
-edges. Each entry can be a string (aliasing an attribute list) or an object with the following
+edges. Each entry is a string (aliasing an attribute list) or an object with the following
 properties:
 
 - **`color`**: A string representing the color. Accepts any CSS color value or a predefined color
@@ -164,18 +165,18 @@ properties:
 - **`size`**: Specifies the element's size as a multiple of the chart scale. Applies to nodes
   (radius).
 - **`thickness`**: Specifies thickness as a multiple of the chart scale. Applies mainly to edges;
-  for nodes, it sets circle border thickness (typically kept at 0 to maintain proper spacing).
-- **`arrowTip`**: Defines arrow tip type on an edge. Valid values are `"none"` (no arrow head) or
+  for nodes, it sets the circle border thickness (typically kept at 0 to maintain proper spacing).
+- **`arrowTip`**: Defines the arrow tip type on an edge. Valid values are `"none"` (no arrow head) or
   `"simple"` (simple arrow head).
-- **`pattern`**: Specifies the line pattern for edges, with values `"solid"`, `"dashed"`, or
+- **`pattern`**: Specifies the line pattern for edges, with valid values `"solid"`, `"dashed"`, or
   `"dotted"`.
-- Any other property will be treated as raw CSS.
+- Any other property is treated as raw CSS.
 
 Strings in an attribute list reference their own attribute list in `header/aliases/attributes`. When
-multiple properties are specified, directly specified properties take precedence, and if conflicts
+multiple properties are specified, directly specified properties take precedence.  If conflicts
 remain, later entries in the list override previous ones.
 
-### Examples
+## Examples
 
 - An empty chart:
 
@@ -197,31 +198,32 @@ remain, later entries in the list override previous ones.
 {
   "header": {
     "defaultAttributes": {
-      "nodes": [ {"color": "gray"                   } ],
+      "nodes": [ {"color": "gray" } ],
       "edges": [ {"color": "gray", "thickness": 0.02} ]
     },
     "aliases": {
       "attributes": {
-        "tau1": [ {"color": "tau1color"} ]
+        "tau1node": [ {"color": "tau1nodecolor"} ]
+        "tau1edge": [ {"color": "tau1edgecolor"} ]
       },
       "colors": {
-        "gray"     : "#666666",
-        "tau1color": "#DD0000",
-        "magenta"  : "#FF00FF"
+        "gray": "#666666",
+        "tau1nodecolor": "#DD0000",
+        "tau1edgecolor": "#FF00FF"
       }
     }
   },
   "nodes": {
-    "1"   : { "x": 0, "y": 0                                         },
-    "h0"  : { "x": 0, "y": 1, "label": "h_0"                         },
-    "h0^2": { "x": 0, "y": 2                                         },
-    "h0^3": { "x": 0, "y": 3                                         },
-    "h1"  : { "x": 1, "y": 1, "label": "h_1"                         },
-    "h1^2": { "x": 2, "y": 2                                         },
-    "h2"  : { "x": 3, "y": 1, "label": "h_2"                         },
-    "h0h2": { "x": 3, "y": 2                                         },
-    "h1^3": { "x": 3, "y": 3                                         },
-    "h1^4": { "x": 4, "y": 4,                 "attributes": ["tau1"] }
+    "1"   : { "x": 0, "y": 0, "label": "$1 (0)$" },
+    "h0"  : { "x": 0, "y": 1, "label": "$h_0 (0)$" },
+    "h0^2": { "x": 0, "y": 2, "label": "$h_0^2 (0)$" },
+    "h0^3": { "x": 0, "y": 3, "label": "$h_0^3 (0)$" },
+    "h1"  : { "x": 1, "y": 1, "label": "$h_1 (1)$" },
+    "h1^2": { "x": 2, "y": 2, "label": "$h_1^2 (2)$" },
+    "h2"  : { "x": 3, "y": 1, "label": "$h_2 (2)$" },
+    "h0h2": { "x": 3, "y": 2, "label": "$h_0 h_2 (2)$" },
+    "h1^3": { "x": 3, "y": 3, "label": "$h_1^3 (3)$" },
+    "h1^4": { "x": 4, "y": 4, "label": "$h_1^4 (4)$", "attributes": ["tau1node"] }
   },
   "edges": [
     {"source": "1", "target": "h0"},
@@ -233,7 +235,7 @@ remain, later entries in the list override previous ones.
     {
       "source": "h0^2",
       "target": "h1^3",
-      "attributes": [ {"color": "magenta"} ]
+      "attributes": [ "tau1edge" ]
     },
     {
       "source": "h0^3",
@@ -246,16 +248,31 @@ remain, later entries in the list override previous ones.
     {
       "source": "h0h2",
       "target": "h1^3",
-      "attributes": [ {"color": "magenta"} ]
+      "attributes": [ "tau1edge" ]
     },
-    { "source": "h1^3", "target": "h1^4", "attributes": ["tau1"] },
+    { 
+      "source": "h1^3",
+      "target": "h1^4", 
+      "attributes": ["tau1edge"] 
+    },
     {
       "source": "h1^4",
       "offset": {"x": 0.7, "y": 0.7},
-      "attributes": [ "tau1", {"arrowTip": "simple"} ]
+      "attributes": [ "tau1edge", {"arrowTip": "simple"} ]
     }
   ]
 }
 ```
 
-For significantly more involved examples, see the `json/` directory.
+See the `json/` directory for significantly more involved examples.
+
+## Future Development
+
+`SeqSee` is designed for relatively easy future development.  Users may want:
+- additional styles for nodes and edges.
+- customization of axes, gridlines, and coordinates.
+- interactivity with node or edge selection.
+
+Developers need some familiarity with Python, CSS, and JavaScript.
+
+[Insert instructions about development, pull requests, etc. as appropriate for the culture of software development.]
