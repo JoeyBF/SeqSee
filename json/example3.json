@@ -7,26 +7,27 @@
     },
     "aliases": {
       "attributes": {
-        "tau1": [ {"color": "tau1color"} ]
+        "tau1"    : [ {"color": "tau1nodecolor"} ],
+        "tau1edge": [ {"color": "tau2edgecolor"} ]
       },
       "colors": {
-        "gray"     : "#666666",
-        "tau1color": "#DD0000",
-        "magenta"  : "#FF00FF"
+        "gray"         : "#666666",
+        "tau1nodecolor": "#DD0000",
+        "tau1edgecolor": "#FF00FF"
       }
     }
   },
   "nodes": {
-    "1"   : { "x": 0, "y": 0                                         },
-    "h0"  : { "x": 0, "y": 1, "label": "h_0"                         },
-    "h0^2": { "x": 0, "y": 2                                         },
-    "h0^3": { "x": 0, "y": 3                                         },
-    "h1"  : { "x": 1, "y": 1, "label": "h_1"                         },
-    "h1^2": { "x": 2, "y": 2                                         },
-    "h2"  : { "x": 3, "y": 1, "label": "h_2"                         },
-    "h0h2": { "x": 3, "y": 2                                         },
-    "h1^3": { "x": 3, "y": 3                                         },
-    "h1^4": { "x": 4, "y": 4,                 "attributes": ["tau1"] }
+    "1"   : {"x": 0, "y": 0, "label": "$1$ (0)"}                              ,
+    "h0"  : {"x": 0, "y": 1, "label": "$h_0$ (0)"}                            ,
+    "h0^2": {"x": 0, "y": 2, "label": "$h_0^2$ (0)"}                          ,
+    "h0^3": {"x": 0, "y": 3, "label": "$h_0^3$ (0)"}                          ,
+    "h1"  : {"x": 1, "y": 1, "label": "$h_1$ (1)"}                            ,
+    "h1^2": {"x": 2, "y": 2, "label": "$h_1^2$ (2)"}                          ,
+    "h2"  : {"x": 3, "y": 1, "label": "$h_2$ (2)"}                            ,
+    "h0h2": {"x": 3, "y": 2, "label": "$h_0 h_2$ (2)"}                        ,
+    "h1^3": {"x": 3, "y": 3, "label": "$h_1^3$ (3)"}                          ,
+    "h1^4": { "x": 4, "y": 4, "label": "$h_1^4$ (4)", "attributes": ["tau1"] }
   },
   "edges": [
     {"source": "1", "target": "h0"},
@@ -35,11 +36,7 @@
     {"source": "h0", "target": "h0^2"},
     {"source": "h0", "target": "h0h2"},
     {"source": "h0^2", "target": "h0^3"},
-    {
-      "source": "h0^2",
-      "target": "h1^3",
-      "attributes": [ {"color": "magenta"} ]
-    },
+    { "source": "h0^2", "target": "h1^3", "attributes": ["tau1edge"] },
     {
       "source": "h0^3",
       "offset": {"x": 0, "y": 0.7},
@@ -48,11 +45,7 @@
     {"source": "h1", "target": "h1^2"},
     {"source": "h1^2", "target": "h1^3"},
     {"source": "h2", "target": "h0h2"},
-    {
-      "source": "h0h2",
-      "target": "h1^3",
-      "attributes": [ {"color": "magenta"} ]
-    },
+    { "source": "h0h2", "target": "h1^3", "attributes": ["tau1edge"] },
     { "source": "h1^3", "target": "h1^4", "attributes": ["tau1"] },
     {
       "source": "h1^4",

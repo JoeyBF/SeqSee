@@ -121,10 +121,12 @@ def extract_edge_attributes(row, edge_type, nodes):
 
 
 def label_from_node_name(node_name):
-    """Apply substitutions to a node name to generate a label."""
+    """Apply substitutions to a node name to generate a label, wrapped in dollar signs for Latex."""
     label = node_name
     for pattern, replacement in substitutions:
         label = pattern.sub(replacement, label)
+    if label:
+        label = f"${label}$"
     return label
 
 
@@ -161,7 +163,7 @@ def nodes_to_json(df):
             "label": label_from_node_name(node_name),
         }
         if try_get_key(row, "weight", None):
-            node_data["label"] += f"\\:({row['weight']})"
+            node_data["label"] += f"    ({row['weight']})"
         if try_get_key(row, "shift", None):
             node_data["position"] = row["shift"]
         if attributes := extract_node_attributes(row):

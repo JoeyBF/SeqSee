@@ -218,9 +218,19 @@ line {
     stroke: #FF0000;
 }
 
-.tau1color {
+.tau1nodecolor {
     fill: #DD0000;
     stroke: #DD0000;
+}
+
+.tau1edgecolor {
+    fill: #FF00FF;
+    stroke: #FF00FF;
+}
+
+.tau1edge {
+    fill: tau2edgecolor;
+    stroke: tau2edgecolor;
 }
 
 
@@ -281,26 +291,26 @@ line {
 <line x1="0.0" y1="60.0" x2="0.0" y2="120.0" class="" ></line>
 <line x1="0.0" y1="60.0" x2="180.0" y2="120.0" class="" ></line>
 <line x1="0.0" y1="120.0" x2="0.0" y2="180.0" class="" ></line>
-<line x1="0.0" y1="120.0" x2="180.0" y2="180.0" class="" style="fill: #FF00FF; stroke: #FF00FF;"></line>
+<line x1="0.0" y1="120.0" x2="180.0" y2="180.0" class="tau1edge" ></line>
 <line x1="0.0" y1="180.0" x2="0.0" y2="222.0" class="" style="marker-end: url(#arrow-simple);"></line>
 <line x1="60.0" y1="60.0" x2="120.0" y2="120.0" class="" ></line>
 <line x1="120.0" y1="120.0" x2="180.0" y2="180.0" class="" ></line>
 <line x1="180.0" y1="60.0" x2="180.0" y2="120.0" class="" ></line>
-<line x1="180.0" y1="120.0" x2="180.0" y2="180.0" class="" style="fill: #FF00FF; stroke: #FF00FF;"></line>
+<line x1="180.0" y1="120.0" x2="180.0" y2="180.0" class="tau1edge" ></line>
 <line x1="180.0" y1="180.0" x2="240.0" y2="240.0" class="tau1" ></line>
 <line x1="240.0" y1="240.0" x2="282.0" y2="282.0" class="tau1" style="marker-end: url(#arrow-simple);"></line>
 </g>
 <g id="nodes-group">
-<circle id="1" class="" cx="0.0" cy="0.0"  data-label=""></circle>
-<circle id="h0" class="" cx="0.0" cy="60.0"  data-label="h_0"></circle>
-<circle id="h0^2" class="" cx="0.0" cy="120.0"  data-label=""></circle>
-<circle id="h0^3" class="" cx="0.0" cy="180.0"  data-label=""></circle>
-<circle id="h1" class="" cx="60.0" cy="60.0"  data-label="h_1"></circle>
-<circle id="h1^2" class="" cx="120.0" cy="120.0"  data-label=""></circle>
-<circle id="h2" class="" cx="180.0" cy="60.0"  data-label="h_2"></circle>
-<circle id="h0h2" class="" cx="180.0" cy="120.0"  data-label=""></circle>
-<circle id="h1^3" class="" cx="180.0" cy="180.0"  data-label=""></circle>
-<circle id="h1^4" class="tau1" cx="240.0" cy="240.0"  data-label=""></circle>
+<circle id="1" class="" cx="0.0" cy="0.0"  data-label="$1$ (0)"></circle>
+<circle id="h0" class="" cx="0.0" cy="60.0"  data-label="$h_0$ (0)"></circle>
+<circle id="h0^2" class="" cx="0.0" cy="120.0"  data-label="$h_0^2$ (0)"></circle>
+<circle id="h0^3" class="" cx="0.0" cy="180.0"  data-label="$h_0^3$ (0)"></circle>
+<circle id="h1" class="" cx="60.0" cy="60.0"  data-label="$h_1$ (1)"></circle>
+<circle id="h1^2" class="" cx="120.0" cy="120.0"  data-label="$h_1^2$ (2)"></circle>
+<circle id="h2" class="" cx="180.0" cy="60.0"  data-label="$h_2$ (2)"></circle>
+<circle id="h0h2" class="" cx="180.0" cy="120.0"  data-label="$h_0 h_2$ (2)"></circle>
+<circle id="h1^3" class="" cx="180.0" cy="180.0"  data-label="$h_1^3$ (3)"></circle>
+<circle id="h1^4" class="tau1" cx="240.0" cy="240.0"  data-label="$h_1^4$ (4)"></circle>
 </g>
 
       </g>
@@ -635,10 +645,16 @@ line {
         node.addEventListener("mouseover", function (event) {
           const label = this.getAttribute("data-label");
           if (label) {
-            const renderedLabel = katex.renderToString(label, {
-              throwOnError: false,
+            tooltip.innerHTML = label;
+            window.renderMathInElement(tooltip, {
+              delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+              ],
+              throwOnError : false
             });
-            tooltip.innerHTML = renderedLabel;
             tooltip.style.display = "block";
           }
         });

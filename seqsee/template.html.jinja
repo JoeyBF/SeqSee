@@ -414,10 +414,16 @@
         node.addEventListener("mouseover", function (event) {
           const label = this.getAttribute("data-label");
           if (label) {
-            const renderedLabel = katex.renderToString(label, {
-              throwOnError: false,
+            tooltip.innerHTML = label;
+            window.renderMathInElement(tooltip, {
+              delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+              ],
+              throwOnError : false
             });
-            tooltip.innerHTML = renderedLabel;
             tooltip.style.display = "block";
           }
         });
