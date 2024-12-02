@@ -1,5 +1,6 @@
 {
   "header": {
+    "metadata": {"htmltitle": "First few $\\mathbb{C}$-motivic stable stems"},
     "defaultAttributes": {
       "nodes": [ {"color": "gray"                   } ],
       "edges": [ {"color": "gray", "thickness": 0.02} ]

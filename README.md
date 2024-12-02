@@ -108,15 +108,19 @@ To validate the JSON file against the SeqSee schema in compatible IDEs, add `"$s
 
 Contains global settings for chart configuration.
 
-- **`chart`**: Holds metadata and configuration for the spectral sequence visualization.
-  - **`title`**: A string representing the chart title. Used as the HTML page title, with LaTeX
-    markers removed. Defaults to an empty string.
+- **`metadata`**: Holds metadata about the chart.
+  - **`htmltitle`**: The `<title>` of the HTML output. Defaults to "".
+  - Any other key-value pair is accepted, but will have no effect on the output. This is useful for
+    tagging output files, since the JSON format does not allow comments. Potentially useful data
+    might include `author`, `date`, `source`, `version`, `description`, etc.
+
+- **`chart`**: Holds configuration for the visuals of the chart.
   - **`width`**: The chart width, or `null` for automatic detection based on `nodes`. Defaults to
     `null`.
   - **`height`**: The chart height, or `null` for automatic detection based on `nodes`. Defaults to
     `null`.
   - **`scale`**: A number representing the grid scale in pixels. Each unit increase along the axes
-    corresponds to this many pixels. Defaults to `100`.
+    corresponds to this many pixels. Defaults to `60`.
   - **`nodeSize`**: Defines the radius of nodes as a multiple of `scale`. Defaults to `0.04`.
   - **`nodeSpacing`**: Specifies the distance between nodes in the same bidegree, measured between
     their circumferences. Defaults to `0.02`.

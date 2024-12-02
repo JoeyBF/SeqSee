@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>{{ data.header.chart.get("title", "").replace("$", "") }}</title>
+  <title>{{ data.get("header", {}).get("metadata", {}).get("htmltitle", "") }}</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
   <!-- KaTeX for math rendering -->
@@ -92,12 +92,6 @@
       <g id="content-group" class="svg-pan-zoom_viewport">
         <!-- Apply the grid pattern to a background rectangle -->
         <rect id="grid-background" width="{{ data.header.chart.width * spacing }}px" height="{{ data.header.chart.height * spacing }}px" fill="url(#grid)" />
-        <!-- Write title in the top left corner -->
-        <foreignObject id="title-container" x="{{spacing}}px" width="100%" height="100%" style="white-space: nowrap">
-          <div xmlns="http://www.w3.org/1999/xhtml" id="title">
-            {{ data.header.chart.title }}
-          </div>
-        </foreignObject>
         <!-- Nodes and Edges generated statically by Python -->
         {{ static_svg_content }}
       </g>
@@ -140,28 +134,7 @@
       const spacing = {{ spacing }};
       const axisSpacing = 0.6 * spacing;
 
-      // Render title
-      window.renderMathInElement(document.getElementById("title"), {
-        delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false},
-          {left: '\\(', right: '\\)', display: false},
-          {left: '\\[', right: '\\]', display: true}
-        ],
-        throwOnError : false
-      });
-
-      // Scale title
-      const bBox = document.getElementById("title").getBoundingClientRect();
-      const titleContainer = document.getElementById("title-container");
-      titleContainer.setAttribute("width", (chartHeight - 2) * spacing);
-      titleContainer.setAttribute("height", bBox.height);
-
       // Negate all y-coordinates:
-
-      // - Title
-      const nonInvertedY = (chartHeight - 1) * spacing + bBox.height / 2
-      titleContainer.setAttribute("y", -nonInvertedY);
 
       // - all elements in content-group
       document
@@ -175,9 +148,6 @@
           } else if (element.tagName === "circle") {
             const cy = parseFloat(element.getAttribute("cy"));
             element.setAttribute("cy", -cy);
-          } else if (element.id === "title-container") {
-            const y = parseFloat(element.getAttribute("y"));
-            element.setAttribute("y", -y);
           }
         });
 
@@ -238,8 +208,6 @@
               applyOffsetToElement(element, "y2", yOffset);
             } else if (element.tagName === "circle") {
               applyOffsetToElement(element, "cy", yOffset);
-            } else if (element.id === "title-container") {
-              applyOffsetToElement(element, "y", yOffset);
             }
           });
 
@@ -282,10 +250,6 @@
           .forEach((element) => {
             applyOffsetToElement(element, "y", yOffset);
           });
-
-        // Adjust title position
-        const titleContainer = document.getElementById("title-container");
-        applyOffsetToElement(titleContainer, "y", yOffset);
         
         // Reset pan, then pan slightly so the origin is visible
         window.panZoom.reset();

@@ -23,16 +23,19 @@
     "header": {
       "type": "object",
       "properties": {
+        "metadata": {
+          "type": "object",
+          "properties": { "htmltitle": {"type": "string", "default": ""} }
+        },
         "chart": {
           "type": "object",
           "properties": {
-            "title"      : { "type": "string"           , "default": ""    },
-            "width"      : { "type": ["integer", "null"], "default": null  },
-            "height"     : { "type": ["integer", "null"], "default": null  },
-            "scale"      : { "type": "number"           , "default": 60.00 },
-            "nodeSize"   : { "type": "number"           , "default": 0.04  },
-            "nodeSpacing": { "type": "number"           , "default": 0.02  },
-            "nodeSlope"  : { "type": ["number", "null"] , "default": 0.00  }
+            "width"      : { "type": ["integer", "null"], "default": null    },
+            "height"     : { "type": ["integer", "null"], "default": null    },
+            "scale"      : { "type": "number"           , "default":   60.00 },
+            "nodeSize"   : { "type": "number"           , "default":    0.04 },
+            "nodeSpacing": { "type": "number"           , "default":    0.02 },
+            "nodeSlope"  : { "type": ["number", "null"] , "default":    0.00 }
           },
           "additionalProperties": false
         },
