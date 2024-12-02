@@ -217,7 +217,7 @@ remain, later entries in the list override previous ones.
       "aliases": {
         "attributes": {
           "tau1"    : [ {"color": "tau1nodecolor"} ],
-          "tau1edge": [ {"color": "tau2edgecolor"} ]
+          "tau1edge": [ {"color": "tau1edgecolor"} ]
         },
         "colors": {
           "gray"         : "#666666",
