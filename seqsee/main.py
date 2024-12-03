@@ -448,6 +448,8 @@ def generate_css_styles(data):
 
 
 def process_json(input_file, output_file):
+    global global_css
+
     # Load input JSON
     with open(input_file, "r") as f:
         data = json.load(f)
@@ -471,6 +473,9 @@ def process_json(input_file, output_file):
         f.write(html_content)
 
     print(f"Generated {output_file} successfully.")
+
+    # Reset global_css for the next file
+    global_css = CssStyle()
 
 
 def main():
