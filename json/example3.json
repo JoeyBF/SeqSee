@@ -1,19 +1,23 @@
 {
   "header": {
-    "metadata": {"htmltitle": "First few $\\mathbb{C}$-motivic stable stems"},
+    "metadata": {
+      "htmltitle": "First few C-motivic stable stems",
+      "title": "First few $\\mathbb{C}$-motivic stable stems",
+      "authors": ["Joey Beauvais-Feisthauer", "Daniel C. Isaksen"]
+    },
     "defaultAttributes": {
       "nodes": [ {"color": "gray"                   } ],
       "edges": [ {"color": "gray", "thickness": 0.02} ]
     },
     "aliases": {
       "attributes": {
-        "tau1"    : [ {"color": "tau1nodecolor"} ],
-        "tau1edge": [ {"color": "tau1edgecolor"} ]
+        "tau1"    : [ {"color": "tau1color"    } ],
+        "tau1extn": [ {"color": "tau1extncolor"} ]
       },
       "colors": {
         "gray"         : "#666666",
-        "tau1nodecolor": "#DD0000",
-        "tau1edgecolor": "#FF00FF"
+        "tau1color"    : "#DD0000",
+        "tau1extncolor": "#FF00FF"
       }
     }
   },
@@ -36,7 +40,7 @@
     {"source": "h0", "target": "h0^2"},
     {"source": "h0", "target": "h0h2"},
     {"source": "h0^2", "target": "h0^3"},
-    { "source": "h0^2", "target": "h1^3", "attributes": ["tau1edge"] },
+    { "source": "h0^2", "target": "h1^3", "attributes": ["tau1extn"] },
     {
       "source": "h0^3",
       "offset": {"x": 0, "y": 0.7},
@@ -45,7 +49,7 @@
     {"source": "h1", "target": "h1^2"},
     {"source": "h1^2", "target": "h1^3"},
     {"source": "h2", "target": "h0h2"},
-    { "source": "h0h2", "target": "h1^3", "attributes": ["tau1edge"] },
+    { "source": "h0h2", "target": "h1^3", "attributes": ["tau1extn"] },
     { "source": "h1^3", "target": "h1^4", "attributes": ["tau1"] },
     {
       "source": "h1^4",
