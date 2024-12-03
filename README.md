@@ -224,9 +224,9 @@ remain, later entries in the list override previous ones.
           "tau1extn": [ {"color": "tau1extncolor"} ]
         },
         "colors": {
-          "gray"         : "#666666",
+          "gray"         : "#666"   ,
           "tau1color"    : "#DD0000",
-          "tau1extncolor": "#FF00FF"
+          "tau1extncolor": "magenta"
         }
       }
     },

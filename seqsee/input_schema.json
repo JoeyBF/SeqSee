@@ -15,8 +15,7 @@
         "additionalProperties": {"type": "string"}
       },
       "default": []
-    },
-    "color": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"}
+    }
   },
   "type": "object",
   "properties": {
@@ -56,11 +55,7 @@
         "aliases": {
           "type": "object",
           "properties": {
-            "colors": {
-              "type": "object",
-              "additionalProperties": {"$ref": "#/$defs/color"},
-              "default": {}
-            },
+            "colors": {"type": "object", "default": {}},
             "attributes": {
               "type": "object",
               "additionalProperties": {"$ref": "#/$defs/attributes"},
