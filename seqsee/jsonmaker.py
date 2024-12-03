@@ -165,7 +165,7 @@ def nodes_to_json(df):
         if try_get_key(row, "weight", None):
             node_data["label"] += f"    ({row['weight']})"
         if try_get_key(row, "shift", None):
-            node_data["position"] = row["shift"]
+            node_data["position"] = int(row["shift"])
         if attributes := extract_node_attributes(row):
             # Only add an attributes key if there are attributes to add
             node_data["attributes"] = attributes
