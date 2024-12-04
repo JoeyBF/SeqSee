@@ -24,6 +24,7 @@ time. Specifically, they depend on:
 - `katex` 0.16.2, along with its CSS and `auto-render` extension, for rendering LaTeX in titles and
   labels.
 - `hammer` 2.0.8 to handle touch inputs.
+- `path-data-polyfill` 1.0.6 to handle curved edges.
 - The "Computer Modern" font for the title and axis labels.
 
 For demonstration purposes, the script `convert_all` takes every CSV file in `csv/`, converts them

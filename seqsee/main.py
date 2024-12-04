@@ -366,11 +366,30 @@ def generate_edges_svg(data):
         attributes = edge.get("attributes", [])
         style, aliases = style_and_aliases_from_attributes(attributes)
         style = style.generate(indent=0).replace("\n", " ").strip(" {}")
-        if style:
-            style = f'style="{style}"'
         aliases = " ".join(aliases)
 
-        edges_svg += f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="{aliases}" {style}></line>\n'
+        if edge.get("bezier"):
+            control_points = edge["bezier"]
+            if len(control_points) == 1:
+                control_x = control_points[0]["x"] * scale + x1
+                control_y = control_points[0]["y"] * scale + y1
+                curve_d = f"Q {control_x} {control_y} {target_x} {target_y}"
+            elif len(control_points) == 2:
+                control0_x = control_points[0]["x"] * scale + x1
+                control0_y = control_points[0]["y"] * scale + y1
+                control1_x = control_points[1]["x"] * scale + target_x
+                control1_y = control_points[1]["y"] * scale + target_y
+                curve_d = f"C {control0_x} {control0_y} {control1_x} {control1_y} {target_x} {target_y}"
+            else:
+                # Impossible due to schema
+                raise NotImplementedError
+            edge_svg = f'<path d="M {x1} {y1} {curve_d}" class="{aliases}" style="fill: none;{style}"></path>\n'
+        else:
+            edge_svg = f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="{aliases}" style="{style}"></line>\n'
+
+        # Remove empty style attribute for cleaner output. This is not strictly necessary, but it
+        # makes me feel better.
+        edges_svg += edge_svg.replace(' style=""', "")
 
     edges_svg += "</g>\n"
     return edges_svg
