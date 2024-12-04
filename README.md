@@ -284,8 +284,8 @@ See the `json/` directory for significantly more involved examples.
 `SeqSee` is designed with flexibility in mind, making it straightforward to extend its capabilities.
 Potential areas for development include:
 
-- **Customizable Styles**: Add support for more node and edge styles, such as curved edges, shadow
-  effects, or different node shapes.
+- **Customizable Styles**: Add support for more node and edge styles, shadow effects, or different
+  node shapes.
 - **Advanced Interactivity**: Implement features like node/edge selection, more hover effects, and
   dynamic highlighting.
 - **Improved Coordinate Systems**: Allow more customization of axes, gridlines, and coordinates for
