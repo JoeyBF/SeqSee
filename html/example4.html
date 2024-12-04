@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title></title>
+  <title>Curvy stuff</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
   <!-- KaTeX for math rendering -->
@@ -43,16 +43,52 @@
     }
 
 /* Dynamically generated CSS styles */
+.gray {
+    fill: #666;
+    stroke: #666;
+}
+
+.hiddenh0color {
+    fill: red;
+    stroke: red;
+}
+
+.hiddenh1color {
+    fill: blue;
+    stroke: blue;
+}
+
+.hiddenh2color {
+    fill: green;
+    stroke: green;
+}
+
 circle {
-    fill: black;
-    stroke: black;
+    fill: #666;
+    stroke: #666;
     stroke-width: 0px;
     r: 2.4px;
 }
 
 line {
+    fill: #666;
+    stroke: #666;
     stroke-width: 1.2px;
-    stroke-dasharray: none;
+}
+
+.hh0 {
+    fill: red;
+    stroke: red;
+}
+
+.hh1 {
+    fill: blue;
+    stroke: blue;
+}
+
+.hh2 {
+    fill: green;
+    stroke: green;
 }
 
 
@@ -104,11 +140,21 @@ line {
       </defs>
       <g id="content-group" class="svg-pan-zoom_viewport">
         <!-- Apply the grid pattern to a background rectangle -->
-        <rect id="grid-background" width="120.0px" height="120.0px" fill="url(#grid)" />
+        <rect id="grid-background" width="240.0px" height="360.0px" fill="url(#grid)" />
         <!-- Nodes and Edges generated statically by Python -->
         <g id="edges-group">
+<line x1="0.0" y1="60.0" x2="60.0" y2="120.0" class=""></line>
+<path d="M 0.0 60.0 C 0.0 120.0 120.0 240.0 180.0 240.0" class="hh2" style="fill: none;"></path>
+<line x1="60.0" y1="0.0" x2="60.0" y2="120.0" class="hh0"></line>
+<line x1="60.0" y1="0.0" x2="120.0" y2="120.0" class="hh1"></line>
+<line x1="120.0" y1="120.0" x2="180.0" y2="240.0" class="hh1"></line>
 </g>
 <g id="nodes-group">
+<circle id="u" class="" cx="0.0" cy="60.0"  data-label=""></circle>
+<circle id="g^2" class="" cx="60.0" cy="0.0"  data-label=""></circle>
+<circle id="h1u" class="" cx="60.0" cy="120.0"  data-label=""></circle>
+<circle id="z" class="" cx="120.0" cy="120.0"  data-label=""></circle>
+<circle id="d0^3" class="" cx="180.0" cy="240.0"  data-label=""></circle>
 </g>
 
       </g>
@@ -128,12 +174,18 @@ line {
             
               <text x="120.0" y="30.0">2</text>
             
+              <text x="240.0" y="30.0">4</text>
+            
           </g>
           <g id="y-ticks" class="y-tick">
             
               <text x="30.0" y="0.0">0</text>
             
               <text x="30.0" y="120.0">2</text>
+            
+              <text x="30.0" y="240.0">4</text>
+            
+              <text x="30.0" y="360.0">6</text>
             
           </g>
         </g>
@@ -183,8 +235,8 @@ line {
     window.addEventListener("DOMContentLoaded", () => {
       var canvasHeight = 0;
       var canvasWidth = 0;
-      const chartWidth = 2;
-      const chartHeight = 2;
+      const chartWidth = 4;
+      const chartHeight = 6;
       const spacing = 60.0;
       const axisSpacing = 0.6 * spacing;
 

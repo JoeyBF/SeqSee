@@ -1,0 +1,44 @@
+{
+  "header": {
+    "metadata": {
+      "htmltitle": "Curvy stuff"             ,
+      "author"   : "Joey Beauvais-Feisthauer"
+    },
+    "defaultAttributes": {
+      "nodes": [ {"color": "gray"                   } ],
+      "edges": [ {"color": "gray", "thickness": 0.02} ]
+    },
+    "aliases": {
+      "attributes": {
+        "hh0": [ {"color": "hiddenh0color"} ],
+        "hh1": [ {"color": "hiddenh1color"} ],
+        "hh2": [ {"color": "hiddenh2color"} ]
+      },
+      "colors": {
+        "gray"         : "#666" ,
+        "hiddenh0color": "red"  ,
+        "hiddenh1color": "blue" ,
+        "hiddenh2color": "green"
+      }
+    }
+  },
+  "nodes": {
+    "u"   : {"x": 0, "y": 1},
+    "g^2" : {"x": 1, "y": 0},
+    "h1u" : {"x": 1, "y": 2},
+    "z"   : {"x": 2, "y": 2},
+    "d0^3": {"x": 3, "y": 4}
+  },
+  "edges": [
+    {"source": "u", "target": "h1u"},
+    {
+      "source": "u",
+      "target": "d0^3",
+      "bezier": [ {"x": 0, "y": 1}, {"x": -1, "y": 0} ],
+      "attributes": ["hh2"]
+    },
+    { "source": "g^2", "target": "h1u", "attributes": ["hh0"] },
+    { "source": "g^2", "target": "z", "attributes": ["hh1"] },
+    { "source": "z", "target": "d0^3", "attributes": ["hh1"] }
+  ]
+}

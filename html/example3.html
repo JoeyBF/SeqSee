@@ -14,6 +14,8 @@
   <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
   <!-- Hammer.js for touch controls -->
   <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+  <!-- Path data polyfill for SVG path manipulation -->
+  <script src="https://cdn.jsdelivr.net/npm/path-data-polyfill@1.0.6/path-data-polyfill.min.js"></script>
   <style>
     body {
       font-family: "Computer Modern Serif", serif;
@@ -131,19 +133,19 @@ line {
         <rect id="grid-background" width="360.0px" height="360.0px" fill="url(#grid)" />
         <!-- Nodes and Edges generated statically by Python -->
         <g id="edges-group">
-<line x1="0.0" y1="0.0" x2="0.0" y2="60.0" class="" ></line>
-<line x1="0.0" y1="0.0" x2="60.0" y2="60.0" class="" ></line>
-<line x1="0.0" y1="0.0" x2="180.0" y2="60.0" class="" ></line>
-<line x1="0.0" y1="60.0" x2="0.0" y2="120.0" class="" ></line>
-<line x1="0.0" y1="60.0" x2="180.0" y2="120.0" class="" ></line>
-<line x1="0.0" y1="120.0" x2="0.0" y2="180.0" class="" ></line>
-<line x1="0.0" y1="120.0" x2="180.0" y2="180.0" class="tau1extn" ></line>
+<line x1="0.0" y1="0.0" x2="0.0" y2="60.0" class=""></line>
+<line x1="0.0" y1="0.0" x2="60.0" y2="60.0" class=""></line>
+<line x1="0.0" y1="0.0" x2="180.0" y2="60.0" class=""></line>
+<line x1="0.0" y1="60.0" x2="0.0" y2="120.0" class=""></line>
+<line x1="0.0" y1="60.0" x2="180.0" y2="120.0" class=""></line>
+<line x1="0.0" y1="120.0" x2="0.0" y2="180.0" class=""></line>
+<line x1="0.0" y1="120.0" x2="180.0" y2="180.0" class="tau1extn"></line>
 <line x1="0.0" y1="180.0" x2="0.0" y2="222.0" class="" style="marker-end: url(#arrow-simple);"></line>
-<line x1="60.0" y1="60.0" x2="120.0" y2="120.0" class="" ></line>
-<line x1="120.0" y1="120.0" x2="180.0" y2="180.0" class="" ></line>
-<line x1="180.0" y1="60.0" x2="180.0" y2="120.0" class="" ></line>
-<line x1="180.0" y1="120.0" x2="180.0" y2="180.0" class="tau1extn" ></line>
-<line x1="180.0" y1="180.0" x2="240.0" y2="240.0" class="tau1" ></line>
+<line x1="60.0" y1="60.0" x2="120.0" y2="120.0" class=""></line>
+<line x1="120.0" y1="120.0" x2="180.0" y2="180.0" class=""></line>
+<line x1="180.0" y1="60.0" x2="180.0" y2="120.0" class=""></line>
+<line x1="180.0" y1="120.0" x2="180.0" y2="180.0" class="tau1extn"></line>
+<line x1="180.0" y1="180.0" x2="240.0" y2="240.0" class="tau1"></line>
 <line x1="240.0" y1="240.0" x2="282.0" y2="282.0" class="tau1" style="marker-end: url(#arrow-simple);"></line>
 </g>
 <g id="nodes-group">
@@ -198,6 +200,23 @@ line {
   </div>
   <div id="tooltip"></div>
   <script>
+    function applyFunctionToPath(path, fn) {
+      let pathData = [];
+      for (let seg of path.getPathData()) {
+        if (seg.type === "M") {
+          let [x, y] = seg.values;
+          pathData.push({ type: "M", values: [x, fn(y)] });
+        } else if (seg.type === "C") {
+          let [x1, y1, x2, y2, x, y] = seg.values;
+          pathData.push({ type: "C", values: [x1, fn(y1), x2, fn(y2), x, fn(y)] });
+        } else if (seg.type === "Q") {
+          let [x1, y1, x, y] = seg.values;
+          pathData.push({ type: "Q", values: [x1, fn(y1), x, fn(y)] });
+        }
+      }
+      path.setPathData(pathData);
+    }
+
     function applyFunctionToElement(element, attributeName, fn) {
       const currentValue = parseFloat(element.getAttribute(attributeName));
       element.setAttribute(attributeName, fn(currentValue));
@@ -209,6 +228,14 @@ line {
 
     const negateValueInElement = (element, attributeName) => {
       applyFunctionToElement(element, attributeName, (value) => -value);
+    };
+
+    const applyOffsetToPath = (path, offset) => {
+      applyFunctionToPath(path, (value) => value + offset);
+    };
+
+    const negateYValuesInPath = (path) => {
+      applyFunctionToPath(path, (value) => -value);
     };
 
     window.addEventListener("DOMContentLoaded", () => {
@@ -230,6 +257,8 @@ line {
             negateValueInElement(element, "y2");
           } else if (element.tagName === "circle") {
             negateValueInElement(element, "cy");
+          } else if (element.tagName === "path") {
+            negateYValuesInPath(element);
           }
         });
 
@@ -289,6 +318,8 @@ line {
               applyOffsetToElement(element, "y2", yOffset);
             } else if (element.tagName === "circle") {
               applyOffsetToElement(element, "cy", yOffset);
+            } else if (element.tagName === "path") {
+              applyOffsetToPath(element, yOffset);
             }
           });
 

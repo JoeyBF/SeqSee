@@ -96,6 +96,19 @@
             "required": ["x", "y"]
           },
           "label": {"type": "string"},
+          "bezier": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "x": {"type": "number"},
+                "y": {"type": "number"}
+              },
+              "required": ["x", "y"]
+            },
+            "minLength": 1,
+            "maxLength": 2
+          },
           "attributes": {"$ref": "#/$defs/attributes"}
         },
         "required": ["source"],
