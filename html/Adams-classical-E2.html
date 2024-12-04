@@ -6249,10 +6249,18 @@ line {
   </div>
   <div id="tooltip"></div>
   <script>
-    function applyOffsetToElement(element, attributeName, offset) {
+    function applyFunctionToElement(element, attributeName, fn) {
       const currentValue = parseFloat(element.getAttribute(attributeName));
-      element.setAttribute(attributeName, currentValue + offset);
+      element.setAttribute(attributeName, fn(currentValue));
     }
+
+    const applyOffsetToElement = (element, attributeName, offset) => {
+      applyFunctionToElement(element, attributeName, (value) => value + offset);
+    };
+
+    const negateValueInElement = (element, attributeName) => {
+      applyFunctionToElement(element, attributeName, (value) => -value);
+    };
 
     window.addEventListener("DOMContentLoaded", () => {
       var canvasHeight = 0;
@@ -6269,13 +6277,10 @@ line {
         .querySelectorAll("#content-group *")
         .forEach((element) => {
           if (element.tagName === "line") {
-            const y1 = parseFloat(element.getAttribute("y1"));
-            const y2 = parseFloat(element.getAttribute("y2"));
-            element.setAttribute("y1", -y1);
-            element.setAttribute("y2", -y2);
+            negateValueInElement(element, "y1");
+            negateValueInElement(element, "y2");
           } else if (element.tagName === "circle") {
-            const cy = parseFloat(element.getAttribute("cy"));
-            element.setAttribute("cy", -cy);
+            negateValueInElement(element, "cy");
           }
         });
 
@@ -6314,8 +6319,7 @@ line {
       document
         .querySelectorAll("#axes-group text")
         .forEach((element) => {
-          const y = parseFloat(element.getAttribute("y"));
-          element.setAttribute("y", -y);
+          negateValueInElement(element, "y");
         });
 
       // Handler for resizing the canvas. Adjusts all y-values by comparing the
