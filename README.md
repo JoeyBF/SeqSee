@@ -25,7 +25,7 @@ time. Specifically, they depend on:
   labels.
 - `hammer` 2.0.8 to handle touch inputs.
 - `path-data-polyfill` 1.0.6 to handle curved edges.
-- The "Computer Modern" font for the title and axis labels.
+- The "Computer Modern" font for the axis labels.
 
 For demonstration purposes, the script `convert_all` takes every CSV file in `csv/`, converts them
 to JSON using `jsonmaker`, and then converts each JSON file in `json/` into an HTML file using
@@ -110,7 +110,7 @@ To validate the JSON file against the SeqSee schema in compatible IDEs, add `"$s
 Contains global settings for chart configuration.
 
 - **`metadata`**: Holds metadata about the chart.
-  - **`htmltitle`**: The `<title>` of the HTML output. Defaults to "".
+  - **`htmltitle`**: The `<title>` of the HTML output. Defaults to an empty string.
   - Any other key-value pair is accepted, but will have no effect on the output. This is useful for
     tagging output files, since the JSON format does not allow comments. Potentially useful data
     might include `author`, `date`, `source`, `version`, `description`, etc.
@@ -128,7 +128,7 @@ Contains global settings for chart configuration.
   - **`nodeSlope`**: The slope of the line along which nodes are positioned:
     - `0`: Horizontal alignment
     - `null`: Vertical alignment
-    - Any floating point value is accepted.
+    - Any floating point value is accepted. Defaults to `0`.
 
 - **`defaultAttributes`**: Specifies default visual attributes for nodes and edges.
   - **`nodes`**: An [attribute list](#attribute-lists) applied to all nodes by default. Defaults to
@@ -147,8 +147,8 @@ Contains global settings for chart configuration.
 Defines individual nodes in the chart. Each key is a unique node identifier mapping to an object
 with the following properties:
 
-- **`x`**: X-coordinate (required).
-- **`y`**: Y-coordinate (required).
+- **`x`**: X-coordinate (required). The coordinate must be an integer.
+- **`y`**: Y-coordinate (required). The coordinate must be an integer.
 - **`position`**: An integer representing the index position within a bidegree. Negative values are
   positioned further left, and positive values are positioned further right. Ties are broken by the
   order in which the nodes occur in the input JSON. Defaults to `0`.
@@ -163,8 +163,8 @@ Defines directed or undirected edges between nodes.
 - **`target`**: The identifier of the ending node. Exactly one of `target` or `offset` is required.
 - **`offset`**: Relative positioning from the source node, if `target` is not specified. Used for
   freestanding edges, often styled as arrows, with only one endpoint anchored to a node.
-  - **`x`**: X-offset from the source node.
-  - **`y`**: Y-offset from the source node.
+  - **`x`**: Floating point value encoding the X-offset from the source node.
+  - **`y`**: Floating point value encoding the Y-offset from the source node.
 - **`bezier`**: Specifies the control point(s) for the Bézier curve representing this edge. If
   present, it is an array containing one or two objects with keys `"x"` and `"y"`, representing
   coordinates:
@@ -290,6 +290,8 @@ Potential areas for development include:
   dynamic highlighting.
 - **Improved Coordinate Systems**: Allow more customization of axes, gridlines, and coordinates for
   specialized use cases.
+- **Enhanced Output Formats**: Support additional export formats, such as PDFs, Tikz figures, or raw
+  SVG files for presentations and publications.
 
 Contributions to the `SeqSee` project are welcome! Please open issues or submit pull requests for
 new features or bug fixes.
