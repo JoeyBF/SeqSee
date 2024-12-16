@@ -277,7 +277,10 @@ remain, later entries in the list override previous ones.
   }
   ```
 
-See the `json/` directory for significantly more involved examples.
+  - See `json/example4.json` for an example of how to define curved edges.
+
+  - See the rest of the `json/` directory for significantly more involved examples. These have all
+    been generated from the files in the `csv/` directory using `jsonmaker`, through `convert_all`.
 
 ## Future Development
 
