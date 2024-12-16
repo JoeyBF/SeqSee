@@ -3,7 +3,7 @@ import re
 import sys
 from compact_json import Formatter
 from jsonschema import validate
-from seqsee import load_schema
+from .main import load_schema
 
 # Regular expressions for substitutions
 substitutions = [
@@ -11,14 +11,14 @@ substitutions = [
     (re.compile(r"^_(.*)$"), r"\\overline{\1}"),
     # Matches the dot operator, which is rendered as a centered dot in LaTeX
     (re.compile(r"\."), r"\\cdot"),
-    # Matches the string "DD" and replaces it with "{D}". This is necessary if we want to handle
-    # both "DD" -> "D" and "D" -> "\Delta".
+    # Matches the string "DD" and replaces it with "{D}". The braces are necessary if we want to
+    # handle both "DD" -> "D" and "D" -> "\Delta".
     (re.compile(r"DD"), r"{D}"),
     # Matches the string "D" and replaces it with "\Delta", but only if it is not surrounded by
     # curly braces. The `(?<!...)` and `(?!...)` expressions are negative lookbehind and negative
     # lookahead, respectively. They ensure that whatever we are matching is in the right "context",
-    # i.e. in this case not being in square brackets, but without including that context in the
-    # match. This is necessary to avoid replacing the "D" in "{D}".
+    # i.e. in this case not being in braces, but without including that context in the match. This
+    # is necessary to avoid replacing the "D" in "{D}".
     (re.compile(r"(?<!{)D(?!})"), r"\\Delta"),
     # Matches the word "t" and replaces it with "\tau". This 't' character needs to be surrounded by
     # either the beginning or end of the line, or a non-word character (something that matches
