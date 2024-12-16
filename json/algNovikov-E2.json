@@ -1,11 +1,9 @@
 {
   "header": {
-    "defaultAttributes": {
-      "nodes": [ {"color": "gray"}                                        ], 
-      "edges": [ {"color": "gray", "thickness": 0.02, "pattern": "solid"} ]
-    }, 
     "aliases": {
       "attributes": {
+        "defaultNode": [ {"color": "gray"} ], 
+        "defaultEdge": [ {"color": "gray", "thickness": 0.02} ], 
         "tau1": [ {"color": "red"} ], 
         "tau2": [ {"color": "blue"} ], 
         "tau3": [ {"color": "darkgreen"} ], 

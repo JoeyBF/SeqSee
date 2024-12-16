@@ -130,25 +130,24 @@ Contains global settings for chart configuration.
     - `null`: Vertical alignment
     - Any floating point value is accepted. Defaults to `0`.
 
-- **`defaultAttributes`**: Specifies default visual attributes for nodes and edges.
-  - **`nodes`**: An [attribute list](#attribute-lists) applied to all nodes by default. Defaults to
-    `[ {"color": "black"} ]`. **Note:** Specifying default node size here overrides automatic
-    spacing; node size should generally be set in `header/chart/nodeSize` for automatic spacing.
-  - **`edges`**: An [attribute list](#attribute-lists) applied to all edges by default. Defaults to
-    `[ {"thickness": 0.02, "pattern": "solid"} ]`.
-
 - **`aliases`**: Allows shorthand for reusable colors and attributes.
   - **`colors`**: Maps color names to valid CSS color values.
   - **`attributes`**: Maps names to predefined [attribute lists](#attribute-lists), which can be
-    applied to nodes or edges for consistent styling.
+    applied to nodes or edges for consistent styling. Two special aliases are predefined but can be
+    customized:
+    - **`defaultNode`**: An attribute list applied to all nodes. Defaults to `[ {"color": "black"}
+    ]`. **Note:** Specifying default node size here overrides automatic spacing; node size should
+    generally be set in `header/chart/nodeSize` for automatic spacing.
+    - **`defaultEdge`**: An attribute list applied to all edges. Defaults to `[ {"color": "black",
+    "thickness": 0.02} ]`.
 
 #### `nodes`
 
 Defines individual nodes in the chart. Each key is a unique node identifier mapping to an object
 with the following properties:
 
-- **`x`**: X-coordinate (required). The coordinate must be an integer.
-- **`y`**: Y-coordinate (required). The coordinate must be an integer.
+- **`x`**: X-coordinate (required). Must be an integer.
+- **`y`**: Y-coordinate (required). Must be an integer.
 - **`position`**: An integer representing the index position within a bidegree. Negative values are
   positioned further left, and positive values are positioned further right. Ties are broken by the
   order in which the nodes occur in the input JSON. Defaults to `0`.
@@ -222,14 +221,12 @@ remain, later entries in the list override previous ones.
         "title": "First few $\\mathbb{C}$-motivic stable stems",
         "authors": ["Joey Beauvais-Feisthauer", "Daniel C. Isaksen"]
       },
-      "defaultAttributes": {
-        "nodes": [ {"color": "gray"                   } ],
-        "edges": [ {"color": "gray", "thickness": 0.02} ]
-      },
       "aliases": {
         "attributes": {
-          "tau1"    : [ {"color": "tau1color"    } ],
-          "tau1extn": [ {"color": "tau1extncolor"} ]
+          "defaultNode": [ {"color": "gray"                            } ],
+          "defaultEdge": [ {"color": "gray"         , "thickness": 0.02} ],
+          "tau1"       : [ {"color": "tau1color"                       } ],
+          "tau1extn"   : [ {"color": "tau1extncolor"                   } ]
         },
         "colors": {
           "gray"         : "#666"   ,

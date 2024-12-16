@@ -44,15 +44,19 @@
 
 /* Dynamically generated CSS styles */
 circle {
-    fill: black;
-    stroke: black;
     stroke-width: 0px;
     r: 2.4px;
 }
 
-line {
+.defaultNode {
+    fill: black;
+    stroke: black;
+}
+
+.defaultEdge {
+    fill: black;
+    stroke: black;
     stroke-width: 1.2px;
-    stroke-dasharray: none;
 }
 
 
@@ -109,7 +113,7 @@ line {
         <g id="edges-group">
 </g>
 <g id="nodes-group">
-<circle id="1" class="" cx="0.0" cy="0.0"  data-label="1"></circle>
+<circle id="1" class="defaultNode " cx="0.0" cy="0.0"  data-label="1"></circle>
 </g>
 
       </g>
