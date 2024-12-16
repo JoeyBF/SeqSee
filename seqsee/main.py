@@ -11,7 +11,7 @@ from jinja2 import Environment, FileSystemLoader
 # The distance between successive x or y coordinates. Units are in pixels. This will be fixed
 # throughout the html file, but zooming is implemented through a transformation matrix applied to
 # the <g> element that contains the nodes, edges, and background grid.
-scale = 50
+scale = None
 
 
 # Lifted/adapted from MIT-licensed https://github.com/slacy/pyssed/
