@@ -108,14 +108,14 @@
         <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
         <g id="ticks" class="tick">
           <g id="x-ticks" class="x-tick">
-            {% for i in range(0, data.header.chart.width + 1, 2) %}
+            {%- for i in range(0, data.header.chart.width + 1, 2) %}
               <text x="{{ i * spacing }}" y="{{ 0.5 * spacing }}">{{ i }}</text>
-            {% endfor %}
+            {%- endfor %}
           </g>
           <g id="y-ticks" class="y-tick">
-            {% for j in range(0, data.header.chart.height + 1, 2) %}
+            {%- for j in range(0, data.header.chart.height + 1, 2) %}
               <text x="{{ 0.5 * spacing }}" y="{{ j * spacing }}">{{ j }}</text>
-            {% endfor %}
+            {%- endfor %}
           </g>
         </g>
       </g>
