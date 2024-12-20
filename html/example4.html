@@ -43,11 +43,6 @@
     }
 
 /* Dynamically generated CSS styles */
-.gray {
-    fill: #666;
-    stroke: #666;
-}
-
 .hiddenh0color {
     fill: red;
     stroke: red;
@@ -64,15 +59,18 @@
 }
 
 circle {
-    fill: #666;
-    stroke: #666;
     stroke-width: 0px;
     r: 2.4px;
 }
 
-line {
-    fill: #666;
-    stroke: #666;
+.defaultNode {
+    fill: black;
+    stroke: black;
+}
+
+.defaultEdge {
+    fill: black;
+    stroke: black;
     stroke-width: 1.2px;
 }
 
@@ -143,18 +141,18 @@ line {
         <rect id="grid-background" width="240.0px" height="360.0px" fill="url(#grid)" />
         <!-- Nodes and Edges generated statically by Python -->
         <g id="edges-group">
-<line x1="0.0" y1="60.0" x2="60.0" y2="120.0" class=""></line>
+<line x1="0.0" y1="60.0" x2="60.0" y2="120.0" class="defaultEdge "></line>
 <path d="M 0.0 60.0 C 0.0 120.0 120.0 240.0 180.0 240.0" class="hh2" style="fill: none;"></path>
-<line x1="60.0" y1="0.0" x2="60.0" y2="120.0" class="hh0"></line>
-<line x1="60.0" y1="0.0" x2="120.0" y2="120.0" class="hh1"></line>
-<line x1="120.0" y1="120.0" x2="180.0" y2="240.0" class="hh1"></line>
+<line x1="60.0" y1="0.0" x2="60.0" y2="120.0" class="defaultEdge hh0"></line>
+<line x1="60.0" y1="0.0" x2="120.0" y2="120.0" class="defaultEdge hh1"></line>
+<line x1="120.0" y1="120.0" x2="180.0" y2="240.0" class="defaultEdge hh1"></line>
 </g>
 <g id="nodes-group">
-<circle id="u" class="" cx="0.0" cy="60.0"  data-label=""></circle>
-<circle id="g^2" class="" cx="60.0" cy="0.0"  data-label=""></circle>
-<circle id="h1u" class="" cx="60.0" cy="120.0"  data-label=""></circle>
-<circle id="z" class="" cx="120.0" cy="120.0"  data-label=""></circle>
-<circle id="d0^3" class="" cx="180.0" cy="240.0"  data-label=""></circle>
+<circle id="u" class="defaultNode " cx="0.0" cy="60.0"  data-label=""></circle>
+<circle id="g^2" class="defaultNode " cx="60.0" cy="0.0"  data-label=""></circle>
+<circle id="h1u" class="defaultNode " cx="60.0" cy="120.0"  data-label=""></circle>
+<circle id="z" class="defaultNode " cx="120.0" cy="120.0"  data-label=""></circle>
+<circle id="d0^3" class="defaultNode " cx="180.0" cy="240.0"  data-label=""></circle>
 </g>
 
       </g>

@@ -336,7 +336,7 @@ def generate_nodes_svg(data):
 
         label = node.get("label", "")
 
-        nodes_svg += f'<circle id="{node_id}" class="{aliases}" cx="{cx}" cy="{cy}" {style} data-label="{label}"></circle>\n'
+        nodes_svg += f'<circle id="{node_id}" class="defaultNode {aliases}" cx="{cx}" cy="{cy}" {style} data-label="{label}"></circle>\n'
 
     nodes_svg += "</g>\n"
     return nodes_svg
@@ -385,7 +385,7 @@ def generate_edges_svg(data):
                 raise NotImplementedError
             edge_svg = f'<path d="M {x1} {y1} {curve_d}" class="{aliases}" style="fill: none;{style}"></path>\n'
         else:
-            edge_svg = f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="{aliases}" style="{style}"></line>\n'
+            edge_svg = f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="defaultEdge {aliases}" style="{style}"></line>\n'
 
         # Remove empty style attribute for cleaner output. This is not strictly necessary, but it
         # makes me feel better.
@@ -425,40 +425,29 @@ def generate_css_styles(data):
     global global_css
 
     color_aliases = get_value_or_schema_default(data, ["header", "aliases", "colors"])
-    attribute_aliases = get_value_or_schema_default(
-        data, ["header", "aliases", "attributes"]
-    )
-
-    # We do nodes and edges separately because they have default values, but defaultAttributes
-    # itself doesn't. We don't want to give it a default value either, because the user should be
-    # able to specify only one and have the other one be the default.
-    default_node_attributes = get_value_or_schema_default(
-        data, ["header", "defaultAttributes", "nodes"]
-    )
-    default_edge_attributes = get_value_or_schema_default(
-        data, ["header", "defaultAttributes", "edges"]
+    attribute_aliases = {
+        "defaultNode": get_value_or_schema_default(
+            data, ["header", "aliases", "attributes", "defaultNode"]
+        ),
+        "defaultEdge": get_value_or_schema_default(
+            data, ["header", "aliases", "attributes", "defaultEdge"]
+        ),
+    }
+    # We add the actual attributes after getting the defaults in case the user overrides them
+    attribute_aliases.update(
+        get_value_or_schema_default(data, ["header", "aliases", "attributes"])
     )
 
     # Generate CSS classes for color aliases. We do it first because we may need to reference them
-    # in the default attributes.
+    # in the attribute aliases.
     for color_name, color_value in color_aliases.items():
         global_css += {
             cssify_name(color_name): {"fill": color_value, "stroke": color_value}
         }
 
-    # Generate CSS classes for defaultAttributes
-    ## First for nodes
-    style, aliases = style_and_aliases_from_attributes(default_node_attributes)
-    generated_style = generate_style(style, aliases)
-
+    # Generate CSS class for nodes to set the appropriate size
     node_size = get_value_or_schema_default(data, ["header", "chart", "nodeSize"])
-    generated_style += {"stroke-width": 0, "r": scale * node_size}
-
-    global_css += {"circle": generated_style}
-
-    ## Then for edges
-    style, aliases = style_and_aliases_from_attributes(default_edge_attributes)
-    global_css += {"line": generate_style(style, aliases)}
+    global_css += {"circle": {"stroke-width": 0, "r": scale * node_size}}
 
     # Generate CSS classes for attribute aliases
     for alias_name, attributes_list in attribute_aliases.items():

@@ -38,26 +38,22 @@
           },
           "additionalProperties": false
         },
-        "defaultAttributes": {
-          "type": "object",
-          "properties": {
-            "nodes": {
-              "$ref": "#/$defs/attributes",
-              "default": [ {"color": "black"} ]
-            },
-            "edges": {
-              "$ref": "#/$defs/attributes",
-              "default": [ {"thickness": 0.02, "pattern": "solid"} ]
-            }
-          },
-          "additionalProperties": false
-        },
         "aliases": {
           "type": "object",
           "properties": {
             "colors": {"type": "object", "default": {}},
             "attributes": {
               "type": "object",
+              "properties": {
+                "defaultNode": {
+                  "$ref": "#/$defs/attributes",
+                  "default": [ {"color": "black"} ]
+                },
+                "defaultEdge": {
+                  "$ref": "#/$defs/attributes",
+                  "default": [ {"color": "black", "thickness": 0.02} ]
+                }
+              },
               "additionalProperties": {"$ref": "#/$defs/attributes"},
               "default": {}
             }

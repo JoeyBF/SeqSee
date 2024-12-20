@@ -232,12 +232,10 @@ def process_csv(input_file, output_file):
 
     # Build a header that complies with the schema
     header = {
-        "defaultAttributes": {
-            "nodes": [{"color": "gray"}],
-            "edges": [{"color": "gray", "thickness": 0.02, "pattern": "solid"}],
-        },
         "aliases": {
             "attributes": {
+                "defaultNode": [{"color": "gray"}],
+                "defaultEdge": [{"color": "gray", "thickness": 0.02}],
                 "tau1": [{"color": "red"}],
                 "tau2": [{"color": "blue"}],
                 "tau3": [{"color": "darkgreen"}],

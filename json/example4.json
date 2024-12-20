@@ -4,10 +4,6 @@
       "htmltitle": "Curvy stuff"             ,
       "author"   : "Joey Beauvais-Feisthauer"
     },
-    "defaultAttributes": {
-      "nodes": [ {"color": "gray"                   } ],
-      "edges": [ {"color": "gray", "thickness": 0.02} ]
-    },
     "aliases": {
       "attributes": {
         "hh0": [ {"color": "hiddenh0color"} ],
@@ -15,7 +11,6 @@
         "hh2": [ {"color": "hiddenh2color"} ]
       },
       "colors": {
-        "gray"         : "#666" ,
         "hiddenh0color": "red"  ,
         "hiddenh1color": "blue" ,
         "hiddenh2color": "green"
