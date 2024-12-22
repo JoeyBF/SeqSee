@@ -116,10 +116,9 @@ Contains global settings for chart configuration.
     might include `author`, `date`, `source`, `version`, `description`, etc.
 
 - **`chart`**: Holds configuration for the visuals of the chart.
-  - **`width`**: The chart width, or `null` for automatic detection based on `nodes`. Defaults to
-    `null`.
-  - **`height`**: The chart height, or `null` for automatic detection based on `nodes`. Defaults to
-    `null`.
+  - **`width` and `height`**: Objects specifying the chart dimensions. Each has `min` and `max`
+    properties, which are either signed integers or `null`. If `null`, an appropriate value is computed
+    automatically based on `nodes`. All defaults are `null`.
   - **`scale`**: A number representing the grid scale in pixels. Each unit increase along the axes
     corresponds to this many pixels. Defaults to `60`.
   - **`nodeSize`**: Defines the radius of nodes as a multiple of `scale`. Defaults to `0.04`.

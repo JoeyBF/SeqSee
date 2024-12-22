@@ -130,8 +130,16 @@ circle {
         </pattern>
       </defs>
       <g id="content-group" class="svg-pan-zoom_viewport">
-        <!-- Apply the grid pattern to a background rectangle -->
-        <rect id="grid-background" width="360.0px" height="360.0px" fill="url(#grid)" />
+        <!-- Translate the grid so that it covers the appropriate region outside the first quadrant -->
+        <g id="origin-translate" transform="translate(-120.0 120.0)">
+          <!-- Apply the grid pattern to a background rectangle -->
+          <rect
+            id="grid-background"
+            width="480.0px"
+            height="480.0px"
+            fill="url(#grid)"
+          />
+        </g>
         <!-- Nodes and Edges generated statically by Python -->
         <g id="edges-group">
 <line x1="0.0" y1="0.0" x2="0.0" y2="60.0" class="defaultEdge "></line>
@@ -174,12 +182,14 @@ circle {
         <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
         <g id="ticks" class="tick">
           <g id="x-ticks" class="x-tick">
+              <text x="-120.0" y="30.0">-2</text>
               <text x="0.0" y="30.0">0</text>
               <text x="120.0" y="30.0">2</text>
               <text x="240.0" y="30.0">4</text>
               <text x="360.0" y="30.0">6</text>
           </g>
           <g id="y-ticks" class="y-tick">
+              <text x="30.0" y="-120.0">-2</text>
               <text x="30.0" y="0.0">0</text>
               <text x="30.0" y="120.0">2</text>
               <text x="30.0" y="240.0">4</text>
@@ -232,8 +242,6 @@ circle {
     window.addEventListener("DOMContentLoaded", () => {
       var canvasHeight = 0;
       var canvasWidth = 0;
-      const chartWidth = 6;
-      const chartHeight = 6;
       const spacing = 60.0;
       const axisSpacing = 0.6 * spacing;
 

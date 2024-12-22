@@ -242,29 +242,37 @@ def ensure_json_path_is_defined(data, path):
 
 def compute_chart_dimensions(data):
     """
-    This modifies `data` in-place to set `header.chart.width` and `header.chart.height`, if they are
-    `null` in the input.
+    This modifies `data` in-place to set up the `header.chart.width` and `header.chart.height`
+    objects. Namely, it replaces the `null` values by autodetected boundaries.
 
-    The width and height are calculated based on the positions of the nodes in the chart. We give
-    the smallest even size that makes the last column/row empty. We default to a 2x2 grid if there
-    are no nodes.
+    The bounds on the width and height are calculated based on the positions of the nodes in the
+    chart. For maximum values, we give the smallest even size that makes the last column/row empty.
+    We do the opposite for minimum values. Defaults to a 2x2 first quadrant grid if there are no
+    nodes.
     """
 
     nodes = data.get("nodes", {})
 
-    def compute_dimension(dim_name, coord_name, default):
-        if data.get("header", {}).get("chart", {}).get(dim_name) is None:
-            ensure_json_path_is_defined(data, ["header", "chart", dim_name])
+    def compute_dimension_bounds(dim_name, coord_name, default):
+        ensure_json_path_is_defined(data, ["header", "chart", dim_name])
+        if data["header"]["chart"][dim_name].get("min") is None:
+            # Greatest even number strictly smaller than the minimum coordinate of any node
+            dimension = 2 * (
+                min((node[coord_name] for node in nodes.values()), default=default) // 2
+                - 1
+            )
+            data["header"]["chart"][dim_name]["min"] = dimension
+        if data["header"]["chart"][dim_name].get("max") is None:
             # Smallest even number strictly greater than the maximum coordinate of any node
             dimension = 2 * (
                 max((node[coord_name] for node in nodes.values()), default=default) // 2
                 + 1
             )
-            data["header"]["chart"][dim_name] = dimension
+            data["header"]["chart"][dim_name]["max"] = dimension
 
     # Arbitrary default values. These are only used if there are no nodes.
-    compute_dimension("width", "x", 0)
-    compute_dimension("height", "y", 0)
+    compute_dimension_bounds("width", "x", 0)
+    compute_dimension_bounds("height", "y", 0)
 
 
 def calculate_absolute_positions(data):
