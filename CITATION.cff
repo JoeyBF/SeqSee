@@ -1,0 +1,23 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: SeqSee
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Joey
+    family-names: Beauvais-Feisthauer
+    email: joeybf@wayne.edu
+    affiliation: Wayne State University
+  - given-names: Dan
+    family-names: Isaksen
+    email: isaksen@wayne.edu
+    affiliation: Wayne State University
+repository-code: 'https://github.com/JoeyBF/SeqSee'
+abstract: A generic visualization tool for spectral sequence data.
+license: MIT
+version: 0.1.0
+date-released: '2025-01-14'
