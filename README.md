@@ -9,7 +9,7 @@ By way of example, we have included a tool called `jsonmaker`, which can convert
 [here](https://zenodo.org/records/6987157) and [here](https://zenodo.org/records/6987227) into JSON
 files following our schema. This script is specific to the format of those CSV files, but serves as
 a template for creating tools to generate JSON data that `SeqSee` can display. It is expected that
-any software that manipulates spectral sequences will require a customized tool to produce JSON
+any software that outputs spectral sequences data will require a customized tool to produce JSON
 files that follow the SeqSee schema.
 
 `SeqSee` takes a JSON file as input, conforming to the SeqSee schema, and outputs a self-contained
