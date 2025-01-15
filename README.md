@@ -94,6 +94,58 @@ Once set up, you can use the following commands:
 These commands are registered as Poetry scripts, so they can be run directly after activating the
 environment with `poetry shell`.
 
+## Implementation Details
+
+The core JSON to HTML conversion pipeline consists of two main components:
+
+### JSON Processing (main.py)
+
+The conversion process:
+
+1. Validates input against a schema (input_schema.json)
+1. Calculates absolute positions for nodes based on coordinates and spacing
+1. Generates SVG elements:
+   - Nodes are rendered as `<circle>` elements with:
+     - Unique IDs matching JSON node identifiers
+     - Coordinates calculated from x,y positions and node spacing
+     - CSS classes for default styling and attribute aliases
+     - Data attributes for labels and tooltips
+   - Edges are rendered as `<line>` or `<path>` elements with:
+     - Line elements for straight edges
+     - Path elements with Bézier curves for curved edges
+     - CSS classes for styling patterns (solid, dashed, dotted)
+     - Marker elements for arrow tips
+1. Applies styling through a CSS class system:
+   - Global styles for basic elements (circles, lines)
+   - Color aliases mapped to fill/stroke properties
+   - Attribute aliases for reusable style combinations
+   - Dynamic classes for interactive states
+1. Embeds the SVG in an HTML template with interactive features
+
+### Interactive Visualization (template.html.jinja)
+
+The generated HTML includes JavaScript that provides:
+
+- **Viewport Control**
+  - SVG-Pan-Zoom library for smooth pan/zoom operations
+  - Touch controls via Hammer.js
+  - Keyboard navigation (arrows, +/-, reset)
+  - Dynamic viewport transformation tracking
+
+- **Mathematical Display**
+  - KaTeX integration for LaTeX rendering
+  - Automatic math processing in tooltips
+  - Support for inline and display math modes
+
+- **Dynamic Updates**
+  - Responsive grid and axes that follow viewport
+  - Window resize handling with coordinate preservation
+  - SVG path manipulation for curved edges
+  - Dynamic attribute updates during interactions
+
+The JavaScript maintains mathematical accuracy of the spectral sequence display while providing a
+smooth, interactive user experience.
+
 ## Input Schema
 
 The input JSON file contains three primary sections: `header`, `nodes`, and `edges`. Each section
