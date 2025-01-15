@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/JoeyBF/SeqSee/refs/heads/master/seqsee/input_schema.json",
   "header": {
     "metadata": {
       "htmltitle": "First few C-motivic stable stems",

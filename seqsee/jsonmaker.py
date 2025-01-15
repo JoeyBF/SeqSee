@@ -282,7 +282,12 @@ def process_csv(input_file, output_file):
     edges = edges_to_json(df, nodes)
 
     # Combine the data into a single JSON object
-    json_data = {"header": header, "nodes": nodes, "edges": edges}
+    json_data = {
+        "$schema": "https://raw.githubusercontent.com/JoeyBF/SeqSee/refs/heads/master/seqsee/input_schema.json",
+        "header": header,
+        "nodes": nodes,
+        "edges": edges,
+    }
 
     # Validation and output
     try:

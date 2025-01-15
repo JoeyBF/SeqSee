@@ -101,7 +101,8 @@ defines configuration options for generating a spectral sequence chart, and any 
 omitted.
 
 To validate the JSON file against the SeqSee schema in compatible IDEs, add `"$schema":
-"seqsee/input_schema.json"` at the top level.
+"https://raw.githubusercontent.com/JoeyBF/SeqSee/refs/heads/master/seqsee/input_schema.json"` at the
+top level.
 
 ### Sections
 
@@ -214,6 +215,7 @@ remain, later entries in the list override previous ones.
 
   ```json
   {
+    "$schema": "https://raw.githubusercontent.com/JoeyBF/SeqSee/refs/heads/master/seqsee/input_schema.json",
     "header": {
       "metadata": {
         "htmltitle": "First few C-motivic stable stems",
