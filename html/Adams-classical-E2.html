@@ -6178,13 +6178,13 @@ circle {
       for (let seg of path.getPathData()) {
         if (seg.type === "M") {
           let [x, y] = seg.values;
-          pathData.push({ type: "M", values: [x, fn(y)] });
+          pathData.push({ type: "M", values: [...fn(x, y)] });
         } else if (seg.type === "C") {
           let [x1, y1, x2, y2, x, y] = seg.values;
-          pathData.push({ type: "C", values: [x1, fn(y1), x2, fn(y2), x, fn(y)] });
+          pathData.push({ type: "C", values: [...fn(x1, y1), ...fn(x2, y2), ...fn(x, y)] });
         } else if (seg.type === "Q") {
           let [x1, y1, x, y] = seg.values;
-          pathData.push({ type: "Q", values: [x1, fn(y1), x, fn(y)] });
+          pathData.push({ type: "Q", values: [...fn(x1, y1), ...fn(x, y)] });
         }
       }
       path.setPathData(pathData);
@@ -6196,19 +6196,19 @@ circle {
     }
 
     const applyOffsetToElement = (element, attributeName, offset) => {
-      applyFunctionToElement(element, attributeName, (value) => value + offset);
+      applyFunctionToElement(element, attributeName, (value) => value + offset)
     };
 
     const negateValueInElement = (element, attributeName) => {
-      applyFunctionToElement(element, attributeName, (value) => -value);
+      applyFunctionToElement(element, attributeName, (value) => -value)
     };
 
-    const applyOffsetToPath = (path, offset) => {
-      applyFunctionToPath(path, (value) => value + offset);
+    const applyYOffsetToPath = (path, offset) => {
+      applyFunctionToPath(path, (x, y) => [x, y + offset])
     };
 
     const negateYValuesInPath = (path) => {
-      applyFunctionToPath(path, (value) => -value);
+      applyFunctionToPath(path, (x, y) => [x, -y])
     };
 
     window.addEventListener("DOMContentLoaded", () => {
@@ -6290,7 +6290,7 @@ circle {
             } else if (element.tagName === "circle") {
               applyOffsetToElement(element, "cy", yOffset);
             } else if (element.tagName === "path") {
-              applyOffsetToPath(element, yOffset);
+              applyYOffsetToPath(element, yOffset);
             }
           });
 
