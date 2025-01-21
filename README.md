@@ -133,13 +133,15 @@ Contains global settings for chart configuration.
 - **`aliases`**: Allows shorthand for reusable colors and attributes.
   - **`colors`**: Maps color names to valid CSS color values.
   - **`attributes`**: Maps names to predefined [attribute lists](#attribute-lists), which can be
-    applied to nodes or edges for consistent styling. Two special aliases are predefined but can be
+    applied to nodes or edges for consistent styling. Some special aliases are predefined but can be
     customized:
+    - **`grid`**: An attribute list applied to the grid itself. Defaults to `[ {"color": "#ccc",
+      "thickness": 0.01} ]`.
     - **`defaultNode`**: An attribute list applied to all nodes. Defaults to `[ {"color": "black"}
-    ]`. **Note:** Specifying default node size here overrides automatic spacing; node size should
-    generally be set in `header/chart/nodeSize` for automatic spacing.
+      ]`. **Note:** Specifying default node size here overrides automatic spacing; node size should
+      generally be set in `header/chart/nodeSize` for automatic spacing.
     - **`defaultEdge`**: An attribute list applied to all edges. Defaults to `[ {"color": "black",
-    "thickness": 0.02} ]`.
+      "thickness": 0.02} ]`.
 
 #### `nodes`
 

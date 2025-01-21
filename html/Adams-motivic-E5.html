@@ -35,11 +35,6 @@
       position: absolute;
     }
 
-    #grid-path {
-      stroke: #ccc;
-      stroke-width: 1;
-    }
-
 /* Dynamically generated CSS styles */
 .darkcyan {
     fill: #00B3B3;
@@ -69,6 +64,12 @@
 circle {
     stroke-width: 0px;
     r: 2.4px;
+}
+
+.grid {
+    fill: #ccc;
+    stroke: #ccc;
+    stroke-width: 0.6px;
 }
 
 .defaultNode {
@@ -265,7 +266,7 @@ circle {
         </marker>
         <!-- Define the grid pattern -->
         <pattern id="grid" width="120.0" height="120.0" patternUnits="userSpaceOnUse">
-          <path id="grid-path" d="M 120.0 0 L 0 0 0 120.0" fill="none"/>
+          <path id="grid-path" d="M 120.0 0 L 0 0 0 120.0" class="grid" style="fill: none;"/>
         </pattern>
       </defs>
       <g id="content-group" class="svg-pan-zoom_viewport">
@@ -1904,7 +1905,10 @@ circle {
       for (let seg of path.getPathData()) {
         if (seg.type === "M") {
           let [x, y] = seg.values;
-          pathData.push({ type: "M", values: [...fn(x, y)] });
+          pathData.push({ type: "M", values: fn(x, y) });
+        } else if (seg.type === "L") {
+          let [x, y] = seg.values;
+          pathData.push({ type: "L", values: fn(x, y) });
         } else if (seg.type === "C") {
           let [x1, y1, x2, y2, x, y] = seg.values;
           pathData.push({ type: "C", values: [...fn(x1, y1), ...fn(x2, y2), ...fn(x, y)] });
@@ -1942,6 +1946,12 @@ circle {
       var canvasWidth = 0;
       const spacing = 60.0;
       const axisSpacing = 0.6 * spacing;
+
+      const half_grid_width = parseFloat(window.getComputedStyle(document.getElementById("grid-path")).strokeWidth) / 2;
+
+      // Displace the gridlines slightly. If we don't do this, the gridlines will appear to be
+      // at half thickness because of clipping.
+      applyFunctionToPath(document.getElementById("grid-path"), (x, y) => [x + half_grid_width, y + half_grid_width]);
 
       // Negate all y-coordinates:
 
@@ -2020,12 +2030,12 @@ circle {
             }
           });
 
-        // Adjust y-value for grid transformation
+        // Adjust y-value for grid transformation. We also undo the displacement we applied earlier
         document
           .getElementById("grid-background")
           .setAttribute(
             "transform",
-            `scale(1 -1) translate(0 -${newCanvasHeight})`
+            `scale(1 -1) translate(${-half_grid_width} ${-half_grid_width}) translate(0 ${-newCanvasHeight})`
           );
 
         // Put in end values for axes and apply y-flip

@@ -445,6 +445,7 @@ def generate_css_styles(data):
 
     color_aliases = get_value_or_schema_default(data, ["header", "aliases", "colors"])
     attribute_aliases = {
+        "grid": get_schema_default(data, ["header", "aliases", "attributes", "grid"]),
         "defaultNode": get_schema_default(
             data, ["header", "aliases", "attributes", "defaultNode"]
         ),
