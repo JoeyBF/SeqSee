@@ -130,6 +130,20 @@ def load_template():
     return template
 
 
+def get_schema_default(data, path):
+    """
+    Get the default value from the schema at the given path.
+
+    This is useful for when we need to know the default value of a field in the schema, but the field
+    is not present in the data.
+    """
+
+    default_value = schema
+    for key in path:
+        default_value = default_value["properties"][key]
+    return default_value["default"]
+
+
 def get_value_or_schema_default(data, path):
     """
     Attempt to get a value from `data` at the given path.
@@ -144,10 +158,7 @@ def get_value_or_schema_default(data, path):
             current_value = current_value[key]
         return current_value
     except KeyError:
-        default_value = schema
-        for key in path:
-            default_value = default_value["properties"][key]
-        return default_value["default"]
+        return get_schema_default(data, path)
 
 
 def cssify_name(name):
@@ -434,17 +445,23 @@ def generate_css_styles(data):
 
     color_aliases = get_value_or_schema_default(data, ["header", "aliases", "colors"])
     attribute_aliases = {
-        "defaultNode": get_value_or_schema_default(
+        "defaultNode": get_schema_default(
             data, ["header", "aliases", "attributes", "defaultNode"]
         ),
-        "defaultEdge": get_value_or_schema_default(
+        "defaultEdge": get_schema_default(
             data, ["header", "aliases", "attributes", "defaultEdge"]
         ),
     }
-    # We add the actual attributes after getting the defaults in case the user overrides them
-    attribute_aliases.update(
-        get_value_or_schema_default(data, ["header", "aliases", "attributes"])
+    user_attribute_aliases = get_value_or_schema_default(
+        data, ["header", "aliases", "attributes"]
     )
+
+    # Merge user-defined attribute aliases with the defaults
+    for alias_name, attributes_list in user_attribute_aliases.items():
+        current_attributes = attribute_aliases.get(alias_name, [])
+        # This creates a new list instead of modifying the existing one, which would be bad. This is
+        # because it could mutate a default value, which would ultimately corrupt `schema`.
+        attribute_aliases[alias_name] = current_attributes + attributes_list
 
     # Generate CSS classes for color aliases. We do it first because we may need to reference them
     # in the attribute aliases.
