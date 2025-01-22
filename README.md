@@ -224,10 +224,10 @@ remain, later entries in the list override previous ones.
       },
       "aliases": {
         "attributes": {
-          "defaultNode": [ {"color": "gray"                            } ],
-          "defaultEdge": [ {"color": "gray"         , "thickness": 0.02} ],
-          "tau1"       : [ {"color": "tau1color"                       } ],
-          "tau1extn"   : [ {"color": "tau1extncolor"                   } ]
+          "defaultNode": [ {"color": "gray"         } ],
+          "defaultEdge": [ {"color": "gray"         } ],
+          "tau1"       : [ {"color": "tau1color"    } ],
+          "tau1extn"   : [ {"color": "tau1extncolor"} ]
         },
         "colors": {
           "gray"         : "#666"   ,
