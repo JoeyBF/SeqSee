@@ -52,6 +52,10 @@
             "attributes": {
               "type": "object",
               "properties": {
+                "grid": {
+                  "$ref": "#/$defs/attributes",
+                  "default": [ {"color": "#ccc", "thickness": 0.01} ]
+                },
                 "defaultNode": {
                   "$ref": "#/$defs/attributes",
                   "default": [ {"color": "black"} ]
