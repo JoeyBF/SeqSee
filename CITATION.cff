@@ -19,5 +19,5 @@ authors:
 repository-code: 'https://github.com/JoeyBF/SeqSee'
 abstract: A generic visualization tool for spectral sequence data.
 license: MIT
-version: 0.1.0
-date-released: '2025-01-14'
+version: 0.1.1
+date-released: '2025-01-21'

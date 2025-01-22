@@ -1,8 +1,11 @@
 [tool.poetry]
 name = "SeqSee"
-version = "0.1.0"
+version = "0.1.1"
 description = "A generic visualization tool for spectral sequence data"
-authors = ["Joey Beauvais-Feisthauer <joeybf@wayne.edu>", "Dan Isaksen <isaksen@wayne.edu>"]
+authors = [
+    "Joey Beauvais-Feisthauer <joeybf@wayne.edu>",
+    "Dan Isaksen <isaksen@wayne.edu>",
+]
 readme = "README.md"
 
 [tool.poetry.dependencies]
