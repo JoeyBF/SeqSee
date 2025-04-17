@@ -442,20 +442,23 @@ def generate_html(data):
 def generate_css_styles(data):
     """Populate the global_css variable with CSS classes for color and attribute aliases."""
     global global_css
+    aliases_path = ["header", "aliases"]
 
-    color_aliases = get_value_or_schema_default(data, ["header", "aliases", "colors"])
-    attribute_aliases = {
-        "grid": get_schema_default(data, ["header", "aliases", "attributes", "grid"]),
-        "defaultNode": get_schema_default(
-            data, ["header", "aliases", "attributes", "defaultNode"]
-        ),
-        "defaultEdge": get_schema_default(
-            data, ["header", "aliases", "attributes", "defaultEdge"]
-        ),
+    colors_path = aliases_path + ["colors"]
+    color_aliases = {
+        "backgroundColor": get_schema_default(data, colors_path + ["backgroundColor"]),
+        "textColor": get_schema_default(data, colors_path + ["textColor"]),
+        "borderColor": get_schema_default(data, colors_path + ["borderColor"]),
     }
-    user_attribute_aliases = get_value_or_schema_default(
-        data, ["header", "aliases", "attributes"]
-    )
+    color_aliases.update(get_value_or_schema_default(data, colors_path))
+
+    attributes_path = aliases_path + ["attributes"]
+    attribute_aliases = {
+        "grid": get_schema_default(data, attributes_path + ["grid"]),
+        "defaultNode": get_schema_default(data, attributes_path + ["defaultNode"]),
+        "defaultEdge": get_schema_default(data, attributes_path + ["defaultEdge"]),
+    }
+    user_attribute_aliases = get_value_or_schema_default(data, attributes_path)
 
     # Merge user-defined attribute aliases with the defaults
     for alias_name, attributes_list in user_attribute_aliases.items():
@@ -470,6 +473,26 @@ def generate_css_styles(data):
         global_css += {
             cssify_name(color_name): {"fill": color_value, "stroke": color_value}
         }
+
+    # Apply special colors to global CSS
+    global_css += {
+        ".backgroundStyle": {
+            "background-color": color_aliases["backgroundColor"],
+            "fill": color_aliases["backgroundColor"],
+        },
+        "#tooltip": {
+            "color": color_aliases["textColor"],
+            "border-color": color_aliases["borderColor"],
+        },
+        ".axis": {
+            "stroke": color_aliases["borderColor"],
+            "stroke-width": "2px",
+        },
+        ".tick text, .katex": {
+            "color": color_aliases["textColor"],
+            "fill": "currentColor",
+        },
+    }
 
     # Generate CSS class for nodes to set the appropriate size
     node_size = get_value_or_schema_default(data, ["header", "chart", "nodeSize"])

@@ -131,7 +131,11 @@ Contains global settings for chart configuration.
     - Any floating point value is accepted. Defaults to `0`.
 
 - **`aliases`**: Allows shorthand for reusable colors and attributes.
-  - **`colors`**: Maps color names to valid CSS color values.
+  - **`colors`**: Maps color names to valid CSS color values. Some special colors are predefined but
+    can be customized:
+    - **`backgroundColor`**: The background color of the chart. Defaults to `"white"`.
+    - **`borderColor`**: The color of the chart and tooltip borders. Defaults to `"black"`.
+    - **`textColor`**: The color of text and labels. Defaults to `"black"`.
   - **`attributes`**: Maps names to predefined [attribute lists](#attribute-lists), which can be
     applied to nodes or edges for consistent styling. Some special aliases are predefined but can be
     customized:
@@ -278,6 +282,10 @@ remain, later entries in the list override previous ones.
   ```
 
 - See `json/example4.json` for an example of how to define curved edges.
+
+- See `json/example5.json` for an example of how to define nodes with no radius.
+
+- See `json/example6.json` for an example of a dark themed chart.
 
 - See the rest of the `json/` directory for significantly more involved examples. These have all
   been generated from the files in the `csv/` directory using `jsonmaker`, through `convert_all`.

@@ -48,7 +48,16 @@
         "aliases": {
           "type": "object",
           "properties": {
-            "colors": {"type": "object", "default": {}},
+            "colors": {
+              "type": "object",
+              "properties": {
+                "backgroundColor": {"type": "string", "default": "white"},
+                "borderColor"    : {"type": "string", "default": "black"},
+                "textColor"      : {"type": "string", "default": "black"}
+              },
+              "additionalProperties": {"type": "string"},
+              "default": {}
+            },
             "attributes": {
               "type": "object",
               "properties": {

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JoeyBF/SeqSee/refs/heads/master/seqsee/input_schema.json",
+  "header": {
+    "metadata": {
+      "htmltitle": "Dark Theme Example",
+      "title"    : "Custom Colors Demo"
+    },
+    "chart": {"nodeSize": 0.04},
+    "aliases": {
+      "colors": {
+        "backgroundColor": "#1a1a1a",
+        "textColor"      : "#ffffff",
+        "borderColor"    : "#4a4a4a",
+        "neonBlue"       : "#00ffff",
+        "neonPink"       : "#ff69b4",
+        "neonGreen"      : "#39ff14"
+      },
+      "attributes": {
+        "defaultNode": [ {"color": "neonBlue"                    } ],
+        "defaultEdge": [ {"color": "neonPink" , "thickness": 0.03} ],
+        "grid"       : [ {"color": "#2a2a2a"  , "thickness": 0.02} ],
+        "special"    : [ {"color": "neonGreen"                   } ]
+      }
+    }
+  },
+  "nodes": {
+    "a": { "x": 0, "y": 0, "label": "$\\alpha$"                            },
+    "b": { "x": 1, "y": 1, "label": "$\\beta$"                             },
+    "c": { "x": 2, "y": 2, "label": "$\\gamma$", "attributes": ["special"] },
+    "d": { "x": 3, "y": 1, "label": "$\\delta$"                            }
+  },
+  "edges": [
+    {"source": "a", "target": "b"},
+    {"source": "b", "target": "c"},
+    {"source": "c", "target": "d"}
+  ]
+}

@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title></title>
+  <title>Dark Theme Example</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
   <!-- KaTeX for math rendering -->
@@ -37,37 +37,52 @@
 
 /* Dynamically generated CSS styles */
 .backgroundColor {
-    fill: white;
-    stroke: white;
+    fill: #1a1a1a;
+    stroke: #1a1a1a;
 }
 
 .textColor {
-    fill: black;
-    stroke: black;
+    fill: #ffffff;
+    stroke: #ffffff;
 }
 
 .borderColor {
-    fill: black;
-    stroke: black;
+    fill: #4a4a4a;
+    stroke: #4a4a4a;
+}
+
+.neonBlue {
+    fill: #00ffff;
+    stroke: #00ffff;
+}
+
+.neonPink {
+    fill: #ff69b4;
+    stroke: #ff69b4;
+}
+
+.neonGreen {
+    fill: #39ff14;
+    stroke: #39ff14;
 }
 
 .backgroundStyle {
-    background-color: white;
-    fill: white;
+    background-color: #1a1a1a;
+    fill: #1a1a1a;
 }
 
 #tooltip {
-    color: black;
-    border-color: black;
+    color: #ffffff;
+    border-color: #4a4a4a;
 }
 
 .axis {
-    stroke: black;
+    stroke: #4a4a4a;
     stroke-width: 2px;
 }
 
 .tick text, .katex {
-    color: black;
+    color: #ffffff;
     fill: currentColor;
 }
 
@@ -77,20 +92,25 @@ circle {
 }
 
 .grid {
-    fill: #ccc;
-    stroke: #ccc;
-    stroke-width: 0.6px;
+    fill: #2a2a2a;
+    stroke: #2a2a2a;
+    stroke-width: 1.2px;
 }
 
 .defaultNode {
-    fill: black;
-    stroke: black;
+    fill: #00ffff;
+    stroke: #00ffff;
 }
 
 .defaultEdge {
-    fill: black;
-    stroke: black;
-    stroke-width: 1.2px;
+    fill: #ff69b4;
+    stroke: #ff69b4;
+    stroke-width: 1.7999999999999998px;
+}
+
+.special {
+    fill: #39ff14;
+    stroke: #39ff14;
 }
 
 
@@ -141,15 +161,22 @@ circle {
           <!-- Apply the grid pattern to a background rectangle -->
           <rect
             id="grid-background"
-            width="240.0px"
-            height="240.0px"
+            width="360.0px"
+            height="360.0px"
             fill="url(#grid)"
           />
         </g>
         <!-- Nodes and Edges generated statically by Python -->
         <g id="edges-group">
+<line x1="0.0" y1="0.0" x2="60.0" y2="60.0" class="defaultEdge "></line>
+<line x1="60.0" y1="60.0" x2="120.0" y2="120.0" class="defaultEdge "></line>
+<line x1="120.0" y1="120.0" x2="180.0" y2="60.0" class="defaultEdge "></line>
 </g>
 <g id="nodes-group">
+<circle id="a" class="defaultNode " cx="0.0" cy="0.0"  data-label="$\alpha$"></circle>
+<circle id="b" class="defaultNode " cx="60.0" cy="60.0"  data-label="$\beta$"></circle>
+<circle id="c" class="defaultNode special" cx="120.0" cy="120.0"  data-label="$\gamma$"></circle>
+<circle id="d" class="defaultNode " cx="180.0" cy="60.0"  data-label="$\delta$"></circle>
 </g>
 
       </g>
@@ -167,11 +194,13 @@ circle {
               <text x="-120.0" y="30.0">-2</text>
               <text x="0.0" y="30.0">0</text>
               <text x="120.0" y="30.0">2</text>
+              <text x="240.0" y="30.0">4</text>
           </g>
           <g id="y-ticks" class="y-tick">
               <text x="30.0" y="-120.0">-2</text>
               <text x="30.0" y="0.0">0</text>
               <text x="30.0" y="120.0">2</text>
+              <text x="30.0" y="240.0">4</text>
           </g>
         </g>
       </g>
