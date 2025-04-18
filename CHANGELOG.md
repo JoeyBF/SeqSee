@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-04-17
+
 ### Added
 
 - [[#4]][issue-4] New color customization options in JSON schema:
