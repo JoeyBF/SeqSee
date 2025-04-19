@@ -281,11 +281,11 @@ remain, later entries in the list override previous ones.
   }
   ```
 
-- See `json/example4.json` for an example of how to define curved edges.
+- See `json/curves.json` for an example of how to define curved edges.
 
-- See `json/example5.json` for an example of how to define nodes with no radius.
+- See `json/hidden_nodes.json` for an example of how to define nodes with no radius.
 
-- See `json/example6.json` for an example of a dark themed chart.
+- See `json/dark_theme.json` for an example of a dark themed chart.
 
 - See the rest of the `json/` directory for significantly more involved examples. These have all
   been generated from the files in the `csv/` directory using `jsonmaker`, through `convert_all`.
