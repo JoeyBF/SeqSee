@@ -124,6 +124,7 @@ def load_schema():
 
 
 schema = load_schema()
+chart_schema = schema["$defs"]["chart_spec"]
 
 
 def load_template():

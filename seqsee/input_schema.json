@@ -1,6 +1,144 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "$defs": {
+    "collection_spec": {
+      "type": "object",
+      "properties": {
+        "header": {"type": "object"},
+        "charts": {
+          "type": "array",
+          "items": {
+            "oneOf": [ {"$ref": "#/$defs/chart_spec"}, {"type": "string"} ]
+          },
+          "default": []
+        }
+      },
+      "additionalProperties": false
+    },
+    "chart_spec": {
+      "type": "object",
+      "properties": {
+        "header": {
+          "type": "object",
+          "properties": {
+            "metadata": {
+              "type": "object",
+              "properties": { "htmltitle": {"type": "string", "default": ""} }
+            },
+            "coordinates": {
+              "type": ["null", "integer", "array"],
+              "default": null,
+              "items": {"type": "integer"},
+              "minLength": 0,
+              "maxLength": 2
+            },
+            "chart": {
+              "type": "object",
+              "properties": {
+                "width"      : {"$ref": "#/$defs/dimensionRange"}             ,
+                "height"     : {"$ref": "#/$defs/dimensionRange"}             ,
+                "scale"      : {"type": "number", "default": 60.00}           ,
+                "nodeSize"   : {"type": "number", "default": 0.04}            ,
+                "nodeSpacing": {"type": "number", "default": 0.02}            ,
+                "nodeSlope"  : { "type": ["number", "null"], "default": 0.00 }
+              },
+              "additionalProperties": false
+            },
+            "aliases": {
+              "type": "object",
+              "properties": {
+                "colors": {
+                  "type": "object",
+                  "properties": {
+                    "backgroundColor": {"type": "string", "default": "white"},
+                    "borderColor"    : {"type": "string", "default": "black"},
+                    "textColor"      : {"type": "string", "default": "black"}
+                  },
+                  "additionalProperties": {"type": "string"},
+                  "default": {}
+                },
+                "attributes": {
+                  "type": "object",
+                  "properties": {
+                    "grid": {
+                      "$ref": "#/$defs/attributes",
+                      "default": [ {"color": "#ccc", "thickness": 0.01} ]
+                    },
+                    "defaultNode": {
+                      "$ref": "#/$defs/attributes",
+                      "default": [ {"color": "black"} ]
+                    },
+                    "defaultEdge": {
+                      "$ref": "#/$defs/attributes",
+                      "default": [ {"color": "black", "thickness": 0.02} ]
+                    }
+                  },
+                  "additionalProperties": {"$ref": "#/$defs/attributes"},
+                  "default": {}
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "nodes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "x"         : {"type": "integer"}              ,
+              "y"         : {"type": "integer"}              ,
+              "position"  : {"type": "integer", "default": 0},
+              "label"     : {"type": "string"}               ,
+              "attributes": {"$ref": "#/$defs/attributes"}
+            },
+            "required": ["x", "y"],
+            "additionalProperties": false
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {"type": "string"},
+              "target": {"type": "string"},
+              "offset": {
+                "type": ["object"],
+                "description": "The endpoint of the edge relative to its source",
+                "properties": {
+                  "x": {"type": "number"},
+                  "y": {"type": "number"}
+                },
+                "required": ["x", "y"]
+              },
+              "label": {"type": "string"},
+              "bezier": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "x": {"type": "number"},
+                    "y": {"type": "number"}
+                  },
+                  "required": ["x", "y"]
+                },
+                "minLength": 1,
+                "maxLength": 2
+              },
+              "attributes": {"$ref": "#/$defs/attributes"}
+            },
+            "required": ["source"],
+            "oneOf": [
+              { "required": ["target"] },
+              { "required": ["offset"] }
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
     "attributes": {
       "type": "array",
       "items": {
@@ -24,120 +162,8 @@
       }
     }
   },
-  "type": "object",
-  "properties": {
-    "header": {
-      "type": "object",
-      "properties": {
-        "metadata": {
-          "type": "object",
-          "properties": {
-            "htmltitle"   : {"type": "string"},
-            "title"       : {"type": "string"},
-            "displaytitle": {"type": "string"}
-          }
-        },
-        "chart": {
-          "type": "object",
-          "properties": {
-            "width"      : {"$ref": "#/$defs/dimensionRange"},
-            "height"     : {"$ref": "#/$defs/dimensionRange"},
-            "scale"      : {"type": "number"}                ,
-            "nodeSize"   : {"type": "number"}                ,
-            "nodeSpacing": {"type": "number"}                ,
-            "nodeSlope"  : { "type": ["number", "null"] }
-          },
-          "additionalProperties": false
-        },
-        "aliases": {
-          "type": "object",
-          "properties": {
-            "colors": {
-              "type": "object",
-              "properties": {
-                "backgroundColor": {"type": "string"},
-                "borderColor"    : {"type": "string"},
-                "textColor"      : {"type": "string"}
-              },
-              "additionalProperties": {"type": "string"},
-              "default": {}
-            },
-            "attributes": {
-              "type": "object",
-              "properties": {
-                "grid": {
-                  "$ref": "#/$defs/attributes",
-                  "default": [ {"color": "#ccc", "thickness": 0.01} ]
-                },
-                "defaultNode": {
-                  "$ref": "#/$defs/attributes",
-                  "default": [ {"color": "black"} ]
-                },
-                "defaultEdge": {
-                  "$ref": "#/$defs/attributes",
-                  "default": [ {"color": "black", "thickness": 0.02} ]
-                }
-              },
-              "additionalProperties": {"$ref": "#/$defs/attributes"},
-              "default": {}
-            }
-          },
-          "additionalProperties": false
-        }
-      },
-      "additionalProperties": false
-    },
-    "nodes": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "object",
-        "properties": {
-          "x"         : {"type": "integer"                              },
-          "y"         : {"type": "integer"                              },
-          "position"  : {"type": "integer"                              },
-          "label"     : {"type": "string"                               },
-          "attributes": {                   "$ref": "#/$defs/attributes"}
-        },
-        "required": ["x", "y"],
-        "additionalProperties": false
-      }
-    },
-    "edges": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "source": {"type": "string"},
-          "target": {"type": "string"},
-          "offset": {
-            "type": ["object"],
-            "description": "The endpoint of the edge relative to its source",
-            "properties": { "x": {"type": "number"}, "y": {"type": "number"} },
-            "required": ["x", "y"]
-          },
-          "label": {"type": "string"},
-          "bezier": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "x": {"type": "number"},
-                "y": {"type": "number"}
-              },
-              "required": ["x", "y"]
-            },
-            "minLength": 1,
-            "maxLength": 2
-          },
-          "attributes": {"$ref": "#/$defs/attributes"}
-        },
-        "required": ["source"],
-        "oneOf": [
-          { "required": ["target"] },
-          { "required": ["offset"] }
-        ],
-        "additionalProperties": false
-      }
-    }
-  }
+  "anyOf": [
+    {"$ref": "#/$defs/chart_spec"     },
+    {"$ref": "#/$defs/collection_spec"}
+  ]
 }
