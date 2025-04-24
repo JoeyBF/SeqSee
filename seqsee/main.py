@@ -130,7 +130,7 @@ def load_template():
     return template
 
 
-def get_schema_default(data, path):
+def get_schema_default(path):
     """
     Get the default value from the schema at the given path.
 
@@ -158,7 +158,7 @@ def get_value_or_schema_default(data, path):
             current_value = current_value[key]
         return current_value
     except KeyError:
-        return get_schema_default(data, path)
+        return get_schema_default(path)
 
 
 def cssify_name(name):
@@ -446,17 +446,17 @@ def generate_css_styles(data):
 
     colors_path = aliases_path + ["colors"]
     color_aliases = {
-        "backgroundColor": get_schema_default(data, colors_path + ["backgroundColor"]),
-        "textColor": get_schema_default(data, colors_path + ["textColor"]),
-        "borderColor": get_schema_default(data, colors_path + ["borderColor"]),
+        "backgroundColor": get_schema_default(colors_path + ["backgroundColor"]),
+        "textColor": get_schema_default(colors_path + ["textColor"]),
+        "borderColor": get_schema_default(colors_path + ["borderColor"]),
     }
     color_aliases.update(get_value_or_schema_default(data, colors_path))
 
     attributes_path = aliases_path + ["attributes"]
     attribute_aliases = {
-        "grid": get_schema_default(data, attributes_path + ["grid"]),
-        "defaultNode": get_schema_default(data, attributes_path + ["defaultNode"]),
-        "defaultEdge": get_schema_default(data, attributes_path + ["defaultEdge"]),
+        "grid": get_schema_default(attributes_path + ["grid"]),
+        "defaultNode": get_schema_default(attributes_path + ["defaultNode"]),
+        "defaultEdge": get_schema_default(attributes_path + ["defaultEdge"]),
     }
     user_attribute_aliases = get_value_or_schema_default(data, attributes_path)
 
