@@ -143,6 +143,23 @@ circle {
         <pattern id="grid" width="120.0" height="120.0" patternUnits="userSpaceOnUse">
           <path id="grid-path" d="M 120.0 0 L 0 0 0 120.0" class="grid" style="fill: none;"/>
         </pattern>
+        <g id="chart-defs">
+          <!-- Nodes and Edges generated statically by Python -->
+          <g id="chart">
+            <g id="edges-group">
+<line x1="0.0" y1="0.0" x2="-3.000000000000001" y2="60.0" class="defaultEdge "></line>
+<line x1="0.0" y1="0.0" x2="2.999999999999999" y2="60.0" class="defaultEdge "></line>
+</g>
+<g id="nodes-group">
+<circle id="1" class="defaultNode " cx="0.0" cy="0.0"  data-label=""></circle>
+<circle id="l" class="defaultNode " cx="-9.000000000000002" cy="60.0"  data-label=""></circle>
+<circle id="c1" class="defaultNode noColor" cx="-3.000000000000001" cy="60.0"  data-label=""></circle>
+<circle id="c2" class="defaultNode radiusZero" cx="2.999999999999999" cy="60.0"  data-label=""></circle>
+<circle id="r" class="defaultNode " cx="9.000000000000002" cy="60.0"  data-label=""></circle>
+</g>
+
+          </g>
+        </g>
       </defs>
       <g id="content-group" class="svg-pan-zoom_viewport">
         <!-- Translate the grid so that it covers the appropriate region outside the first quadrant -->
@@ -155,19 +172,7 @@ circle {
             fill="url(#grid)"
           />
         </g>
-        <!-- Nodes and Edges generated statically by Python -->
-        <g id="edges-group">
-<line x1="0.0" y1="0.0" x2="-3.000000000000001" y2="60.0" class="defaultEdge "></line>
-<line x1="0.0" y1="0.0" x2="2.999999999999999" y2="60.0" class="defaultEdge "></line>
-</g>
-<g id="nodes-group">
-<circle id="1" class="defaultNode " cx="0.0" cy="0.0"  data-label=""></circle>
-<circle id="l" class="defaultNode " cx="-9.000000000000002" cy="60.0"  data-label=""></circle>
-<circle id="c1" class="defaultNode noColor" cx="-3.000000000000001" cy="60.0"  data-label=""></circle>
-<circle id="c2" class="defaultNode radiusZero" cx="2.999999999999999" cy="60.0"  data-label=""></circle>
-<circle id="r" class="defaultNode " cx="9.000000000000002" cy="60.0"  data-label=""></circle>
-</g>
-
+        <use href="#chart" />
       </g>
       <g id="axes-group">
         <!-- X-axis -->
@@ -250,9 +255,9 @@ circle {
 
       // Negate all y-coordinates:
 
-      // - all elements in content-group
+      // - all elements in content-group and all chart definitions
       document
-        .querySelectorAll("#content-group *")
+        .querySelectorAll("#content-group *, #chart-defs *")
         .forEach((element) => {
           if (element.tagName === "line") {
             negateValueInElement(element, "y1");
@@ -311,9 +316,9 @@ circle {
         const xOffset = newCanvasWidth - canvasWidth;
         const yOffset = newCanvasHeight - canvasHeight;
 
-        // Adjust y-values for all elements in content-group
+        // Adjust y-values for all elements in content-group and chart definitions
         document
-          .querySelectorAll("#content-group *")
+          .querySelectorAll("#content-group *, #chart-defs *")
           .forEach((element) => {
             if (element.tagName === "line") {
               applyOffsetToElement(element, "y1", yOffset);
