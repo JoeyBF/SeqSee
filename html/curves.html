@@ -164,20 +164,10 @@ circle {
         <pattern id="grid" width="120.0" height="120.0" patternUnits="userSpaceOnUse">
           <path id="grid-path" d="M 120.0 0 L 0 0 0 120.0" class="grid" style="fill: none;"/>
         </pattern>
-      </defs>
-      <g id="content-group" class="svg-pan-zoom_viewport">
-        <!-- Translate the grid so that it covers the appropriate region outside the first quadrant -->
-        <g id="origin-translate" transform="translate(-120.0 120.0)">
-          <!-- Apply the grid pattern to a background rectangle -->
-          <rect
-            id="grid-background"
-            width="360.0px"
-            height="480.0px"
-            fill="url(#grid)"
-          />
-        </g>
-        <!-- Nodes and Edges generated statically by Python -->
-        <g id="edges-group">
+        <g id="chart-defs">
+          <!-- Nodes and Edges generated statically by Python -->
+          <g id="chart">
+            <g id="edges-group">
 <line x1="0.0" y1="60.0" x2="60.0" y2="120.0" class="defaultEdge "></line>
 <path d="M 0.0 60.0 C 0.0 120.0 120.0 240.0 180.0 240.0" class="hh2" style="fill: none;"></path>
 <line x1="60.0" y1="0.0" x2="60.0" y2="120.0" class="defaultEdge hh0"></line>
@@ -192,6 +182,21 @@ circle {
 <circle id="d0^3" class="defaultNode " cx="180.0" cy="240.0"  data-label=""></circle>
 </g>
 
+          </g>
+        </g>
+      </defs>
+      <g id="content-group" class="svg-pan-zoom_viewport">
+        <!-- Translate the grid so that it covers the appropriate region outside the first quadrant -->
+        <g id="origin-translate" transform="translate(-120.0 120.0)">
+          <!-- Apply the grid pattern to a background rectangle -->
+          <rect
+            id="grid-background"
+            width="360.0px"
+            height="480.0px"
+            fill="url(#grid)"
+          />
+        </g>
+        <use href="#chart" />
       </g>
       <g id="axes-group">
         <!-- X-axis -->
@@ -277,9 +282,9 @@ circle {
 
       // Negate all y-coordinates:
 
-      // - all elements in content-group
+      // - all elements in content-group and all chart definitions
       document
-        .querySelectorAll("#content-group *")
+        .querySelectorAll("#content-group *, #chart-defs *")
         .forEach((element) => {
           if (element.tagName === "line") {
             negateValueInElement(element, "y1");
@@ -338,9 +343,9 @@ circle {
         const xOffset = newCanvasWidth - canvasWidth;
         const yOffset = newCanvasHeight - canvasHeight;
 
-        // Adjust y-values for all elements in content-group
+        // Adjust y-values for all elements in content-group and chart definitions
         document
-          .querySelectorAll("#content-group *")
+          .querySelectorAll("#content-group *, #chart-defs *")
           .forEach((element) => {
             if (element.tagName === "line") {
               applyOffsetToElement(element, "y1", yOffset);

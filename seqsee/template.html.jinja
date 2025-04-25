@@ -78,6 +78,12 @@
         <pattern id="grid" width="{{ 2*spacing }}" height="{{ 2*spacing }}" patternUnits="userSpaceOnUse">
           <path id="grid-path" d="M {{ 2*spacing }} 0 L 0 0 0 {{ 2*spacing }}" class="grid" style="fill: none;"/>
         </pattern>
+        <g id="chart-defs">
+          <!-- Nodes and Edges generated statically by Python -->
+          <g id="chart">
+            {{ static_svg_content }}
+          </g>
+        </g>
       </defs>
       <g id="content-group" class="svg-pan-zoom_viewport">
         <!-- Translate the grid so that it covers the appropriate region outside the first quadrant -->
@@ -90,8 +96,7 @@
             fill="url(#grid)"
           />
         </g>
-        <!-- Nodes and Edges generated statically by Python -->
-        {{ static_svg_content }}
+        <use href="#chart" />
       </g>
       <g id="axes-group">
         <!-- X-axis -->
@@ -174,9 +179,9 @@
 
       // Negate all y-coordinates:
 
-      // - all elements in content-group
+      // - all elements in content-group and all chart definitions
       document
-        .querySelectorAll("#content-group *")
+        .querySelectorAll("#content-group *, #chart-defs *")
         .forEach((element) => {
           if (element.tagName === "line") {
             negateValueInElement(element, "y1");
@@ -235,9 +240,9 @@
         const xOffset = newCanvasWidth - canvasWidth;
         const yOffset = newCanvasHeight - canvasHeight;
 
-        // Adjust y-values for all elements in content-group
+        // Adjust y-values for all elements in content-group and chart definitions
         document
-          .querySelectorAll("#content-group *")
+          .querySelectorAll("#content-group *, #chart-defs *")
           .forEach((element) => {
             if (element.tagName === "line") {
               applyOffsetToElement(element, "y1", yOffset);

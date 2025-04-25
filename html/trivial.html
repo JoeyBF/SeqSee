@@ -134,6 +134,16 @@ circle {
         <pattern id="grid" width="120.0" height="120.0" patternUnits="userSpaceOnUse">
           <path id="grid-path" d="M 120.0 0 L 0 0 0 120.0" class="grid" style="fill: none;"/>
         </pattern>
+        <g id="chart-defs">
+          <!-- Nodes and Edges generated statically by Python -->
+          <g id="chart">
+            <g id="edges-group">
+</g>
+<g id="nodes-group">
+</g>
+
+          </g>
+        </g>
       </defs>
       <g id="content-group" class="svg-pan-zoom_viewport">
         <!-- Translate the grid so that it covers the appropriate region outside the first quadrant -->
@@ -146,12 +156,7 @@ circle {
             fill="url(#grid)"
           />
         </g>
-        <!-- Nodes and Edges generated statically by Python -->
-        <g id="edges-group">
-</g>
-<g id="nodes-group">
-</g>
-
+        <use href="#chart" />
       </g>
       <g id="axes-group">
         <!-- X-axis -->
@@ -234,9 +239,9 @@ circle {
 
       // Negate all y-coordinates:
 
-      // - all elements in content-group
+      // - all elements in content-group and all chart definitions
       document
-        .querySelectorAll("#content-group *")
+        .querySelectorAll("#content-group *, #chart-defs *")
         .forEach((element) => {
           if (element.tagName === "line") {
             negateValueInElement(element, "y1");
@@ -295,9 +300,9 @@ circle {
         const xOffset = newCanvasWidth - canvasWidth;
         const yOffset = newCanvasHeight - canvasHeight;
 
-        // Adjust y-values for all elements in content-group
+        // Adjust y-values for all elements in content-group and chart definitions
         document
-          .querySelectorAll("#content-group *")
+          .querySelectorAll("#content-group *, #chart-defs *")
           .forEach((element) => {
             if (element.tagName === "line") {
               applyOffsetToElement(element, "y1", yOffset);
