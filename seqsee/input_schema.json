@@ -19,8 +19,8 @@
     "dimensionRange": {
       "type": "object",
       "properties": {
-        "min": { "type": ["integer", "null"], "default": null },
-        "max": { "type": ["integer", "null"], "default": null }
+        "min": { "type": ["integer", "null"] },
+        "max": { "type": ["integer", "null"] }
       }
     }
   },
@@ -31,17 +31,17 @@
       "properties": {
         "metadata": {
           "type": "object",
-          "properties": { "htmltitle": {"type": "string", "default": ""} }
+          "properties": { "htmltitle": {"type": "string"} }
         },
         "chart": {
           "type": "object",
           "properties": {
-            "width"      : {"$ref": "#/$defs/dimensionRange"}             ,
-            "height"     : {"$ref": "#/$defs/dimensionRange"}             ,
-            "scale"      : {"type": "number", "default": 60.00}           ,
-            "nodeSize"   : {"type": "number", "default": 0.04}            ,
-            "nodeSpacing": {"type": "number", "default": 0.02}            ,
-            "nodeSlope"  : { "type": ["number", "null"], "default": 0.00 }
+            "width"      : {"$ref": "#/$defs/dimensionRange"},
+            "height"     : {"$ref": "#/$defs/dimensionRange"},
+            "scale"      : {"type": "number"}                ,
+            "nodeSize"   : {"type": "number"}                ,
+            "nodeSpacing": {"type": "number"}                ,
+            "nodeSlope"  : { "type": ["number", "null"] }
           },
           "additionalProperties": false
         },
@@ -51,9 +51,9 @@
             "colors": {
               "type": "object",
               "properties": {
-                "backgroundColor": {"type": "string", "default": "white"},
-                "borderColor"    : {"type": "string", "default": "black"},
-                "textColor"      : {"type": "string", "default": "black"}
+                "backgroundColor": {"type": "string"},
+                "borderColor"    : {"type": "string"},
+                "textColor"      : {"type": "string"}
               },
               "additionalProperties": {"type": "string"},
               "default": {}
@@ -88,11 +88,11 @@
       "additionalProperties": {
         "type": "object",
         "properties": {
-          "x"         : {"type": "integer"}              ,
-          "y"         : {"type": "integer"}              ,
-          "position"  : {"type": "integer", "default": 0},
-          "label"     : {"type": "string"}               ,
-          "attributes": {"$ref": "#/$defs/attributes"}
+          "x"         : {"type": "integer"                              },
+          "y"         : {"type": "integer"                              },
+          "position"  : {"type": "integer"                              },
+          "label"     : {"type": "string"                               },
+          "attributes": {                   "$ref": "#/$defs/attributes"}
         },
         "required": ["x", "y"],
         "additionalProperties": false

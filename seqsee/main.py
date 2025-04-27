@@ -7,6 +7,11 @@ import os
 from collections import defaultdict
 from jsonschema.exceptions import ValidationError
 from jinja2 import Environment, FileSystemLoader
+from seqsee.defaults import (
+    SCHEMA_DEFAULTS,
+    get_schema_default,
+    get_value_or_schema_default,
+)
 
 # The distance between successive x or y coordinates. Units are in pixels. This will be fixed
 # throughout the html file, but zooming is implemented through a transformation matrix applied to
@@ -128,37 +133,6 @@ def load_template():
     env = Environment(loader=FileSystemLoader(searchpath=os.path.dirname(__file__)))
     template = env.get_template("template.html.jinja")
     return template
-
-
-def get_schema_default(path):
-    """
-    Get the default value from the schema at the given path.
-
-    This is useful for when we need to know the default value of a field in the schema, but the field
-    is not present in the data.
-    """
-
-    default_value = schema
-    for key in path:
-        default_value = default_value["properties"][key]
-    return default_value["default"]
-
-
-def get_value_or_schema_default(data, path):
-    """
-    Attempt to get a value from `data` at the given path.
-
-    If it is not specified, get the default value from the schema. The schema is always assumed to
-    contain a default value for the given path.
-    """
-
-    try:
-        current_value = data
-        for key in path:
-            current_value = current_value[key]
-        return current_value
-    except KeyError:
-        return get_schema_default(path)
 
 
 def cssify_name(name):
@@ -302,9 +276,7 @@ def calculate_absolute_positions(data):
         nodes_by_bidegree[x, y].append(node_id)
 
     # Sort bidegrees by the `position` attribute of the nodes
-    default_position = schema["properties"]["nodes"]["additionalProperties"][
-        "properties"
-    ]["position"]["default"]
+    default_position = SCHEMA_DEFAULTS["nodes"]["position"]
     for bidegree, nodes in nodes_by_bidegree.items():
         nodes_by_bidegree[bidegree] = sorted(
             nodes,
