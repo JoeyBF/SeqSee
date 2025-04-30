@@ -76,24 +76,15 @@
     stroke: #FF00FF;
 }
 
-.backgroundStyle {
-    background-color: white;
-    fill: white;
-}
-
-#tooltip {
-    color: black;
-    border-color: black;
-}
-
-.axis {
-    stroke: black;
-    stroke-width: 2px;
-}
-
-.tick text, .katex {
-    color: black;
-    fill: currentColor;
+:root {
+    --backgroundColor: white;
+    --textColor: black;
+    --borderColor: black;
+    --darkcyan: #00B3B3;
+    --darkgreen: #00B300;
+    --gray: #666666;
+    --red: #FF0000;
+    --magenta: #FF00FF;
 }
 
 circle {
@@ -258,6 +249,11 @@ circle {
 }
 
 
+    .background-style {
+      background-color: var(--backgroundColor);
+      fill: var(--backgroundColor);
+    }
+
     #tooltip {
       position: absolute;
       display: none;
@@ -266,6 +262,18 @@ circle {
       border-width: 1px;
       padding: 5px;
       z-index: 10;
+      color: var(--textColor);
+      border-color: var(--borderColor);
+    }
+
+    .axis {
+      stroke: var(--borderColor);
+      stroke-width: "2px";
+    }
+
+    .tick text, .katex {
+      color: var(--textColor);
+      fill: currentColor;
     }
 
     .tick {
@@ -285,7 +293,7 @@ circle {
 </head>
 
 <!-- We set `visibility: visible` in JS after some preprocessing -->
-<body style="visibility: hidden" class="backgroundStyle">
+<body style="visibility: hidden" class="background-style">
   <div id="canvas-container">
     <svg id="svg-canvas" width="100%" height="100%">
       <defs>
@@ -1183,8 +1191,8 @@ circle {
         <!-- Y-axis -->
         <line id="y-axis" class="axis" />
         <!-- Blocks under and to the left to hide the content -->
-        <rect id="x-block" x="0" y="0" class="backgroundStyle" />
-        <rect id="y-block" x="0" y="0" class="backgroundStyle" />
+        <rect id="x-block" x="0" y="0" class="background-style" />
+        <rect id="y-block" x="0" y="0" class="background-style" />
         <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
         <g id="ticks" class="tick">
           <g id="x-ticks" class="x-tick">
@@ -1272,7 +1280,7 @@ circle {
       </g>
     </svg>
   </div>
-  <div id="tooltip" class="backgroundStyle"></div>
+  <div id="tooltip" class="background-style"></div>
   <script>
     function applyFunctionToPath(path, fn) {
       let pathData = [];

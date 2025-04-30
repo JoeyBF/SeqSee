@@ -446,24 +446,12 @@ def generate_css_styles(data):
             cssify_name(color_name): {"fill": color_value, "stroke": color_value}
         }
 
-    # Apply special colors to global CSS
+    # Save color aliases as CSS variables for use in the rest of the CSS
     global_css += {
-        ".backgroundStyle": {
-            "background-color": color_aliases["backgroundColor"],
-            "fill": color_aliases["backgroundColor"],
-        },
-        "#tooltip": {
-            "color": color_aliases["textColor"],
-            "border-color": color_aliases["borderColor"],
-        },
-        ".axis": {
-            "stroke": color_aliases["borderColor"],
-            "stroke-width": "2px",
-        },
-        ".tick text, .katex": {
-            "color": color_aliases["textColor"],
-            "fill": "currentColor",
-        },
+        ":root": {
+            f"--{color_name}": color_value
+            for color_name, color_value in color_aliases.items()
+        }
     }
 
     # Generate CSS class for nodes to set the appropriate size
