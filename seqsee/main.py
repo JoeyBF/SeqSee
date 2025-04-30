@@ -5,7 +5,7 @@ import math
 import sys
 import os
 from collections import defaultdict
-from jsonschema.exceptions import ValidationError
+from dataclasses import dataclass
 from jinja2 import Environment, FileSystemLoader
 from seqsee.defaults import (
     SCHEMA_DEFAULTS,
@@ -116,9 +116,6 @@ class CssStyle:
         return ret
 
 
-global_css = CssStyle()
-
-
 def load_schema():
     schema_path = os.path.join(os.path.dirname(__file__), "input_schema.json")
     with open(schema_path, "r") as f:
@@ -163,12 +160,7 @@ def style_and_aliases_from_attributes(attributes):
             # This is a raw attribute object
             for key, value in attr.items():
                 if key == "color":
-                    if (value_key := cssify_name(value)) in global_css.keys():
-                        # This is a color alias
-                        new_style += global_css[value_key]
-                    else:
-                        # This is a CSS color value
-                        new_style += {"fill": value, "stroke": value}
+                    new_style += {"fill": value, "stroke": value}
                 elif key == "size":
                     new_style += {"r": scale * float(value)}
                 elif key == "thickness":
@@ -202,297 +194,300 @@ def style_and_aliases_from_attributes(attributes):
     return (new_style, aliases)
 
 
-def generate_style(style, aliases):
-    """Collapse a list of styles and aliases into a single `CssStyle` object."""
-    style = copy.deepcopy(style)
-    for alias in aliases:
-        style.append(global_css[cssify_name(alias)])
-    return style
+@dataclass
+class DimensionRange:
+    min: int | None
+    max: int | None
+
+    @classmethod
+    def from_json(cls, data):
+        return cls(data.get("min", None), data.get("max", None))
 
 
-def ensure_json_path_is_defined(data, path):
-    """
-    Ensure that the path exists in the JSON data, creating it if necessary.
+class Chart:
+    def __init__(self, chart_spec):
+        # validate against schema
+        jsonschema.validate(instance=chart_spec, schema=schema)
 
-    This modifies `data` in-place. If the path doesn't already exist, we create a JSON object, which
-    is equivalent to a Python `dict`.
-    """
+        self.spec = chart_spec
 
-    current_value = data
-    for key in path:
-        if key not in current_value:
-            current_value[key] = {}
-        current_value = current_value[key]
+        # We store the top-level attributes of the chart to avoid calling `get(..., {})` repeatedly
+        self.header = chart_spec.get("header", {})
+        self.nodes = chart_spec.get("nodes", {})
+        self.edges = chart_spec.get("edges", {})
 
-
-def compute_chart_dimensions(data):
-    """
-    This modifies `data` in-place to set up the `header.chart.width` and `header.chart.height`
-    objects. Namely, it replaces the `null` values by autodetected boundaries.
-
-    The bounds on the width and height are calculated based on the positions of the nodes in the
-    chart. For maximum values, we give the smallest even size that makes the last column/row empty.
-    We do the opposite for minimum values. Defaults to a 2x2 first quadrant grid if there are no
-    nodes.
-    """
-
-    nodes = data.get("nodes", {})
-
-    def compute_dimension_bounds(dim_name, coord_name, default):
-        ensure_json_path_is_defined(data, ["header", "chart", dim_name])
-        if data["header"]["chart"][dim_name].get("min") is None:
-            # Greatest even number strictly smaller than the minimum coordinate of any node
-            dimension = 2 * (
-                min((node[coord_name] for node in nodes.values()), default=default) // 2
-                - 1
-            )
-            data["header"]["chart"][dim_name]["min"] = dimension
-        if data["header"]["chart"][dim_name].get("max") is None:
-            # Smallest even number strictly greater than the maximum coordinate of any node
-            dimension = 2 * (
-                max((node[coord_name] for node in nodes.values()), default=default) // 2
-                + 1
-            )
-            data["header"]["chart"][dim_name]["max"] = dimension
-
-    # Arbitrary default values. These are only used if there are no nodes.
-    compute_dimension_bounds("width", "x", 0)
-    compute_dimension_bounds("height", "y", 0)
-
-
-def calculate_absolute_positions(data):
-    """
-    Compute the final positions of the nodes in the chart.
-
-    This modifies `data` in-place to add attributes `absoluteX` and `absoluteY`. They will be used
-    by the SVG generation code to place the nodes at the correct positions and to draw the edges.
-    """
-
-    nodes_by_bidegree = defaultdict(list)
-
-    # Group nodes by bidegree
-    for node_id, node in data.get("nodes", {}).items():
-        x, y = node["x"], node["y"]
-        nodes_by_bidegree[x, y].append(node_id)
-
-    # Sort bidegrees by the `position` attribute of the nodes
-    default_position = SCHEMA_DEFAULTS["nodes"]["position"]
-    for bidegree, nodes in nodes_by_bidegree.items():
-        nodes_by_bidegree[bidegree] = sorted(
-            nodes,
-            key=lambda node_id: data["nodes"][node_id].get(
-                "position", default_position
-            ),
+        self.width = DimensionRange.from_json(
+            self.header.get("chart", {}).get("width", {})
+        )
+        self.height = DimensionRange.from_json(
+            self.header.get("chart", {}).get("height", {})
         )
 
-    # Get defaults and compute constants
-    node_size = get_value_or_schema_default(data, ["header", "chart", "nodeSize"])
-    node_spacing = get_value_or_schema_default(data, ["header", "chart", "nodeSpacing"])
-    node_slope = get_value_or_schema_default(data, ["header", "chart", "nodeSlope"])
+        self.generate_css_styles()
 
-    distance_between_centers = node_spacing + 2 * node_size
+    def compute_chart_dimensions(self):
+        """
+        This replaces the null values in `self.width` and `self.height` by autodetected boundaries.
 
-    # Calculate the angle of the line that the nodes will be placed on
-    if node_slope is not None:
-        theta = math.atan(node_slope)
-    else:
-        # null means vertical
-        theta = math.pi / 2
+        The bounds on the width and height are calculated based on the positions of the nodes in the
+        chart. For maximum values, we give the smallest even size that makes the last column/row
+        empty. We do the opposite for minimum values. Defaults to a 4x4 grid centered at the origin
+        if there are no nodes.
+        """
 
-    # Calculate absolute positions
-    for (x, y), nodes in nodes_by_bidegree.items():
-        bidegree_rank = len(nodes)
-        first_center_to_last_center = (bidegree_rank - 1) * distance_between_centers
-        for i, node_id in enumerate(nodes):
-            offset = -first_center_to_last_center / 2 + i * distance_between_centers
-            data["nodes"][node_id]["absoluteX"] = x + offset * math.cos(theta)
-            data["nodes"][node_id]["absoluteY"] = y + offset * math.sin(theta)
+        def compute_dimension_bounds(dim_range, coord_name, default):
+            coords = [node[coord_name] for node in self.nodes.values()]
 
+            if dim_range.min is None:
+                # Greatest even number strictly smaller than the minimum coordinate of any node
+                dimension = 2 * (min(coords, default=default) // 2 - 1)
+                dim_range.min = dimension
 
-def generate_nodes_svg(data):
-    """Generate an SVG <g> element containing all nodes."""
+            if dim_range.max is None:
+                # Smallest even number strictly greater than the maximum coordinate of any node
+                dimension = 2 * (max(coords, default=default) // 2 + 1)
+                dim_range.max = dimension
 
-    nodes_svg = '<g id="nodes-group">\n'
+        # Arbitrary default values. These are only used if there are no nodes.
+        compute_dimension_bounds(self.width, "x", 0)
+        compute_dimension_bounds(self.height, "y", 0)
 
-    for node_id, node in data.get("nodes", {}).items():
-        cx = node["absoluteX"] * scale
-        cy = node["absoluteY"] * scale
+    def calculate_absolute_positions(self):
+        """
+        Compute the final positions of the nodes in the chart.
 
-        attributes = node.get("attributes", [])
-        style, aliases = style_and_aliases_from_attributes(attributes)
-        style = style.generate(indent=0).replace("\n", " ").strip(" {}")
-        if style:
-            style = f'style="{style}"'
-        aliases = " ".join(aliases)
+        This modifies the nodes in `self.nodes` in-place to add attributes `absoluteX` and
+        `absoluteY`. They will be used by the SVG generation code to place the nodes at the correct
+        positions and to draw the edges.
+        """
 
-        label = node.get("label", "")
+        nodes_by_bidegree = defaultdict(list)
 
-        nodes_svg += f'<circle id="{node_id}" class="defaultNode {aliases}" cx="{cx}" cy="{cy}" {style} data-label="{label}"></circle>\n'
+        # Group nodes by bidegree
+        for node_id, node in self.nodes.items():
+            x, y = node["x"], node["y"]
+            nodes_by_bidegree[x, y].append(node_id)
 
-    nodes_svg += "</g>\n"
-    return nodes_svg
+        # Sort bidegrees by the `position` attribute of the nodes
+        default_position = get_schema_default(["nodes", "position"])
+        for bidegree, nodes in nodes_by_bidegree.items():
+            nodes_by_bidegree[bidegree] = sorted(
+                nodes,
+                key=lambda node_id: self.nodes[node_id].get(
+                    "position", default_position
+                ),
+            )
 
+        # Get defaults and compute constants
+        chart_path = ["header", "chart"]
+        node_size = get_value_or_schema_default(self.spec, chart_path + ["nodeSize"])
+        node_spacing = get_value_or_schema_default(
+            self.spec, chart_path + ["nodeSpacing"]
+        )
+        node_slope = get_value_or_schema_default(self.spec, chart_path + ["nodeSlope"])
 
-def generate_edges_svg(data):
-    """Generate an SVG <g> element containing all edges."""
+        distance_between_centers = node_spacing + 2 * node_size
 
-    edges_svg = '<g id="edges-group">\n'
-
-    for edge in data.get("edges", []):
-        source = data["nodes"][edge["source"]]
-        if "target" in edge:
-            target = data["nodes"][edge["target"]]
-            target_x = target["absoluteX"] * scale
-            target_y = target["absoluteY"] * scale
-        elif "offset" in edge:
-            target_x = (source["absoluteX"] + edge["offset"]["x"]) * scale
-            target_y = (source["absoluteY"] + edge["offset"]["y"]) * scale
+        # Calculate the angle of the line that the nodes will be placed on
+        if node_slope is not None:
+            theta = math.atan(node_slope)
         else:
-            # Impossible due to schema
-            raise NotImplementedError
+            # null means vertical
+            theta = math.pi / 2
 
-        x1 = source["absoluteX"] * scale
-        y1 = source["absoluteY"] * scale
+        # Calculate absolute positions
+        for (x, y), nodes in nodes_by_bidegree.items():
+            bidegree_rank = len(nodes)
+            first_center_to_last_center = (bidegree_rank - 1) * distance_between_centers
+            for i, node_id in enumerate(nodes):
+                offset = -first_center_to_last_center / 2 + i * distance_between_centers
+                self.nodes[node_id]["absoluteX"] = x + offset * math.cos(theta)
+                self.nodes[node_id]["absoluteY"] = y + offset * math.sin(theta)
 
-        attributes = edge.get("attributes", [])
-        style, aliases = style_and_aliases_from_attributes(attributes)
-        style = style.generate(indent=0).replace("\n", " ").strip(" {}")
-        aliases = " ".join(aliases)
+    def generate_nodes_svg(self):
+        """Generate an SVG <g> element containing all nodes."""
 
-        if edge.get("bezier"):
-            control_points = edge["bezier"]
-            if len(control_points) == 1:
-                control_x = control_points[0]["x"] * scale + x1
-                control_y = control_points[0]["y"] * scale + y1
-                curve_d = f"Q {control_x} {control_y} {target_x} {target_y}"
-            elif len(control_points) == 2:
-                control0_x = control_points[0]["x"] * scale + x1
-                control0_y = control_points[0]["y"] * scale + y1
-                control1_x = control_points[1]["x"] * scale + target_x
-                control1_y = control_points[1]["y"] * scale + target_y
-                curve_d = f"C {control0_x} {control0_y} {control1_x} {control1_y} {target_x} {target_y}"
+        nodes_svg = '<g id="nodes-group">\n'
+
+        for node_id, node in self.nodes.items():
+            cx = node["absoluteX"] * scale
+            cy = node["absoluteY"] * scale
+
+            attributes = node.get("attributes", [])
+            style, aliases = style_and_aliases_from_attributes(attributes)
+            style = style.generate(indent=0).replace("\n", " ").strip(" {}")
+            if style:
+                style = f'style="{style}"'
+            aliases = " ".join(aliases)
+
+            label = node.get("label", "")
+
+            nodes_svg += f'<circle id="{node_id}" class="defaultNode {aliases}" cx="{cx}" cy="{cy}" {style} data-label="{label}"></circle>\n'
+
+        nodes_svg += "</g>\n"
+        return nodes_svg
+
+    def generate_edges_svg(self):
+        """Generate an SVG <g> element containing all edges."""
+
+        edges_svg = '<g id="edges-group">\n'
+
+        for edge in self.edges:
+            source = self.nodes[edge["source"]]
+            if "target" in edge:
+                target = self.nodes[edge["target"]]
+                target_x = target["absoluteX"] * scale
+                target_y = target["absoluteY"] * scale
+            elif "offset" in edge:
+                target_x = (source["absoluteX"] + edge["offset"]["x"]) * scale
+                target_y = (source["absoluteY"] + edge["offset"]["y"]) * scale
             else:
                 # Impossible due to schema
                 raise NotImplementedError
-            edge_svg = f'<path d="M {x1} {y1} {curve_d}" class="{aliases}" style="fill: none;{style}"></path>\n'
-        else:
-            edge_svg = f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="defaultEdge {aliases}" style="{style}"></line>\n'
 
-        # Remove empty style attribute for cleaner output. This is not strictly necessary, but it
-        # makes me feel better.
-        edges_svg += edge_svg.replace(' style=""', "")
+            x1 = source["absoluteX"] * scale
+            y1 = source["absoluteY"] * scale
 
-    edges_svg += "</g>\n"
-    return edges_svg
+            attributes = edge.get("attributes", [])
+            style, aliases = style_and_aliases_from_attributes(attributes)
+            style = style.generate(indent=0).replace("\n", " ").strip(" {}")
+            aliases = " ".join(aliases)
 
+            if edge.get("bezier"):
+                control_points = edge["bezier"]
+                if len(control_points) == 1:
+                    control_x = control_points[0]["x"] * scale + x1
+                    control_y = control_points[0]["y"] * scale + y1
+                    curve_d = f"Q {control_x} {control_y} {target_x} {target_y}"
+                elif len(control_points) == 2:
+                    control0_x = control_points[0]["x"] * scale + x1
+                    control0_y = control_points[0]["y"] * scale + y1
+                    control1_x = control_points[1]["x"] * scale + target_x
+                    control1_y = control_points[1]["y"] * scale + target_y
+                    curve_d = f"C {control0_x} {control0_y} {control1_x} {control1_y} {target_x} {target_y}"
+                else:
+                    # Impossible due to schema
+                    raise NotImplementedError
+                edge_svg = f'<path d="M {x1} {y1} {curve_d}" class="{aliases}" style="fill: none;{style}"></path>\n'
+            else:
+                edge_svg = f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="defaultEdge {aliases}" style="{style}"></line>\n'
 
-def generate_svg(data):
-    # First make sure that the absolute positions are calculated
-    calculate_absolute_positions(data)
-    # We generate nodes after edges so that they are drawn on top
-    return generate_edges_svg(data) + generate_nodes_svg(data)
+            # Remove empty style attribute for cleaner output. This is not strictly necessary, but it
+            # makes me feel better.
+            edges_svg += edge_svg.replace(' style=""', "")
 
+        edges_svg += "</g>\n"
+        return edges_svg
 
-def generate_html(data):
-    # Generate CSS styles to be placed in <head>
-    generate_css_styles(data)
-    # Calculate chart dimensions
-    compute_chart_dimensions(data)
-    # Generate SVG content
-    static_svg_content = generate_svg(data)
+    def generate_svg(self):
+        # First make sure that the absolute positions are calculated
+        self.calculate_absolute_positions()
+        # We generate nodes after edges so that they are drawn on top
+        return self.generate_edges_svg() + self.generate_nodes_svg()
 
-    template = load_template()
-    html_output = template.render(
-        data=data,
-        spacing=scale,
-        css_styles=global_css.generate(),
-        static_svg_content=static_svg_content,
-    )
-    return html_output
+    def generate_html(self):
+        # Generate CSS styles to be placed in <head>
+        self.generate_css_styles()
+        # Calculate chart dimensions
+        self.compute_chart_dimensions()
+        # Generate SVG content
+        static_svg_content = self.generate_svg()
 
+        template = load_template()
+        html_output = template.render(
+            chart=self,
+            spacing=scale,
+            css_styles=self.chart_css.generate(),
+            static_svg_content=static_svg_content,
+        )
+        return html_output
 
-def generate_css_styles(data):
-    """Populate the global_css variable with CSS classes for color and attribute aliases."""
-    global global_css
-    aliases_path = ["header", "aliases"]
+    def generate_css_styles(self):
+        """Generate `self.chart_css` from the data in "header/aliases" """
 
-    colors_path = aliases_path + ["colors"]
-    color_aliases = {
-        "backgroundColor": get_schema_default(colors_path + ["backgroundColor"]),
-        "textColor": get_schema_default(colors_path + ["textColor"]),
-        "borderColor": get_schema_default(colors_path + ["borderColor"]),
-    }
-    color_aliases.update(get_value_or_schema_default(data, colors_path))
+        chart_css = CssStyle()
+        aliases_path = ["header", "aliases"]
 
-    attributes_path = aliases_path + ["attributes"]
-    attribute_aliases = {
-        "grid": get_schema_default(attributes_path + ["grid"]),
-        "defaultNode": get_schema_default(attributes_path + ["defaultNode"]),
-        "defaultEdge": get_schema_default(attributes_path + ["defaultEdge"]),
-    }
-    user_attribute_aliases = get_value_or_schema_default(data, attributes_path)
+        colors_path = aliases_path + ["colors"]
+        color_aliases = {
+            "backgroundColor": get_schema_default(colors_path + ["backgroundColor"]),
+            "textColor": get_schema_default(colors_path + ["textColor"]),
+            "borderColor": get_schema_default(colors_path + ["borderColor"]),
+        }
+        color_aliases.update(self.header.get("aliases", {}).get("colors", {}))
 
-    # Merge user-defined attribute aliases with the defaults
-    for alias_name, attributes_list in user_attribute_aliases.items():
-        current_attributes = attribute_aliases.get(alias_name, [])
-        # This creates a new list instead of modifying the existing one, which would be bad. This is
-        # because it could mutate a default value, which would ultimately corrupt `schema`.
-        attribute_aliases[alias_name] = current_attributes + attributes_list
+        attributes_path = aliases_path + ["attributes"]
+        attribute_aliases = {
+            "grid": get_schema_default(attributes_path + ["grid"]),
+            "defaultNode": get_schema_default(attributes_path + ["defaultNode"]),
+            "defaultEdge": get_schema_default(attributes_path + ["defaultEdge"]),
+        }
+        user_attribute_aliases = self.header.get("aliases", {}).get("attributes", {})
 
-    # Generate CSS classes for color aliases. We do it first because we may need to reference them
-    # in the attribute aliases.
-    for color_name, color_value in color_aliases.items():
-        global_css += {
-            cssify_name(color_name): {"fill": color_value, "stroke": color_value}
+        # Merge user-defined attribute aliases with the defaults
+        for alias_name, attributes_list in user_attribute_aliases.items():
+            current_attributes = attribute_aliases.get(alias_name, [])
+            # This creates a new list instead of modifying the existing one, which would be bad. This is
+            # because it could mutate a default value, which would ultimately corrupt `schema`.
+            attribute_aliases[alias_name] = current_attributes + attributes_list
+
+        # Generate CSS classes for color aliases. We do it first because we may need to reference them
+        # in the attribute aliases.
+        for color_name, color_value in color_aliases.items():
+            chart_css += {
+                cssify_name(color_name): {"fill": color_value, "stroke": color_value}
+            }
+
+        # Save color aliases as CSS variables for use in the rest of the CSS
+        chart_css += {
+            ":root": {
+                f"--{color_name}": color_value
+                for color_name, color_value in color_aliases.items()
+            }
         }
 
-    # Save color aliases as CSS variables for use in the rest of the CSS
-    global_css += {
-        ":root": {
-            f"--{color_name}": color_value
-            for color_name, color_value in color_aliases.items()
-        }
-    }
+        # Generate CSS class for nodes to set the appropriate size
+        node_size = get_value_or_schema_default(
+            self.spec, ["header", "chart", "nodeSize"]
+        )
+        chart_css += {"circle": {"stroke-width": 0, "r": scale * node_size}}
 
-    # Generate CSS class for nodes to set the appropriate size
-    node_size = get_value_or_schema_default(data, ["header", "chart", "nodeSize"])
-    global_css += {"circle": {"stroke-width": 0, "r": scale * node_size}}
+        # Generate CSS classes for attribute aliases
+        for alias_name, attributes_list in attribute_aliases.items():
+            style, aliases = style_and_aliases_from_attributes(attributes_list)
 
-    # Generate CSS classes for attribute aliases
-    for alias_name, attributes_list in attribute_aliases.items():
-        style, aliases = style_and_aliases_from_attributes(attributes_list)
-        global_css += {cssify_name(alias_name): generate_style(style, aliases)}
+            style = copy.deepcopy(style)
+            for alias in aliases:
+                style.append(chart_css[cssify_name(alias)])
+
+            for property in ["fill", "stroke"]:
+                if property in style.keys() and style[property] in color_aliases:
+                    # This is a color alias, so we need to use the CSS variable instead
+                    style += {property: f"var(--{style[property]})"}
+
+            chart_css += {cssify_name(alias_name): style}
+
+        self.chart_css = chart_css
 
 
 def process_json(input_file, output_file):
-    global global_css
-
     # Load input JSON
     with open(input_file, "r") as f:
-        data = json.load(f)
-
-    # validate against schema
-    try:
-        jsonschema.validate(instance=data, schema=schema)
-    except ValidationError as e:
-        print("Input JSON validation error:")
-        print(e)
-        sys.exit(1)
+        chart_spec = json.load(f)
 
     global scale
-    scale = get_value_or_schema_default(data, ["header", "chart", "scale"])
+    scale = get_value_or_schema_default(chart_spec, ["header", "chart", "scale"])
+
+    chart = Chart(chart_spec)
 
     # Generate HTML
-    html_content = generate_html(data)
+    html_content = chart.generate_html()
 
     # Write to output file
     with open(output_file, "w") as f:
         f.write(html_content)
 
     print(f"Generated {output_file} successfully.")
-
-    # Reset global_css for the next file
-    global_css = CssStyle()
 
 
 def main():

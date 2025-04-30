@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>{{ data.get("header", {}).get("metadata", {}).get("htmltitle", "") }}</title>
+  <title>{{ chart.header.get("metadata", {}).get("htmltitle", "") }}</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
   <!-- KaTeX for math rendering -->
@@ -104,12 +104,12 @@
       </defs>
       <g id="content-group" class="svg-pan-zoom_viewport">
         <!-- Translate the grid so that it covers the appropriate region outside the first quadrant -->
-        <g id="origin-translate" transform="translate({{ data.header.chart.width.min * spacing }} {{ -data.header.chart.height.min * spacing }})">
+        <g id="origin-translate" transform="translate({{ chart.width.min * spacing }} {{ -chart.height.min * spacing }})">
           <!-- Apply the grid pattern to a background rectangle -->
           <rect
             id="grid-background"
-            width="{{ (data.header.chart.width.max - data.header.chart.width.min) * spacing }}px"
-            height="{{ (data.header.chart.height.max - data.header.chart.height.min) * spacing }}px"
+            width="{{ (chart.width.max - chart.width.min) * spacing }}px"
+            height="{{ (chart.height.max - chart.height.min) * spacing }}px"
             fill="url(#grid)"
           />
         </g>
@@ -126,12 +126,12 @@
         <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
         <g id="ticks" class="tick">
           <g id="x-ticks" class="x-tick">
-            {%- for i in range(data.header.chart.width.min, data.header.chart.width.max + 1, 2) %}
+            {%- for i in range(chart.width.min, chart.width.max + 1, 2) %}
               <text x="{{ i * spacing }}" y="{{ 0.5 * spacing }}">{{ i }}</text>
             {%- endfor %}
           </g>
           <g id="y-ticks" class="y-tick">
-            {%- for j in range(data.header.chart.height.min, data.header.chart.height.max + 1, 2) %}
+            {%- for j in range(chart.height.min, chart.height.max + 1, 2) %}
               <text x="{{ 0.5 * spacing }}" y="{{ j * spacing }}">{{ j }}</text>
             {%- endfor %}
           </g>
