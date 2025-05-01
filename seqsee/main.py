@@ -10,7 +10,6 @@ from jinja2 import Environment, FileSystemLoader
 from seqsee.defaults import (
     SCHEMA_DEFAULTS,
     get_schema_default,
-    get_value_or_schema_default,
 )
 
 # The distance between successive x or y coordinates. Units are in pixels. This will be fixed
@@ -201,24 +200,86 @@ class DimensionRange:
 
 class Chart:
     def __init__(self, chart_spec):
+        global scale
+
         # validate against schema
         jsonschema.validate(instance=chart_spec, schema=schema)
 
-        self.spec = chart_spec
+        self._spec = chart_spec
 
-        # We store the top-level attributes of the chart to avoid calling `get(..., {})` repeatedly
-        self.header = chart_spec.get("header", {})
-        self.nodes = chart_spec.get("nodes", {})
-        self.edges = chart_spec.get("edges", {})
+        self.fill_defaults()
 
-        self.width = DimensionRange.from_json(
-            self.header.get("chart", {}).get("width", {})
-        )
-        self.height = DimensionRange.from_json(
-            self.header.get("chart", {}).get("height", {})
-        )
+        scale = self["header", "chart", "scale"]
+        self.width = DimensionRange.from_json(self["header", "chart", "width"])
+        self.height = DimensionRange.from_json(self["header", "chart", "height"])
 
         self.generate_css_styles()
+
+    def __getitem__(self, path):
+        current_value = self._spec
+
+        if isinstance(path, str):
+            path = (path,)
+
+        for key in path:
+            current_value = current_value[key]
+
+        return current_value
+
+    def __setitem__(self, path, value):
+        current_value = self._spec
+
+        if isinstance(path, str):
+            path = (path,)
+
+        for key in path[:-1]:
+            current_value = current_value[key]
+
+        current_value[path[-1]] = value
+
+    def __contains__(self, path):
+        current_value = self._spec
+
+        if isinstance(path, str):
+            path = (path,)
+
+        for key in path:
+            if key not in current_value:
+                return False
+            current_value = current_value[key]
+
+        return True
+
+    def fill_defaults(self):
+        """
+        Fill in any missing values in the chart specification with the default values from the
+        schema.
+        """
+
+        def process_dict(spec_fragment, schema_fragment):
+            for key, value in schema_fragment.items():
+                if key not in spec_fragment:
+                    spec_fragment[key] = value
+                elif isinstance(value, dict):
+                    # This is a nested object, so we need to recurse
+                    process_dict(spec_fragment[key], value)
+                elif isinstance(value, list):
+                    # We need to merge this list with the existing one. This creates a new list
+                    # instead of modifying the existing one, which would be bad. This is because it
+                    # could mutate a default value, which would ultimately corrupt
+                    # `SCHEMA_DEFAULTS`.
+                    spec_fragment[key] = spec_fragment[key] + value
+
+        # Create top-level defaults
+        for key, value in SCHEMA_DEFAULTS.items():
+            if key not in self:
+                self[key] = type(value)()
+
+        process_dict(self["header"], SCHEMA_DEFAULTS["header"])
+
+        # Fill in the defaults for the nodes
+        for node in self["nodes"].values():
+            process_dict(node, SCHEMA_DEFAULTS["nodes"])
 
     def compute_chart_dimensions(self):
         """
@@ -231,7 +292,7 @@ class Chart:
         """
 
         def compute_dimension_bounds(dim_range, coord_name, default):
-            coords = [node[coord_name] for node in self.nodes.values()]
+            coords = [node[coord_name] for node in self["nodes"].values()]
 
             if dim_range.min is None:
                 # Greatest even number strictly smaller than the minimum coordinate of any node
@@ -259,27 +320,21 @@ class Chart:
         nodes_by_bidegree = defaultdict(list)
 
         # Group nodes by bidegree
-        for node_id, node in self.nodes.items():
+        for node_id, node in self["nodes"].items():
             x, y = node["x"], node["y"]
             nodes_by_bidegree[x, y].append(node_id)
 
         # Sort bidegrees by the `position` attribute of the nodes
-        default_position = get_schema_default(["nodes", "position"])
         for bidegree, nodes in nodes_by_bidegree.items():
             nodes_by_bidegree[bidegree] = sorted(
-                nodes,
-                key=lambda node_id: self.nodes[node_id].get(
-                    "position", default_position
-                ),
+                nodes, key=lambda node_id: self["nodes", node_id, "position"]
             )
 
         # Get defaults and compute constants
-        chart_path = ["header", "chart"]
-        node_size = get_value_or_schema_default(self.spec, chart_path + ["nodeSize"])
-        node_spacing = get_value_or_schema_default(
-            self.spec, chart_path + ["nodeSpacing"]
-        )
-        node_slope = get_value_or_schema_default(self.spec, chart_path + ["nodeSlope"])
+        chart_data = self["header", "chart"]
+        node_size = chart_data["nodeSize"]
+        node_spacing = chart_data["nodeSpacing"]
+        node_slope = chart_data["nodeSlope"]
 
         distance_between_centers = node_spacing + 2 * node_size
 
@@ -296,15 +351,15 @@ class Chart:
             first_center_to_last_center = (bidegree_rank - 1) * distance_between_centers
             for i, node_id in enumerate(nodes):
                 offset = -first_center_to_last_center / 2 + i * distance_between_centers
-                self.nodes[node_id]["absoluteX"] = x + offset * math.cos(theta)
-                self.nodes[node_id]["absoluteY"] = y + offset * math.sin(theta)
+                self["nodes", node_id, "absoluteX"] = x + offset * math.cos(theta)
+                self["nodes", node_id, "absoluteY"] = y + offset * math.sin(theta)
 
     def generate_nodes_svg(self):
         """Generate an SVG <g> element containing all nodes."""
 
         nodes_svg = '<g id="nodes-group">\n'
 
-        for node_id, node in self.nodes.items():
+        for node_id, node in self["nodes"].items():
             cx = node["absoluteX"] * scale
             cy = node["absoluteY"] * scale
 
@@ -327,10 +382,10 @@ class Chart:
 
         edges_svg = '<g id="edges-group">\n'
 
-        for edge in self.edges:
-            source = self.nodes[edge["source"]]
+        for edge in self["edges"]:
+            source = self["nodes", edge["source"]]
             if "target" in edge:
-                target = self.nodes[edge["target"]]
+                target = self["nodes", edge["target"]]
                 target_x = target["absoluteX"] * scale
                 target_y = target["absoluteY"] * scale
             elif "offset" in edge:
@@ -401,30 +456,9 @@ class Chart:
         """Generate `self.chart_css` from the data in "header/aliases" """
 
         chart_css = CssStyle()
-        aliases_path = ["header", "aliases"]
 
-        colors_path = aliases_path + ["colors"]
-        color_aliases = {
-            "backgroundColor": get_schema_default(colors_path + ["backgroundColor"]),
-            "textColor": get_schema_default(colors_path + ["textColor"]),
-            "borderColor": get_schema_default(colors_path + ["borderColor"]),
-        }
-        color_aliases.update(self.header.get("aliases", {}).get("colors", {}))
-
-        attributes_path = aliases_path + ["attributes"]
-        attribute_aliases = {
-            "grid": get_schema_default(attributes_path + ["grid"]),
-            "defaultNode": get_schema_default(attributes_path + ["defaultNode"]),
-            "defaultEdge": get_schema_default(attributes_path + ["defaultEdge"]),
-        }
-        user_attribute_aliases = self.header.get("aliases", {}).get("attributes", {})
-
-        # Merge user-defined attribute aliases with the defaults
-        for alias_name, attributes_list in user_attribute_aliases.items():
-            current_attributes = attribute_aliases.get(alias_name, [])
-            # This creates a new list instead of modifying the existing one, which would be bad. This is
-            # because it could mutate a default value, which would ultimately corrupt `schema`.
-            attribute_aliases[alias_name] = current_attributes + attributes_list
+        color_aliases = self["header", "aliases", "colors"]
+        attribute_aliases = self["header", "aliases", "attributes"]
 
         # Generate CSS classes for color aliases. We do it first because we may need to reference them
         # in the attribute aliases.
@@ -442,9 +476,7 @@ class Chart:
         }
 
         # Generate CSS class for nodes to set the appropriate size
-        node_size = get_value_or_schema_default(
-            self.spec, ["header", "chart", "nodeSize"]
-        )
+        node_size = self["header", "chart", "nodeSize"]
         chart_css += {"circle": {"stroke-width": 0, "r": scale * node_size}}
 
         # Generate CSS classes for attribute aliases
@@ -469,9 +501,6 @@ def process_json(input_file, output_file):
     # Load input JSON
     with open(input_file, "r") as f:
         chart_spec = json.load(f)
-
-    global scale
-    scale = get_value_or_schema_default(chart_spec, ["header", "chart", "scale"])
 
     chart = Chart(chart_spec)
 

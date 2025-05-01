@@ -40,21 +40,6 @@
     }
 
 /* Dynamically generated CSS styles */
-.backgroundColor {
-    fill: white;
-    stroke: white;
-}
-
-.textColor {
-    fill: black;
-    stroke: black;
-}
-
-.borderColor {
-    fill: black;
-    stroke: black;
-}
-
 .darkcyan {
     fill: #00B3B3;
     stroke: #00B3B3;
@@ -80,15 +65,30 @@
     stroke: #FF00FF;
 }
 
+.backgroundColor {
+    fill: white;
+    stroke: white;
+}
+
+.borderColor {
+    fill: black;
+    stroke: black;
+}
+
+.textColor {
+    fill: black;
+    stroke: black;
+}
+
 :root {
-    --backgroundColor: white;
-    --textColor: black;
-    --borderColor: black;
     --darkcyan: #00B3B3;
     --darkgreen: #00B300;
     --gray: #666666;
     --red: #FF0000;
     --magenta: #FF00FF;
+    --backgroundColor: white;
+    --borderColor: black;
+    --textColor: black;
 }
 
 circle {
@@ -96,20 +96,14 @@ circle {
     r: 2.4px;
 }
 
-.grid {
-    fill: #ccc;
-    stroke: #ccc;
-    stroke-width: 0.6px;
-}
-
 .defaultNode {
-    fill: var(--gray);
-    stroke: var(--gray);
+    fill: black;
+    stroke: black;
 }
 
 .defaultEdge {
-    fill: var(--gray);
-    stroke: var(--gray);
+    fill: black;
+    stroke: black;
     stroke-width: 1.2px;
 }
 
@@ -250,6 +244,12 @@ circle {
     marker-end: url(#arrow-simple);
     fill: var(--red);
     stroke: var(--red);
+}
+
+.grid {
+    fill: #ccc;
+    stroke: #ccc;
+    stroke-width: 0.6px;
 }
 
 

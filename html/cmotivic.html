@@ -40,21 +40,6 @@
     }
 
 /* Dynamically generated CSS styles */
-.backgroundColor {
-    fill: white;
-    stroke: white;
-}
-
-.textColor {
-    fill: black;
-    stroke: black;
-}
-
-.borderColor {
-    fill: black;
-    stroke: black;
-}
-
 .gray {
     fill: #666;
     stroke: #666;
@@ -70,13 +55,28 @@
     stroke: magenta;
 }
 
+.backgroundColor {
+    fill: white;
+    stroke: white;
+}
+
+.borderColor {
+    fill: black;
+    stroke: black;
+}
+
+.textColor {
+    fill: black;
+    stroke: black;
+}
+
 :root {
-    --backgroundColor: white;
-    --textColor: black;
-    --borderColor: black;
     --gray: #666;
     --tau1color: #DD0000;
     --tau1extncolor: magenta;
+    --backgroundColor: white;
+    --borderColor: black;
+    --textColor: black;
 }
 
 circle {
@@ -84,20 +84,14 @@ circle {
     r: 2.4px;
 }
 
-.grid {
-    fill: #ccc;
-    stroke: #ccc;
-    stroke-width: 0.6px;
-}
-
 .defaultNode {
-    fill: var(--gray);
-    stroke: var(--gray);
+    fill: black;
+    stroke: black;
 }
 
 .defaultEdge {
-    fill: var(--gray);
-    stroke: var(--gray);
+    fill: black;
+    stroke: black;
     stroke-width: 1.2px;
 }
 
@@ -109,6 +103,12 @@ circle {
 .tau1extn {
     fill: var(--tau1extncolor);
     stroke: var(--tau1extncolor);
+}
+
+.grid {
+    fill: #ccc;
+    stroke: #ccc;
+    stroke-width: 0.6px;
 }
 
 

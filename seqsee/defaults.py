@@ -25,16 +25,8 @@ SCHEMA_DEFAULTS = {
     "nodes": {
         "position": 0,
     },
+    "edges": {},
 }
-
-
-def get_value_at_path(data, path):
-    current_value = data
-
-    for key in path:
-        current_value = current_value[key]
-
-    return current_value
 
 
 def get_schema_default(path):
@@ -45,18 +37,9 @@ def get_schema_default(path):
     is not present in the data.
     """
 
-    return get_value_at_path(SCHEMA_DEFAULTS, path)
+    current_value = SCHEMA_DEFAULTS
 
+    for key in path:
+        current_value = current_value[key]
 
-def get_value_or_schema_default(data, path):
-    """
-    Attempt to get a value from `data` at the given path.
-
-    If it is not specified, get the default value from the schema. The schema is always assumed to
-    contain a default value for the given path.
-    """
-
-    try:
-        return get_value_at_path(data, path)
-    except KeyError:
-        return get_schema_default(path)
+    return current_value
