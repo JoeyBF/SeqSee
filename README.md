@@ -137,8 +137,8 @@ Contains global settings for chart configuration.
     - **`borderColor`**: The color of the chart and tooltip borders. Defaults to `"black"`.
     - **`textColor`**: The color of text and labels. Defaults to `"black"`.
   - **`attributes`**: Maps names to predefined [attribute lists](#attribute-lists), which can be
-    applied to nodes or edges for consistent styling. Some special aliases are predefined but can be
-    customized:
+    applied to nodes or edges for consistent styling. We require the attribute names to be [valid
+    CSS identifiers][css-identifiers]. Some special aliases are predefined but can be customized:
     - **`grid`**: An attribute list applied to the grid itself. Defaults to `[ {"color": "#ccc",
       "thickness": 0.01} ]`.
     - **`defaultNode`**: An attribute list applied to all nodes. Defaults to `[ {"color": "black"}
@@ -146,6 +146,8 @@ Contains global settings for chart configuration.
       generally be set in `header/chart/nodeSize` for automatic spacing.
     - **`defaultEdge`**: An attribute list applied to all edges. Defaults to `[ {"color": "black",
       "thickness": 0.02} ]`.
+
+[css-identifiers]: https://walterebert.com/playground/css/valid-identifiers/
 
 #### `nodes`
 

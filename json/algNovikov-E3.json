@@ -10,16 +10,16 @@
         "tau3": [ {"color": "darkgreen"} ], 
         "tau4plus": [ {"color": "purple"} ], 
         "dr": [ {"color": "darkcyan"} ], 
-        "2": [ {"color": "darkcyan"} ], 
-        "3": [ {"color": "red"} ], 
-        "4": [ {"color": "darkgreen"} ], 
-        "5": [ {"color": "blue"} ], 
-        "6": [ {"color": "orange"} ], 
-        "7": [ {"color": "orange"} ], 
-        "8": [ {"color": "orange"} ], 
-        "9": [ {"color": "orange"} ], 
-        "10": [ {"color": "orange"} ], 
-        "11": [ {"color": "orange"} ], 
+        "n2": [ {"color": "darkcyan"} ], 
+        "n3": [ {"color": "red"} ], 
+        "n4": [ {"color": "darkgreen"} ], 
+        "n5": [ {"color": "blue"} ], 
+        "n6": [ {"color": "orange"} ], 
+        "n7": [ {"color": "orange"} ], 
+        "n8": [ {"color": "orange"} ], 
+        "n9": [ {"color": "orange"} ], 
+        "n10": [ {"color": "orange"} ], 
+        "n11": [ {"color": "orange"} ], 
         "t": [ {"color": "magenta"} ], 
         "t2": [ {"color": "orange"} ], 
         "t3": [ {"color": "orange"} ], 
@@ -5432,9 +5432,9 @@
     {"source": "h0 d0", "target": "h0^2 d0"}, 
     {"source": "h0 h4", "target": "h0^2 h4"}, 
     {"source": "h0 h4", "target": "h0 h2 h4"}, 
-    { "source": "h0 h4", "target": "h0 d0", "attributes": ["dr", "3"] }, 
+    { "source": "h0 h4", "target": "h0 d0", "attributes": ["dr", "n3"] }, 
     {"source": "h0^2 h4", "target": "h0^3 h4"}, 
-    { "source": "h0^2 h4", "target": "h0^2 d0", "attributes": ["dr", "3"] }, 
+    { "source": "h0^2 h4", "target": "h0^2 d0", "attributes": ["dr", "n3"] }, 
     {"source": "h0^3 h4", "target": "h0^4 h4"}, 
     {"source": "h0^4 h4", "target": "h0^5 h4"}, 
     {"source": "h0^5 h4", "target": "h0^6 h4"}, 
@@ -5497,7 +5497,7 @@
     {"source": "h1 h3 g", "target": "h1^2 h3 g"}, 
     {"source": "d0^2", "target": "h1 d0^2"}, 
     {"source": "_h1 h3 g", "target": "_h1^2 h3 g"}, 
-    { "source": "_h1 h3 g", "target": "d0^2", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 h3 g", "target": "d0^2", "attributes": ["dr", "n3"] }, 
     {
       "source": "_P^3 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5506,21 +5506,21 @@
     {"source": "h4^2", "target": "h1 h4^2"}, 
     {"source": "D h2^2", "target": "h0 r"}, 
     {"source": "D h2^2", "target": "h1 q"}, 
-    { "source": "_h1^2 h3 g", "target": "h1 d0^2", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^2 h3 g", "target": "h1 d0^2", "attributes": ["dr", "n3"] }, 
     {"source": "h0 r", "target": "h0^2 r"}, 
     {"source": "h0^2 r", "target": "h0^3 r"}, 
     {"source": "h0^3 r", "target": "h0^4 r"}, 
     {"source": "P^2 d0", "target": "P^2 h0 d0"}, 
     {"source": "P^2 h0 d0", "target": "P^2 h0^2 d0"}, 
     {"source": "h0^3 h5", "target": "h0^4 h5"}, 
-    { "source": "h0^3 h5", "target": "h0 r", "attributes": ["dr", "3"] }, 
+    { "source": "h0^3 h5", "target": "h0 r", "attributes": ["dr", "n3"] }, 
     {"source": "h0^4 h5", "target": "h0^5 h5"}, 
-    { "source": "h0^4 h5", "target": "h0^2 r", "attributes": ["dr", "3"] }, 
+    { "source": "h0^4 h5", "target": "h0^2 r", "attributes": ["dr", "n3"] }, 
     {"source": "n", "target": "h2 n"}, 
     {"source": "h0^5 h5", "target": "h0^6 h5"}, 
-    { "source": "h0^5 h5", "target": "h0^3 r", "attributes": ["dr", "3"] }, 
+    { "source": "h0^5 h5", "target": "h0^3 r", "attributes": ["dr", "n3"] }, 
     {"source": "h0^6 h5", "target": "h0^7 h5"}, 
-    { "source": "h0^6 h5", "target": "h0^4 r", "attributes": ["dr", "3"] }, 
+    { "source": "h0^6 h5", "target": "h0^4 r", "attributes": ["dr", "n3"] }, 
     {"source": "h0^7 h5", "target": "h0^8 h5"}, 
     {"source": "h0^8 h5", "target": "h0^9 h5"}, 
     {"source": "h0^9 h5", "target": "h0^10 h5"}, 
@@ -5581,7 +5581,7 @@
     {"source": "h0^2 h3 h5", "target": "h0^3 h3 h5"}, 
     {"source": "e1", "target": "h1 e1"}, 
     {"source": "e1", "target": "h1 f1"}, 
-    { "source": "e1", "target": "h1 T", "attributes": ["dr", "3"] }, 
+    { "source": "e1", "target": "h1 T", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^6 h5", "target": "_h1^7 h5"}, 
     {"source": "h2^2 d1", "target": "h1^3 e1"}, 
     {"source": "h1 h3 h5", "target": "h1^2 h3 h5"}, 
@@ -5660,17 +5660,17 @@
     {"source": "P^4 d0", "target": "P^4 h0 d0"}, 
     {"source": "P^4 h0 d0", "target": "P^4 h0^2 d0"}, 
     { "source": "_h1^2 g2", "target": "C", "attributes": ["hh2"] }, 
-    { "source": "_h1^2 g2", "target": "N", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^2 g2", "target": "N", "attributes": ["dr", "n3"] }, 
     {"source": "P h5 c0", "target": "P h1 h5 c0"}, 
     {"source": "h1 B1", "target": "h1^2 B1"}, 
     { "source": "_t h2^2 g^2", "target": "e0 r", "attributes": ["hh0"] }, 
     { "source": "_t h2^2 g^2", "target": "g r", "attributes": ["hh2"] }, 
     {"source": "h0^4 Q'", "target": "h0^5 Q'"}, 
-    { "source": "h0^4 Q'", "target": "P^4 d0", "attributes": ["dr", "3"] }, 
+    { "source": "h0^4 Q'", "target": "P^4 d0", "attributes": ["dr", "n3"] }, 
     {"source": "h0^5 Q'", "target": "h0^6 Q'"}, 
-    { "source": "h0^5 Q'", "target": "P^4 h0 d0", "attributes": ["dr", "3"] }, 
+    { "source": "h0^5 Q'", "target": "P^4 h0 d0", "attributes": ["dr", "n3"] }, 
     {"source": "h0^6 Q'", "target": "h0^7 Q'"}, 
-    { "source": "h0^6 Q'", "target": "P^4 h0^2 d0", "attributes": ["dr", "3"] }, 
+    { "source": "h0^6 Q'", "target": "P^4 h0^2 d0", "attributes": ["dr", "n3"] }, 
     {"source": "h0^7 Q'", "target": "h0^8 Q'"}, 
     {"source": "h0^8 Q'", "target": "h0^9 Q'"}, 
     {"source": "h0^9 Q'", "target": "h0^10 Q'"}, 
@@ -5687,9 +5687,9 @@
       "attributes": ["h1tower"]
     }, 
     {"source": "h1 h5 e0", "target": "h1^2 h5 e0"}, 
-    { "source": "h1 h5 e0", "target": "h1^2 B1", "attributes": ["dr", "3"] }, 
+    { "source": "h1 h5 e0", "target": "h1^2 B1", "attributes": ["dr", "n3"] }, 
     {"source": "_h1 h3 g^2", "target": "_h1^2 h3 g^2"}, 
-    { "source": "_h1 h3 g^2", "target": "d0 e0^2", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 h3 g^2", "target": "d0 e0^2", "attributes": ["dr", "n3"] }, 
     {"source": "h1^3 B1", "target": "h1^4 B1"}, 
     {
       "source": "P^6 h1", 
@@ -5698,17 +5698,17 @@
     }, 
     {"source": "h5 c1", "target": "h2 h5 c1"}, 
     {"source": "h1^2 h5 e0", "target": "h1^3 h5 e0"}, 
-    { "source": "h1^2 h5 e0", "target": "h1^3 B1", "attributes": ["dr", "3"] }, 
+    { "source": "h1^2 h5 e0", "target": "h1^3 B1", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^3 B1", "target": "_h1^4 B1"}, 
     {"source": "g r", "target": "h1^2 G3"}, 
-    { "source": "_h1^2 h3 g^2", "target": "h1 d0 e0^2", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^2 h3 g^2", "target": "h1 d0 e0^2", "attributes": ["dr", "n3"] }, 
     {"source": "h1^4 B1", "target": "h1^5 B1"}, 
     {"source": "h3 g2", "target": "h0 h3 g2"}, 
     {"source": "h3 g2", "target": "h1 h3 g2"}, 
     {"source": "_h1^2 h5 e0", "target": "_h1^3 h5 e0"}, 
-    { "source": "_h1^2 h5 e0", "target": "_h1^3 B1", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^2 h5 e0", "target": "_h1^3 B1", "attributes": ["dr", "n3"] }, 
     {"source": "h1^3 h5 e0", "target": "h1^4 h5 e0"}, 
-    { "source": "h1^3 h5 e0", "target": "h1^4 B1", "attributes": ["dr", "3"] }, 
+    { "source": "h1^3 h5 e0", "target": "h1^4 B1", "attributes": ["dr", "n3"] }, 
     {"source": "g n", "target": "h2 g n"}, 
     {"source": "_h1^4 B1", "target": "_h1^5 B1"}, 
     {"source": "h1^5 B1", "target": "h1^6 B1"}, 
@@ -5720,26 +5720,26 @@
     }, 
     {"source": "P^6 h2", "target": "P^6 h0 h2"}, 
     {"source": "_h1^3 h5 e0", "target": "_h1^4 h5 e0"}, 
-    { "source": "_h1^3 h5 e0", "target": "_h1^4 B1", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^3 h5 e0", "target": "_h1^4 B1", "attributes": ["dr", "n3"] }, 
     {"source": "d1 g", "target": "h1 d1 g"}, 
     {"source": "d1 g", "target": "h2 d1 g"}, 
     {"source": "h1^4 h5 e0", "target": "h1^5 h5 e0"}, 
-    { "source": "h1^4 h5 e0", "target": "h1^5 B1", "attributes": ["dr", "3"] }, 
+    { "source": "h1^4 h5 e0", "target": "h1^5 B1", "attributes": ["dr", "n3"] }, 
     {"source": "h1 G3", "target": "h1^2 G3"}, 
     {"source": "_h1^5 B1", "target": "_h1^6 B1"}, 
     { "source": "_t h0 e0^3", "target": "d0 u", "attributes": ["hh1"] }, 
     {"source": "i1", "target": "h1 i1"}, 
     {"source": "_h1^4 h5 e0", "target": "_h1^5 h5 e0"}, 
-    { "source": "_h1^4 h5 e0", "target": "_h1^5 B1", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^4 h5 e0", "target": "_h1^5 B1", "attributes": ["dr", "n3"] }, 
     {"source": "_h1 G3", "target": "_h1^2 G3"}, 
-    { "source": "_h1 G3", "target": "_t h0 e0^3", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 G3", "target": "_t h0 e0^3", "attributes": ["dr", "n3"] }, 
     {"source": "B8", "target": "h1 B8"}, 
     {"source": "h1 d1 g", "target": "h1^2 d1 g"}, 
     {"source": "x'", "target": "h0 x'"}, 
     {"source": "x'", "target": "h1 x'"}, 
     {"source": "x'", "target": "h2 x'"}, 
     {"source": "h1^5 h5 e0", "target": "h1^6 h5 e0"}, 
-    { "source": "h1^5 h5 e0", "target": "h1^6 B1", "attributes": ["dr", "3"] }, 
+    { "source": "h1^5 h5 e0", "target": "h1^6 B1", "attributes": ["dr", "n3"] }, 
     {"source": "h0 x'", "target": "h0 h2 x'"}, 
     {"source": "_h1^6 B1", "target": "_h1^7 B1"}, 
     {
@@ -5750,30 +5750,30 @@
     { "source": "_h5 c0 d0", "target": "h5 i", "attributes": ["hh0"] }, 
     {"source": "_h5 c0 d0", "target": "_h1 h5 c0 d0"}, 
     { "source": "_h5 c0 d0", "target": "h5 j", "attributes": ["hh2"] }, 
-    { "source": "_h5 c0 d0", "target": "x'", "attributes": ["dr", "3"] }, 
+    { "source": "_h5 c0 d0", "target": "x'", "attributes": ["dr", "n3"] }, 
     {"source": "h5 i", "target": "h0 h5 i"}, 
     {"source": "h5 i", "target": "h0 h5 j"}, 
-    { "source": "h5 i", "target": "h0 x'", "attributes": ["dr", "3"] }, 
+    { "source": "h5 i", "target": "h0 x'", "attributes": ["dr", "n3"] }, 
     {"source": "_h1 d1 g", "target": "_h1^2 d1 g"}, 
     {"source": "h1 i1", "target": "h1^2 i1"}, 
     {"source": "_h1^5 h5 e0", "target": "_h1^6 h5 e0"}, 
-    { "source": "_h1^5 h5 e0", "target": "_h1^6 B1", "attributes": ["dr", "3"] }, 
-    { "source": "_h1^2 G3", "target": "d0 u", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^5 h5 e0", "target": "_h1^6 B1", "attributes": ["dr", "n3"] }, 
+    { "source": "_h1^2 G3", "target": "d0 u", "attributes": ["dr", "n3"] }, 
     {"source": "h1 B8", "target": "h1^2 B8"}, 
     {"source": "h2 g n", "target": "h1 g T"}, 
     {"source": "h1 x'", "target": "h1^2 x'"}, 
     {"source": "h1^6 h5 e0", "target": "h1^7 h5 e0"}, 
     {"source": "_h1^7 B1", "target": "_h1^8 B1"}, 
     {"source": "_h1 i1", "target": "_h1^2 i1"}, 
-    { "source": "_h1 i1", "target": "h1 B8", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 i1", "target": "h1 B8", "attributes": ["dr", "n3"] }, 
     { "source": "_h1 h5 c0 d0", "target": "P h5 e0", "attributes": ["hh1"] }, 
-    { "source": "_h1 h5 c0 d0", "target": "h1 x'", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 h5 c0 d0", "target": "h1 x'", "attributes": ["dr", "n3"] }, 
     {"source": "_t h2 g n", "target": "_t h1 g T"}, 
     { "source": "_h1^2 d1 g", "target": "g T", "attributes": ["hh1"] }, 
     {"source": "h2 d1 g", "target": "h2^2 d1 g"}, 
     {"source": "h1^2 i1", "target": "h1^3 i1"}, 
     {"source": "_h1^6 h5 e0", "target": "_h1^7 h5 e0"}, 
-    { "source": "_h1^6 h5 e0", "target": "_h1^7 B1", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^6 h5 e0", "target": "_h1^7 B1", "attributes": ["dr", "n3"] }, 
     {"source": "h1^2 B8", "target": "h1^3 B8"}, 
     {"source": "h1^2 x'", "target": "h1^3 x'"}, 
     { "source": "_h1^8 B1", "target": "c0 d0 e0^2", "attributes": ["hh1"] }, 
@@ -5782,14 +5782,14 @@
     {"source": "P^4 h0^4 i", "target": "P^4 h0^5 i"}, 
     { "source": "_B6", "target": "Q2", "attributes": ["hh1"] }, 
     {"source": "_B6", "target": "_t e1 g"}, 
-    { "source": "_B6", "target": "_t h2 g n", "attributes": ["dr", "3"] }, 
+    { "source": "_B6", "target": "_t h2 g n", "attributes": ["dr", "n3"] }, 
     { "source": "_t h2 d1 g", "target": "D11", "attributes": ["hh1"] }, 
     {"source": "h5 c0 e0", "target": "h1 h5 c0 e0"}, 
-    { "source": "h5 c0 e0", "target": "h1^2 B8", "attributes": ["dr", "3"] }, 
+    { "source": "h5 c0 e0", "target": "h1^2 B8", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^2 i1", "target": "_h1^3 i1"}, 
-    { "source": "_h1^2 i1", "target": "h1^2 B8", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^2 i1", "target": "h1^2 B8", "attributes": ["dr", "n3"] }, 
     {"source": "P h5 e0", "target": "P h1 h5 e0"}, 
-    { "source": "P h5 e0", "target": "h1^2 x'", "attributes": ["dr", "3"] }, 
+    { "source": "P h5 e0", "target": "h1^2 x'", "attributes": ["dr", "n3"] }, 
     {"source": "Q1", "target": "h1 Q1"}, 
     { "source": "_h1^2 B8", "target": "h2 x'", "attributes": ["hh0"] }, 
     {"source": "_h1^2 B8", "target": "_h1^3 B8"}, 
@@ -5797,7 +5797,7 @@
     {"source": "h1^3 i1", "target": "h1^4 i1"}, 
     {"source": "h2 x'", "target": "h0 h2 x'"}, 
     { "source": "_h1^7 h5 e0", "target": "t e0 g^2", "attributes": ["hh1"] }, 
-    { "source": "_h1^7 h5 e0", "target": "_h1^8 B1", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^7 h5 e0", "target": "_h1^8 B1", "attributes": ["dr", "n3"] }, 
     {"source": "h1^3 B8", "target": "h1^4 B8"}, 
     {"source": "c0 d0 e0^2", "target": "h1 c0 d0 e0^2"}, 
     {
@@ -5807,22 +5807,22 @@
     }, 
     { "source": "_h5 c0 e0", "target": "h5 j", "attributes": ["hh0"] }, 
     {"source": "_h5 c0 e0", "target": "_h1 h5 c0 e0"}, 
-    { "source": "_h5 c0 e0", "target": "_h1^2 B8", "attributes": ["dr", "3"] }, 
+    { "source": "_h5 c0 e0", "target": "_h1^2 B8", "attributes": ["dr", "n3"] }, 
     {"source": "Q2", "target": "h1 Q2"}, 
     {"source": "h5 j", "target": "h0 h5 j"}, 
-    { "source": "h5 j", "target": "h2 x'", "attributes": ["dr", "3"] }, 
-    { "source": "h0 h5 j", "target": "h0 h2 x'", "attributes": ["dr", "3"] }, 
+    { "source": "h5 j", "target": "h2 x'", "attributes": ["dr", "n3"] }, 
+    { "source": "h0 h5 j", "target": "h0 h2 x'", "attributes": ["dr", "n3"] }, 
     {"source": "D11", "target": "h1 D11"}, 
     {"source": "h1 h5 c0 e0", "target": "h1^2 h5 c0 e0"}, 
-    { "source": "h1 h5 c0 e0", "target": "h1^3 B8", "attributes": ["dr", "3"] }, 
+    { "source": "h1 h5 c0 e0", "target": "h1^3 B8", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^3 i1", "target": "_h1^4 i1"}, 
-    { "source": "_h1^3 i1", "target": "h1^3 B8", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^3 i1", "target": "h1^3 B8", "attributes": ["dr", "n3"] }, 
     {"source": "P h1 h5 e0", "target": "P h1^2 h5 e0"}, 
-    { "source": "P h1 h5 e0", "target": "h1^3 x'", "attributes": ["dr", "3"] }, 
+    { "source": "P h1 h5 e0", "target": "h1^3 x'", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^3 B8", "target": "_h1^4 B8"}, 
     {"source": "h1^4 i1", "target": "h1^5 i1"}, 
     {"source": "t e0 g^2", "target": "h0 h2 g m"}, 
-    { "source": "t e0 g^2", "target": "c0 d0 e0^2", "attributes": ["dr", "3"] }, 
+    { "source": "t e0 g^2", "target": "c0 d0 e0^2", "attributes": ["dr", "n3"] }, 
     {"source": "h1^4 B8", "target": "h1^5 B8"}, 
     {"source": "h2 e0^2 g", "target": "h0^2 g^3"}, 
     {
@@ -5831,40 +5831,40 @@
       "attributes": ["h1tower"]
     }, 
     {"source": "_h1 h5 c0 e0", "target": "_h1^2 h5 c0 e0"}, 
-    { "source": "_h1 h5 c0 e0", "target": "_h1^3 B8", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 h5 c0 e0", "target": "_h1^3 B8", "attributes": ["dr", "n3"] }, 
     {"source": "h1 Q2", "target": "h1^2 Q2"}, 
     {"source": "e1 g", "target": "h1 e1 g"}, 
     {"source": "e1 g", "target": "h1^2 j1"}, 
-    { "source": "e1 g", "target": "h1 g T", "attributes": ["dr", "3"] }, 
+    { "source": "e1 g", "target": "h1 g T", "attributes": ["dr", "n3"] }, 
     { "source": "_t h1 g T", "target": "n r", "attributes": ["hh2"] }, 
     {"source": "h1^2 h5 c0 e0", "target": "h1^3 h5 c0 e0"}, 
-    { "source": "h1^2 h5 c0 e0", "target": "h1^4 B8", "attributes": ["dr", "3"] }, 
+    { "source": "h1^2 h5 c0 e0", "target": "h1^4 B8", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^4 i1", "target": "_h1^5 i1"}, 
-    { "source": "_h1^4 i1", "target": "h1^4 B8", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^4 i1", "target": "h1^4 B8", "attributes": ["dr", "n3"] }, 
     {"source": "h2^2 d1 g", "target": "h1^3 e1 g"}, 
     {"source": "P h1^2 h5 e0", "target": "P h1^3 h5 e0"}, 
     {"source": "_h1^4 B8", "target": "_h1^5 B8"}, 
     {"source": "_h1^4 x'", "target": "_h1^5 x'"}, 
-    { "source": "h0 h2 g m", "target": "h1 c0 d0 e0^2", "attributes": ["dr", "3"] }, 
+    { "source": "h0 h2 g m", "target": "h1 c0 d0 e0^2", "attributes": ["dr", "n3"] }, 
     {"source": "h1^5 B8", "target": "h1^6 B8"}, 
     { "source": "_h3^2 g2", "target": "h5 n", "attributes": ["hh2"] }, 
     { "source": "_t e1 g", "target": "C0", "attributes": ["hh2"] }, 
-    { "source": "_t e1 g", "target": "_t h1 g T", "attributes": ["dr", "3"] }, 
+    { "source": "_t e1 g", "target": "_t h1 g T", "attributes": ["dr", "n3"] }, 
     {"source": "j1", "target": "h1 j1"}, 
     {"source": "h1^2 D4", "target": "h1^3 D4"}, 
     {"source": "_h1 D11", "target": "_t^2 c1 g^2"}, 
     {"source": "_h1^2 h5 c0 e0", "target": "_h1^3 h5 c0 e0"}, 
-    { "source": "_h1^2 h5 c0 e0", "target": "_h1^4 B8", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^2 h5 c0 e0", "target": "_h1^4 B8", "attributes": ["dr", "n3"] }, 
     {"source": "h1^2 Q2", "target": "h1^3 Q2"}, 
     {"source": "h1 e1 g", "target": "h1^2 e1 g"}, 
     {"source": "_P h1^2 h5 e0", "target": "_P h1^3 h5 e0"}, 
-    { "source": "_P h1^2 h5 e0", "target": "_h1^4 x'", "attributes": ["dr", "3"] }, 
+    { "source": "_P h1^2 h5 e0", "target": "_h1^4 x'", "attributes": ["dr", "n3"] }, 
     {"source": "B21", "target": "h1 B21"}, 
     {"source": "B21", "target": "h0 B22"}, 
     { "source": "_h1^5 i1", "target": "t g^3", "attributes": ["hh1"] }, 
-    { "source": "_h1^5 i1", "target": "h1^5 B8", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^5 i1", "target": "h1^5 B8", "attributes": ["dr", "n3"] }, 
     {"source": "h1^3 h5 c0 e0", "target": "h1^4 h5 c0 e0"}, 
-    { "source": "h1^3 h5 c0 e0", "target": "h1^5 B8", "attributes": ["dr", "3"] }, 
+    { "source": "h1^3 h5 c0 e0", "target": "h1^5 B8", "attributes": ["dr", "n3"] }, 
     {"source": "c1 g^2", "target": "h2 c1 g^2"}, 
     {"source": "_h1^5 B8", "target": "_h1^6 B8"}, 
     { "source": "_h1^5 x'", "target": "d0 u'", "attributes": ["hh1"] }, 
@@ -5887,15 +5887,15 @@
     {"source": "h1^3 D4", "target": "h1^4 D4"}, 
     { "source": "_t^2 c1 g^2", "target": "n r", "attributes": ["hh1"] }, 
     {"source": "_h1^3 h5 c0 e0", "target": "_h1^4 h5 c0 e0"}, 
-    { "source": "_h1^3 h5 c0 e0", "target": "_h1^5 B8", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^3 h5 c0 e0", "target": "_h1^5 B8", "attributes": ["dr", "n3"] }, 
     {"source": "h1^3 Q2", "target": "h1^4 Q2"}, 
     {"source": "h1^2 e1 g", "target": "h1^3 e1 g"}, 
     {"source": "_P h1^3 h5 e0", "target": "_t^2 h0 g^3"}, 
-    { "source": "_P h1^3 h5 e0", "target": "_h1^5 x'", "attributes": ["dr", "3"] }, 
+    { "source": "_P h1^3 h5 e0", "target": "_h1^5 x'", "attributes": ["dr", "n3"] }, 
     {"source": "h1^4 h5 c0 e0", "target": "h1^5 h5 c0 e0"}, 
-    { "source": "h1^4 h5 c0 e0", "target": "h1^6 B8", "attributes": ["dr", "3"] }, 
+    { "source": "h1^4 h5 c0 e0", "target": "h1^6 B8", "attributes": ["dr", "n3"] }, 
     {"source": "t g^3", "target": "t h1 g^3"}, 
-    { "source": "t g^3", "target": "h1^6 B8", "attributes": ["dr", "3"] }, 
+    { "source": "t g^3", "target": "h1^6 B8", "attributes": ["dr", "n3"] }, 
     {"source": "h0 g^3", "target": "h0^2 g^3"}, 
     {"source": "h0 g^3", "target": "h0 h2 g^3"}, 
     {"source": "_h1^6 B8", "target": "_h1^7 B8"}, 
@@ -5903,24 +5903,24 @@
     {"source": "d0 u'", "target": "h1 d0 u'"}, 
     {"source": "D3", "target": "h1 D3"}, 
     {"source": "D3", "target": "h2 D3"}, 
-    { "source": "D3", "target": "B3", "attributes": ["dr", "3"] }, 
+    { "source": "D3", "target": "B3", "attributes": ["dr", "n3"] }, 
     {"source": "A'", "target": "h2 A'"}, 
     {"source": "_h1 j1", "target": "_h1^2 j1"}, 
     {"source": "_h1^3 D4", "target": "_h1^4 D4"}, 
-    { "source": "_h1^3 D4", "target": "h1 B21", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^3 D4", "target": "h1 B21", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^3 Q2", "target": "_h1^4 Q2"}, 
     {"source": "_h1^2 e1 g", "target": "_h1^3 e1 g"}, 
     {"source": "h1^4 D4", "target": "h1^5 D4"}, 
     {"source": "_h1^4 h5 c0 e0", "target": "_h1^5 h5 c0 e0"}, 
-    { "source": "_h1^4 h5 c0 e0", "target": "_h1^6 B8", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^4 h5 c0 e0", "target": "_h1^6 B8", "attributes": ["dr", "n3"] }, 
     {"source": "h1^4 Q2", "target": "h1^5 Q2"}, 
     { "source": "_t^2 h0 g^3", "target": "t e0 w", "attributes": ["hh1"] }, 
-    { "source": "_t^2 h0 g^3", "target": "d0 u'", "attributes": ["dr", "3"] }, 
+    { "source": "_t^2 h0 g^3", "target": "d0 u'", "attributes": ["dr", "n3"] }, 
     {"source": "c0 x'", "target": "h1 c0 x'"}, 
     { "source": "_t h0^2 g^3", "target": "k m", "attributes": ["hh2"] }, 
     {"source": "h1^5 h5 c0 e0", "target": "h1^6 h5 c0 e0"}, 
-    { "source": "h1^5 h5 c0 e0", "target": "h1^7 B8", "attributes": ["dr", "3"] }, 
-    { "source": "t h1 g^3", "target": "h1^7 B8", "attributes": ["dr", "3"] }, 
+    { "source": "h1^5 h5 c0 e0", "target": "h1^7 B8", "attributes": ["dr", "n3"] }, 
+    { "source": "t h1 g^3", "target": "h1^7 B8", "attributes": ["dr", "n3"] }, 
     { "source": "_h1^7 B8", "target": "d0^2 e0^2", "attributes": ["hh1"] }, 
     {
       "source": "_P^7 h1^4", 
@@ -5929,14 +5929,14 @@
     }, 
     {"source": "h5^2", "target": "h1 h5^2"}, 
     {"source": "h5^2", "target": "h2 h5^2"}, 
-    { "source": "h1 D3", "target": "h1 B3", "attributes": ["dr", "3"] }, 
+    { "source": "h1 D3", "target": "h1 B3", "attributes": ["dr", "n3"] }, 
     {"source": "C0", "target": "h1 h3 Q2"}, 
-    { "source": "C0", "target": "n r", "attributes": ["dr", "3"] }, 
+    { "source": "C0", "target": "n r", "attributes": ["dr", "n3"] }, 
     {"source": "E1", "target": "h1 E1"}, 
     {"source": "_h1^4 D4", "target": "_h1^5 D4"}, 
     {"source": "R", "target": "h0 R"}, 
     {"source": "h1 X1", "target": "h1^2 X1"}, 
-    { "source": "h1 X1", "target": "c0 x'", "attributes": ["dr", "3"] }, 
+    { "source": "h1 X1", "target": "c0 x'", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^4 Q2", "target": "_h1^5 Q2"}, 
     {"source": "_t h1^2 B21", "target": "_t h1^3 B21"}, 
     { "source": "_t h1^2 B21", "target": "P h5 j", "attributes": ["hh2"] }, 
@@ -5945,9 +5945,9 @@
     {"source": "h1^5 D4", "target": "h1^6 D4"}, 
     {"source": "h0^2 R", "target": "h0^3 R"}, 
     {"source": "_h1^5 h5 c0 e0", "target": "_h1^6 h5 c0 e0"}, 
-    { "source": "_h1^5 h5 c0 e0", "target": "_h1^7 B8", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^5 h5 c0 e0", "target": "_h1^7 B8", "attributes": ["dr", "n3"] }, 
     {"source": "h0^3 R", "target": "h0^4 R"}, 
-    { "source": "t e0 w", "target": "h1 d0 u'", "attributes": ["dr", "3"] }, 
+    { "source": "t e0 w", "target": "h1 d0 u'", "attributes": ["dr", "n3"] }, 
     {"source": "h0^4 R", "target": "h0^5 R"}, 
     {"source": "h1 c0 x'", "target": "h1^2 c0 x'"}, 
     {"source": "h1^6 h5 c0 e0", "target": "h1^7 h5 c0 e0"}, 
@@ -5967,34 +5967,38 @@
     { "source": "_h1 B7", "target": "h3 Q2", "attributes": ["hh1"] }, 
     {"source": "C'", "target": "h2 C'"}, 
     {"source": "h0^7 h6", "target": "h0^8 h6"}, 
-    { "source": "h0^7 h6", "target": "h0 R", "attributes": ["dr", "3"] }, 
+    { "source": "h0^7 h6", "target": "h0 R", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^2 B3", "target": "_h1^3 B3"}, 
     {"source": "h0^8 h6", "target": "h0^9 h6"}, 
-    { "source": "h0^8 h6", "target": "h0^2 R", "attributes": ["dr", "3"] }, 
+    { "source": "h0^8 h6", "target": "h0^2 R", "attributes": ["dr", "n3"] }, 
     {"source": "h1 E1", "target": "h1^2 E1"}, 
     {"source": "h0^9 h6", "target": "h0^10 h6"}, 
-    { "source": "h0^9 h6", "target": "h0^3 R", "attributes": ["dr", "3"] }, 
+    { "source": "h0^9 h6", "target": "h0^3 R", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^5 D4", "target": "_h1^6 D4"}, 
     {"source": "h0^10 h6", "target": "h0^11 h6"}, 
-    { "source": "h0^10 h6", "target": "h0^4 R", "attributes": ["dr", "3"] }, 
+    { "source": "h0^10 h6", "target": "h0^4 R", "attributes": ["dr", "n3"] }, 
     {"source": "h1^2 X1", "target": "h1^3 X1"}, 
-    { "source": "h1^2 X1", "target": "h1 c0 x'", "attributes": ["dr", "3"] }, 
+    { "source": "h1^2 X1", "target": "h1 c0 x'", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^5 Q2", "target": "_t^2 h2 g^3"}, 
     { "source": "_t h2 c1 g^2", "target": "n m", "attributes": ["hh2"] }, 
     {"source": "h0^11 h6", "target": "h0^12 h6"}, 
-    { "source": "h0^11 h6", "target": "h0^5 R", "attributes": ["dr", "3"] }, 
+    { "source": "h0^11 h6", "target": "h0^5 R", "attributes": ["dr", "n3"] }, 
     {"source": "h1^6 D4", "target": "h1^7 D4"}, 
     {"source": "h0^12 h6", "target": "h0^13 h6"}, 
-    { "source": "h0^12 h6", "target": "h0^6 R", "attributes": ["dr", "3"] }, 
+    { "source": "h0^12 h6", "target": "h0^6 R", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^6 h5 c0 e0", "target": "_h1^7 h5 c0 e0"}, 
-    { "source": "_h1^6 h5 c0 e0", "target": "d0^2 e0^2", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_h1^6 h5 c0 e0", 
+      "target": "d0^2 e0^2", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "h2 g^3", "target": "h0 h2 g^3"}, 
     {"source": "h2 g^3", "target": "h2^2 g^3"}, 
     {"source": "h0^13 h6", "target": "h0^14 h6"}, 
-    { "source": "h0^13 h6", "target": "h0^7 R", "attributes": ["dr", "3"] }, 
+    { "source": "h0^13 h6", "target": "h0^7 R", "attributes": ["dr", "n3"] }, 
     {"source": "h0 h2 g^3", "target": "h1^7 h5 c0 e0"}, 
     {"source": "h0^14 h6", "target": "h0^15 h6"}, 
-    { "source": "h0^14 h6", "target": "h0^8 R", "attributes": ["dr", "3"] }, 
+    { "source": "h0^14 h6", "target": "h0^8 R", "attributes": ["dr", "n3"] }, 
     {"source": "h1^2 c0 x'", "target": "h1^3 c0 x'"}, 
     {"source": "h0^15 h6", "target": "h0^16 h6"}, 
     {"source": "h0^16 h6", "target": "h0^17 h6"}, 
@@ -6023,7 +6027,7 @@
     {"source": "q1", "target": "h1 q1"}, 
     {"source": "_h1^6 D4", "target": "_h1^7 D4"}, 
     {"source": "h1^3 X1", "target": "h1^4 X1"}, 
-    { "source": "h1^3 X1", "target": "h1^2 c0 x'", "attributes": ["dr", "3"] }, 
+    { "source": "h1^3 X1", "target": "h1^2 c0 x'", "attributes": ["dr", "n3"] }, 
     { "source": "_t^2 h2 g^3", "target": "t g w", "attributes": ["hh1"] }, 
     { "source": "_t h0 h2 g^3", "target": "k m", "attributes": ["hh0"] }, 
     { "source": "_t h0 h2 g^3", "target": "l m", "attributes": ["hh2"] }, 
@@ -6033,7 +6037,7 @@
     {
       "source": "_h1^7 h5 c0 e0", 
       "target": "h1 d0^2 e0^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {
       "source": "P^7 c0", 
@@ -6049,14 +6053,14 @@
     { "source": "_h1^3 X1", "target": "P h5 j", "attributes": ["hh0"] }, 
     {"source": "_h1^3 X1", "target": "_h1^4 X1"}, 
     { "source": "_h1^3 X1", "target": "h0^4 G21", "attributes": ["hh2"] }, 
-    { "source": "_h1^3 X1", "target": "_U", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^3 X1", "target": "_U", "attributes": ["dr", "n3"] }, 
     {"source": "h1 q1", "target": "h1^2 q1"}, 
     {"source": "h2 B22", "target": "h0 h2 B22"}, 
     {"source": "h2 B22", "target": "h0 h2 B23"}, 
     {"source": "P h5 j", "target": "h0^5 G21"}, 
     {"source": "_h1^7 D4", "target": "_h1^8 D4"}, 
     {"source": "h1^4 X1", "target": "h1^5 X1"}, 
-    { "source": "h1^4 X1", "target": "h1^3 c0 x'", "attributes": ["dr", "3"] }, 
+    { "source": "h1^4 X1", "target": "h1^3 c0 x'", "attributes": ["dr", "n3"] }, 
     {"source": "_h1 U", "target": "_h1^2 U"}, 
     {
       "source": "P^8 h1", 
@@ -6077,7 +6081,7 @@
     {"source": "h1^3 X2", "target": "h1^4 X2"}, 
     {"source": "P h1 D4", "target": "P h1^2 D4"}, 
     {"source": "_h1^4 X1", "target": "_h1^5 X1"}, 
-    { "source": "_h1^4 X1", "target": "_h1 U", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^4 X1", "target": "_h1 U", "attributes": ["dr", "n3"] }, 
     {"source": "h1^5 X1", "target": "h1^6 X1"}, 
     {"source": "h2^2 g^3", "target": "h1^2 h3 g^3"}, 
     { "source": "_h1^2 U", "target": "d0^2 u", "attributes": ["hh1"] }, 
@@ -6089,12 +6093,12 @@
     {"source": "_h1 k1", "target": "_h1^2 k1"}, 
     {"source": "h1 . D1 h3^2", "target": "h1^2 . D1 h3^2"}, 
     {"source": "C''", "target": "h2 C''"}, 
-    { "source": "C''", "target": "n m", "attributes": ["dr", "3"] }, 
+    { "source": "C''", "target": "n m", "attributes": ["dr", "n3"] }, 
     {"source": "_P h1 D4", "target": "_P h1^2 D4"}, 
     {"source": "C11", "target": "h2 C11"}, 
     {"source": "P h1^2 D4", "target": "P h1^3 D4"}, 
     {"source": "_h1^5 X1", "target": "_h1^6 X1"}, 
-    { "source": "_h1^5 X1", "target": "_h1^2 U", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^5 X1", "target": "_h1^2 U", "attributes": ["dr", "n3"] }, 
     {"source": "B8 d0", "target": "h1 B8 d0"}, 
     { "source": "_t h2^2 g^3", "target": "l m", "attributes": ["hh0"] }, 
     { "source": "_t h2^2 g^3", "target": "m^2", "attributes": ["hh2"] }, 
@@ -6109,26 +6113,26 @@
     {"source": "_h1^4 h6", "target": "_h1^5 h6"}, 
     {"source": "d2", "target": "h0 d2"}, 
     {"source": "d2", "target": "h1 p1"}, 
-    { "source": "d2", "target": "h0^2 Q3", "attributes": ["dr", "3"] }, 
+    { "source": "d2", "target": "h0^2 Q3", "attributes": ["dr", "n3"] }, 
     { "source": "_h1 . D1 h3^2", "target": "h3(A+A')", "attributes": ["hh0"] }, 
     {"source": "_h1 . D1 h3^2", "target": "_h1^2 . D1 h3^2"}, 
-    { "source": "_h1 . D1 h3^2", "target": "X3", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 . D1 h3^2", "target": "X3", "attributes": ["dr", "n3"] }, 
     {"source": "t h1 Q3", "target": "t h1^2 Q3"}, 
     {"source": "h1^5 h6", "target": "h1^6 h6"}, 
     {"source": "h2^2 H1", "target": "h1^2 h3 H1"}, 
     { "source": "_h1^2 k1", "target": "h0 h2 G0", "attributes": ["hh1"] }, 
     {"source": "h1^2 . D1 h3^2", "target": "h1^3 . D1 h3^2"}, 
     { "source": "_h1^4 X2", "target": "h2 B5", "attributes": ["hh1"] }, 
-    { "source": "_h1^4 X2", "target": "B8 d0", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^4 X2", "target": "B8 d0", "attributes": ["dr", "n3"] }, 
     {"source": "h0^3 G21", "target": "h0^4 G21"}, 
-    { "source": "h0^3 G21", "target": "d0 x'", "attributes": ["dr", "3"] }, 
+    { "source": "h0^3 G21", "target": "d0 x'", "attributes": ["dr", "n3"] }, 
     {"source": "_P h1^2 D4", "target": "_P h1^3 D4"}, 
     {"source": "h2 B23", "target": "h0 h2 B23"}, 
     {"source": "h2 B23", "target": "M h2^2 g"}, 
     { "source": "_t B8 d0", "target": "t W1", "attributes": ["hh1"] }, 
     {"source": "h0^4 G21", "target": "h0^5 G21"}, 
     {"source": "P h1^3 D4", "target": "P h1^4 D4"}, 
-    { "source": "_h1^6 X1", "target": "d0^2 u", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^6 X1", "target": "d0^2 u", "attributes": ["dr", "n3"] }, 
     {"source": "h1 h3 g^3", "target": "h1^2 h3 g^3"}, 
     {"source": "e0^4", "target": "h1 e0^4"}, 
     {"source": "h2^2 h6", "target": "h1^2 h3 h6"}, 
@@ -6146,11 +6150,11 @@
     {"source": "h1^3 . D1 h3^2", "target": "h1^4 . D1 h3^2"}, 
     {"source": "P(A+A')", "target": "P h0 (A+A')"}, 
     {"source": "P(A+A')", "target": "h0 d0 D2"}, 
-    { "source": "h2 B5", "target": "h1 B8 d0", "attributes": ["dr", "3"] }, 
+    { "source": "h2 B5", "target": "h1 B8 d0", "attributes": ["dr", "n3"] }, 
     {"source": "_P h1^3 D4", "target": "_P h1^4 D4"}, 
     {"source": "t W1", "target": "t h1 W1"}, 
     {"source": "_h1 h3 g^3", "target": "_h1^2 h3 g^3"}, 
-    { "source": "_h1 h3 g^3", "target": "e0^4", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 h3 g^3", "target": "e0^4", "attributes": ["dr", "n3"] }, 
     {
       "source": "_P^8 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6158,12 +6162,12 @@
     }, 
     {"source": "h3 h6", "target": "h0 h3 h6"}, 
     {"source": "h3 h6", "target": "h1 h3 h6"}, 
-    { "source": "h3 h6", "target": "h0 p'", "attributes": ["dr", "3"] }, 
+    { "source": "h3 h6", "target": "h0 p'", "attributes": ["dr", "n3"] }, 
     {"source": "h0 h3 h6", "target": "h0^2 h3 h6"}, 
-    { "source": "h0 h3 h6", "target": "h0^2 p'", "attributes": ["dr", "3"] }, 
+    { "source": "h0 h3 h6", "target": "h0^2 p'", "attributes": ["dr", "n3"] }, 
     {"source": "h0^2 h3 h6", "target": "h0^3 h3 h6"}, 
     {"source": "p1", "target": "h1 p1"}, 
-    { "source": "p1", "target": "t h1^2 Q3", "attributes": ["dr", "3"] }, 
+    { "source": "p1", "target": "t h1^2 Q3", "attributes": ["dr", "n3"] }, 
     {"source": "h1 p'", "target": "h1^2 p'"}, 
     {"source": "_h1^6 h6", "target": "_h1^7 h6"}, 
     {"source": "h2 Q3", "target": "h0 h2 Q3"}, 
@@ -6178,15 +6182,15 @@
     {"source": "h1^4 . D1 h3^2", "target": "h1^5 . D1 h3^2"}, 
     {"source": "t h1 W1", "target": "D^2 h0^2 h2 g"}, 
     {"source": "m^2", "target": "D h1^2 h3 g^2"}, 
-    { "source": "_h1^2 h3 g^3", "target": "h1 e0^4", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^2 h3 g^3", "target": "h1 e0^4", "attributes": ["dr", "n3"] }, 
     {"source": "h1 h3 h6", "target": "h1^2 h3 h6"}, 
     {"source": "h6 c0", "target": "h1 h6 c0"}, 
-    { "source": "h1 p1", "target": "t h1^3 Q3", "attributes": ["dr", "3"] }, 
+    { "source": "h1 p1", "target": "t h1^3 Q3", "attributes": ["dr", "n3"] }, 
     {"source": "x71,6", "target": "h1 x71,6"}, 
     {
       "source": "x71,6", 
       "target": "h1^2 G21 + t h2 C''", 
-      "attributes": ["dr", "4"]
+      "attributes": ["dr", "n4"]
     }, 
     {"source": "h1^2 p'", "target": "h1^3 p'"}, 
     { "source": "_h0^2 h2 Q3", "target": "h4 Q2", "attributes": ["hh1"] }, 
@@ -6196,7 +6200,7 @@
     {
       "source": "_(D h1^2 g2 + t h2 C'')", 
       "target": "h2 C11", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^4 . D1 h3^2", "target": "_h1^5 . D1 h3^2"}, 
     {"source": "h1^8 h6", "target": "h1^9 h6"}, 
@@ -6235,7 +6239,7 @@
     { "source": "_h1 x71,6", "target": "h4 D2", "attributes": ["hh0"] }, 
     {"source": "_h1 x71,6", "target": "_h1^2 x71,6"}, 
     { "source": "_h1 x71,6", "target": "h0 x76,6", "attributes": ["hh2"] }, 
-    { "source": "_h1 x71,6", "target": "h0 d0 D2", "attributes": ["dr", "5"] }, 
+    { "source": "_h1 x71,6", "target": "h0 d0 D2", "attributes": ["dr", "n5"] }, 
     {"source": "_h1^3 p'", "target": "_h0 h2^2 Q3"}, 
     {"source": "h1^2 h6 c0", "target": "h1^3 h6 c0"}, 
     {"source": "P h1^2 h6", "target": "P h1^3 h6"}, 
@@ -6252,7 +6256,7 @@
     {
       "source": "_D h1 h3 g^2", 
       "target": "_t h0 e0^3 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1 d1 g^2", "target": "h1^2 d1 g^2"}, 
     {"source": "M d0^2", "target": "M h1 d0^2"}, 
@@ -6264,7 +6268,7 @@
     { "source": "_h1^2 h6 c0", "target": "P h2 h6", "attributes": ["hh0"] }, 
     {"source": "_h1^2 h6 c0", "target": "_h1^3 h6 c0"}, 
     { "source": "_h1^2 h6 c0", "target": "h0 h6 d0", "attributes": ["hh2"] }, 
-    { "source": "_h1^2 h6 c0", "target": "h0 h4 D2", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^2 h6 c0", "target": "h0 h4 D2", "attributes": ["dr", "n3"] }, 
     {"source": "P h2 h6", "target": "P h0 h2 h6"}, 
     {"source": "P h2 h6", "target": "h0^2 h6 d0"}, 
     { "source": "_h0 h2^2 Q3", "target": "M h4^2", "attributes": ["hh1"] }, 
@@ -6278,11 +6282,11 @@
     {
       "source": "_t h2^2 C''", 
       "target": "D^2 h1^2 h4 c0", 
-      "attributes": ["dr", "4"]
+      "attributes": ["dr", "n4"]
     }, 
     {"source": "_h1^10 h6", "target": "_h1^11 h6"}, 
     {"source": "_h1^4 D3'", "target": "_h1^5 D3'"}, 
-    { "source": "_h1^4 D3'", "target": "M d0^2", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^4 D3'", "target": "M d0^2", "attributes": ["dr", "n3"] }, 
     { "source": "_h1 d1 g^2", "target": "h1^5 D3'", "attributes": ["hh0"] }, 
     {"source": "_h1 d1 g^2", "target": "_h1^2 d1 g^2"}, 
     { "source": "_h1 d1 g^2", "target": "h1^2 g B6", "attributes": ["hh2"] }, 
@@ -6291,15 +6295,15 @@
     {
       "source": "_D h1^2 h3 g^2", 
       "target": "D h1 d0 e0^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h2 g^2 n", "target": "h1 g^2 T"}, 
     {"source": "e0^2 g^2", "target": "h1 e0^2 g^2"}, 
     {"source": "e0^2 g^2", "target": "h0 e0 g^3"}, 
     {"source": "h3 d2", "target": "h0 h3 d2"}, 
-    { "source": "h3 d2", "target": "h0 x74,8", "attributes": ["dr", "4"] }, 
+    { "source": "h3 d2", "target": "h0 x74,8", "attributes": ["dr", "n4"] }, 
     {"source": "_h1^3 h6 c0", "target": "_h1^4 h6 c0"}, 
-    { "source": "x75,7", "target": "h0^2 x74,8", "attributes": ["dr", "3"] }, 
+    { "source": "x75,7", "target": "h0^2 x74,8", "attributes": ["dr", "n3"] }, 
     {"source": "M h4^2", "target": "M h1 h4^2"}, 
     {"source": "_h1^3 x71,6", "target": "_h1^4 x71,6"}, 
     {"source": "h1^4 h6 c0", "target": "h1^5 h6 c0"}, 
@@ -6308,7 +6312,7 @@
     {"source": "P h1^4 h6", "target": "P h1^5 h6"}, 
     {"source": "g B6", "target": "h1 g B6"}, 
     {"source": "_h1^11 h6", "target": "_h1^12 h6"}, 
-    { "source": "_h1^5 D3'", "target": "M h1 d0^2", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^5 D3'", "target": "M h1 d0^2", "attributes": ["dr", "n3"] }, 
     {"source": "_t h2 g^2 n", "target": "_t h1 g^2 T"}, 
     { "source": "_h1^2 d1 g^2", "target": "g^2 T", "attributes": ["hh1"] }, 
     {"source": "h2 d1 g^2", "target": "h2^2 d1 g^2"}, 
@@ -6323,7 +6327,7 @@
     {"source": "P^9 h2", "target": "P^9 h0 h2"}, 
     {"source": "P^9 h2", "target": "P^8 h0^2 d0"}, 
     {"source": "h4 D3", "target": "h1 h4 D3"}, 
-    { "source": "h4 D3", "target": "M h4^2", "attributes": ["dr", "3"] }, 
+    { "source": "h4 D3", "target": "M h4^2", "attributes": ["dr", "n3"] }, 
     {"source": "h0 x76,6", "target": "h0^2 x76,6"}, 
     {"source": "h0 x76,6", "target": "h0 h2 x76,6"}, 
     {"source": "_h1^4 h6 c0", "target": "_h1^5 h6 c0"}, 
@@ -6346,7 +6350,7 @@
     {"source": "h6 d0", "target": "h1 h6 d0"}, 
     {"source": "h6 d0", "target": "h0 h6 e0"}, 
     {"source": "h0 h6 d0", "target": "h0^2 h6 d0"}, 
-    { "source": "h1 h4 D3", "target": "M h1 h4^2", "attributes": ["dr", "3"] }, 
+    { "source": "h1 h4 D3", "target": "M h1 h4^2", "attributes": ["dr", "n3"] }, 
     {"source": "x77,7", "target": "h0 x77,7"}, 
     {"source": "h1 x76,6", "target": "h1^2 x76,6"}, 
     {"source": "m1", "target": "h1 m1"}, 
@@ -6361,7 +6365,7 @@
     {"source": "_h1 g B6", "target": "_h1^2 g B6"}, 
     {"source": "M D h1 h3", "target": "M D h1^2 h3"}, 
     {"source": "_D^2 h1 h3 g", "target": "_D^2 h1^2 h3 g"}, 
-    { "source": "_D^2 h1 h3 g", "target": "D^2 d0^2", "attributes": ["dr", "3"] }, 
+    { "source": "_D^2 h1 h3 g", "target": "D^2 d0^2", "attributes": ["dr", "n3"] }, 
     {"source": "D h1 d1 g", "target": "D h1^2 d1 g"}, 
     {"source": "_h1^13 h6", "target": "_h1^14 h6"}, 
     {"source": "h1^14 h6", "target": "h1^15 h6"}, 
@@ -6373,15 +6377,15 @@
     }, 
     {"source": "h0 h4 h6", "target": "h0^2 h4 h6"}, 
     {"source": "h0 h4 h6", "target": "h0 h2 h4 h6"}, 
-    { "source": "h0 h4 h6", "target": "h0 h6 d0", "attributes": ["dr", "3"] }, 
+    { "source": "h0 h4 h6", "target": "h0 h6 d0", "attributes": ["dr", "n3"] }, 
     {"source": "h0^2 h4 h6", "target": "h0^3 h4 h6"}, 
-    { "source": "h0^2 h4 h6", "target": "h0^2 h6 d0", "attributes": ["dr", "3"] }, 
+    { "source": "h0^2 h4 h6", "target": "h0^2 h6 d0", "attributes": ["dr", "n3"] }, 
     {"source": "h0^3 h4 h6", "target": "h0^4 h4 h6"}, 
-    { "source": "h0^3 h4 h6", "target": "h0^2 x77,7", "attributes": ["dr", "4"] }, 
+    { "source": "h0^3 h4 h6", "target": "h0^2 x77,7", "attributes": ["dr", "n4"] }, 
     {"source": "h0^4 h4 h6", "target": "h0^5 h4 h6"}, 
-    { "source": "h0^4 h4 h6", "target": "h0^3 x77,7", "attributes": ["dr", "4"] }, 
+    { "source": "h0^4 h4 h6", "target": "h0^3 x77,7", "attributes": ["dr", "n4"] }, 
     {"source": "h0^5 h4 h6", "target": "h0^6 h4 h6"}, 
-    { "source": "h0^5 h4 h6", "target": "h0^4 x77,7", "attributes": ["dr", "4"] }, 
+    { "source": "h0^5 h4 h6", "target": "h0^4 x77,7", "attributes": ["dr", "n4"] }, 
     {"source": "h0^6 h4 h6", "target": "h0^7 h4 h6"}, 
     {"source": "h1^2 x76,6", "target": "h1^3 x76,6"}, 
     {"source": "h1 m1", "target": "h1^2 m1"}, 
@@ -6396,11 +6400,11 @@
     {"source": "_h1^2 g B6", "target": "_t h2^2 d1 g^2"}, 
     {"source": "e1 g^2", "target": "h1 e1 g^2"}, 
     {"source": "e1 g^2", "target": "h1^2 g j1"}, 
-    { "source": "e1 g^2", "target": "h1 g^2 T", "attributes": ["dr", "3"] }, 
+    { "source": "e1 g^2", "target": "h1 g^2 T", "attributes": ["dr", "n3"] }, 
     {
       "source": "_D^2 h1^2 h3 g", 
       "target": "D^2 h1 d0^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     { "source": "_t h1 g^2 T", "target": "g n r", "attributes": ["hh2"] }, 
     {"source": "_h1^14 h6", "target": "_h1^15 h6"}, 
@@ -6412,7 +6416,7 @@
     {"source": "h1 h4 h6", "target": "h1^2 h4 h6"}, 
     {"source": "x1", "target": "h1 x1"}, 
     {"source": "x1", "target": "h2 x1"}, 
-    { "source": "x1", "target": "M D h1^2 h3", "attributes": ["dr", "8"] }, 
+    { "source": "x1", "target": "M D h1^2 h3", "attributes": ["dr", "n8"] }, 
     {"source": "h2 x76,6", "target": "h0 h2 x76,6"}, 
     {"source": "h2 x76,6", "target": "h0^2 h4 Q3"}, 
     {"source": "P h6 c0", "target": "P h1 h6 c0"}, 
@@ -6420,7 +6424,7 @@
     {"source": "D B6", "target": "D h1 B6"}, 
     {"source": "_P h1^7 h6", "target": "_P h1^8 h6"}, 
     { "source": "_t e1 g^2", "target": "g C0", "attributes": ["hh2"] }, 
-    { "source": "_t e1 g^2", "target": "_t h1 g^2 T", "attributes": ["dr", "3"] }, 
+    { "source": "_t e1 g^2", "target": "_t h1 g^2 T", "attributes": ["dr", "n3"] }, 
     {"source": "g j1", "target": "h1 g j1"}, 
     {"source": "h1^8 h6 c0", "target": "h1^9 h6 c0"}, 
     {"source": "D^2 n", "target": "D^2 h2 n"}, 
@@ -6432,11 +6436,11 @@
     { "source": "_h1^15 h6", "target": "t g^4", "attributes": ["hh1"] }, 
     {"source": "c1 g^3", "target": "h2 c1 g^3"}, 
     {"source": "P^4 h0^4 Q'", "target": "P^4 h0^5 Q'"}, 
-    { "source": "P^4 h0^4 Q'", "target": "P^8 d0", "attributes": ["dr", "3"] }, 
+    { "source": "P^4 h0^4 Q'", "target": "P^8 d0", "attributes": ["dr", "n3"] }, 
     {"source": "P^4 h0^5 Q'", "target": "P^4 h0^6 Q'"}, 
-    { "source": "P^4 h0^5 Q'", "target": "P^8 h0 d0", "attributes": ["dr", "3"] }, 
+    { "source": "P^4 h0^5 Q'", "target": "P^8 h0 d0", "attributes": ["dr", "n3"] }, 
     {"source": "P^4 h0^6 Q'", "target": "P^4 h0^7 Q'"}, 
-    { "source": "P^4 h0^6 Q'", "target": "P^8 h0^2 d0", "attributes": ["dr", "3"] }, 
+    { "source": "P^4 h0^6 Q'", "target": "P^8 h0^2 d0", "attributes": ["dr", "n3"] }, 
     {"source": "P^4 h0^7 Q'", "target": "P^4 h0^8 Q'"}, 
     {"source": "P^4 h0^8 Q'", "target": "P^4 h0^9 Q'"}, 
     {"source": "P^4 h0^9 Q'", "target": "P^4 h0^10 Q'"}, 
@@ -6448,7 +6452,7 @@
     {"source": "P^2 h1 h6", "target": "P^2 h1^2 h6"}, 
     {"source": "_g j1", "target": "_h1 g j1"}, 
     { "source": "_g j1", "target": "g C'", "attributes": ["hh2"] }, 
-    { "source": "_g j1", "target": "M e0^2", "attributes": ["dr", "4"] }, 
+    { "source": "_g j1", "target": "M e0^2", "attributes": ["dr", "n4"] }, 
     {"source": "_h1^8 h6 c0", "target": "_h1^9 h6 c0"}, 
     {"source": "D^2 d1", "target": "D^2 h1 d1"}, 
     {"source": "D^2 d1", "target": "D^2 h2 d1"}, 
@@ -6479,7 +6483,7 @@
     {"source": "_D h1 B6", "target": "_D h1^2 B6"}, 
     {"source": "P^2 h1^2 h6", "target": "P^2 h1^3 h6"}, 
     {"source": "_h1 g j1", "target": "_h1^2 g j1"}, 
-    { "source": "_h1 g j1", "target": "M h1 e0^2", "attributes": ["dr", "4"] }, 
+    { "source": "_h1 g j1", "target": "M h1 e0^2", "attributes": ["dr", "n4"] }, 
     {"source": "_h1^9 h6 c0", "target": "_h1^10 h6 c0"}, 
     {"source": "D^2 h1 d1", "target": "D^2 h1^2 d1"}, 
     {"source": "_P h1^9 h6", "target": "_P h1^10 h6"}, 
@@ -6497,10 +6501,10 @@
     {"source": "h4 Q3", "target": "h0 h4 Q3"}, 
     {"source": "h4 Q3", "target": "h1 h4 Q3"}, 
     {"source": "h4 Q3", "target": "h2 h4 Q3"}, 
-    { "source": "h4 Q3", "target": "h3 x74,8", "attributes": ["dr", "3"] }, 
+    { "source": "h4 Q3", "target": "h3 x74,8", "attributes": ["dr", "n3"] }, 
     {"source": "h0 h4 Q3", "target": "h0^2 h4 Q3"}, 
     {"source": "h0 h4 Q3", "target": "h0 h2 h4 Q3"}, 
-    { "source": "h0 h4 Q3", "target": "h0 h3 x74,8", "attributes": ["dr", "3"] }, 
+    { "source": "h0 h4 Q3", "target": "h0 h3 x74,8", "attributes": ["dr", "n3"] }, 
     {"source": "h1^3 x1", "target": "h1^4 x1"}, 
     {"source": "e1 g2", "target": "h1^3 h4 Q3"}, 
     { "source": "_P h1^2 h6 c0", "target": "P^2 h2 h6", "attributes": ["hh0"] }, 
@@ -6510,7 +6514,7 @@
     { "source": "_D h1^2 B6", "target": "D^2 h2 d1", "attributes": ["hh1"] }, 
     {"source": "P^2 h1^3 h6", "target": "P^2 h1^4 h6"}, 
     {"source": "g C0", "target": "D h1^2 j1"}, 
-    { "source": "g C0", "target": "g n r", "attributes": ["dr", "3"] }, 
+    { "source": "g C0", "target": "g n r", "attributes": ["dr", "n3"] }, 
     {"source": "(D e1 + C0) g", "target": "D h1 e1 g"}, 
     {"source": "_h1^10 h6 c0", "target": "_h1^11 h6 c0"}, 
     {"source": "D^2 h2 n", "target": "D^2 h1 T"}, 
@@ -6531,11 +6535,11 @@
     {
       "source": "_t (D e1 + C0) g", 
       "target": "D^2 h2 n", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D j1", "target": "D h1 j1"}, 
     {"source": "g C'", "target": "h2 g C'"}, 
-    { "source": "g C'", "target": "M h0 e0 g", "attributes": ["dr", "4"] }, 
+    { "source": "g C'", "target": "M h0 e0 g", "attributes": ["dr", "n4"] }, 
     {"source": "P h1^4 h6 c0", "target": "P h1^5 h6 c0"}, 
     { "source": "_D^2 h1^2 d1", "target": "D^2 T", "attributes": ["hh1"] }, 
     {"source": "P^2 h1^4 h6", "target": "P^2 h1^5 h6"}, 
@@ -6561,7 +6565,7 @@
     {"source": "h1^2 h4 Q3", "target": "h1^3 h4 Q3"}, 
     {"source": "_D j1", "target": "_D h1 j1"}, 
     {"source": "_D j1", "target": "_t h2 g C'"}, 
-    { "source": "_D j1", "target": "_t M h0 e0 g", "attributes": ["dr", "4"] }, 
+    { "source": "_D j1", "target": "_t M h0 e0 g", "attributes": ["dr", "n4"] }, 
     {"source": "P x76,6", "target": "P h1 x76,6"}, 
     {"source": "_P h1^4 h6 c0", "target": "_P h1^5 h6 c0"}, 
     {"source": "h2 g A'", "target": "t h1 g G0"}, 
@@ -6585,7 +6589,7 @@
     {"source": "_t h2 g A'", "target": "_t^2 h1 g G0"}, 
     {"source": "h2 g H1", "target": "h2^2 g H1"}, 
     {"source": "_D h1 j1", "target": "_D h1^2 j1"}, 
-    { "source": "_D h1 j1", "target": "M D h1 d0", "attributes": ["dr", "4"] }, 
+    { "source": "_D h1 j1", "target": "M D h1 d0", "attributes": ["dr", "n4"] }, 
     {"source": "d1 i1", "target": "h1 d1 i1"}, 
     {"source": "_P h1^5 h6 c0", "target": "_P h1^6 h6 c0"}, 
     {"source": "D^2 x", "target": "D^2 h0 x"}, 
@@ -6613,24 +6617,24 @@
     {"source": "h2 h6 g", "target": "h2^2 h6 g"}, 
     {"source": "h1 x85,6", "target": "h1^2 x85,6"}, 
     {"source": "h0^2 h6 i", "target": "h0^3 h6 i"}, 
-    { "source": "h0^2 h6 i", "target": "D^2 h0^2 x", "attributes": ["dr", "5"] }, 
+    { "source": "h0^2 h6 i", "target": "D^2 h0^2 x", "attributes": ["dr", "n5"] }, 
     {"source": "_d1 i1", "target": "_h1 d1 i1"}, 
     { "source": "_d1 i1", "target": "h1 x88,10", "attributes": ["hh2"] }, 
     {"source": "h0^3 h6 i", "target": "h0^4 h6 i"}, 
     {"source": "h0^4 h6 i", "target": "h0^5 h6 i"}, 
     {"source": "D^2 e1", "target": "D^2 h1 e1"}, 
     {"source": "D^2 e1", "target": "D^2 h1 f1"}, 
-    { "source": "D^2 e1", "target": "D^2 h1 T", "attributes": ["dr", "3"] }, 
+    { "source": "D^2 e1", "target": "D^2 h1 T", "attributes": ["dr", "n3"] }, 
     {"source": "_t h2 (D e1 + C0) g", "target": "D^2 h1 f1"}, 
     {
       "source": "_t h2 (D e1 + C0) g", 
       "target": "D^2 h1 T", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1 d1^2 g", "target": "_h1^2 d1^2 g"}, 
-    { "source": "_h1 d1^2 g", "target": "M h0^2 g^2", "attributes": ["dr", "4"] }, 
+    { "source": "_h1 d1^2 g", "target": "M h0^2 g^2", "attributes": ["dr", "n4"] }, 
     {"source": "h2 g C'", "target": "h0 x89,12"}, 
-    { "source": "h2 g C'", "target": "M h0^2 g^2", "attributes": ["dr", "4"] }, 
+    { "source": "h2 g C'", "target": "M h0^2 g^2", "attributes": ["dr", "n4"] }, 
     {"source": "h1 d1 i1", "target": "h1^2 d1 i1"}, 
     {"source": "_P h1^6 h6 c0", "target": "_P h1^7 h6 c0"}, 
     {"source": "_P^2 h1^6 h6", "target": "_P^2 h1^7 h6"}, 
@@ -6644,12 +6648,16 @@
     {"source": "g Q3", "target": "h2 g Q3"}, 
     { "source": "_D h1 B7", "target": "D^2 f1", "attributes": ["hh1"] }, 
     {"source": "_t h2 g C'", "target": "_t h0 x89,12"}, 
-    { "source": "_t h2 g C'", "target": "_t M h0^2 g^2", "attributes": ["dr", "4"] }, 
+    {
+      "source": "_t h2 g C'", 
+      "target": "_t M h0^2 g^2", 
+      "attributes": ["dr", "n4"]
+    }, 
     {"source": "_h1 d1 i1", "target": "_h1^2 d1 i1"}, 
     {"source": "P^2 h6 c0", "target": "P^2 h1 h6 c0"}, 
     {"source": "D^2 h1 e1", "target": "D^2 h1^2 e1"}, 
     {"source": "g C''", "target": "h2 g C''"}, 
-    { "source": "g C''", "target": "g n m", "attributes": ["dr", "3"] }, 
+    { "source": "g C''", "target": "g n m", "attributes": ["dr", "n3"] }, 
     {"source": "_P h1^7 h6 c0", "target": "_P h1^8 h6 c0"}, 
     { "source": "_P^2 h1^7 h6", "target": "t D^2 g^2", "attributes": ["hh1"] }, 
     {"source": "D^2 c1 g", "target": "D^2 h2 c1 g"}, 
@@ -6697,14 +6705,14 @@
     { "source": "_t M h2 g^2", "target": "M D h1 g", "attributes": ["hh1"] }, 
     {"source": "_t M h2 g^2", "target": "_t M h2^2 g^2"}, 
     {"source": "h1^9 h6 e0", "target": "h1^10 h6 e0"}, 
-    { "source": "h1^9 h6 e0", "target": "M h1^3 g^2", "attributes": ["dr", "3"] }, 
+    { "source": "h1^9 h6 e0", "target": "M h1^3 g^2", "attributes": ["dr", "n3"] }, 
     {"source": "P^3 h1^2 h6", "target": "P^3 h1^3 h6"}, 
     { "source": "_t M h0 h2 g^2", "target": "M D h2^2 d0", "attributes": ["hh0"] }, 
     { "source": "_t M h0 h2 g^2", "target": "M D h2^2 e0", "attributes": ["hh2"] }, 
     {"source": "_P h1^9 h6 c0", "target": "_P h1^10 h6 c0"}, 
     { "source": "_t D^2 h0^2 g^2", "target": "D^3 h2^2 d0", "attributes": ["hh2"] }, 
     {"source": "_h1 h3 g^4", "target": "_h1^2 h3 g^4"}, 
-    { "source": "_h1 h3 g^4", "target": "e0^4 g", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 h3 g^4", "target": "e0^4 g", "attributes": ["dr", "n3"] }, 
     {"source": "M h1^4 g^2", "target": "M h1^5 g^2"}, 
     {
       "source": "P^11 h1", 
@@ -6717,9 +6725,13 @@
     {"source": "h2 g Q3", "target": "D1 h1^3 e1"}, 
     {"source": "_D h1 g2 g", "target": "_D h1^2 g2 g"}, 
     { "source": "_D h1 g2 g", "target": "T Q2", "attributes": ["hh2"] }, 
-    { "source": "_D h1 g2 g", "target": "M D h2^2 d0", "attributes": ["dr", "4"] }, 
+    { "source": "_D h1 g2 g", "target": "M D h2^2 d0", "attributes": ["dr", "n4"] }, 
     { "source": "_t h0 x89,12", "target": "T Q2", "attributes": ["hh2"] }, 
-    { "source": "_t h0 x89,12", "target": "M D h2^2 d0", "attributes": ["dr", "4"] }, 
+    {
+      "source": "_t h0 x89,12", 
+      "target": "M D h2^2 d0", 
+      "attributes": ["dr", "n4"]
+    }, 
     {"source": "M^2", "target": "M^2 h1"}, 
     {"source": "M^2", "target": "D D1 h0 e0"}, 
     {"source": "d1 e1 g", "target": "h1 d1 e1 g"}, 
@@ -6729,14 +6741,14 @@
     { "source": "_P^2 h1^2 h6 c0", "target": "P^2 h0 h6 d0", "attributes": ["hh2"] }, 
     {"source": "P^3 h2 h6", "target": "P^3 h0 h2 h6"}, 
     {"source": "P^3 h2 h6", "target": "P^2 h0^2 h6 d0"}, 
-    { "source": "h2 g C''", "target": "P h1^10 h6 c0", "attributes": ["dr", "4"] }, 
+    { "source": "h2 g C''", "target": "P h1^10 h6 c0", "attributes": ["dr", "n4"] }, 
     {"source": "P^2 h1^3 h6 c0", "target": "P^2 h1^4 h6 c0"}, 
     {"source": "M D h1 g", "target": "M D h1^2 g"}, 
     {"source": "h1^10 h6 e0", "target": "h1^11 h6 e0"}, 
-    { "source": "h1^10 h6 e0", "target": "M h1^4 g^2", "attributes": ["dr", "3"] }, 
+    { "source": "h1^10 h6 e0", "target": "M h1^4 g^2", "attributes": ["dr", "n3"] }, 
     {"source": "M c0 e0 g", "target": "M h1 c0 e0 g"}, 
     {"source": "g m^2", "target": "D h1^2 h3 g^3"}, 
-    { "source": "_h1^2 h3 g^4", "target": "h1 e0^4 g", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^2 h3 g^4", "target": "h1 e0^4 g", "attributes": ["dr", "n3"] }, 
     {"source": "D^2 c0 e0^2", "target": "D^2 h1 c0 e0^2"}, 
     {"source": "M h1^5 g^2", "target": "M h1^6 g^2"}, 
     {"source": "h4^2 D3", "target": "h1 h4^2 D3"}, 
@@ -6746,16 +6758,16 @@
     {"source": "_h1 d1 Q2", "target": "_h1^2 d1 Q2"}, 
     {"source": "d1 j1", "target": "h1 d1 j1"}, 
     {"source": "_t h2 g C''", "target": "_t^2 g^2 i1"}, 
-    { "source": "_t h2 g C''", "target": "D^2 h2 c1 g", "attributes": ["dr", "3"] }, 
+    { "source": "_t h2 g C''", "target": "D^2 h2 c1 g", "attributes": ["dr", "n3"] }, 
     {"source": "h1 d1 e1 g", "target": "h1^2 d1 e1 g"}, 
     {"source": "_P^2 h1^3 h6 c0", "target": "_P^2 h1^4 h6 c0"}, 
     {"source": "_h1^10 h6 e0", "target": "_h1^11 h6 e0"}, 
-    { "source": "_h1^10 h6 e0", "target": "M c0 e0 g", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^10 h6 e0", "target": "M c0 e0 g", "attributes": ["dr", "n3"] }, 
     { "source": "_t D^2 h2 c1 g", "target": "D^3 h2 c1", "attributes": ["hh2"] }, 
     {"source": "P^2 h1^4 h6 c0", "target": "P^2 h1^5 h6 c0"}, 
     {"source": "M D h1^2 g", "target": "M D h1^3 g"}, 
     {"source": "h1^11 h6 e0", "target": "h1^12 h6 e0"}, 
-    { "source": "h1^11 h6 e0", "target": "M h1^5 g^2", "attributes": ["dr", "3"] }, 
+    { "source": "h1^11 h6 e0", "target": "M h1^5 g^2", "attributes": ["dr", "n3"] }, 
     {"source": "D^2 h2 g^2", "target": "D^2 h0 h2 g^2"}, 
     {"source": "D^2 h2 g^2", "target": "D^2 h2^2 g^2"}, 
     {"source": "g^3 n", "target": "h2 g^3 n"}, 
@@ -6776,7 +6788,7 @@
     {"source": "h0 g3", "target": "h0^2 g3"}, 
     {"source": "h0 g3", "target": "h0 h2 g3"}, 
     {"source": "_h1 h3 h6 g", "target": "_h1^2 h3 h6 g"}, 
-    { "source": "_h1 h3 h6 g", "target": "h6 d0^2", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 h3 h6 g", "target": "h6 d0^2", "attributes": ["dr", "n3"] }, 
     {"source": "h0^2 g3", "target": "h0^3 g3"}, 
     {"source": "h0^3 g3", "target": "h0^4 g3"}, 
     {"source": "h0^4 g3", "target": "h0^5 g3"}, 
@@ -6799,7 +6811,7 @@
     {
       "source": "_h1^11 h6 e0", 
       "target": "M h1 c0 e0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     { "source": "_t^2 D^2 h2 g^2", "target": "t D^3 h1 g", "attributes": ["hh1"] }, 
     {"source": "d1 g^3", "target": "h1 d1 g^3"}, 
@@ -6809,31 +6821,39 @@
     {"source": "P^2 h1^5 h6 c0", "target": "P^2 h1^6 h6 c0"}, 
     {"source": "M D h1^3 g", "target": "M D h1^4 g"}, 
     {"source": "h1^12 h6 e0", "target": "h1^13 h6 e0"}, 
-    { "source": "h1^12 h6 e0", "target": "M h1^6 g^2", "attributes": ["dr", "3"] }, 
+    { "source": "h1^12 h6 e0", "target": "M h1^6 g^2", "attributes": ["dr", "n3"] }, 
     {"source": "D h1 h3 g^3", "target": "D h1^2 h3 g^3"}, 
     {"source": "M h1^2 c0 e0 g", "target": "M h1^3 c0 e0 g"}, 
     { "source": "_t h0 d0 e0 g^3", "target": "D h1 e0^4", "attributes": ["hh1"] }, 
     {"source": "h4^2 h6", "target": "h0 h4^2 h6"}, 
     {"source": "h4^2 h6", "target": "h1 h4^2 h6"}, 
-    { "source": "h4^2 h6", "target": "h0^3 g3", "attributes": ["dr", "4"] }, 
+    { "source": "h4^2 h6", "target": "h0^3 g3", "attributes": ["dr", "n4"] }, 
     {"source": "h0 h4^2 h6", "target": "h0^2 h4^2 h6"}, 
-    { "source": "h0 h4^2 h6", "target": "h0^4 g3", "attributes": ["dr", "4"] }, 
+    { "source": "h0 h4^2 h6", "target": "h0^4 g3", "attributes": ["dr", "n4"] }, 
     {"source": "h0^2 h4^2 h6", "target": "h0^3 h4^2 h6"}, 
-    { "source": "h0^2 h4^2 h6", "target": "h0^5 g3", "attributes": ["dr", "4"] }, 
+    { "source": "h0^2 h4^2 h6", "target": "h0^5 g3", "attributes": ["dr", "n4"] }, 
     {"source": "h1 g3", "target": "h1^2 g3"}, 
     {"source": "D h2^2 h6", "target": "h0 . D h2^2 h6"}, 
     {"source": "D h2^2 h6", "target": "D h1^2 h3 h6"}, 
-    { "source": "D h2^2 h6", "target": "h0 x92,10", "attributes": ["dr", "4"] }, 
-    { "source": "_h1^2 h3 h6 g", "target": "h1 h6 d0^2", "attributes": ["dr", "3"] }, 
+    { "source": "D h2^2 h6", "target": "h0 x92,10", "attributes": ["dr", "n4"] }, 
+    {
+      "source": "_h1^2 h3 h6 g", 
+      "target": "h1 h6 d0^2", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "h0 . D h2^2 h6", "target": "h0^2 . D h2^2 h6"}, 
-    { "source": "h0 . D h2^2 h6", "target": "D^2 h0 g2", "attributes": ["dr", "5"] }, 
+    {
+      "source": "h0 . D h2^2 h6", 
+      "target": "D^2 h0 g2", 
+      "attributes": ["dr", "n5"]
+    }, 
     {"source": "x93,8", "target": "h2 x93,8"}, 
-    { "source": "x93,8", "target": "D h2^2 H1", "attributes": ["dr", "3"] }, 
+    { "source": "x93,8", "target": "D h2^2 H1", "attributes": ["dr", "n3"] }, 
     {"source": "h0^2 . D h2^2 h6", "target": "h0^3 . D h2^2 h6"}, 
     {
       "source": "h0^2 . D h2^2 h6", 
       "target": "D^2 h0^2 g2", 
-      "attributes": ["dr", "5"]
+      "attributes": ["dr", "n5"]
     }, 
     {"source": "_D1 h1^2 e1", "target": "_D1 h1^3 e1"}, 
     {"source": "h0^3 . D h2^2 h6", "target": "h0^4 . D h2^2 h6"}, 
@@ -6847,7 +6867,7 @@
     {
       "source": "_h1^7 h6 c0 d0", 
       "target": "M D h1^3 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "g^2 i1", "target": "h1 g^2 i1"}, 
     {"source": "_P^2 h1^5 h6 c0", "target": "_P^2 h1^6 h6 c0"}, 
@@ -6855,19 +6875,19 @@
     {
       "source": "_h1^12 h6 e0", 
       "target": "M h1^2 c0 e0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_D h1 h3 g^3", "target": "_D h1^2 h3 g^3"}, 
     {
       "source": "_D h1 h3 g^3", 
       "target": "_t h0 d0 e0 g^3", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M c0 g^2", "target": "M h1 c0 g^2"}, 
     {"source": "h1 d1 g^3", "target": "h1^2 d1 g^3"}, 
     {"source": "M D h1^4 g", "target": "M D h1^5 g"}, 
     {"source": "h1^13 h6 e0", "target": "h1^14 h6 e0"}, 
-    { "source": "h1^13 h6 e0", "target": "M h1^7 g^2", "attributes": ["dr", "3"] }, 
+    { "source": "h1^13 h6 e0", "target": "M h1^7 g^2", "attributes": ["dr", "n3"] }, 
     {"source": "M h1^3 c0 e0 g", "target": "M h1^4 c0 e0 g"}, 
     {
       "source": "_P^11 h1^4", 
@@ -6877,20 +6897,20 @@
     {"source": "h6 n", "target": "h2 h6 n"}, 
     {"source": "x94,8", "target": "h1 x94,8"}, 
     {"source": "x94,8", "target": "h1 x96,8"}, 
-    { "source": "x94,8", "target": "h1 x92,10", "attributes": ["dr", "3"] }, 
-    { "source": "_D1 h2 e1", "target": "D D1 h0 e0", "attributes": ["dr", "5"] }, 
+    { "source": "x94,8", "target": "h1 x92,10", "attributes": ["dr", "n3"] }, 
+    { "source": "_D1 h2 e1", "target": "D D1 h0 e0", "attributes": ["dr", "n5"] }, 
     { "source": "_B7 d1", "target": "e1 Q2", "attributes": ["hh1"] }, 
     {
       "source": "_t^2 g^2 i1", 
       "target": "P^2 h1^6 h6 c0", 
-      "attributes": ["dr", "4"]
+      "attributes": ["dr", "n4"]
     }, 
     {"source": "D^2 M h1", "target": "D^2 M h1^2"}, 
     {"source": "_h1^8 h6 c0 d0", "target": "_h1^9 h6 c0 d0"}, 
     {
       "source": "_h1^8 h6 c0 d0", 
       "target": "M D h1^4 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1 d1 g^3", "target": "_h1^2 d1 g^3"}, 
     {"source": "h1 g^2 i1", "target": "h1^2 g^2 i1"}, 
@@ -6899,10 +6919,14 @@
     {
       "source": "_h1^13 h6 e0", 
       "target": "M h1^3 c0 e0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 h2^2 g^2", "target": "D^2 h1^2 h3 g^2"}, 
-    { "source": "_D h1^2 h3 g^3", "target": "D h1 e0^4", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_D h1^2 h3 g^3", 
+      "target": "D h1 e0^4", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "M h1 c0 g^2", "target": "M h1^2 c0 g^2"}, 
     {"source": "h2 g^3 n", "target": "h1 g^3 T"}, 
     {"source": "D^3 c0 d0", "target": "D^3 h1 c0 d0"}, 
@@ -6924,19 +6948,19 @@
     {"source": "h1 x94,8", "target": "h1^2 x94,8"}, 
     {"source": "x95,11", "target": "h2 x95,11"}, 
     { "source": "_D^2 h1^2 g2", "target": "D^2 C", "attributes": ["hh2"] }, 
-    { "source": "_D^2 h1^2 g2", "target": "D^3 h2 c1", "attributes": ["dr", "3"] }, 
+    { "source": "_D^2 h1^2 g2", "target": "D^3 h2 c1", "attributes": ["dr", "n3"] }, 
     { "source": "_h3 g C''", "target": "e0 g A'", "attributes": ["hh2"] }, 
     {"source": "_P h1^6 h6 e0", "target": "_P h1^7 h6 e0"}, 
-    { "source": "_P h1^6 h6 e0", "target": "M D c0 e0", "attributes": ["dr", "3"] }, 
+    { "source": "_P h1^6 h6 e0", "target": "M D c0 e0", "attributes": ["dr", "n3"] }, 
     {"source": "_h1 g^2 i1", "target": "_h1^2 g^2 i1"}, 
-    { "source": "_h1 g^2 i1", "target": "M h1 c0 g^2", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 g^2 i1", "target": "M h1 c0 g^2", "attributes": ["dr", "n3"] }, 
     {"source": "P^3 h6 c0", "target": "P^3 h1 h6 c0"}, 
     {"source": "D^2 M h1^2", "target": "D^2 M h1^3"}, 
     { "source": "_h1^9 h6 c0 d0", "target": "P h1^8 h6 e0", "attributes": ["hh1"] }, 
     {
       "source": "_h1^9 h6 c0 d0", 
       "target": "M D h1^5 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     { "source": "_t D^2 h2^2 g^2", "target": "D^3 h2^2 e0", "attributes": ["hh0"] }, 
     { "source": "_t D^2 h2^2 g^2", "target": "D^3 h2^2 g", "attributes": ["hh2"] }, 
@@ -6949,7 +6973,7 @@
     {
       "source": "_h1^14 h6 e0", 
       "target": "M h1^4 c0 e0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M h1^2 c0 g^2", "target": "M h1^3 c0 g^2"}, 
     {"source": "M D h1^6 g", "target": "M D h1^7 g"}, 
@@ -6958,43 +6982,43 @@
     {
       "source": "h0^12 . D^3 h0^2 i", 
       "target": "_t P^6 h0 d0^2 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h0^13 . D^3 h0^2 i", "target": "h0^14 . D^3 h0^2 i"}, 
     {
       "source": "h0^13 . D^3 h0^2 i", 
       "target": "_t P^6 h0^2 d0^2 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h0^14 . D^3 h0^2 i", "target": "h0^15 . D^3 h0^2 i"}, 
     {
       "source": "h0^14 . D^3 h0^2 i", 
       "target": "P^6 i^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h0^15 . D^3 h0^2 i", "target": "P^6 D h0^2 i"}, 
     {
       "source": "h0^15 . D^3 h0^2 i", 
       "target": "P^6 h0 i^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "P^6 D h0^2 i", "target": "P^6 D h0^3 i"}, 
     {
       "source": "P^6 D h0^2 i", 
       "target": "P^6 h0^2 i^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "P^6 D h0^3 i", "target": "P^6 D h0^4 i"}, 
     {
       "source": "P^6 D h0^3 i", 
       "target": "P^6 h0^3 i^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "P^6 D h0^4 i", "target": "P^6 D h0^5 i"}, 
     {
       "source": "P^6 D h0^4 i", 
       "target": "P^6 h0^4 i^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "P^6 D h0^5 i", "target": "P^6 h0^4 Q'"}, 
     {"source": "P^6 h0^4 Q'", "target": "P^6 h0^5 Q'"}, 
@@ -7007,7 +7031,7 @@
     {"source": "h1 h6 d1", "target": "h1^2 h6 d1"}, 
     {"source": "x96,8", "target": "h1 x96,8"}, 
     {"source": "h2 x93,8", "target": "h2^2 x93,8"}, 
-    { "source": "h2 x93,8", "target": "D h1^2 h3 H1", "attributes": ["dr", "3"] }, 
+    { "source": "h2 x93,8", "target": "D h1^2 h3 H1", "attributes": ["dr", "n3"] }, 
     {"source": "t D D1 g", "target": "t D D1 h1 g"}, 
     {"source": "e1^2 g", "target": "h1 e1^2 g"}, 
     {"source": "e1^2 g", "target": "h1^2 d1 k1"}, 
@@ -7015,32 +7039,32 @@
     {"source": "D D1 h0 g", "target": "D D1 h0 h2 g"}, 
     { "source": "_g^2 B6", "target": "g^2 Q2", "attributes": ["hh1"] }, 
     {"source": "_g^2 B6", "target": "_t e1 g^3"}, 
-    { "source": "_g^2 B6", "target": "_t h2 g^3 n", "attributes": ["dr", "3"] }, 
+    { "source": "_g^2 B6", "target": "_t h2 g^3 n", "attributes": ["dr", "n3"] }, 
     {"source": "D^2 M h2", "target": "D^2 M h0 h2"}, 
     {"source": "D^2 M h2", "target": "D^2 M h2^2"}, 
     {"source": "_P h1^7 h6 e0", "target": "_P h1^8 h6 e0"}, 
     {
       "source": "_P h1^7 h6 e0", 
       "target": "M D h1 c0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     { "source": "_t h2 d1 g^3", "target": "D h1 d1 g^2", "attributes": ["hh1"] }, 
     {"source": "h1^8 h6 c0 e0", "target": "h1^9 h6 c0 e0"}, 
     {
       "source": "h1^8 h6 c0 e0", 
       "target": "M h1^2 c0 g^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^2 g^2 i1", "target": "_h1^3 g^2 i1"}, 
     {
       "source": "_h1^2 g^2 i1", 
       "target": "M h1^2 c0 g^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "P^3 h1 h6 c0", "target": "P^3 h1^2 h6 c0"}, 
     {"source": "D^2 M h1^3", "target": "D^2 M h1^4"}, 
     {"source": "P h1^8 h6 e0", "target": "P h1^9 h6 e0"}, 
-    { "source": "P h1^8 h6 e0", "target": "M D h1^6 g", "attributes": ["dr", "3"] }, 
+    { "source": "P h1^8 h6 e0", "target": "M D h1^6 g", "attributes": ["dr", "n3"] }, 
     {"source": "D^2 h1 h3 g^2", "target": "D^2 h1^2 h3 g^2"}, 
     {"source": "M e0^3", "target": "M h1 e0^3"}, 
     {"source": "g^3 T", "target": "h1 g^3 T"}, 
@@ -7050,7 +7074,7 @@
     {
       "source": "_h1^15 h6 e0", 
       "target": "M h1^5 c0 e0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 d0 e0^2", "target": "D^2 h1 d0 e0^2"}, 
     {"source": "M h1^3 c0 g^2", "target": "M h1^4 c0 g^2"}, 
@@ -7066,28 +7090,28 @@
     {"source": "_h1 e1 Q2", "target": "_h1^2 e1 Q2"}, 
     {"source": "M D1 h0", "target": "M D1 h0^2"}, 
     {"source": "M D1 h0", "target": "M D1 h0 h2"}, 
-    { "source": "M D1 h0", "target": "D D1 h0^2 g", "attributes": ["dr", "3"] }, 
+    { "source": "M D1 h0", "target": "D D1 h0^2 g", "attributes": ["dr", "n3"] }, 
     {"source": "d1 k1", "target": "h1 d1 k1"}, 
     {"source": "M D1 h0^2", "target": "M D1 h0^3"}, 
     {"source": "H1 m + h1^3 h6 d0 e0", "target": "h1^4 h6 d0 e0"}, 
     {"source": "H1 m + h1^3 h6 d0 e0", "target": "h2 H1 m"}, 
     {"source": "h1 e1^2 g", "target": "h1^2 e1^2 g"}, 
     {"source": "P^2 h1 h6 e0", "target": "P^2 h1^2 h6 e0"}, 
-    { "source": "P^2 h1 h6 e0", "target": "D^2 M h1^3", "attributes": ["dr", "3"] }, 
+    { "source": "P^2 h1 h6 e0", "target": "D^2 M h1^3", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^8 h6 c0 e0", "target": "_h1^9 h6 c0 e0"}, 
-    { "source": "_h1^8 h6 c0 e0", "target": "M e0^3", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^8 h6 c0 e0", "target": "M e0^3", "attributes": ["dr", "n3"] }, 
     {"source": "g^2 Q2", "target": "h1 g^2 Q2"}, 
     {"source": "_P h1^8 h6 e0", "target": "_P h1^9 h6 e0"}, 
     {
       "source": "_P h1^8 h6 e0", 
       "target": "M D h1^2 c0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_D^2 h1 h3 g^2", "target": "_D^2 h1^2 h3 g^2"}, 
     {
       "source": "_D^2 h1 h3 g^2", 
       "target": "D^2 d0 e0^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M D c0 g", "target": "M D h1 c0 g"}, 
     {"source": "D h1 d1 g^2", "target": "D h1^2 d1 g^2"}, 
@@ -7095,22 +7119,22 @@
     {
       "source": "h1^9 h6 c0 e0", 
       "target": "M h1^3 c0 g^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^3 g^2 i1", "target": "_h1^4 g^2 i1"}, 
     {
       "source": "_h1^3 g^2 i1", 
       "target": "M h1^3 c0 g^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 M h1^4", "target": "D^2 M h1^5"}, 
     {"source": "P h1^9 h6 e0", "target": "P h1^10 h6 e0"}, 
-    { "source": "P h1^9 h6 e0", "target": "M D h1^7 g", "attributes": ["dr", "3"] }, 
+    { "source": "P h1^9 h6 e0", "target": "M D h1^7 g", "attributes": ["dr", "n3"] }, 
     {"source": "M h1 e0^3", "target": "M h1^2 e0^3"}, 
     {"source": "h1^4 g^2 i1", "target": "h1^5 g^2 i1"}, 
     {"source": "M D h1^3 c0 e0", "target": "M D h1^4 c0 e0"}, 
     {"source": "t e0 g^4", "target": "h0 h2 g^3 m"}, 
-    { "source": "t e0 g^4", "target": "M h1^6 c0 e0 g", "attributes": ["dr", "3"] }, 
+    { "source": "t e0 g^4", "target": "M h1^6 c0 e0 g", "attributes": ["dr", "n3"] }, 
     {"source": "M h1^4 c0 g^2", "target": "M h1^5 c0 g^2"}, 
     {"source": "h0 e0 g^4", "target": "h0^2 g^5"}, 
     {
@@ -7121,40 +7145,44 @@
     { "source": "_h1^2 h6 d1", "target": "h6 T", "attributes": ["hh1"] }, 
     {"source": "h2 h6 d1", "target": "h2^2 h6 d1"}, 
     {"source": "h2 x95,7", "target": "h1^2 x99,7"}, 
-    { "source": "h0 h3 x91,8", "target": "M D1 h0^3", "attributes": ["dr", "3"] }, 
+    { "source": "h0 h3 x91,8", "target": "M D1 h0^3", "attributes": ["dr", "n3"] }, 
     {"source": "_d1 k1", "target": "_h1 d1 k1"}, 
     {"source": "H1 T + M D1 h1", "target": "M D1 h1^2"}, 
     {"source": "h2 x95,11", "target": "D h1 d1 g2"}, 
     {"source": "_h1 e1^2 g", "target": "_h1^2 e1^2 g"}, 
     {"source": "h1 d1 k1", "target": "h1^2 d1 k1"}, 
     {"source": "h1^4 h6 d0 e0", "target": "h1^5 h6 d0 e0"}, 
-    { "source": "D^2 C", "target": "P^3 h1^2 h6 c0", "attributes": ["dr", "4"] }, 
+    { "source": "D^2 C", "target": "P^3 h1^2 h6 c0", "attributes": ["dr", "n4"] }, 
     {"source": "P^2 h1^2 h6 e0", "target": "P^2 h1^3 h6 e0"}, 
     {
       "source": "P^2 h1^2 h6 e0", 
       "target": "D^2 M h1^4", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M^2 c0", "target": "M^2 h1 c0"}, 
     {"source": "_D h1 d1 g^2", "target": "_D h1^2 d1 g^2"}, 
     {"source": "_h1^9 h6 c0 e0", "target": "_h1^10 h6 c0 e0"}, 
-    { "source": "_h1^9 h6 c0 e0", "target": "M h1 e0^3", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_h1^9 h6 c0 e0", 
+      "target": "M h1 e0^3", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "h1 g^2 Q2", "target": "h1^2 g^2 Q2"}, 
     {"source": "e1 g^3", "target": "h1 e1 g^3"}, 
     {"source": "e1 g^3", "target": "h1^2 g^2 j1"}, 
-    { "source": "e1 g^3", "target": "h1 g^3 T", "attributes": ["dr", "3"] }, 
+    { "source": "e1 g^3", "target": "h1 g^3 T", "attributes": ["dr", "n3"] }, 
     {"source": "_D^2 M h1^4", "target": "_D^2 M h1^5"}, 
     {"source": "_P h1^9 h6 e0", "target": "_P h1^10 h6 e0"}, 
     {
       "source": "_P h1^9 h6 e0", 
       "target": "M D h1^3 c0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^3 h2^2 g", "target": "D^3 h1^2 h3 g"}, 
     {
       "source": "_D^2 h1^2 h3 g^2", 
       "target": "D^2 h1 d0 e0^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M D h1 c0 g", "target": "M D h1^2 c0 g"}, 
     { "source": "_t h1 g^3 T", "target": "D h2^2 g^2 n", "attributes": ["hh2"] }, 
@@ -7162,13 +7190,13 @@
     {
       "source": "h1^10 h6 c0 e0", 
       "target": "M h1^4 c0 g^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^4 g^2 i1", "target": "_h1^5 g^2 i1"}, 
     {
       "source": "_h1^4 g^2 i1", 
       "target": "M h1^4 c0 g^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h2^2 d1 g^3", "target": "h1^3 e1 g^3"}, 
     {"source": "D^2 M h1^5", "target": "D^2 M h1^6"}, 
@@ -7178,7 +7206,7 @@
     {
       "source": "h0 h2 g^3 m", 
       "target": "M h1^7 c0 e0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M h1^5 c0 g^2", "target": "M h1^6 c0 g^2"}, 
     {"source": "h3 g3", "target": "h1 h3 g3"}, 
@@ -7188,8 +7216,8 @@
     {"source": "M1 h2", "target": "M1 h2^2"}, 
     {"source": "x99,9", "target": "h0 h6 e0 g"}, 
     {"source": "x99,9", "target": "h2 x99,9"}, 
-    { "source": "x99,9", "target": "h2 x95,11", "attributes": ["dr", "3"] }, 
-    { "source": "h2^2 x93,8", "target": "M^2 c0", "attributes": ["dr", "p", "5"] }, 
+    { "source": "x99,9", "target": "h2 x95,11", "attributes": ["dr", "n3"] }, 
+    { "source": "h2^2 x93,8", "target": "M^2 c0", "attributes": ["dr", "p", "n5"] }, 
     {"source": "_h1 d1 k1", "target": "_h1^2 d1 k1"}, 
     {"source": "M D1 h1^2", "target": "M D1 h1^3"}, 
     {"source": "_x98,14", "target": "_t^2 g^2 B7"}, 
@@ -7199,19 +7227,19 @@
     {
       "source": "_P^2 h1^2 h6 e0", 
       "target": "_D^2 M h1^4", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1^5 h6 d0 e0", "target": "h1^6 h6 d0 e0"}, 
     {"source": "_h1 g^2 Q2", "target": "_h1^2 g^2 Q2"}, 
-    { "source": "_h1 g^2 Q2", "target": "M D h1 c0 g", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 g^2 Q2", "target": "M D h1 c0 g", "attributes": ["dr", "n3"] }, 
     { "source": "_t e1 g^3", "target": "g^2 C0", "attributes": ["hh2"] }, 
-    { "source": "_t e1 g^3", "target": "_t h1 g^3 T", "attributes": ["dr", "3"] }, 
+    { "source": "_t e1 g^3", "target": "_t h1 g^3 T", "attributes": ["dr", "n3"] }, 
     {"source": "g^2 j1", "target": "h1 g^2 j1"}, 
     {"source": "P^2 h1^3 h6 e0", "target": "P^2 h1^4 h6 e0"}, 
     {
       "source": "P^2 h1^3 h6 e0", 
       "target": "D^2 M h1^5", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1^2 g D4", "target": "h1^3 g D4"}, 
     {"source": "D^2 g n", "target": "D^2 h2 g n"}, 
@@ -7220,7 +7248,7 @@
     {
       "source": "_h1^10 h6 c0 e0", 
       "target": "M h1^2 e0^3", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1^2 g^2 Q2", "target": "h1^3 g^2 Q2"}, 
     {"source": "h1 e1 g^3", "target": "h1^2 e1 g^3"}, 
@@ -7229,7 +7257,7 @@
     {
       "source": "_P h1^10 h6 e0", 
       "target": "M D h1^4 c0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M e0^2 g", "target": "M h1 e0^2 g"}, 
     {"source": "M e0^2 g", "target": "M h0 e0 g^2"}, 
@@ -7238,13 +7266,13 @@
     {
       "source": "_h1^5 g^2 i1", 
       "target": "M h1^5 c0 g^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1^11 h6 c0 e0", "target": "h1^12 h6 c0 e0"}, 
     {
       "source": "h1^11 h6 c0 e0", 
       "target": "M h1^5 c0 g^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "c1 g^4", "target": "h2 c1 g^4"}, 
     {"source": "D^2 M h1^6", "target": "D^2 M h1^7"}, 
@@ -7264,34 +7292,38 @@
     { "source": "_h1^2 h6 e0^2", "target": "g2 Q2", "attributes": ["hh1"] }, 
     {"source": "M D1 h2", "target": "M D1 h0 h2"}, 
     {"source": "M D1 h2", "target": "M D1 h2^2"}, 
-    { "source": "M D1 h2", "target": "D D1 h0 h2 g", "attributes": ["dr", "3"] }, 
+    { "source": "M D1 h2", "target": "D D1 h0 h2 g", "attributes": ["dr", "n3"] }, 
     {"source": "D d1 g2", "target": "D h1 d1 g2"}, 
     {"source": "_h1^5 h6 d0 e0", "target": "_h1^6 h6 d0 e0"}, 
-    { "source": "_h1^5 h6 d0 e0", "target": "M^2 h1 c0", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_h1^5 h6 d0 e0", 
+      "target": "M^2 h1 c0", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "M D1 h1^3", "target": "M D1 h1^4"}, 
     {"source": "_D B6 g", "target": "_t (D e1 + C0) g^2"}, 
-    { "source": "_D B6 g", "target": "D^2 g n", "attributes": ["dr", "3"] }, 
+    { "source": "_D B6 g", "target": "D^2 g n", "attributes": ["dr", "n3"] }, 
     {"source": "_g^2 j1", "target": "_h1 g^2 j1"}, 
     { "source": "_g^2 j1", "target": "g^2 C'", "attributes": ["hh2"] }, 
-    { "source": "_g^2 j1", "target": "M e0^2 g", "attributes": ["dr", "4"] }, 
+    { "source": "_g^2 j1", "target": "M e0^2 g", "attributes": ["dr", "n4"] }, 
     {"source": "_P^2 h1^3 h6 e0", "target": "_P^2 h1^4 h6 e0"}, 
     {
       "source": "_P^2 h1^3 h6 e0", 
       "target": "_D^2 M h1^5", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 d1 g", "target": "D^2 h1 d1 g"}, 
     {"source": "P h1^4 h6 c0 e0", "target": "P h1^5 h6 c0 e0"}, 
     {
       "source": "P h1^4 h6 c0 e0", 
       "target": "M D h1^2 c0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^2 g^2 Q2", "target": "_h1^3 g^2 Q2"}, 
     {
       "source": "_h1^2 g^2 Q2", 
       "target": "M D h1^2 c0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1 e1 g^3", "target": "_h1^2 e1 g^3"}, 
     {"source": "h1 g^2 j1", "target": "h1^2 g^2 j1"}, 
@@ -7299,7 +7331,7 @@
     {
       "source": "P^2 h1^4 h6 e0", 
       "target": "D^2 M h1^6", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1^3 g D4", "target": "h1^4 g D4"}, 
     {"source": "D^3 h1 h3 g", "target": "D^3 h1^2 h3 g"}, 
@@ -7313,7 +7345,7 @@
     {
       "source": "_h1^11 h6 c0 e0", 
       "target": "M h1^3 e0^3", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1^3 g^2 Q2", "target": "h1^4 g^2 Q2"}, 
     {"source": "h1^2 e1 g^3", "target": "h1^3 e1 g^3"}, 
@@ -7322,7 +7354,7 @@
     {
       "source": "_P h1^11 h6 e0", 
       "target": "M D h1^5 c0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     { "source": "_t D^2 h0 e0^3", "target": "D^3 h1 d0^2", "attributes": ["hh1"] }, 
     {"source": "M D h1^3 c0 g", "target": "M D h1^4 c0 g"}, 
@@ -7330,10 +7362,10 @@
     {
       "source": "h1^12 h6 c0 e0", 
       "target": "M h1^6 c0 g^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "t g^5", "target": "t h1 g^5"}, 
-    { "source": "t g^5", "target": "M h1^6 c0 g^2", "attributes": ["dr", "3"] }, 
+    { "source": "t g^5", "target": "M h1^6 c0 g^2", "attributes": ["dr", "n3"] }, 
     {"source": "h0 g^5", "target": "h0^2 g^5"}, 
     {"source": "h0 g^5", "target": "h0 h2 g^5"}, 
     {"source": "M h1^4 e0^3", "target": "M h1^5 e0^3"}, 
@@ -7341,13 +7373,13 @@
     {"source": "M D h1^6 c0 e0", "target": "M D h1^7 c0 e0"}, 
     {"source": "h6 e1", "target": "h1 h6 e1"}, 
     {"source": "h6 e1", "target": "h1 h6 f1"}, 
-    { "source": "h6 e1", "target": "h1 h6 T", "attributes": ["dr", "3"] }, 
+    { "source": "h6 e1", "target": "h1 h6 T", "attributes": ["dr", "n3"] }, 
     {"source": "h3 x94,8", "target": "h1 h3 x94,8 + t h2 x99,9"}, 
     {"source": "h1 h6 e0 g + h1 e1 H1", "target": "h1^2 h6 e0 g + h1^2 e1 H1"}, 
     {
       "source": "h1 h6 e0 g + h1 e1 H1", 
       "target": "M D1 h1^3", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "g2 Q2", "target": "h1 g2 Q2"}, 
     {
@@ -7357,14 +7389,14 @@
     }, 
     {"source": "_t h2 H1 m + h1 h6 c0 d0^2", "target": "_t^2 h1 g^2 H1"}, 
     {"source": "c1 H1 g", "target": "h2 c1 H1 g"}, 
-    { "source": "c1 H1 g", "target": "h1^6 h6 d0 e0", "attributes": ["dr", "3"] }, 
+    { "source": "c1 H1 g", "target": "h1^6 h6 d0 e0", "attributes": ["dr", "n3"] }, 
     {"source": "M D1 h1^4", "target": "M D1 h1^5"}, 
     {"source": "g^2 A'", "target": "h2 g^2 A'"}, 
     {"source": "_P h1^4 h6 c0 e0", "target": "_P h1^5 h6 c0 e0"}, 
     {
       "source": "_P h1^4 h6 c0 e0", 
       "target": "_t M h0 e0^2 g + M D h1^2 c0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 i1", "target": "D^2 h1 i1"}, 
     {"source": "_h1 g^2 j1", "target": "_h1^2 g^2 j1"}, 
@@ -7372,15 +7404,15 @@
     {
       "source": "_P^2 h1^4 h6 e0", 
       "target": "_D^2 M h1^6", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^3 g D4", "target": "_h1^4 g D4"}, 
-    { "source": "_h1^3 g D4", "target": "M h1 e0^2 g", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^3 g D4", "target": "M h1 e0^2 g", "attributes": ["dr", "n3"] }, 
     {"source": "_D^3 h1 h3 g", "target": "_D^3 h1^2 h3 g"}, 
     {
       "source": "_D^3 h1 h3 g", 
       "target": "_t D^2 h0 e0^3", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 M c0", "target": "D^2 M h1 c0"}, 
     {"source": "D^2 h1 d1 g", "target": "D^2 h1^2 d1 g"}, 
@@ -7388,13 +7420,13 @@
     {
       "source": "P h1^5 h6 c0 e0", 
       "target": "M D h1^3 c0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^3 g^2 Q2", "target": "_h1^4 g^2 Q2"}, 
     {
       "source": "_h1^3 g^2 Q2", 
       "target": "M D h1^3 c0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^2 e1 g^3", "target": "_h1^3 e1 g^3"}, 
     {"source": "D^2 M P", "target": "D^2 M P h0"}, 
@@ -7404,7 +7436,7 @@
     {
       "source": "P^2 h1^5 h6 e0", 
       "target": "D^2 M h1^7", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1^4 g D4", "target": "h1^5 g D4"}, 
     {"source": "D^2 M P h0", "target": "D^2 M P h0 h2"}, 
@@ -7413,14 +7445,14 @@
     {
       "source": "_h1^12 h6 c0 e0", 
       "target": "M h1^4 e0^3", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1^4 g^2 Q2", "target": "h1^5 g^2 Q2"}, 
     { "source": "_t^2 h0 g^5", "target": "t D h1 e0 g^3", "attributes": ["hh1"] }, 
     {
       "source": "_t^2 h0 g^5", 
       "target": "M D h1^6 c0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M D h1^4 c0 g", "target": "M D h1^5 c0 g"}, 
     { "source": "_t h0^2 g^5", "target": "D h2^2 e0^2 g^2", "attributes": ["hh2"] }, 
@@ -7428,9 +7460,9 @@
     {
       "source": "h1^13 h6 c0 e0", 
       "target": "M h1^7 c0 g^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
-    { "source": "t h1 g^5", "target": "M h1^7 c0 g^2", "attributes": ["dr", "3"] }, 
+    { "source": "t h1 g^5", "target": "M h1^7 c0 g^2", "attributes": ["dr", "n3"] }, 
     {"source": "M h1^5 e0^3", "target": "M h1^6 e0^3"}, 
     {
       "source": "_P^12 h1^4", 
@@ -7441,14 +7473,14 @@
     {"source": "h6 c1 g", "target": "h2 h6 c1 g"}, 
     {"source": "M1 h2^2", "target": "M1 h1^2 h3"}, 
     {"source": "h2 x99,9", "target": "h2^2 x99,9"}, 
-    { "source": "h2 x99,9", "target": "D h1 d1 g2", "attributes": ["dr", "3"] }, 
+    { "source": "h2 x99,9", "target": "D h1 d1 g2", "attributes": ["dr", "n3"] }, 
     { "source": "_t^2 c1 H1 g", "target": "x103,12", "attributes": ["hh1"] }, 
-    { "source": "_t^2 c1 H1 g", "target": "D^2 M c0", "attributes": ["dr", "6"] }, 
+    { "source": "_t^2 c1 H1 g", "target": "D^2 M c0", "attributes": ["dr", "n6"] }, 
     {"source": "h1^2 h6 e0 g + h1^2 e1 H1", "target": "h1^3 h6 e0 g"}, 
     {
       "source": "h1^2 h6 e0 g + h1^2 e1 H1", 
       "target": "M D1 h1^4", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "P h6 d0 e0", "target": "P h1 h6 d0 e0"}, 
     {"source": "_M D1 h1^4", "target": "_M D1 h1^5"}, 
@@ -7456,33 +7488,33 @@
     { "source": "_D^2 M h1 h3", "target": "P^2 h6 i", "attributes": ["hh0"] }, 
     {"source": "_D^2 M h1 h3", "target": "_D^2 M h1^2 h3"}, 
     { "source": "_D^2 M h1 h3", "target": "P^2 h6 j", "attributes": ["hh2"] }, 
-    { "source": "_D^2 M h1 h3", "target": "D^2 M P", "attributes": ["dr", "3"] }, 
+    { "source": "_D^2 M h1 h3", "target": "D^2 M P", "attributes": ["dr", "n3"] }, 
     {"source": "M D1 h1^5", "target": "M D1 h1^6"}, 
     {"source": "P^2 h6 i", "target": "P^2 h0 h6 i"}, 
     {"source": "P^2 h6 i", "target": "P^2 h0 h6 j"}, 
-    { "source": "P^2 h6 i", "target": "D^2 M P h0", "attributes": ["dr", "3"] }, 
+    { "source": "P^2 h6 i", "target": "D^2 M P h0", "attributes": ["dr", "n3"] }, 
     {"source": "_D^2 h1 d1 g", "target": "_D^2 h1^2 d1 g"}, 
     {"source": "_P h1^5 h6 c0 e0", "target": "_P h1^6 h6 c0 e0"}, 
     {
       "source": "_P h1^5 h6 c0 e0", 
       "target": "M D h1 d0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 h1 i1", "target": "D^2 h1^2 i1"}, 
     { "source": "g^2 C0", "target": "D h1^2 g j1", "attributes": ["hh2"] }, 
-    { "source": "g^2 C0", "target": "D h2^2 g^2 n", "attributes": ["dr", "3"] }, 
+    { "source": "g^2 C0", "target": "D h2^2 g^2 n", "attributes": ["dr", "n3"] }, 
     {"source": "(D e1 + C0) g^2", "target": "D h1 e1 g^2"}, 
     {"source": "_P^2 h1^5 h6 e0", "target": "_P^2 h1^6 h6 e0"}, 
     {
       "source": "_P^2 h1^5 h6 e0", 
       "target": "_D^2 M h1^7", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^4 g D4", "target": "_h1^5 g D4"}, 
     {
       "source": "_D^3 h1^2 h3 g", 
       "target": "D^3 h1 d0^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 M h1 c0", "target": "D^2 M h1^2 c0"}, 
     {"source": "D^2 h2 g n", "target": "D^2 h1 g T"}, 
@@ -7490,13 +7522,13 @@
     {
       "source": "P h1^6 h6 c0 e0", 
       "target": "M D h1^4 c0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^4 g^2 Q2", "target": "_h1^5 g^2 Q2"}, 
     {
       "source": "_h1^4 g^2 Q2", 
       "target": "M D h1^4 c0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 M P h1", "target": "D^2 M P h1^2"}, 
     {"source": "P^2 h1^6 h6 e0", "target": "P^2 h1^7 h6 e0"}, 
@@ -7507,13 +7539,13 @@
     {
       "source": "_h1^13 h6 c0 e0", 
       "target": "M h1^5 e0^3", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M P D c0 e0", "target": "M P D h1 c0 e0"}, 
     {
       "source": "t D h1 e0 g^3", 
       "target": "M D h1^7 c0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M D h1^5 c0 g", "target": "M D h1^6 c0 g"}, 
     {"source": "h1^14 h6 c0 e0", "target": "h0^2 h2 g^5"}, 
@@ -7525,29 +7557,29 @@
     {
       "source": "_h1^2 h6 e0 g + h1^2 e1 H1", 
       "target": "_M D1 h1^4", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "x103,12", "target": "h1 x103,12"}, 
     {"source": "h6 d0 j", "target": "h0 h6 d0 k"}, 
     {"source": "h1^3 h6 e0 g", "target": "h1^4 h6 e0 g"}, 
-    { "source": "h1^3 h6 e0 g", "target": "M D1 h1^5", "attributes": ["dr", "3"] }, 
+    { "source": "h1^3 h6 e0 g", "target": "M D1 h1^5", "attributes": ["dr", "n3"] }, 
     {"source": "_M D1 h1^5", "target": "_M D1 h1^6"}, 
     {"source": "_D^2 h1 i1", "target": "_D^2 h1^2 i1"}, 
-    { "source": "_D^2 h1 i1", "target": "D^2 M h1 c0", "attributes": ["dr", "3"] }, 
+    { "source": "_D^2 h1 i1", "target": "D^2 M h1 c0", "attributes": ["dr", "n3"] }, 
     {"source": "_t (D e1 + C0) g^2", "target": "_t h2 g^2 C0"}, 
     {
       "source": "_t (D e1 + C0) g^2", 
       "target": "D^2 h2 g n", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D g j1", "target": "D h1 g j1"}, 
     {"source": "g^2 C'", "target": "h2 g^2 C'"}, 
-    { "source": "g^2 C'", "target": "M h0 e0 g^2", "attributes": ["dr", "4"] }, 
+    { "source": "g^2 C'", "target": "M h0 e0 g^2", "attributes": ["dr", "n4"] }, 
     { "source": "_D^2 M h1^2 h3", "target": "P^3 h6 e0", "attributes": ["hh1"] }, 
     {
       "source": "_D^2 M h1^2 h3", 
       "target": "D^2 M P h1", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1^2 x101,14", "target": "h1^3 x101,14"}, 
     {"source": "M D1 h1^6", "target": "M D1 h1^7"}, 
@@ -7557,7 +7589,7 @@
     {
       "source": "_P h1^6 h6 c0 e0", 
       "target": "M D h1^2 d0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 h1^2 i1", "target": "D^2 h1^3 i1"}, 
     {"source": "D h1 e1 g^2", "target": "D h1^2 e1 g^2"}, 
@@ -7565,7 +7597,7 @@
     {
       "source": "_P^2 h1^6 h6 e0", 
       "target": "M P D c0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {
       "source": "_t M h0 e0 g^2 + M^2 h1^4 c0", 
@@ -7579,13 +7611,13 @@
     {
       "source": "P h1^7 h6 c0 e0", 
       "target": "M D h1^5 c0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^5 g^2 Q2", "target": "_t^2 h2 g^5"}, 
     {
       "source": "_h1^5 g^2 Q2", 
       "target": "M D h1^5 c0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     { "source": "_t h2 c1 g^4", "target": "D h2 c1 g^3", "attributes": ["hh2"] }, 
     {"source": "D^2 M P h1^2", "target": "D^2 M P h1^3"}, 
@@ -7595,7 +7627,7 @@
     {
       "source": "_h1^14 h6 c0 e0", 
       "target": "M h1^6 e0^3", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h2 g^5", "target": "h0 h2 g^5"}, 
     {"source": "h2 g^5", "target": "h2^2 g^5"}, 
@@ -7609,16 +7641,20 @@
     {"source": "h2 x101,8", "target": "h1 g2 H1"}, 
     { "source": "_d1 l1", "target": "h2^2 x99,9", "attributes": ["hh1"] }, 
     {"source": "_h1^3 h6 e0 g", "target": "_h1^4 h6 e0 g"}, 
-    { "source": "_h1^3 h6 e0 g", "target": "_M D1 h1^5", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_h1^3 h6 e0 g", 
+      "target": "_M D1 h1^5", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "M D1 h3 + x104,11", "target": "M D1 h0 h3"}, 
     {"source": "M D1 h0 h3", "target": "M D1 h0^2 h3"}, 
     {"source": "h1 x103,12", "target": "h1^2 x103,12"}, 
     {"source": "M D1 h0^2 h3", "target": "M D1 h0^3 h3"}, 
     {"source": "h1^4 h6 e0 g", "target": "h1^5 h6 e0 g"}, 
-    { "source": "h1^4 h6 e0 g", "target": "M D1 h1^6", "attributes": ["dr", "3"] }, 
+    { "source": "h1^4 h6 e0 g", "target": "M D1 h1^6", "attributes": ["dr", "n3"] }, 
     {"source": "_D^2 B6", "target": "_D^2 h1 B6"}, 
     {"source": "_D^2 B6", "target": "_t D^2 e1 g"}, 
-    { "source": "_D^2 B6", "target": "_t D^2 h2 g n", "attributes": ["dr", "3"] }, 
+    { "source": "_D^2 B6", "target": "_t D^2 h2 g n", "attributes": ["dr", "n3"] }, 
     {"source": "_D g j1", "target": "_D h1 g j1"}, 
     {"source": "_D g j1", "target": "_t h2 g^2 C'"}, 
     {"source": "D D1 h1 h3 g", "target": "D D1 h1^2 h3 g"}, 
@@ -7629,13 +7665,13 @@
     {
       "source": "D^2 h5 c0 e0", 
       "target": "D^2 M h1^2 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_D^2 h1^2 i1", "target": "_D^2 h1^3 i1"}, 
     {
       "source": "_D^2 h1^2 i1", 
       "target": "D^2 M h1^2 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M^2 d0", "target": "M^2 h1 d0"}, 
     {"source": "_D h1 e1 g^2", "target": "_D h1^2 e1 g^2"}, 
@@ -7643,7 +7679,7 @@
     {"source": "d1^2 g^2", "target": "h1 d1^2 g^2"}, 
     {"source": "d1^2 g^2", "target": "h1^2 g d1 i1"}, 
     {"source": "P^3 h6 e0", "target": "P^3 h1 h6 e0"}, 
-    { "source": "P^3 h6 e0", "target": "D^2 M P h1^2", "attributes": ["dr", "3"] }, 
+    { "source": "P^3 h6 e0", "target": "D^2 M P h1^2", "attributes": ["dr", "n3"] }, 
     {"source": "h1^3 x101,14", "target": "h1^4 x101,14"}, 
     {"source": "M D1 h1^7", "target": "M D1 h1^8"}, 
     {"source": "D^4 h1 h3", "target": "D^4 h1^2 h3"}, 
@@ -7654,7 +7690,7 @@
     {
       "source": "_P h1^7 h6 c0 e0", 
       "target": "M D h1^3 d0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 h1^3 i1", "target": "D^2 h1^4 i1"}, 
     {"source": "D^2 M P h2", "target": "D^2 M P h0 h2"}, 
@@ -7662,7 +7698,7 @@
     {
       "source": "_P^2 h1^7 h6 e0", 
       "target": "M P D h1 c0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^6 g D4", "target": "_h1^7 g D4"}, 
     {"source": "D^2 M h1^3 c0", "target": "D^2 M h1^4 c0"}, 
@@ -7670,20 +7706,24 @@
     {
       "source": "_t^2 h2 g^5", 
       "target": "M D h1^6 c0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "P h1^8 h6 c0 e0", "target": "P h1^9 h6 c0 e0"}, 
     {
       "source": "P h1^8 h6 c0 e0", 
       "target": "M D h1^6 c0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     { "source": "_t h0 h2 g^5", "target": "D h2^2 e0^2 g^2", "attributes": ["hh0"] }, 
     { "source": "_t h0 h2 g^5", "target": "D h2^2 e0 g^3", "attributes": ["hh2"] }, 
     {"source": "h1^7 g D4", "target": "h1^8 g D4"}, 
     {"source": "M D h1^4 d0 e0", "target": "M D h1^5 d0 e0"}, 
     {"source": "D h2^2 e0^2 g^2", "target": "P h1^11 h6 c0 e0"}, 
-    { "source": "_h0^2 h2 g^5", "target": "M h1^7 e0^3", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_h0^2 h2 g^5", 
+      "target": "M h1^7 e0^3", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "M P D h1^2 c0 e0", "target": "M P D h1^3 c0 e0"}, 
     {
       "source": "P^12 c0", 
@@ -7694,63 +7734,71 @@
     { "source": "_D1 h3^2 e1", "target": "h3^2 x91,8", "attributes": ["hh0"] }, 
     { "source": "_D1 h3^2 e1", "target": "h3 x99,9", "attributes": ["hh1"] }, 
     { "source": "_D1 h3^2 e1", "target": "h0 h3 x101,8", "attributes": ["hh2"] }, 
-    { "source": "_D1 h3^2 e1", "target": "M D1 h0 h3", "attributes": ["dr", "3"] }, 
+    { "source": "_D1 h3^2 e1", "target": "M D1 h0 h3", "attributes": ["dr", "n3"] }, 
     { "source": "_D1 h3^2 e1", "target": "g2 A'", "attributes": ["hh0"] }, 
     {"source": "D h1 h6 e0", "target": "D h1^2 h6 e0"}, 
-    { "source": "D h1 h6 e0", "target": "h1 x103,12", "attributes": ["dr", "3"] }, 
+    { "source": "D h1 h6 e0", "target": "h1 x103,12", "attributes": ["dr", "n3"] }, 
     {"source": "h3^2 x91,8", "target": "h0 h3^2 x91,8"}, 
-    { "source": "h3^2 x91,8", "target": "M D1 h0^2 h3", "attributes": ["dr", "3"] }, 
+    { "source": "h3^2 x91,8", "target": "M D1 h0^2 h3", "attributes": ["dr", "n3"] }, 
     {
       "source": "h0 h3^2 x91,8", 
       "target": "M D1 h0^3 h3", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^4 h6 e0 g", "target": "_h1^5 h6 e0 g"}, 
-    { "source": "_h1^4 h6 e0 g", "target": "_M D1 h1^6", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_h1^4 h6 e0 g", 
+      "target": "_M D1 h1^6", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "_h1^2 h6 c0 d0 e0", "target": "_h1^3 h6 c0 d0 e0"}, 
-    { "source": "_h1^2 h6 c0 d0 e0", "target": "M^2 d0", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_h1^2 h6 c0 d0 e0", 
+      "target": "M^2 d0", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "M D1 c0", "target": "M D1 h1 c0"}, 
     {"source": "h1^2 x103,12", "target": "h1^3 x103,12"}, 
     {"source": "_t h2 g^2 A'", "target": "_t^2 h1 g^2 G0"}, 
     {"source": "h1^5 h6 e0 g", "target": "h1^6 h6 e0 g"}, 
-    { "source": "h1^5 h6 e0 g", "target": "M D1 h1^7", "attributes": ["dr", "3"] }, 
+    { "source": "h1^5 h6 e0 g", "target": "M D1 h1^7", "attributes": ["dr", "n3"] }, 
     {"source": "h2 g^2 H1", "target": "h2^2 g^2 H1"}, 
     { "source": "_D^2 h5 c0 e0", "target": "P^2 h6 j", "attributes": ["hh0"] }, 
     {"source": "_D^2 h5 c0 e0", "target": "_D^2 h1 h5 c0 e0"}, 
     {
       "source": "_D^2 h5 c0 e0", 
       "target": "_D^2 M h1^2 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_D^2 h1 B6", "target": "_D^2 h1^2 B6"}, 
     {"source": "_D h1 g j1", "target": "_D h1^2 g j1"}, 
     {"source": "g d1 i1", "target": "h1 g d1 i1"}, 
     {"source": "P^2 h6 j", "target": "P^2 h0 h6 j"}, 
-    { "source": "P^2 h6 j", "target": "D^2 M P h2", "attributes": ["dr", "3"] }, 
+    { "source": "P^2 h6 j", "target": "D^2 M P h2", "attributes": ["dr", "n3"] }, 
     {"source": "_h1^3 x101,14", "target": "_h1^4 x101,14"}, 
     {
       "source": "_h1^3 x101,14", 
       "target": "M D h1 e0^2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_M D1 h1^7", "target": "_M D1 h1^8"}, 
     {
       "source": "P^2 h0 h6 j", 
       "target": "D^2 M P h0 h2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^3 h1 d1", "target": "D^3 h1^2 d1"}, 
     {"source": "D^2 h1 h5 c0 e0", "target": "D^2 h1^2 h5 c0 e0"}, 
     {
       "source": "D^2 h1 h5 c0 e0", 
       "target": "D^2 M h1^3 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_D^2 h1^3 i1", "target": "_D^2 h1^4 i1"}, 
     {
       "source": "_D^2 h1^3 i1", 
       "target": "D^2 M h1^3 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     { "source": "_D h1^2 e1 g^2", "target": "t B5 g^2", "attributes": ["hh1"] }, 
     {"source": "h1^3 x102,14", "target": "h1^4 y102,14"}, 
@@ -7759,7 +7807,7 @@
     {
       "source": "P^3 h1 h6 e0", 
       "target": "D^2 M P h1^3", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1^4 x101,14", "target": "h1^5 x101,14"}, 
     {"source": "M D1 h1^8", "target": "M D1 h1^9"}, 
@@ -7768,7 +7816,7 @@
     {
       "source": "_P h1^8 h6 c0 e0", 
       "target": "M D h1^4 d0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 h1^4 i1", "target": "D^2 h1^5 i1"}, 
     {"source": "M h0 g^3", "target": "M h0^2 g^3"}, 
@@ -7777,17 +7825,17 @@
     {
       "source": "t D^2 e0 g^2", 
       "target": "M P D h1^2 c0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^7 g D4", "target": "_h1^8 g D4"}, 
     {"source": "D^2 M h1^4 c0", "target": "D^2 M h1^5 c0"}, 
     {"source": "D^2 h0 e0 g^2", "target": "D^2 h0^2 g^3"}, 
-    { "source": "m^3", "target": "M D h1^7 c0 g", "attributes": ["dr", "3"] }, 
+    { "source": "m^3", "target": "M D h1^7 c0 g", "attributes": ["dr", "n3"] }, 
     {"source": "P h1^9 h6 c0 e0", "target": "P h1^10 h6 c0 e0"}, 
     {
       "source": "P h1^9 h6 c0 e0", 
       "target": "M D h1^7 c0 g", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M D h1^5 d0 e0", "target": "M D h1^6 d0 e0"}, 
     {
@@ -7801,15 +7849,19 @@
     {
       "source": "D h1^2 h6 e0", 
       "target": "h1^2 x103,12", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^2 x103,12", "target": "_h1^3 x103,12"}, 
     {"source": "_h1^5 h6 e0 g", "target": "_h1^6 h6 e0 g"}, 
-    { "source": "_h1^5 h6 e0 g", "target": "_M D1 h1^7", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_h1^5 h6 e0 g", 
+      "target": "_M D1 h1^7", 
+      "attributes": ["dr", "n3"]
+    }, 
     {
       "source": "_h1^3 h6 c0 d0 e0", 
       "target": "M^2 h1 d0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M D1 h1 c0", "target": "M D1 h1^2 c0"}, 
     {"source": "_g d1 i1", "target": "_h1 g d1 i1"}, 
@@ -7817,20 +7869,20 @@
     {"source": "M D1 P h1", "target": "M D1 P h1^2"}, 
     {"source": "h1^3 x103,12", "target": "h1^4 x103,12"}, 
     {"source": "h1^6 h6 e0 g", "target": "h1^7 h6 e0 g"}, 
-    { "source": "h1^6 h6 e0 g", "target": "M D1 h1^8", "attributes": ["dr", "3"] }, 
+    { "source": "h1^6 h6 e0 g", "target": "M D1 h1^8", "attributes": ["dr", "n3"] }, 
     {"source": "_D^2 h1 h5 c0 e0", "target": "_D^2 h1^2 h5 c0 e0"}, 
     {
       "source": "_D^2 h1 h5 c0 e0", 
       "target": "_D^2 M h1^3 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_D^2 h1^2 B6", "target": "_t^3 B5 g^2"}, 
     {"source": "D^2 e1 g", "target": "D^2 h1 e1 g"}, 
     {"source": "D^2 e1 g", "target": "D^2 h1^2 j1"}, 
-    { "source": "D^2 e1 g", "target": "D^2 h1 g T", "attributes": ["dr", "3"] }, 
-    { "source": "_t h2 g^2 C0", "target": "D^2 h1 g T", "attributes": ["dr", "3"] }, 
+    { "source": "D^2 e1 g", "target": "D^2 h1 g T", "attributes": ["dr", "n3"] }, 
+    { "source": "_t h2 g^2 C0", "target": "D^2 h1 g T", "attributes": ["dr", "n3"] }, 
     {"source": "h2 g^2 C'", "target": "h0 h2 g^2 G0"}, 
-    { "source": "h2 g^2 C'", "target": "M h0^2 g^3", "attributes": ["dr", "4"] }, 
+    { "source": "h2 g^2 C'", "target": "M h0^2 g^3", "attributes": ["dr", "n4"] }, 
     {"source": "_h1 d1^2 g^2", "target": "_h1^2 d1^2 g^2"}, 
     {"source": "h1 g d1 i1", "target": "h1^2 g d1 i1"}, 
     {"source": "_h1^4 x101,14", "target": "_h1^5 x101,14"}, 
@@ -7840,13 +7892,13 @@
     {
       "source": "D^2 h1^2 h5 c0 e0", 
       "target": "D^2 M h1^4 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_D^2 h1^4 i1", "target": "_D^2 h1^5 i1"}, 
     {
       "source": "_D^2 h1^4 i1", 
       "target": "D^2 M h1^4 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1^4 y102,14", "target": "h1^5 y102,14"}, 
     {"source": "P^3 h1^2 h6 e0", "target": "P^3 h1^3 h6 e0"}, 
@@ -7858,13 +7910,13 @@
     {
       "source": "_P h1^9 h6 c0 e0", 
       "target": "M D h1^5 d0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_D^2 M P h1^4", "target": "_D^2 M P h1^5"}, 
     {
       "source": "D^2 h0 h2 g m", 
       "target": "M P D h1^3 c0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 M h1^5 c0", "target": "D^2 M h1^6 c0"}, 
     {"source": "P h1^10 h6 c0 e0", "target": "P h1^11 h6 c0 e0"}, 
@@ -7873,7 +7925,7 @@
     {"source": "h4 g3", "target": "h0 h4 g3"}, 
     {"source": "h4 g3", "target": "h1 h4 g3"}, 
     {"source": "h4 g3", "target": "h2 h4 g3"}, 
-    { "source": "h4 g3", "target": "h0 h3 x99,7", "attributes": ["dr", "4"] }, 
+    { "source": "h4 g3", "target": "h0 h3 x99,7", "attributes": ["dr", "n4"] }, 
     {"source": "h0 h4 g3", "target": "h0^2 h4 g3"}, 
     {"source": "D h6 g", "target": "D h0 h6 g"}, 
     {"source": "D h6 g", "target": "D h1 h6 g"}, 
@@ -7882,36 +7934,40 @@
     {
       "source": "_D h1^2 h6 e0", 
       "target": "_h1^2 x103,12", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     { "source": "_M D1 h1^2 h3", "target": "h6 d0^2 e0", "attributes": ["hh1"] }, 
-    { "source": "_M D1 h1^2 h3", "target": "M D1 P h1", "attributes": ["dr", "3"] }, 
+    { "source": "_M D1 h1^2 h3", "target": "M D1 P h1", "attributes": ["dr", "n3"] }, 
     {"source": "D h1^3 h6 e0", "target": "D h1^4 h6 e0"}, 
     {
       "source": "D h1^3 h6 e0", 
       "target": "h1^3 x103,12", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D D1 n", "target": "h2 x107,13"}, 
     {"source": "_i1^2", "target": "_h1 i1^2"}, 
-    { "source": "_i1^2", "target": "t B5 g^2", "attributes": ["dr", "5"] }, 
+    { "source": "_i1^2", "target": "t B5 g^2", "attributes": ["dr", "n5"] }, 
     {"source": "D1 h1^2 i1", "target": "D1 h1^3 i1"}, 
     {"source": "D1 h2 g d1", "target": "D1 h2^2 d1 g"}, 
     {"source": "_h1^3 x103,12", "target": "_h1^4 x103,12"}, 
     {"source": "_h1^6 h6 e0 g", "target": "_h1^7 h6 e0 g"}, 
-    { "source": "_h1^6 h6 e0 g", "target": "_M D1 h1^8", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_h1^6 h6 e0 g", 
+      "target": "_M D1 h1^8", 
+      "attributes": ["dr", "n3"]
+    }, 
     { "source": "_t D^2 e1 g", "target": "D^2 C0", "attributes": ["hh2"] }, 
     {
       "source": "_t D^2 e1 g", 
       "target": "_t D^2 h1 g T", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 j1", "target": "D^2 h1 j1"}, 
     {"source": "_t h2 g^2 C'", "target": "_t h0 h2 g^2 G0"}, 
     {
       "source": "_t h2 g^2 C'", 
       "target": "_t M h0^2 g^3", 
-      "attributes": ["dr", "4"]
+      "attributes": ["dr", "n4"]
     }, 
     {"source": "M D1 h1^2 c0", "target": "M D1 h1^3 c0"}, 
     {"source": "_h1 g d1 i1", "target": "_h1^2 g d1 i1"}, 
@@ -7920,23 +7976,23 @@
     {"source": "M D1 P h1^2", "target": "M D1 P h1^3"}, 
     {"source": "h1^4 x103,12", "target": "h1^5 x103,12"}, 
     {"source": "h1^7 h6 e0 g", "target": "h1^8 h6 e0 g"}, 
-    { "source": "h1^7 h6 e0 g", "target": "M D1 h1^9", "attributes": ["dr", "3"] }, 
+    { "source": "h1^7 h6 e0 g", "target": "M D1 h1^9", "attributes": ["dr", "n3"] }, 
     {"source": "_D^3 h1^2 d1", "target": "_t^2 D^2 c1 g^2"}, 
     {"source": "_D^2 h1^2 h5 c0 e0", "target": "_D^2 h1^3 h5 c0 e0"}, 
     {
       "source": "_D^2 h1^2 h5 c0 e0", 
       "target": "_D^2 M h1^4 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     { "source": "_t^3 B5 g^2", "target": "D^2 h1^3 Q2", "attributes": ["hh1"] }, 
     {"source": "D^2 h1 e1 g", "target": "D^2 h1^2 e1 g"}, 
     {"source": "g^2 C''", "target": "h2 g^2 C''"}, 
-    { "source": "g^2 C''", "target": "D h2 c1 g^3", "attributes": ["dr", "3"] }, 
+    { "source": "g^2 C''", "target": "D h2 c1 g^3", "attributes": ["dr", "n3"] }, 
     {"source": "_P^3 h1^2 h6 e0", "target": "_P^3 h1^3 h6 e0"}, 
     {
       "source": "_P^3 h1^2 h6 e0", 
       "target": "_D^2 M P h1^4", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M D^2 d0", "target": "M D^2 h1 d0"}, 
     {"source": "M D^2 d0", "target": "M D^2 h0 e0"}, 
@@ -7946,13 +8002,13 @@
     {
       "source": "_D^2 h1^5 i1", 
       "target": "D^2 M h1^5 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 h1^3 h5 c0 e0", "target": "D^2 h1^4 h5 c0 e0"}, 
     {
       "source": "D^2 h1^3 h5 c0 e0", 
       "target": "D^2 M h1^5 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 c1 g^2", "target": "D^2 h2 c1 g^2"}, 
     {"source": "h1^6 x101,14", "target": "h1^7 x101,14"}, 
@@ -7962,7 +8018,7 @@
     {
       "source": "_P h1^10 h6 c0 e0", 
       "target": "M D h1^6 d0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "M c0 e0^2 g + D D1 h1^6 c0 e0", "target": "M h1 c0 e0^2 g"}, 
     { "source": "_t h2^2 g^5", "target": "D h2^2 e0 g^3", "attributes": ["hh0"] }, 
@@ -7981,38 +8037,38 @@
     {"source": "P^13 h2", "target": "P^13 h0 h2"}, 
     {"source": "P^13 h2", "target": "P^12 h0^2 d0"}, 
     {"source": "h1 h4 g3", "target": "h1^2 h4 g3"}, 
-    { "source": "x108,7", "target": "D^2 j1", "attributes": ["dr", "8"] }, 
+    { "source": "x108,7", "target": "D^2 j1", "attributes": ["dr", "n8"] }, 
     {"source": "_D h1^3 h6 e0", "target": "_D h1^4 h6 e0"}, 
     {
       "source": "_D h1^3 h6 e0", 
       "target": "_h1^3 x103,12", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
-    { "source": "x108,11", "target": "_D h3 B6 g", "attributes": ["dr", "4"] }, 
+    { "source": "x108,11", "target": "_D h3 B6 g", "attributes": ["dr", "n4"] }, 
     { "source": "_t D1 h2 g d1", "target": "y109,13", "attributes": ["hh1"] }, 
     {
       "source": "_t D1 h2 g d1", 
       "target": "D^2 h1 e1 g", 
-      "attributes": ["dr", "5"]
+      "attributes": ["dr", "n5"]
     }, 
     {"source": "h1^2 x106,10", "target": "h1^3 x106,10"}, 
     {
       "source": "h1^2 x106,10", 
       "target": "M D1 h1^2 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_D1 h1^2 i1", "target": "_D1 h1^3 i1"}, 
-    { "source": "_D1 h1^2 i1", "target": "D^2 c1 g^2", "attributes": ["dr", "7"] }, 
+    { "source": "_D1 h1^2 i1", "target": "D^2 c1 g^2", "attributes": ["dr", "n7"] }, 
     {"source": "h6 d0^2 e0", "target": "h1 h6 d0^2 e0"}, 
-    { "source": "h6 d0^2 e0", "target": "M D1 P h1^2", "attributes": ["dr", "3"] }, 
+    { "source": "h6 d0^2 e0", "target": "M D1 P h1^2", "attributes": ["dr", "n3"] }, 
     {"source": "D h1^4 h6 e0", "target": "D h1^5 h6 e0"}, 
     {
       "source": "D h1^4 h6 e0", 
       "target": "h1^4 x103,12", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_D^2 j1", "target": "_D^2 h1 j1"}, 
-    { "source": "_D^2 j1", "target": "M D^2 d0", "attributes": ["dr", "4"] }, 
+    { "source": "_D^2 j1", "target": "M D^2 d0", "attributes": ["dr", "n4"] }, 
     {"source": "D^2 D1 h1 h3", "target": "D^2 D1 h1^2 h3"}, 
     {"source": "x108,14", "target": "h1 x108,14"}, 
     { "source": "_M D1 h1^2 c0", "target": "M D1 P h2", "attributes": ["hh0"] }, 
@@ -8023,7 +8079,11 @@
     {"source": "_h1^4 x103,12", "target": "_h1^5 x103,12"}, 
     {"source": "M D1 P h2", "target": "M D1 P h0 h2"}, 
     {"source": "_h1^7 h6 e0 g", "target": "_h1^8 h6 e0 g"}, 
-    { "source": "_h1^7 h6 e0 g", "target": "_M D1 h1^9", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_h1^7 h6 e0 g", 
+      "target": "_M D1 h1^9", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "_D^2 h1^2 Q2", "target": "_D^2 h1^3 Q2"}, 
     {"source": "_D^2 h1 e1 g", "target": "_D^2 h1^2 e1 g"}, 
     {"source": "D^2 h1 j1", "target": "D^2 h1^2 j1"}, 
@@ -8035,26 +8095,26 @@
     {"source": "M D1 P h1^3", "target": "M D1 P h1^4"}, 
     {"source": "h1^5 x103,12", "target": "h1^6 x103,12"}, 
     {"source": "h1^8 h6 e0 g", "target": "h1^9 h6 e0 g"}, 
-    { "source": "h1^8 h6 e0 g", "target": "M D1 h1^10", "attributes": ["dr", "3"] }, 
+    { "source": "h1^8 h6 e0 g", "target": "M D1 h1^10", "attributes": ["dr", "n3"] }, 
     { "source": "_t^2 D^2 c1 g^2", "target": "D^3 h2^2 n", "attributes": ["hh1"] }, 
     {"source": "_D^2 h1^3 h5 c0 e0", "target": "_D^2 h1^4 h5 c0 e0"}, 
     {
       "source": "_D^2 h1^3 h5 c0 e0", 
       "target": "_D^2 M h1^5 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 h1^3 Q2", "target": "D^2 h1^4 Q2"}, 
     { "source": "_h1^5 x102,14", "target": "h2 B5 g^2", "attributes": ["hh1"] }, 
     {
       "source": "_h1^5 x102,14", 
       "target": "M c0 e0^2 g + D D1 h1^6 c0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_P^3 h1^3 h6 e0", "target": "_t^2 D^2 h0 g^3"}, 
     {
       "source": "_P^3 h1^3 h6 e0", 
       "target": "_D^2 M P h1^5", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^6 x101,14", "target": "_h1^7 x101,14"}, 
     {"source": "_M D1 h1^10", "target": "_M D1 h1^11"}, 
@@ -8063,10 +8123,10 @@
     {
       "source": "D^2 h1^4 h5 c0 e0", 
       "target": "D^2 M h1^6 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "t D^2 g^3", "target": "t D^2 h1 g^3"}, 
-    { "source": "t D^2 g^3", "target": "D^2 M h1^6 c0", "attributes": ["dr", "3"] }, 
+    { "source": "t D^2 g^3", "target": "D^2 M h1^6 c0", "attributes": ["dr", "n3"] }, 
     {"source": "D^2 h0 g^3", "target": "D^2 h0^2 g^3"}, 
     {"source": "h1^7 x101,14", "target": "h1^8 x101,14"}, 
     {"source": "M D1 h1^11", "target": "M D1 h1^12"}, 
@@ -8074,46 +8134,46 @@
     {
       "source": "_P h1^11 h6 c0 e0", 
       "target": "M D h1^7 d0 e0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "h1 h3 g^5", "target": "h1^2 h3 g^5"}, 
     {"source": "_D^2 M P h1^6", "target": "_D^2 M P h1^7"}, 
     {"source": "e0^4 g^2", "target": "h1 e0^4 g^2"}, 
-    { "source": "DD11", "target": "D h1 h6 g", "attributes": ["dr", "5"] }, 
+    { "source": "DD11", "target": "D h1 h6 g", "attributes": ["dr", "n5"] }, 
     {"source": "M h1 h6", "target": "M h1^2 h6"}, 
     { "source": "_h1^2 x106,10", "target": "h6 d0 l", "attributes": ["hh0"] }, 
     {"source": "_h1^2 x106,10", "target": "_h1^3 x106,10"}, 
     {
       "source": "_h1^2 x106,10", 
       "target": "_M D1 h1^2 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     { "source": "_t d1^2 g2", "target": "x110,12", "attributes": ["hh1"] }, 
-    { "source": "_t d1^2 g2", "target": "D^2 h1 j1", "attributes": ["dr", "5"] }, 
+    { "source": "_t d1^2 g2", "target": "D^2 h1 j1", "attributes": ["dr", "n5"] }, 
     {"source": "_D h1^4 h6 e0", "target": "_D h1^5 h6 e0"}, 
     {
       "source": "_D h1^4 h6 e0", 
       "target": "_h1^4 x103,12", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "x109,12", "target": "h1 x109,12"}, 
     {
       "source": "x109,12", 
       "target": "D^2 D1 h1 h3", 
-      "attributes": ["dr", "p", "2"]
+      "attributes": ["dr", "p", "n2"]
     }, 
-    { "source": "x109,12", "target": "x108,14", "attributes": ["dr", "p", "2"] }, 
+    { "source": "x109,12", "target": "x108,14", "attributes": ["dr", "p", "n2"] }, 
     {"source": "h6 d0 l", "target": "h0 h6 d0 l"}, 
-    { "source": "h6 d0 l", "target": "M D1 P h2", "attributes": ["dr", "3"] }, 
+    { "source": "h6 d0 l", "target": "M D1 P h2", "attributes": ["dr", "n3"] }, 
     {"source": "x109,13", "target": "h1 x109,13"}, 
-    { "source": "h0 h6 d0 l", "target": "M D1 P h0 h2", "attributes": ["dr", "3"] }, 
+    { "source": "h0 h6 d0 l", "target": "M D1 P h0 h2", "attributes": ["dr", "n3"] }, 
     {"source": "y109,13", "target": "h1 y109,13"}, 
-    { "source": "y109,13", "target": "D^2 h1^2 e1 g", "attributes": ["dr", "5"] }, 
+    { "source": "y109,13", "target": "D^2 h1^2 e1 g", "attributes": ["dr", "n5"] }, 
     {"source": "h1^3 x106,10", "target": "h1^4 x106,10"}, 
     {
       "source": "h1^3 x106,10", 
       "target": "M D1 h1^3 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_D1 h1^3 i1", "target": "_D1 h1^4 i1"}, 
     {"source": "_t M D1 P h2", "target": "_t M D1 P h0 h2"}, 
@@ -8122,13 +8182,13 @@
     {
       "source": "h1 h6 d0^2 e0", 
       "target": "M D1 P h1^3", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D h1^5 h6 e0", "target": "D h1^6 h6 e0"}, 
     {
       "source": "D h1^5 h6 e0", 
       "target": "h1^5 x103,12", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_t M D1 P h0 h2", "target": "_t^2 M D1 P h1^3"}, 
     {"source": "_D^2 h1 j1", "target": "_D^2 h1^2 j1"}, 
@@ -8138,13 +8198,17 @@
     {"source": "D1 h1^4 i1", "target": "D1 h1^5 i1"}, 
     { "source": "_t^2 M D1 P h1^3", "target": "x109,17", "attributes": ["hh0"] }, 
     {"source": "_D^2 h1^3 D4", "target": "_D^2 h1^4 D4"}, 
-    { "source": "_D^2 h1^3 D4", "target": "M D^2 h1 d0", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_D^2 h1^3 D4", 
+      "target": "M D^2 h1 d0", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "_h1^5 x103,12", "target": "_h1^6 x103,12"}, 
     {"source": "_h1^8 h6 e0 g", "target": "_h1^9 h6 e0 g"}, 
     {
       "source": "_h1^8 h6 e0 g", 
       "target": "_M D1 h1^10", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "x109,17", "target": "h0 x109,17"}, 
     {"source": "_D^2 h1^3 Q2", "target": "_D^2 h1^4 Q2"}, 
@@ -8158,16 +8222,20 @@
     { "source": "M D1 P h1^4", "target": "M D1 P h1^5", "attributes": ["p"] }, 
     { "source": "h1^6 x103,12", "target": "M D1 P h1^5", "attributes": ["p"] }, 
     {"source": "h1^9 h6 e0 g", "target": "h1^10 h6 e0 g"}, 
-    { "source": "h1^9 h6 e0 g", "target": "M D1 h1^11", "attributes": ["dr", "3"] }, 
+    { "source": "h1^9 h6 e0 g", "target": "M D1 h1^11", "attributes": ["dr", "n3"] }, 
     {"source": "_D^2 h1^4 h5 c0 e0", "target": "_D^2 h1^5 h5 c0 e0"}, 
     {
       "source": "_D^2 h1^4 h5 c0 e0", 
       "target": "_D^2 M h1^6 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D^2 h1^4 Q2", "target": "D^2 h1^5 Q2"}, 
     { "source": "_t M h0 h2 g^3", "target": "M D h2^2 e0^2", "attributes": ["hh0"] }, 
-    { "source": "h2 B5 g^2", "target": "M h1 c0 e0^2 g", "attributes": ["dr", "3"] }, 
+    {
+      "source": "h2 B5 g^2", 
+      "target": "M h1 c0 e0^2 g", 
+      "attributes": ["dr", "n3"]
+    }, 
     {
       "source": "_t^2 D^2 h0 g^3", 
       "target": "t D^3 h1 e0 g", 
@@ -8176,7 +8244,7 @@
     {
       "source": "_t^2 D^2 h0 g^3", 
       "target": "_D^2 M P h1^6", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1^7 x101,14", "target": "_h1^8 x101,14"}, 
     {"source": "_M D1 h1^11", "target": "_M D1 h1^12"}, 
@@ -8185,15 +8253,15 @@
     {
       "source": "D^2 h1^5 h5 c0 e0", 
       "target": "D^2 M h1^7 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {
       "source": "t D^2 h1 g^3", 
       "target": "D^2 M h1^7 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "_h1 h3 g^5", "target": "_h1^2 h3 g^5"}, 
-    { "source": "_h1 h3 g^5", "target": "e0^4 g^2", "attributes": ["dr", "3"] }, 
+    { "source": "_h1 h3 g^5", "target": "e0^4 g^2", "attributes": ["dr", "n3"] }, 
     {"source": "h1^8 x101,14", "target": "h1^9 x101,14"}, 
     {"source": "M D1 h1^12", "target": "M D1 h1^13"}, 
     {"source": "_D^2 M h1^7 c0", "target": "_D^2 M h1^8 c0"}, 
@@ -8203,22 +8271,26 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 h4 g3", "target": "D h2 h6 c1", "attributes": ["dr", "3"] }, 
+    { "source": "_h1^2 h4 g3", "target": "D h2 h6 c1", "attributes": ["dr", "n3"] }, 
     {"source": "_D h6 c0 d0", "target": "_t h0 h6 d0 l"}, 
-    { "source": "_D h6 c0 d0", "target": "_t M D1 P h2", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_D h6 c0 d0", 
+      "target": "_t M D1 P h2", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "_t h0 h6 d0 l", "target": "_t^2 h1 h6 d0^2 e0"}, 
     {
       "source": "_t h0 h6 d0 l", 
       "target": "_t M D1 P h0 h2", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
-    { "source": "_y109,13", "target": "_D^2 h1^2 e1 g", "attributes": ["dr", "5"] }, 
+    { "source": "_y109,13", "target": "_D^2 h1^2 e1 g", "attributes": ["dr", "n5"] }, 
     {
       "source": "_h1^3 x106,10", 
       "target": "_M D1 h1^3 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
-    { "source": "x110,12", "target": "D^2 h1^2 j1", "attributes": ["dr", "5"] }, 
+    { "source": "x110,12", "target": "D^2 h1^2 j1", "attributes": ["dr", "n5"] }, 
     {
       "source": "_t^2 h1 h6 d0^2 e0", 
       "target": "D h0^2 h6 i", 
@@ -8227,73 +8299,85 @@
     {
       "source": "_t^2 h1 h6 d0^2 e0", 
       "target": "_t^2 M D1 P h1^3", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {
       "source": "_D h1^5 h6 e0", 
       "target": "_h1^5 x103,12", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {
       "source": "h1 x109,12", 
       "target": "D^2 D1 h1^2 h3", 
-      "attributes": ["dr", "p", "2"]
+      "attributes": ["dr", "p", "n2"]
     }, 
     {
       "source": "h1 x109,12", 
       "target": "h1 x108,14", 
-      "attributes": ["dr", "p", "2"]
+      "attributes": ["dr", "p", "n2"]
     }, 
     {"source": "D h0^2 h6 i", "target": "D h0^3 h6 i"}, 
-    { "source": "D h0^2 h6 i", "target": "x109,17", "attributes": ["dr", "3"] }, 
+    { "source": "D h0^2 h6 i", "target": "x109,17", "attributes": ["dr", "n3"] }, 
     {
       "source": "h1^4 x106,10", 
       "target": "M D1 h1^4 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D h0^3 h6 i", "target": "D h0^4 h6 i"}, 
-    { "source": "D h0^3 h6 i", "target": "h0 x109,17", "attributes": ["dr", "3"] }, 
+    { "source": "D h0^3 h6 i", "target": "h0 x109,17", "attributes": ["dr", "n3"] }, 
     {
       "source": "h1^2 h6 d0^2 e0", 
       "target": "M D1 P h1^4", 
-      "attributes": ["dr", "p", "3"]
+      "attributes": ["dr", "p", "n3"]
     }, 
     {
       "source": "D h1^6 h6 e0", 
       "target": "h1^6 x103,12", 
-      "attributes": ["dr", "p", "3"]
+      "attributes": ["dr", "p", "n3"]
     }, 
     {"source": "D h0^4 h6 i", "target": "D h0^5 h6 i"}, 
-    { "source": "D h0^4 h6 i", "target": "h0^2 x109,17", "attributes": ["dr", "3"] }, 
-    { "source": "D^2 C0", "target": "D^3 h2^2 n", "attributes": ["dr", "3"] }, 
-    { "source": "D^3 e1", "target": "D^3 h2^2 n", "attributes": ["dr", "3"] }, 
+    {
+      "source": "D h0^4 h6 i", 
+      "target": "h0^2 x109,17", 
+      "attributes": ["dr", "n3"]
+    }, 
+    { "source": "D^2 C0", "target": "D^3 h2^2 n", "attributes": ["dr", "n3"] }, 
+    { "source": "D^3 e1", "target": "D^3 h2^2 n", "attributes": ["dr", "n3"] }, 
     {
       "source": "_t h0 h2 g^2 G0", 
       "target": "M D h2^2 e0^2", 
-      "attributes": ["dr", "4"]
+      "attributes": ["dr", "n4"]
     }, 
-    { "source": "M^2 g", "target": "M D1 P h1^4", "attributes": ["dr", "p", "2"] }, 
-    { "source": "M^2 g", "target": "h1^6 x103,12", "attributes": ["dr", "p", "2"] }, 
+    { "source": "M^2 g", "target": "M D1 P h1^4", "attributes": ["dr", "p", "n2"] }, 
+    { "source": "M^2 g", "target": "h1^6 x103,12", "attributes": ["dr", "p", "n2"] }, 
     {
       "source": "_h1^9 h6 e0 g", 
       "target": "_M D1 h1^11", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
-    { "source": "D^3 h1 x", "target": "D^2 M P c0", "attributes": ["dr", "3"] }, 
-    { "source": "h2 g^2 C''", "target": "h1^8 x101,14", "attributes": ["dr", "4"] }, 
-    { "source": "h1^10 h6 e0 g", "target": "M D1 h1^12", "attributes": ["dr", "3"] }, 
+    { "source": "D^3 h1 x", "target": "D^2 M P c0", "attributes": ["dr", "n3"] }, 
+    { "source": "h2 g^2 C''", "target": "h1^8 x101,14", "attributes": ["dr", "n4"] }, 
+    {
+      "source": "h1^10 h6 e0 g", 
+      "target": "M D1 h1^12", 
+      "attributes": ["dr", "n3"]
+    }, 
     {
       "source": "_D^2 h1^5 h5 c0 e0", 
       "target": "_D^2 M h1^7 c0", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {
       "source": "t D^3 h1 e0 g", 
       "target": "_D^2 M P h1^7", 
-      "attributes": ["dr", "3"]
+      "attributes": ["dr", "n3"]
     }, 
     {"source": "D h2^2 g^4", "target": "h1^9 x101,14"}, 
-    { "source": "_h1^2 h3 g^5", "target": "h1 e0^4 g^2", "attributes": ["dr", "3"] }, 
+    {
+      "source": "_h1^2 h3 g^5", 
+      "target": "h1 e0^4 g^2", 
+      "attributes": ["dr", "n3"]
+    }, 
     {"source": "P^12 d0", "target": "P^12 h0 d0"}, 
     {"source": "P^12 h0 d0", "target": "P^12 h0^2 d0"}
   ]

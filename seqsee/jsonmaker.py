@@ -110,11 +110,14 @@ def extract_edge_attributes(row, edge_type, nodes):
         # SeqSee handle them. The only exception is "h", which we need to tag with "edge_type" so
         # the correct alias is applied.
         if isinstance(target_info, float):
-            target_info = str(int(target_info))
-        extra_attributes = target_info.split(" ")
-        if "h" in extra_attributes:
-            extra_attributes.remove("h")
-            extra_attributes.append(f"h{edge_type}")
+            target_info = f"n{int(target_info)}"
+        extra_attributes = []
+        for attr in target_info.split(" "):
+            if attr.isnumeric():
+                attr = f"n{attr}"
+            if attr == "h":
+                attr = f"h{edge_type}"
+            extra_attributes.append(attr)
         ret.extend(extra_attributes)
 
     return ret
@@ -241,16 +244,16 @@ def process_csv(input_file, output_file):
                 "tau3": [{"color": "darkgreen"}],
                 "tau4plus": [{"color": "purple"}],
                 "dr": [{"color": "darkcyan"}],
-                "2": [{"color": "darkcyan"}],
-                "3": [{"color": "red"}],
-                "4": [{"color": "darkgreen"}],
-                "5": [{"color": "blue"}],
-                "6": [{"color": "orange"}],
-                "7": [{"color": "orange"}],
-                "8": [{"color": "orange"}],
-                "9": [{"color": "orange"}],
-                "10": [{"color": "orange"}],
-                "11": [{"color": "orange"}],
+                "n2": [{"color": "darkcyan"}],
+                "n3": [{"color": "red"}],
+                "n4": [{"color": "darkgreen"}],
+                "n5": [{"color": "blue"}],
+                "n6": [{"color": "orange"}],
+                "n7": [{"color": "orange"}],
+                "n8": [{"color": "orange"}],
+                "n9": [{"color": "orange"}],
+                "n10": [{"color": "orange"}],
+                "n11": [{"color": "orange"}],
                 "t": [{"color": "magenta"}],
                 "t2": [{"color": "orange"}],
                 "t3": [{"color": "orange"}],

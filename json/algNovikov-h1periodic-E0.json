@@ -10,16 +10,16 @@
         "tau3": [ {"color": "darkgreen"} ], 
         "tau4plus": [ {"color": "purple"} ], 
         "dr": [ {"color": "darkcyan"} ], 
-        "2": [ {"color": "darkcyan"} ], 
-        "3": [ {"color": "red"} ], 
-        "4": [ {"color": "darkgreen"} ], 
-        "5": [ {"color": "blue"} ], 
-        "6": [ {"color": "orange"} ], 
-        "7": [ {"color": "orange"} ], 
-        "8": [ {"color": "orange"} ], 
-        "9": [ {"color": "orange"} ], 
-        "10": [ {"color": "orange"} ], 
-        "11": [ {"color": "orange"} ], 
+        "n2": [ {"color": "darkcyan"} ], 
+        "n3": [ {"color": "red"} ], 
+        "n4": [ {"color": "darkgreen"} ], 
+        "n5": [ {"color": "blue"} ], 
+        "n6": [ {"color": "orange"} ], 
+        "n7": [ {"color": "orange"} ], 
+        "n8": [ {"color": "orange"} ], 
+        "n9": [ {"color": "orange"} ], 
+        "n10": [ {"color": "orange"} ], 
+        "n11": [ {"color": "orange"} ], 
         "t": [ {"color": "magenta"} ], 
         "t2": [ {"color": "orange"} ], 
         "t3": [ {"color": "orange"} ], 
@@ -4495,7 +4495,7 @@
     }, 
     { "source": "P c0", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     { "source": "e0", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "e0", "target": "h1^2 d0", "attributes": ["dr", "2"] }, 
+    { "source": "e0", "target": "h1^2 d0", "attributes": ["dr", "n2"] }, 
     {
       "source": "P^2 h1", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4516,7 +4516,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0", "target": "_h1^4 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0", "target": "_h1^4 d0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^2 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4529,7 +4529,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0", "target": "P d0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0", "target": "P d0", "attributes": ["dr", "n0"] }, 
     {"source": "h1 c0 d0", "target": "h1^2 c0 d0"}, 
     {
       "source": "h1^2 c0 d0", 
@@ -4542,7 +4542,7 @@
       "attributes": ["h1tower"]
     }, 
     { "source": "c0 e0", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "c0 e0", "target": "h1^2 c0 d0", "attributes": ["dr", "2"] }, 
+    { "source": "c0 e0", "target": "h1^2 c0 d0", "attributes": ["dr", "n2"] }, 
     { "source": "P e0", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     {
       "source": "P^3 h1", 
@@ -4554,7 +4554,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 e0", "target": "P e0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 e0", "target": "P e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P h1^4 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4571,7 +4571,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1^2 e0", "target": "_P h1^4 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_P h1^2 e0", "target": "_P h1^4 d0", "attributes": ["dr", "n0"] }, 
     {"source": "h1 d0^2", "target": "h1^2 d0^2"}, 
     {
       "source": "_P^3 h1^4", 
@@ -4590,13 +4590,13 @@
     }, 
     {"source": "P^2 d0", "target": "P^2 h1 d0"}, 
     { "source": "d0 e0", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "d0 e0", "target": "h1^2 d0^2", "attributes": ["dr", "2"] }, 
+    { "source": "d0 e0", "target": "h1^2 d0^2", "attributes": ["dr", "n2"] }, 
     {
       "source": "_h1^2 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0^2", "target": "P c0 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0^2", "target": "P c0 d0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^2 h1 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4607,7 +4607,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1 c0 d0", "target": "P^2 h1 d0", "attributes": ["dr", "1"] }, 
+    { "source": "_P h1 c0 d0", "target": "P^2 h1 d0", "attributes": ["dr", "n1"] }, 
     {
       "source": "P^3 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4634,13 +4634,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0 e0", "target": "P c0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0 e0", "target": "P c0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P c0 e0", "target": "P^2 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P c0 e0", "target": "P^2 e0", "attributes": ["dr", "n0"] }, 
     {"source": "h1 e0^2", "target": "h1^2 e0^2"}, 
     {
       "source": "_P^2 h1^4 d0", 
@@ -4675,22 +4675,22 @@
     {
       "source": "_P^2 h1^2 e0", 
       "target": "_P^2 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     { "source": "e0 g", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "e0 g", "target": "h1^2 e0^2", "attributes": ["dr", "2"] }, 
+    { "source": "e0 g", "target": "h1^2 e0^2", "attributes": ["dr", "n2"] }, 
     {
       "source": "_h1^2 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0^2", "target": "c0 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0^2", "target": "c0 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^2", "target": "P d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^2", "target": "P d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^4 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4722,25 +4722,25 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1^2 d0^2", "target": "P^2 c0 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_P h1^2 d0^2", "target": "P^2 c0 d0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^2 c0 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^2 c0 d0", "target": "P^3 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^2 c0 d0", "target": "P^3 d0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_h1^2 e0 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0 g", "target": "c0 d0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0 g", "target": "c0 d0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0 e0", "target": "P d0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0 e0", "target": "P d0 e0", "attributes": ["dr", "n0"] }, 
     {"source": "h1 u", "target": "h1^2 u"}, 
     {
       "source": "P^4 c0", 
@@ -4748,7 +4748,7 @@
       "attributes": ["h1tower"]
     }, 
     { "source": "_t h2 e0 g", "target": "v", "attributes": ["hh1"] }, 
-    { "source": "_t h2 e0 g", "target": "h1 u", "attributes": ["dr", "1"] }, 
+    { "source": "_t h2 e0 g", "target": "h1 u", "attributes": ["dr", "n1"] }, 
     {
       "source": "h1^2 u", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4770,7 +4770,7 @@
       "attributes": ["h1tower"]
     }, 
     { "source": "v", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "v", "target": "h1^2 u", "attributes": ["dr", "1"] }, 
+    { "source": "v", "target": "h1^2 u", "attributes": ["dr", "n1"] }, 
     {"source": "c0 e0^2", "target": "h1 c0 e0^2"}, 
     { "source": "d0^3", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     {
@@ -4778,19 +4778,19 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1^2 d0 e0", "target": "P^2 c0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P h1^2 d0 e0", "target": "P^2 c0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^2 c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^2 c0 e0", "target": "P^3 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^2 c0 e0", "target": "P^3 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 e0^2", "target": "d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 e0^2", "target": "d0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_h1^3 u", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4808,7 +4808,7 @@
       "attributes": ["h1tower"]
     }, 
     { "source": "_h1 v", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "_h1 v", "target": "_h1^3 u", "attributes": ["dr", "0"] }, 
+    { "source": "_h1 v", "target": "_h1^3 u", "attributes": ["dr", "n0"] }, 
     {
       "source": "h1^2 c0 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4832,14 +4832,14 @@
     {
       "source": "_P^3 h1^2 e0", 
       "target": "_P^3 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 e0 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "c0 e0 g", "target": "h1^2 c0 e0^2", "attributes": ["dr", "2"] }, 
+    { "source": "c0 e0 g", "target": "h1^2 c0 e0^2", "attributes": ["dr", "n2"] }, 
     {
       "source": "d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4850,13 +4850,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0^3", "target": "P c0 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0^3", "target": "P c0 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P c0 d0^2", "target": "P^2 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_P c0 d0^2", "target": "P^2 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^5 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4868,7 +4868,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 e0 g", "target": "d0^2 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 e0 g", "target": "d0^2 e0", "attributes": ["dr", "n0"] }, 
     {"source": "u'", "target": "h1 u'"}, 
     { "source": "_t h0 d0^2 e0", "target": "P u", "attributes": ["hh1"] }, 
     {
@@ -4879,7 +4879,7 @@
     {"source": "P^4 d0", "target": "P^4 h1 d0"}, 
     {"source": "h1 B1", "target": "h1^2 B1"}, 
     {"source": "_u'", "target": "_h1 u'"}, 
-    { "source": "_u'", "target": "_t h0 d0^2 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_u'", "target": "_t h0 d0^2 e0", "attributes": ["dr", "n0"] }, 
     {"source": "h1 u'", "target": "h1^2 u'"}, 
     { "source": "P u", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     {
@@ -4897,7 +4897,11 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^2 h1^2 d0^2", "target": "P^3 c0 d0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P^2 h1^2 d0^2", 
+      "target": "P^3 c0 d0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "P^4 h1 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4909,14 +4913,18 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1 u'", "target": "P u", "attributes": ["dr", "0"] }, 
+    { "source": "_h1 u'", "target": "P u", "attributes": ["dr", "n0"] }, 
     {"source": "d0 e0^2", "target": "h1 d0 e0^2"}, 
     {
       "source": "_h1^2 d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0^2 e0", "target": "P c0 d0 e0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_h1^2 d0^2 e0", 
+      "target": "P c0 d0 e0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "h1^2 u'", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4927,13 +4935,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P c0 d0 e0", "target": "P^2 d0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P c0 d0 e0", "target": "P^2 d0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^3 h1 c0 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^3 h1 c0 d0", "target": "P^4 h1 d0", "attributes": ["dr", "1"] }, 
+    { "source": "_P^3 h1 c0 d0", "target": "P^4 h1 d0", "attributes": ["dr", "n1"] }, 
     {
       "source": "P^5 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -4941,7 +4949,7 @@
     }, 
     {"source": "h1^3 B1", "target": "h1^4 B1"}, 
     { "source": "v'", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "v'", "target": "h1^2 u'", "attributes": ["dr", "2"] }, 
+    { "source": "v'", "target": "h1^2 u'", "attributes": ["dr", "n2"] }, 
     { "source": "_t h0 d0 e0^2", "target": "P v", "attributes": ["hh1"] }, 
     {"source": "h1 d0 e0^2", "target": "h1^2 d0 e0^2"}, 
     {
@@ -4961,7 +4969,7 @@
     }, 
     {"source": "_h1^3 B1", "target": "_h1^4 B1"}, 
     {"source": "_v'", "target": "_h1 v'"}, 
-    { "source": "_v'", "target": "_t h0 d0 e0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_v'", "target": "_t h0 d0 e0^2", "attributes": ["dr", "n0"] }, 
     {"source": "h1^4 B1", "target": "h1^5 B1"}, 
     { "source": "P v", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     {
@@ -4987,36 +4995,36 @@
     {
       "source": "_P^2 h1^2 d0 e0", 
       "target": "P^3 c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^3 c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^3 c0 e0", "target": "P^4 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^3 c0 e0", "target": "P^4 e0", "attributes": ["dr", "n0"] }, 
     {"source": "_h1^4 B1", "target": "_h1^5 B1"}, 
     {
       "source": "_h1 v'", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1 v'", "target": "P v", "attributes": ["dr", "0"] }, 
+    { "source": "_h1 v'", "target": "P v", "attributes": ["dr", "n0"] }, 
     { "source": "e0^3", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "e0^3", "target": "h1^2 d0 e0^2", "attributes": ["dr", "2"] }, 
+    { "source": "e0^3", "target": "h1^2 d0 e0^2", "attributes": ["dr", "n2"] }, 
     {"source": "h1^5 B1", "target": "h1^6 B1"}, 
     {
       "source": "_h1^2 d0 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0 e0^2", "target": "c0 d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0 e0^2", "target": "c0 d0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 d0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^3", "target": "P d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^3", "target": "P d0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P h1^3 u", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5039,7 +5047,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1 v", "target": "_P h1^3 u", "attributes": ["dr", "0"] }, 
+    { "source": "_P h1 v", "target": "_P h1^3 u", "attributes": ["dr", "n0"] }, 
     {"source": "h1^6 B1", "target": "h1^7 B1"}, 
     {
       "source": "P^2 c0 d0^2", 
@@ -5059,7 +5067,7 @@
     {
       "source": "_P^4 h1^2 e0", 
       "target": "_P^4 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "B8", "target": "h1 B8"}, 
     {"source": "x'", "target": "h1 x'"}, 
@@ -5085,13 +5093,17 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1^2 d0^3", "target": "P^2 c0 d0^2", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P h1^2 d0^3", 
+      "target": "P^2 c0 d0^2", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "_P^2 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^2 c0 d0^2", "target": "P^3 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_P^2 c0 d0^2", "target": "P^3 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^6 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5104,20 +5116,20 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "e0^2 g", "target": "h1^7 B1", "attributes": ["dr", "7"] }, 
+    { "source": "e0^2 g", "target": "h1^7 B1", "attributes": ["dr", "n7"] }, 
     {
       "source": "_h1^2 e0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0^3", "target": "c0 d0^2 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0^3", "target": "c0 d0^2 e0", "attributes": ["dr", "n0"] }, 
     {"source": "_h1^7 B1", "target": "_h1^8 B1"}, 
     {
       "source": "_c0 d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^2 e0", "target": "P d0^2 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^2 e0", "target": "P d0^2 e0", "attributes": ["dr", "n0"] }, 
     {"source": "h1 d0 u", "target": "h1^2 d0 u"}, 
     { "source": "P u'", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     {
@@ -5132,14 +5144,14 @@
     }, 
     {"source": "h1^2 B8", "target": "h1^3 B8"}, 
     { "source": "_t h0 e0^2 g", "target": "d0 v", "attributes": ["hh1"] }, 
-    { "source": "_t h0 e0^2 g", "target": "h1 d0 u", "attributes": ["dr", "2"] }, 
+    { "source": "_t h0 e0^2 g", "target": "h1 d0 u", "attributes": ["dr", "n2"] }, 
     {"source": "h1^2 x'", "target": "h1^3 x'"}, 
     {
       "source": "_h1 d0 u", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1 d0 u", "target": "P u'", "attributes": ["dr", "0"] }, 
+    { "source": "_h1 d0 u", "target": "P u'", "attributes": ["dr", "n0"] }, 
     {"source": "_h1^8 B1", "target": "_h1^9 B1"}, 
     {
       "source": "h1^2 d0 u", 
@@ -5162,24 +5174,28 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^3 h1^2 d0^2", "target": "P^4 c0 d0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P^3 h1^2 d0^2", 
+      "target": "P^4 c0 d0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "_P^4 c0 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^4 c0 d0", "target": "P^5 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^4 c0 d0", "target": "P^5 d0", "attributes": ["dr", "n0"] }, 
     {"source": "_h1^2 B8", "target": "_h1^3 B8"}, 
     {"source": "h1^3 B8", "target": "h1^4 B8"}, 
     { "source": "d0 v", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "d0 v", "target": "h1^2 d0 u", "attributes": ["dr", "2"] }, 
+    { "source": "d0 v", "target": "h1^2 d0 u", "attributes": ["dr", "n2"] }, 
     {"source": "h1^3 x'", "target": "h1^4 x'"}, 
     {
       "source": "_P h1 u'", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1 u'", "target": "P^2 u", "attributes": ["dr", "0"] }, 
+    { "source": "_P h1 u'", "target": "P^2 u", "attributes": ["dr", "n0"] }, 
     {"source": "_h1^9 B1", "target": "_h1^10 B1"}, 
     {
       "source": "c0 d0 e0^2", 
@@ -5195,14 +5211,14 @@
     {
       "source": "_P h1^2 d0^2 e0", 
       "target": "P^2 c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^2 c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^2 c0 d0 e0", "target": "P^3 d0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^2 c0 d0 e0", "target": "P^3 d0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^6 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5214,14 +5230,14 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0^2 g", "target": "c0 d0 e0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0^2 g", "target": "c0 d0 e0^2", "attributes": ["dr", "n0"] }, 
     {"source": "h1^4 B8", "target": "h1^5 B8"}, 
     {
       "source": "_c0 d0 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0 e0^2", "target": "d0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0 e0^2", "target": "d0^4", "attributes": ["dr", "n0"] }, 
     {"source": "h1^4 x'", "target": "h1^5 x'"}, 
     { "source": "P v'", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     {"source": "_h1^10 B1", "target": "_h1^11 B1"}, 
@@ -5242,17 +5258,17 @@
       "attributes": ["h1tower"]
     }, 
     { "source": "_t h2 e0^2 g", "target": "e0 v", "attributes": ["hh1"] }, 
-    { "source": "_t h2 e0^2 g", "target": "h1^4 x'", "attributes": ["dr", "4"] }, 
+    { "source": "_t h2 e0^2 g", "target": "h1^4 x'", "attributes": ["dr", "n4"] }, 
     {"source": "_h1^4 B8", "target": "_h1^5 B8"}, 
     {
       "source": "_h1 d0 v", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1 d0 v", "target": "P v'", "attributes": ["dr", "0"] }, 
+    { "source": "_h1 d0 v", "target": "P v'", "attributes": ["dr", "n0"] }, 
     {"source": "_h1^4 x'", "target": "_h1^5 x'"}, 
     {"source": "_P v'", "target": "_P h1 v'"}, 
-    { "source": "_P v'", "target": "_t h0 d0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_P v'", "target": "_t h0 d0^4", "attributes": ["dr", "n0"] }, 
     {"source": "h1^5 B8", "target": "h1^6 B8"}, 
     {
       "source": "h1^5 x'", 
@@ -5283,17 +5299,17 @@
     {
       "source": "_P^3 h1^2 d0 e0", 
       "target": "P^4 c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^4 c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^4 c0 e0", "target": "P^5 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^4 c0 e0", "target": "P^5 e0", "attributes": ["dr", "n0"] }, 
     {"source": "B21", "target": "h1 B21"}, 
     { "source": "e0 v", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "e0 v", "target": "h1^5 x'", "attributes": ["dr", "4"] }, 
+    { "source": "e0 v", "target": "h1^5 x'", "attributes": ["dr", "n4"] }, 
     {"source": "_h1^5 B8", "target": "_h1^6 B8"}, 
     {"source": "_h1^5 x'", "target": "_h1^6 x'"}, 
     {
@@ -5301,13 +5317,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "c0 e0^3", "target": "_h1^11 B1", "attributes": ["dr", "8"] }, 
+    { "source": "c0 e0^3", "target": "_h1^11 B1", "attributes": ["dr", "n8"] }, 
     {
       "source": "_P h1 v'", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1 v'", "target": "P^2 v", "attributes": ["dr", "0"] }, 
+    { "source": "_P h1 v'", "target": "P^2 v", "attributes": ["dr", "n0"] }, 
     {"source": "h1^6 B8", "target": "h1^7 B8"}, 
     {
       "source": "d0^3 e0", 
@@ -5319,13 +5335,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0^4", "target": "P c0 d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0^4", "target": "P c0 d0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P c0 d0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P c0 d0^3", "target": "P^2 d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_P c0 d0^3", "target": "P^2 d0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^2 h1^3 u", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5347,7 +5363,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 e0^3", "target": "d0^3 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 e0^3", "target": "d0^3 e0", "attributes": ["dr", "n0"] }, 
     {"source": "_h1^6 B8", "target": "_h1^7 B8"}, 
     {"source": "_h1^6 x'", "target": "_h1^7 x'"}, 
     { "source": "d0 u'", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
@@ -5358,7 +5374,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^2 h1 v", "target": "_P^2 h1^3 u", "attributes": ["dr", "0"] }, 
+    { "source": "_P^2 h1 v", "target": "_P^2 h1^3 u", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^3 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5377,7 +5393,7 @@
     {
       "source": "_P^5 h1^2 e0", 
       "target": "_P^5 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "h1^2 B21", 
@@ -5389,10 +5405,10 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1 e0 v", "target": "d0 u'", "attributes": ["dr", "0"] }, 
+    { "source": "_h1 e0 v", "target": "d0 u'", "attributes": ["dr", "n0"] }, 
     {"source": "c0 x'", "target": "h1 c0 x'"}, 
     {"source": "_d0 u'", "target": "_h1 d0 u'"}, 
-    { "source": "_d0 u'", "target": "_t h0 d0^3 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_d0 u'", "target": "_t h0 d0^3 e0", "attributes": ["dr", "n0"] }, 
     {"source": "_h1^7 B8", "target": "_h1^8 B8"}, 
     {"source": "_h1^7 x'", "target": "_h1^8 x'"}, 
     {
@@ -5423,34 +5439,34 @@
     {
       "source": "_P^2 h1^2 d0^3", 
       "target": "P^3 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^3 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^3 c0 d0^2", "target": "P^4 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_P^3 c0 d0^2", "target": "P^4 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^7 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
     { "source": "B22", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "B22", "target": "h1^2 B21", "attributes": ["dr", "2"] }, 
+    { "source": "B22", "target": "h1^2 B21", "attributes": ["dr", "n2"] }, 
     {"source": "h1 c0 x'", "target": "h1^2 c0 x'"}, 
     {
       "source": "c0 e0^2 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "c0 e0^2 g", "target": "h1^8 B8", "attributes": ["dr", "8"] }, 
+    { "source": "c0 e0^2 g", "target": "h1^8 B8", "attributes": ["dr", "n8"] }, 
     {
       "source": "_h1 d0 u'", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1 d0 u'", "target": "P d0 u", "attributes": ["dr", "0"] }, 
+    { "source": "_h1 d0 u'", "target": "P d0 u", "attributes": ["dr", "n0"] }, 
     {
       "source": "P h1 x'", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5470,7 +5486,7 @@
     {
       "source": "_h1^2 d0^3 e0", 
       "target": "P c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_h1^8 x'", 
@@ -5485,7 +5501,7 @@
     {
       "source": "_P c0 d0^2 e0", 
       "target": "P^2 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 u'", 
@@ -5504,15 +5520,15 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1 c0 x'", "target": "P h1 x'", "attributes": ["dr", "0"] }, 
+    { "source": "_h1 c0 x'", "target": "P h1 x'", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 e0^2 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 e0^2 g", "target": "d0^2 e0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 e0^2 g", "target": "d0^2 e0^2", "attributes": ["dr", "n0"] }, 
     { "source": "e0 u'", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "e0 u'", "target": "_h1^8 x'", "attributes": ["dr", "4"] }, 
+    { "source": "e0 u'", "target": "_h1^8 x'", "attributes": ["dr", "n4"] }, 
     {"source": "h1^2 c0 x'", "target": "h1^3 c0 x'"}, 
     { "source": "_t h0 d0^2 e0^2", "target": "P d0 v", "attributes": ["hh1"] }, 
     {
@@ -5520,7 +5536,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1 d0 u", "target": "P^2 u'", "attributes": ["dr", "0"] }, 
+    { "source": "_P h1 d0 u", "target": "P^2 u'", "attributes": ["dr", "n0"] }, 
     {"source": "_h1^9 B8", "target": "_h1^10 B8"}, 
     { "source": "P^3 u", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     {
@@ -5538,7 +5554,11 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^4 h1^2 d0^2", "target": "P^5 c0 d0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P^4 h1^2 d0^2", 
+      "target": "P^5 c0 d0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "P^6 h1 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5550,7 +5570,7 @@
       "attributes": ["h1tower"]
     }, 
     {"source": "_e0 u'", "target": "_h1 e0 u'"}, 
-    { "source": "_e0 u'", "target": "_t h0 d0^2 e0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_e0 u'", "target": "_t h0 d0^2 e0^2", "attributes": ["dr", "n0"] }, 
     {"source": "U", "target": "h1 U"}, 
     {"source": "h1^3 c0 x'", "target": "h1^4 c0 x'"}, 
     {
@@ -5568,7 +5588,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^2 h1 u'", "target": "P^3 u", "attributes": ["dr", "1"] }, 
+    { "source": "_P^2 h1 u'", "target": "P^3 u", "attributes": ["dr", "n1"] }, 
     {
       "source": "c0 d0^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5587,20 +5607,20 @@
     {
       "source": "_P^2 h1^2 d0^2 e0", 
       "target": "P^3 c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^3 c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^3 c0 d0 e0", "target": "P^4 d0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^3 c0 d0 e0", "target": "P^4 d0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^5 h1 c0 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^5 h1 c0 d0", "target": "P^6 h1 d0", "attributes": ["dr", "1"] }, 
+    { "source": "_P^5 h1 c0 d0", "target": "P^6 h1 d0", "attributes": ["dr", "n1"] }, 
     {
       "source": "P^7 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5611,26 +5631,26 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 B22", "target": "_h1^4 B21", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 B22", "target": "_h1^4 B21", "attributes": ["dr", "n0"] }, 
     {
       "source": "_h1 e0 u'", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1 e0 u'", "target": "P d0 v", "attributes": ["dr", "0"] }, 
+    { "source": "_h1 e0 u'", "target": "P d0 v", "attributes": ["dr", "n0"] }, 
     {"source": "h1 U", "target": "h1^2 U"}, 
     {
       "source": "d0 e0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "d0 e0^3", "target": "_h1^10 B8", "attributes": ["dr", "8"] }, 
+    { "source": "d0 e0^3", "target": "_h1^10 B8", "attributes": ["dr", "n8"] }, 
     {
       "source": "_h1^2 d0^2 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0^2 e0^2", "target": "c0 d0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0^2 e0^2", "target": "c0 d0^4", "attributes": ["dr", "n0"] }, 
     {
       "source": "h1^4 c0 x'", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5641,7 +5661,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^4", "target": "P d0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^4", "target": "P d0^4", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^2 v'", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5664,7 +5684,7 @@
       "attributes": ["h1tower"]
     }, 
     { "source": "e0 v'", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "e0 v'", "target": "h1^4 c0 x'", "attributes": ["dr", "4"] }, 
+    { "source": "e0 v'", "target": "h1^4 c0 x'", "attributes": ["dr", "n4"] }, 
     {"source": "h1^2 U", "target": "h1^3 U"}, 
     { "source": "_t h0 d0 e0^3", "target": "d0^2 u", "attributes": ["hh1"] }, 
     {
@@ -5672,14 +5692,14 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1 d0 v", "target": "P^2 v'", "attributes": ["dr", "0"] }, 
+    { "source": "_P h1 d0 v", "target": "P^2 v'", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P h1^4 x'", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
     {"source": "_P^2 v'", "target": "_P^2 h1 v'"}, 
-    { "source": "_P^2 v'", "target": "_t P h0 d0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_P^2 v'", "target": "_t P h0 d0^4", "attributes": ["dr", "n0"] }, 
     { "source": "P^3 v", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     {
       "source": "P^2 c0 d0^3", 
@@ -5699,24 +5719,24 @@
     {
       "source": "_P^4 h1^2 d0 e0", 
       "target": "P^5 c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^5 c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^5 c0 e0", "target": "P^6 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^5 c0 e0", "target": "P^6 e0", "attributes": ["dr", "n0"] }, 
     {"source": "B8 d0", "target": "h1 B8 d0"}, 
     {"source": "_e0 v'", "target": "_h1 e0 v'"}, 
-    { "source": "_e0 v'", "target": "_t h0 d0 e0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_e0 v'", "target": "_t h0 d0 e0^3", "attributes": ["dr", "n0"] }, 
     {"source": "d0 x'", "target": "h1 d0 x'"}, 
     {
       "source": "_h1^2 U", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 U", "target": "_P h1^4 x'", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 U", "target": "_P h1^4 x'", "attributes": ["dr", "n0"] }, 
     {"source": "h1^3 U", "target": "h1^4 U"}, 
     {
       "source": "d0^2 u", 
@@ -5728,7 +5748,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^2 h1 v'", "target": "P^3 v", "attributes": ["dr", "0"] }, 
+    { "source": "_P^2 h1 v'", "target": "P^3 v", "attributes": ["dr", "n0"] }, 
     {
       "source": "c0 d0^3 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5744,13 +5764,17 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1^2 d0^4", "target": "P^2 c0 d0^3", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P h1^2 d0^4", 
+      "target": "P^2 c0 d0^3", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "_P^2 c0 d0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^2 c0 d0^3", "target": "P^3 d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_P^2 c0 d0^3", "target": "P^3 d0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^3 h1^3 u", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5772,7 +5796,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1 e0 v'", "target": "d0^2 u", "attributes": ["dr", "0"] }, 
+    { "source": "_h1 e0 v'", "target": "d0^2 u", "attributes": ["dr", "n0"] }, 
     {
       "source": "h1 d0 x'", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5784,13 +5808,17 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0 e0^3", "target": "c0 d0^3 e0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_h1^2 d0 e0^3", 
+      "target": "c0 d0^3 e0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "_c0 d0^3 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^3 e0", "target": "P d0^3 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^3 e0", "target": "P d0^3 e0", "attributes": ["dr", "n0"] }, 
     {"source": "h1^4 U", "target": "h1^5 U"}, 
     {
       "source": "P d0 u'", 
@@ -5803,7 +5831,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^3 h1 v", "target": "_P^3 h1^3 u", "attributes": ["dr", "0"] }, 
+    { "source": "_P^3 h1 v", "target": "_P^3 h1^3 u", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^4 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5822,27 +5850,27 @@
     {
       "source": "_P^6 h1^2 e0", 
       "target": "_P^6 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_h1 B8 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1 B8 d0", "target": "h1 d0 x'", "attributes": ["dr", "1"] }, 
+    { "source": "_h1 B8 d0", "target": "h1 d0 x'", "attributes": ["dr", "n1"] }, 
     {
       "source": "h1^2 B8 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
     { "source": "_t h0 e0^4", "target": "d0^2 v", "attributes": ["hh1"] }, 
-    { "source": "_t h0 e0^4", "target": "h1^4 U", "attributes": ["dr", "4"] }, 
+    { "source": "_t h0 e0^4", "target": "h1^4 U", "attributes": ["dr", "n4"] }, 
     {
       "source": "_h1 d0^2 u", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1 d0^2 u", "target": "P d0 u'", "attributes": ["dr", "0"] }, 
+    { "source": "_h1 d0^2 u", "target": "P d0 u'", "attributes": ["dr", "n0"] }, 
     {"source": "h1 e0^4", "target": "h1^2 e0^4"}, 
     {
       "source": "P c0 x'", 
@@ -5850,7 +5878,11 @@
       "attributes": ["h1tower"]
     }, 
     {"source": "_P d0 u'", "target": "_P h1 d0 u'"}, 
-    { "source": "_P d0 u'", "target": "_t P h0 d0^3 e0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P d0 u'", 
+      "target": "_t P h0 d0^3 e0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "P^2 x'", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5884,40 +5916,40 @@
     {
       "source": "_P^3 h1^2 d0^3", 
       "target": "P^4 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^4 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^4 c0 d0^2", "target": "P^5 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_P^4 c0 d0^2", "target": "P^5 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^8 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
     { "source": "B8 e0", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "B8 e0", "target": "h1^2 B8 d0", "attributes": ["dr", "2"] }, 
+    { "source": "B8 e0", "target": "h1^2 B8 d0", "attributes": ["dr", "n2"] }, 
     { "source": "e0 x'", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     {
       "source": "_h1^2 d0 x'", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0 x'", "target": "P c0 x'", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0 x'", "target": "P c0 x'", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P c0 x'", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P c0 x'", "target": "P^2 x'", "attributes": ["dr", "0"] }, 
+    { "source": "_P c0 x'", "target": "P^2 x'", "attributes": ["dr", "n0"] }, 
     {
       "source": "d0^2 v", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "d0^2 v", "target": "h1^5 U", "attributes": ["dr", "4"] }, 
+    { "source": "d0^2 v", "target": "h1^5 U", "attributes": ["dr", "n4"] }, 
     {
       "source": "h1^2 e0^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5928,7 +5960,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1 d0 u'", "target": "P^2 d0 u", "attributes": ["dr", "0"] }, 
+    { "source": "_P h1 d0 u'", "target": "P^2 d0 u", "attributes": ["dr", "n0"] }, 
     {
       "source": "c0 d0^2 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -5943,7 +5975,7 @@
     {
       "source": "_P h1^2 d0^3 e0", 
       "target": "P^2 c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^2 c0 d0^2 e0", 
@@ -5953,7 +5985,7 @@
     {
       "source": "_P^2 c0 d0^2 e0", 
       "target": "P^3 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 u'", 
@@ -5975,25 +6007,25 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M c0 e0", "target": "e0 x'", "attributes": ["dr", "0"] }, 
+    { "source": "_M c0 e0", "target": "e0 x'", "attributes": ["dr", "n0"] }, 
     {
       "source": "e0^3 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "e0^3 g", "target": "h1^2 e0^4", "attributes": ["dr", "2"] }, 
+    { "source": "e0^3 g", "target": "h1^2 e0^4", "attributes": ["dr", "n2"] }, 
     {
       "source": "_h1^2 e0^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0^4", "target": "c0 d0^2 e0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0^4", "target": "c0 d0^2 e0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 d0^2 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^2 e0^2", "target": "d0^5", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^2 e0^2", "target": "d0^5", "attributes": ["dr", "n0"] }, 
     {
       "source": "P D c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6005,7 +6037,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^2 D h1^2 d0^2", "target": "P^3 u'", "attributes": ["dr", "0"] }, 
+    { "source": "_P^2 D h1^2 d0^2", "target": "P^3 u'", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^4 D h1 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6026,13 +6058,17 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^5 h1^2 d0^2", "target": "P^6 c0 d0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P^5 h1^2 d0^2", 
+      "target": "P^6 c0 d0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "_P^6 c0 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^6 c0 d0", "target": "P^7 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^6 c0 d0", "target": "P^7 d0", "attributes": ["dr", "n0"] }, 
     { "source": "_t h0 e0^3 g", "target": "D h1 d0 e0^2", "attributes": ["hh1"] }, 
     {
       "source": "_D h1^2 d0^2 e0", 
@@ -6042,7 +6078,7 @@
     {
       "source": "_D h1^2 d0^2 e0", 
       "target": "P D c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D^2 h1^2 c0 d0", 
@@ -6050,7 +6086,11 @@
       "attributes": ["h1tower"]
     }, 
     {"source": "_P D c0 d0 e0", "target": "_P D h1 c0 d0 e0"}, 
-    { "source": "_P D c0 d0 e0", "target": "_t h0 d0^5", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P D c0 d0 e0", 
+      "target": "_t h0 d0^5", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "P D^2 h1^2 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6069,7 +6109,7 @@
     {
       "source": "_P^3 D h1 c0 d0", 
       "target": "P^4 D h1 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P c0 d0^4", 
@@ -6089,14 +6129,14 @@
     {
       "source": "_P^3 h1^2 d0^2 e0", 
       "target": "P^4 c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^4 c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^4 c0 d0 e0", "target": "P^5 d0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^4 c0 d0 e0", "target": "P^5 d0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^8 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6111,7 +6151,7 @@
     {
       "source": "_M P h1^2 e0", 
       "target": "D^2 h1^2 c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_D^2 h1^2 c0 d0", 
@@ -6121,7 +6161,7 @@
     {
       "source": "_D^2 h1^2 c0 d0", 
       "target": "P D^2 h1^2 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "D h1 d0 e0^2", "target": "D h1^2 d0 e0^2"}, 
     {
@@ -6132,7 +6172,7 @@
     {
       "source": "_P D h1 c0 d0 e0", 
       "target": "P^2 D h1 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 d0 e0^3", 
@@ -6149,13 +6189,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0^5", "target": "P c0 d0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0^5", "target": "P c0 d0^4", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P c0 d0^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P c0 d0^4", "target": "P^2 d0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_P c0 d0^4", "target": "P^2 d0^4", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^3 D c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6184,13 +6224,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0^3 g", "target": "c0 d0 e0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0^3 g", "target": "c0 d0 e0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 d0 e0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0 e0^3", "target": "d0^4 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0 e0^3", "target": "d0^4 e0", "attributes": ["dr", "n0"] }, 
     {"source": "D h1^2 d0 e0^2", "target": "D h1^3 d0 e0^2"}, 
     {
       "source": "D c0 d0^3", 
@@ -6206,7 +6246,7 @@
     {
       "source": "_P^2 D h1^2 d0 e0", 
       "target": "P^3 D c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M P^3 h1^4", 
@@ -6217,7 +6257,7 @@
     {
       "source": "_P^3 D c0 e0", 
       "target": "_t P^2 h0 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^4 D h1 e0", 
@@ -6242,19 +6282,19 @@
     {
       "source": "_P^5 h1^2 d0 e0", 
       "target": "P^6 c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^6 c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^6 c0 e0", "target": "P^7 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^6 c0 e0", "target": "P^7 e0", "attributes": ["dr", "n0"] }, 
     { "source": "_t h0 e0^2 g^2", "target": "D h1 e0^3", "attributes": ["hh1"] }, 
     {
       "source": "_t h0 e0^2 g^2", 
       "target": "D h1^2 d0 e0^2", 
-      "attributes": ["dr", "2"]
+      "attributes": ["dr", "n2"]
     }, 
     {
       "source": "M h1^2 d0^2", 
@@ -6269,7 +6309,7 @@
     {
       "source": "_D h1^2 d0 e0^2", 
       "target": "D c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "h1 e0^2 g^2", "target": "h1^2 e0^2 g^2"}, 
     {
@@ -6278,7 +6318,11 @@
       "attributes": ["h1tower"]
     }, 
     {"source": "_D c0 d0^3", "target": "_D h1 c0 d0^3"}, 
-    { "source": "_D c0 d0^3", "target": "_t h0 d0^4 e0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_D c0 d0^3", 
+      "target": "_t h0 d0^4 e0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "M P^2 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6292,7 +6336,7 @@
     {
       "source": "_P D^2 h1^4 d0", 
       "target": "_M P^3 h1^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D h1^3 d0 e0^2", 
@@ -6312,7 +6356,7 @@
     {
       "source": "_P^3 D h1 c0 e0", 
       "target": "P^4 D h1 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P c0 d0^3 e0", 
@@ -6332,14 +6376,14 @@
     {
       "source": "_P^2 h1^2 d0^4", 
       "target": "P^3 c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^3 c0 d0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^3 c0 d0^3", "target": "P^4 d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_P^3 c0 d0^3", "target": "P^4 d0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^4 D h1^4 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6360,26 +6404,30 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "M d0 e0", "target": "M h1^2 d0^2", "attributes": ["dr", "2"] }, 
+    { "source": "M d0 e0", "target": "M h1^2 d0^2", "attributes": ["dr", "n2"] }, 
     {
       "source": "_M h1^2 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M h1^2 d0^2", "target": "M P c0 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_M h1^2 d0^2", "target": "M P c0 d0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_M P c0 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P c0 d0", "target": "M P^2 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P c0 d0", "target": "M P^2 d0", "attributes": ["dr", "n0"] }, 
     {"source": "D^2 d0^2", "target": "D^2 h1 d0^2"}, 
     {
       "source": "D h1 e0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "D h1 e0^3", "target": "D h1^3 d0 e0^2", "attributes": ["dr", "2"] }, 
+    {
+      "source": "D h1 e0^3", 
+      "target": "D h1^3 d0 e0^2", 
+      "attributes": ["dr", "n2"]
+    }, 
     {
       "source": "h1^2 e0^2 g^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6393,7 +6441,7 @@
     {
       "source": "_D h1 c0 d0^3", 
       "target": "P D h1 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 e0^4", 
@@ -6413,7 +6461,7 @@
     {
       "source": "_h1^2 d0^4 e0", 
       "target": "P c0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P c0 d0^3 e0", 
@@ -6423,7 +6471,7 @@
     {
       "source": "_P c0 d0^3 e0", 
       "target": "P^2 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 D c0 d0^2", 
@@ -6443,7 +6491,7 @@
     {
       "source": "_P^4 D h1^2 e0", 
       "target": "_P^4 D h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^5 c0 d0^2", 
@@ -6463,27 +6511,27 @@
     {
       "source": "_P^7 h1^2 e0", 
       "target": "_P^7 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "e0 g^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "e0 g^3", "target": "h1^2 e0^2 g^2", "attributes": ["dr", "2"] }, 
+    { "source": "e0 g^3", "target": "h1^2 e0^2 g^2", "attributes": ["dr", "n2"] }, 
     {
       "source": "_h1^2 e0^2 g^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0^2 g^2", "target": "c0 e0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0^2 g^2", "target": "c0 e0^4", "attributes": ["dr", "n0"] }, 
     {"source": "D^2 h1 d0^2", "target": "D^2 h1^2 d0^2"}, 
     {
       "source": "_c0 e0^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 e0^4", "target": "d0^3 e0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 e0^4", "target": "d0^3 e0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "D c0 d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6502,7 +6550,7 @@
     {
       "source": "_P D h1^2 d0^3", 
       "target": "P^2 D c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^3 c0", 
@@ -6513,7 +6561,7 @@
     {
       "source": "_P^2 D c0 d0^2", 
       "target": "_t P^2 h0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 D h1 d0^2", 
@@ -6538,14 +6586,14 @@
     {
       "source": "_P^4 h1^2 d0^3", 
       "target": "P^5 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^5 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^5 c0 d0^2", "target": "P^6 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_P^5 c0 d0^2", "target": "P^6 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^9 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6560,7 +6608,7 @@
     {
       "source": "_D h1^2 e0^3", 
       "target": "D c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P c0 e0", 
@@ -6571,7 +6619,7 @@
     {
       "source": "_D c0 d0^2 e0", 
       "target": "_t h0 d0^3 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^2 e0", 
@@ -6588,7 +6636,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^2 h1^2 d0", "target": "M P^3 c0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^2 h1^2 d0", "target": "M P^3 c0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P D h1 d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6602,7 +6650,7 @@
     {
       "source": "_P^2 D h1 c0 d0^2", 
       "target": "P^3 D h1 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^4 h1", 
@@ -6627,7 +6675,7 @@
     {
       "source": "_P^2 h1^2 d0^3 e0", 
       "target": "P^3 c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^3 c0 d0^2 e0", 
@@ -6637,7 +6685,7 @@
     {
       "source": "_P^3 c0 d0^2 e0", 
       "target": "P^4 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^4 D c0 d0", 
@@ -6661,19 +6709,19 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M h1^2 d0 e0", "target": "M P c0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_M h1^2 d0 e0", "target": "M P c0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_M P c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P c0 e0", "target": "M P^2 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P c0 e0", "target": "M P^2 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "D^2 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "D^2 d0 e0", "target": "D^2 h1^2 d0^2", "attributes": ["dr", "2"] }, 
+    { "source": "D^2 d0 e0", "target": "D^2 h1^2 d0^2", "attributes": ["dr", "n2"] }, 
     {"source": "D h1 e0^2 g", "target": "D h1^2 e0^2 g"}, 
     {
       "source": "_D h1 c0 d0^2 e0", 
@@ -6683,7 +6731,7 @@
     {
       "source": "_D h1 c0 d0^2 e0", 
       "target": "P D h1 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 e0^3 g", 
@@ -6700,19 +6748,19 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^3 h1 c0", "target": "M P^4 h1", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^3 h1 c0", "target": "M P^4 h1", "attributes": ["dr", "n0"] }, 
     {
       "source": "_h1^2 d0^3 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0^3 e0^2", "target": "c0 d0^5", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0^3 e0^2", "target": "c0 d0^5", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 d0^5", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^5", "target": "P d0^5", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^5", "target": "P d0^5", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^2 D c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6727,13 +6775,13 @@
     {
       "source": "_P^3 D h1^2 d0^2", 
       "target": "P^4 D c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "_P^4 D c0 d0", "target": "_P^4 D h1 c0 d0"}, 
     {
       "source": "_P^4 D c0 d0", 
       "target": "_t P^4 h0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^5 D h1 d0", 
@@ -6755,7 +6803,11 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^6 h1^2 d0^2", "target": "P^7 c0 d0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P^6 h1^2 d0^2", 
+      "target": "P^7 c0 d0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "P^8 h1 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6767,13 +6819,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0 g^3", "target": "c0 e0^3 g", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0 g^3", "target": "c0 e0^3 g", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 e0^3 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 e0^3 g", "target": "d0^2 e0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 e0^3 g", "target": "d0^2 e0^3", "attributes": ["dr", "n0"] }, 
     {"source": "D h1^2 e0^2 g", "target": "D h1^3 e0^2 g"}, 
     {
       "source": "D c0 d0 e0^2", 
@@ -6789,7 +6841,7 @@
     {
       "source": "_P D h1^2 d0^2 e0", 
       "target": "P^2 D c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P D^2 h1^2 c0 d0", 
@@ -6800,7 +6852,7 @@
     {
       "source": "_P^2 D c0 d0 e0", 
       "target": "_t P h0 d0^5", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 D^2 h1^2 d0", 
@@ -6820,7 +6872,7 @@
     {
       "source": "_P^4 D h1 c0 d0", 
       "target": "P^5 D h1 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 c0 d0 e0^2", 
@@ -6840,27 +6892,27 @@
     {
       "source": "_P^4 h1^2 d0^2 e0", 
       "target": "P^5 c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^5 c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^5 c0 d0 e0", "target": "P^6 d0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^5 c0 d0 e0", "target": "P^6 d0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^7 h1 c0 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^7 h1 c0 d0", "target": "P^8 h1 d0", "attributes": ["dr", "1"] }, 
+    { "source": "_P^7 h1 c0 d0", "target": "P^8 h1 d0", "attributes": ["dr", "n1"] }, 
     {
       "source": "P^9 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
     { "source": "_t h0 g^4", "target": "D h1 e0 g^2", "attributes": ["hh1"] }, 
-    { "source": "_t h0 g^4", "target": "D h1^2 e0^2 g", "attributes": ["dr", "2"] }, 
+    { "source": "_t h0 g^4", "target": "D h1^2 e0^2 g", "attributes": ["dr", "n2"] }, 
     {
       "source": "M h1^2 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6874,7 +6926,7 @@
     {
       "source": "_D h1^2 e0^2 g", 
       "target": "D c0 d0 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M c0 d0^2", 
@@ -6885,7 +6937,7 @@
     {
       "source": "_D c0 d0 e0^2", 
       "target": "_t h0 d0^2 e0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P d0^2", 
@@ -6900,7 +6952,7 @@
     {
       "source": "_M P^2 h1^2 e0", 
       "target": "P D^2 h1^2 c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D h1^3 e0^2 g", 
@@ -6920,7 +6972,7 @@
     {
       "source": "_P D^2 h1^2 c0 d0", 
       "target": "P^2 D^2 h1^2 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D h1 d0^4", 
@@ -6935,7 +6987,7 @@
     {
       "source": "_P^2 D h1 c0 d0 e0", 
       "target": "P^3 D h1 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 d0^4 e0", 
@@ -6955,14 +7007,18 @@
     {
       "source": "_P h1^2 d0^5", 
       "target": "P^3 c0 d0 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^3 c0 d0 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^3 c0 d0 e0^2", "target": "P^3 d0^4", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P^3 c0 d0 e0^2", 
+      "target": "P^3 d0^4", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "P^4 D c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -6989,19 +7045,19 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "M e0 g", "target": "M h1^2 e0^2", "attributes": ["dr", "2"] }, 
+    { "source": "M e0 g", "target": "M h1^2 e0^2", "attributes": ["dr", "n2"] }, 
     {
       "source": "_M h1^2 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M h1^2 e0^2", "target": "M c0 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_M h1^2 e0^2", "target": "M c0 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_M c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M c0 d0^2", "target": "M P d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_M c0 d0^2", "target": "M P d0^2", "attributes": ["dr", "n0"] }, 
     {"source": "D^2 e0^2", "target": "D^2 h1 e0^2"}, 
     {
       "source": "D h1 e0 g^2", 
@@ -7011,7 +7067,7 @@
     {
       "source": "D h1 e0 g^2", 
       "target": "D h1^3 e0^2 g", 
-      "attributes": ["dr", "2"]
+      "attributes": ["dr", "n2"]
     }, 
     {
       "source": "_D^2 h1^2 d0 e0", 
@@ -7021,7 +7077,7 @@
     {
       "source": "_D^2 h1^2 d0 e0", 
       "target": "_D^2 h1^4 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_D h1 c0 d0 e0^2", 
@@ -7031,7 +7087,7 @@
     {
       "source": "_D h1 c0 d0 e0^2", 
       "target": "D h1 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "c0 e0^2 g^2", "target": "h1 c0 e0^2 g^2"}, 
     {
@@ -7047,14 +7103,14 @@
     {
       "source": "_h1^2 d0^2 e0^3", 
       "target": "c0 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_c0 d0^4 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^4 e0", "target": "P d0^4 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^4 e0", "target": "P d0^4 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^2 D c0 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7073,7 +7129,7 @@
     {
       "source": "_P^3 D h1^2 d0 e0", 
       "target": "P^4 D c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M P^4 h1^4", 
@@ -7084,7 +7140,7 @@
     {
       "source": "_P^4 D c0 e0", 
       "target": "_t P^3 h0 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^5 D h1 e0", 
@@ -7109,14 +7165,14 @@
     {
       "source": "_P^6 h1^2 d0 e0", 
       "target": "P^7 c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^7 c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^7 c0 e0", "target": "P^8 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^7 c0 e0", "target": "P^8 e0", "attributes": ["dr", "n0"] }, 
     { "source": "_t M h0 e0 g", "target": "M D h1 d0", "attributes": ["hh1"] }, 
     {"source": "D^2 h1 e0^2", "target": "D^2 h1^2 e0^2"}, 
     {
@@ -7124,7 +7180,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 e0^2 g^2", "target": "d0 e0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 e0^2 g^2", "target": "d0 e0^4", "attributes": ["dr", "n0"] }, 
     {
       "source": "D c0 e0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7140,7 +7196,7 @@
     {
       "source": "_D h1^2 d0^4", 
       "target": "P^2 D c0 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^2 c0 d0", 
@@ -7151,7 +7207,7 @@
     {
       "source": "_P^2 D c0 e0^2", 
       "target": "_t P h0 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^3 d0", 
@@ -7166,7 +7222,7 @@
     {
       "source": "_P^2 D^2 h1^4 d0", 
       "target": "_M P^4 h1^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D P^2 h1 d0^3", 
@@ -7181,7 +7237,7 @@
     {
       "source": "_P^4 D h1 c0 e0", 
       "target": "P^5 D h1 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 c0 d0^3 e0", 
@@ -7201,14 +7257,14 @@
     {
       "source": "_P^3 h1^2 d0^4", 
       "target": "P^4 c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^4 c0 d0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^4 c0 d0^3", "target": "P^5 d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_P^4 c0 d0^3", "target": "P^5 d0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^5 D h1^4 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7230,14 +7286,22 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_D h1^2 e0 g^2", "target": "D c0 e0^3", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_D h1^2 e0 g^2", 
+      "target": "D c0 e0^3", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "M c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
     {"source": "_D c0 e0^3", "target": "_D h1 c0 e0^3"}, 
-    { "source": "_D c0 e0^3", "target": "_t h0 d0 e0^4", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_D c0 e0^3", 
+      "target": "_t h0 d0 e0^4", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "D^2 h1^2 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7256,7 +7320,7 @@
     {
       "source": "_M P h1^2 d0^2", 
       "target": "M P^2 c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D^2 c0 d0^2", 
@@ -7268,7 +7332,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^2 c0 d0", "target": "M P^3 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^2 c0 d0", "target": "M P^3 d0", "attributes": ["dr", "n0"] }, 
     {
       "source": "h1^2 c0 e0^2 g^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7287,7 +7351,7 @@
     {
       "source": "_P^2 D h1 c0 e0^2", 
       "target": "D P^2 h1 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 d0^3 e0^2", 
@@ -7303,7 +7367,7 @@
     {
       "source": "_P h1^2 d0^4 e0", 
       "target": "P^2 c0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^2 c0 d0^3 e0", 
@@ -7313,7 +7377,7 @@
     {
       "source": "_P^2 c0 d0^3 e0", 
       "target": "P^3 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 D c0 d0^2", 
@@ -7333,7 +7397,7 @@
     {
       "source": "_P^5 D h1^2 e0", 
       "target": "_P^5 D h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^6 c0 d0^2", 
@@ -7353,7 +7417,7 @@
     {
       "source": "_P^8 h1^2 e0", 
       "target": "_P^8 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M g^2", "target": "M h1 g^2"}, 
     {
@@ -7361,19 +7425,19 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M h1^2 e0 g", "target": "M c0 d0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_M h1^2 e0 g", "target": "M c0 d0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "D^2 e0 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "D^2 e0 g", "target": "D^2 h1^2 e0^2", "attributes": ["dr", "2"] }, 
+    { "source": "D^2 e0 g", "target": "D^2 h1^2 e0^2", "attributes": ["dr", "n2"] }, 
     {
       "source": "_M c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M c0 d0 e0", "target": "M P d0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_M c0 d0 e0", "target": "M P d0 e0", "attributes": ["dr", "n0"] }, 
     {"source": "M D h1^2 d0", "target": "M D h1^3 d0"}, 
     {
       "source": "_D^2 h1^2 e0^2", 
@@ -7383,7 +7447,7 @@
     {
       "source": "_D^2 h1^2 e0^2", 
       "target": "D^2 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 e0 g^3", 
@@ -7393,7 +7457,7 @@
     {
       "source": "c0 e0 g^3", 
       "target": "h1^2 c0 e0^2 g^2", 
-      "attributes": ["dr", "2"]
+      "attributes": ["dr", "n2"]
     }, 
     {
       "source": "_D h1 c0 e0^3", 
@@ -7403,7 +7467,7 @@
     {
       "source": "_D h1 c0 e0^3", 
       "target": "D h1 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     { "source": "e0^5", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     {
@@ -7414,7 +7478,7 @@
     {
       "source": "_h1^2 d0 e0^4", 
       "target": "c0 d0^3 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P D^2 h1 d0^2", 
@@ -7426,7 +7490,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^3 e0^2", "target": "d0^6", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^3 e0^2", "target": "d0^6", "attributes": ["dr", "n0"] }, 
     {
       "source": "P D c0 d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7441,7 +7505,7 @@
     {
       "source": "_P^2 D h1^2 d0^3", 
       "target": "P^3 D c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^4 c0", 
@@ -7452,7 +7516,7 @@
     {
       "source": "_P^3 D c0 d0^2", 
       "target": "_t P^3 h0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     { "source": "M P^5", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     {
@@ -7478,21 +7542,21 @@
     {
       "source": "_P^5 h1^2 d0^3", 
       "target": "P^6 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^6 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^6 c0 d0^2", "target": "P^7 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_P^6 c0 d0^2", "target": "P^7 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^10 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
     { "source": "_t M h0 g^2", "target": "M D h1 e0", "attributes": ["hh1"] }, 
-    { "source": "_t M h0 g^2", "target": "M D h1^2 d0", "attributes": ["dr", "2"] }, 
+    { "source": "_t M h0 g^2", "target": "M D h1^2 d0", "attributes": ["dr", "n2"] }, 
     {"source": "M h1 g^2", "target": "M h1^2 g^2"}, 
     {
       "source": "M D h1^3 d0", 
@@ -7504,7 +7568,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 e0 g^3", "target": "e0^5", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 e0 g^3", "target": "e0^5", "attributes": ["dr", "n0"] }, 
     {
       "source": "_D^2 h1 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7513,7 +7577,7 @@
     {
       "source": "_D^2 h1 c0 d0^2", 
       "target": "P D^2 h1 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "D c0 e0^2 g", "target": "D h1 c0 e0^2 g"}, 
     { "source": "_t h0 e0^5", "target": "D h1 d0^2 e0^2", "attributes": ["hh1"] }, 
@@ -7525,7 +7589,7 @@
     {
       "source": "_D h1^2 d0^3 e0", 
       "target": "P D c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^2 c0 e0", 
@@ -7536,7 +7600,7 @@
     {
       "source": "_P D c0 d0^2 e0", 
       "target": "_t h0 d0^6", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^3 e0", 
@@ -7548,13 +7612,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^3 h1^2 d0", "target": "M P^4 c0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^3 h1^2 d0", "target": "M P^4 c0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_M P^4 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^4 c0", "target": "M P^5", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^4 c0", "target": "M P^5", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^2 D h1 d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7568,7 +7632,7 @@
     {
       "source": "_P^3 D h1 c0 d0^2", 
       "target": "P^4 D h1 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P c0 d0^5", 
@@ -7588,7 +7652,7 @@
     {
       "source": "_P^3 h1^2 d0^3 e0", 
       "target": "P^4 c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^4 c0 d0^2 e0", 
@@ -7598,7 +7662,7 @@
     {
       "source": "_P^4 c0 d0^2 e0", 
       "target": "P^5 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^5 D c0 d0", 
@@ -7620,7 +7684,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "M D h1 e0", "target": "M D h1^3 d0", "attributes": ["dr", "2"] }, 
+    { "source": "M D h1 e0", "target": "M D h1^3 d0", "attributes": ["dr", "n2"] }, 
     {"source": "M h1^2 g^2", "target": "M h1^3 g^2"}, 
     {"source": "D^3 h1 d0", "target": "D^3 h1^2 d0"}, 
     {
@@ -7629,7 +7693,7 @@
       "attributes": ["h1tower"]
     }, 
     {"source": "_D c0 e0^2 g", "target": "_D h1 c0 e0^2 g"}, 
-    { "source": "_D c0 e0^2 g", "target": "_t h0 e0^5", "attributes": ["dr", "0"] }, 
+    { "source": "_D c0 e0^2 g", "target": "_t h0 e0^5", "attributes": ["dr", "n0"] }, 
     {
       "source": "M d0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7643,7 +7707,7 @@
     {
       "source": "_M P h1^2 d0 e0", 
       "target": "M P^2 c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D^2 c0 d0 e0", 
@@ -7655,7 +7719,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^2 c0 e0", "target": "M P^3 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^2 c0 e0", "target": "M P^3 e0", "attributes": ["dr", "n0"] }, 
     {"source": "D h1 c0 e0^2 g", "target": "D h1^2 c0 e0^2 g"}, 
     {
       "source": "P D^2 d0 e0", 
@@ -7675,7 +7739,7 @@
     {
       "source": "_P D h1 c0 d0^2 e0", 
       "target": "P^2 D h1 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 d0^2 e0^3", 
@@ -7692,13 +7756,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0^6", "target": "P c0 d0^5", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0^6", "target": "P c0 d0^5", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P c0 d0^5", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P c0 d0^5", "target": "P^2 d0^5", "attributes": ["dr", "0"] }, 
+    { "source": "_P c0 d0^5", "target": "P^2 d0^5", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^3 D c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7717,7 +7781,7 @@
     {
       "source": "_P^4 D h1^2 d0^2", 
       "target": "P^5 D c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^6 D h1 d0", 
@@ -7739,25 +7803,29 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^7 h1^2 d0^2", "target": "P^8 c0 d0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P^7 h1^2 d0^2", 
+      "target": "P^8 c0 d0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "_P^8 c0 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^8 c0 d0", "target": "P^9 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^8 c0 d0", "target": "P^9 d0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_M h1^2 g^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M h1^2 g^2", "target": "M c0 e0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_M h1^2 g^2", "target": "M c0 e0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_M c0 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M c0 e0^2", "target": "M d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_M c0 e0^2", "target": "M d0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_D^2 h1^2 e0 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7766,7 +7834,7 @@
     {
       "source": "_D^2 h1^2 e0 g", 
       "target": "D^2 c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M h1^3 g^2", "target": "M h1^4 g^2"}, 
     {
@@ -7782,7 +7850,7 @@
     {
       "source": "_D^2 c0 d0 e0", 
       "target": "P D^2 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "D^3 h1^2 d0", "target": "D^3 h1^3 d0"}, 
     {
@@ -7793,7 +7861,7 @@
     {
       "source": "_D h1 c0 e0^2 g", 
       "target": "D h1 d0^2 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "e0^4 g", "target": "h1 e0^4 g"}, 
     {
@@ -7801,7 +7869,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0^5", "target": "c0 d0^2 e0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0^5", "target": "c0 d0^2 e0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "D h1^2 c0 e0^2 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7812,7 +7880,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^2 e0^3", "target": "d0^5 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^2 e0^3", "target": "d0^5 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P D c0 d0 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7827,7 +7895,7 @@
     {
       "source": "_P^2 D h1^2 d0^2 e0", 
       "target": "P^3 D c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 D^2 h1^2 c0 d0", 
@@ -7838,7 +7906,7 @@
     {
       "source": "_P^3 D c0 d0 e0", 
       "target": "_t P^2 h0 d0^5", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 D^2 h1^2 d0", 
@@ -7858,7 +7926,7 @@
     {
       "source": "_P^5 D h1 c0 d0", 
       "target": "P^6 D h1 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 c0 d0^4", 
@@ -7878,14 +7946,14 @@
     {
       "source": "_P^5 h1^2 d0^2 e0", 
       "target": "P^6 c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^6 c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^6 c0 d0 e0", "target": "P^7 d0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^6 c0 d0 e0", "target": "P^7 d0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^10 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -7900,13 +7968,13 @@
     {
       "source": "_M D h1^2 e0", 
       "target": "_M D h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     { "source": "_t D^2 h0 g^2", "target": "D^3 h1 e0", "attributes": ["hh1"] }, 
     {
       "source": "_t D^2 h0 g^2", 
       "target": "D^3 h1^2 d0", 
-      "attributes": ["dr", "1"]
+      "attributes": ["dr", "n1"]
     }, 
     {"source": "M h1^4 g^2", "target": "M h1^5 g^2"}, 
     {
@@ -7917,7 +7985,7 @@
     {
       "source": "D c0 e0 g^2", 
       "target": "D h1^2 c0 e0^2 g", 
-      "attributes": ["dr", "2"]
+      "attributes": ["dr", "n2"]
     }, 
     {
       "source": "D^3 h1^3 d0", 
@@ -7933,7 +8001,7 @@
     {
       "source": "_D h1^2 d0^2 e0^2", 
       "target": "P D c0 d0 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "h1 e0^4 g", "target": "h1^2 e0^4 g"}, 
     {
@@ -7945,7 +8013,7 @@
     {
       "source": "_P D c0 d0 e0^2", 
       "target": "_t h0 d0^5 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^2 d0^2", 
@@ -7960,7 +8028,7 @@
     {
       "source": "_M P^3 h1^2 e0", 
       "target": "P^2 D^2 h1^2 c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P D^2 h1^4 d0^2", 
@@ -7975,7 +8043,7 @@
     {
       "source": "_P^2 D^2 h1^2 c0 d0", 
       "target": "P^3 D^2 h1^2 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P D h1 d0^4", 
@@ -7990,7 +8058,7 @@
     {
       "source": "_P^3 D h1 c0 d0 e0", 
       "target": "P^4 D h1 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P c0 d0^4 e0", 
@@ -8010,14 +8078,14 @@
     {
       "source": "_P^2 h1^2 d0^5", 
       "target": "P^3 c0 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^3 c0 d0^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^3 c0 d0^4", "target": "P^4 d0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_P^3 c0 d0^4", "target": "P^4 d0^4", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^5 D c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -8046,13 +8114,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "D^3 h1 e0", "target": "D^3 h1^3 d0", "attributes": ["dr", "1"] }, 
+    { "source": "D^3 h1 e0", "target": "D^3 h1^3 d0", "attributes": ["dr", "n1"] }, 
     {"source": "M c0 e0 g", "target": "M h1 c0 e0 g"}, 
     {"source": "_D c0 e0 g^2", "target": "_D h1 c0 e0 g^2"}, 
     {
       "source": "_D c0 e0 g^2", 
       "target": "_t h0 e0^4 g", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M d0^2 e0", 
@@ -8064,7 +8132,11 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M h1^2 d0^3", "target": "M P c0 d0^2", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_M h1^2 d0^3", 
+      "target": "M P c0 d0^2", 
+      "attributes": ["dr", "n0"]
+    }, 
     {"source": "M h1^5 g^2", "target": "M h1^6 g^2"}, 
     {"source": "D^2 c0 e0^2", "target": "D^2 h1 c0 e0^2"}, 
     {
@@ -8072,7 +8144,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P c0 d0^2", "target": "M P^2 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_M P c0 d0^2", "target": "M P^2 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "D^2 d0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -8086,7 +8158,7 @@
     {
       "source": "_P D^2 h1^2 d0 e0", 
       "target": "_P D^2 h1^4 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D h1 d0 e0^3", 
@@ -8106,7 +8178,7 @@
     {
       "source": "_P D h1 c0 d0 e0^2", 
       "target": "P D h1 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 d0 e0^4", 
@@ -8126,7 +8198,7 @@
     {
       "source": "_h1^2 d0^5 e0", 
       "target": "P c0 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P c0 d0^4 e0", 
@@ -8136,7 +8208,7 @@
     {
       "source": "_P c0 d0^4 e0", 
       "target": "P^2 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 D c0 d0^3", 
@@ -8156,7 +8228,7 @@
     {
       "source": "_P^4 D h1^2 d0 e0", 
       "target": "P^5 D c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M P^5 h1^4", 
@@ -8167,7 +8239,7 @@
     {
       "source": "_P^5 D c0 e0", 
       "target": "_t P^4 h0 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^6 D h1 e0", 
@@ -8192,21 +8264,21 @@
     {
       "source": "_P^7 h1^2 d0 e0", 
       "target": "P^8 c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^8 c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^8 c0 e0", "target": "P^9 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^8 c0 e0", "target": "P^9 e0", "attributes": ["dr", "n0"] }, 
     {"source": "M^2 h1", "target": "M^2 h1^2"}, 
     {
       "source": "_M c0 e0 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M c0 e0 g", "target": "M d0^2 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_M c0 e0 g", "target": "M d0^2 e0", "attributes": ["dr", "n0"] }, 
     {"source": "M D h1^2 g", "target": "M D h1^3 g"}, 
     {
       "source": "M D c0 d0", 
@@ -8218,7 +8290,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_D^2 c0 e0^2", "target": "D^2 d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_D^2 c0 e0^2", "target": "D^2 d0^3", "attributes": ["dr", "n0"] }, 
     {"source": "M h1 c0 e0 g", "target": "M h1^2 c0 e0 g"}, 
     {
       "source": "_D h1 c0 e0 g^2", 
@@ -8228,7 +8300,7 @@
     {
       "source": "_D h1 c0 e0 g^2", 
       "target": "D h1 d0 e0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_D^3 h1^4 d0", 
@@ -8240,7 +8312,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "d0 e0 g^3", "target": "h1^2 e0^4 g", "attributes": ["dr", "2"] }, 
+    { "source": "d0 e0 g^3", "target": "h1^2 e0^4 g", "attributes": ["dr", "n2"] }, 
     {"source": "M h1^6 g^2", "target": "M h1^7 g^2"}, 
     {"source": "D^2 h1 c0 e0^2", "target": "D^2 h1^2 c0 e0^2"}, 
     {
@@ -8248,13 +8320,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0^4 g", "target": "c0 d0 e0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0^4 g", "target": "c0 d0 e0^4", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 d0 e0^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0 e0^4", "target": "d0^4 e0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0 e0^4", "target": "d0^4 e0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "P D c0 e0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -8273,7 +8345,7 @@
     {
       "source": "_P D h1^2 d0^4", 
       "target": "P^2 D c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^3 c0 d0", 
@@ -8284,7 +8356,7 @@
     {
       "source": "_P^2 D c0 d0^3", 
       "target": "_t P^2 h0 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^4 d0", 
@@ -8299,7 +8371,7 @@
     {
       "source": "_P^3 D^2 h1^4 d0", 
       "target": "_M P^5 h1^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 D h1 d0^3", 
@@ -8314,7 +8386,7 @@
     {
       "source": "_P^5 D h1 c0 e0", 
       "target": "P^6 D h1 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 c0 d0^3 e0", 
@@ -8334,14 +8406,14 @@
     {
       "source": "_P^4 h1^2 d0^4", 
       "target": "P^5 c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^5 c0 d0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^5 c0 d0^3", "target": "P^6 d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_P^5 c0 d0^3", "target": "P^6 d0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^6 D h1^4 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -8367,7 +8439,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M D h1^2 g", "target": "M D c0 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_M D h1^2 g", "target": "M D c0 d0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_D^3 h1^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -8376,7 +8448,7 @@
     {
       "source": "_D^3 h1^2 e0", 
       "target": "_D^3 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1^3 g", "target": "M D h1^4 g"}, 
     {"source": "M h1^2 c0 e0 g", "target": "M h1^3 c0 e0 g"}, 
@@ -8394,7 +8466,7 @@
     {
       "source": "_D h1^2 d0 e0^3", 
       "target": "P D c0 e0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M h1^7 g^2", "target": "M h1^8 g^2"}, 
     {
@@ -8411,7 +8483,7 @@
     {
       "source": "_P D c0 e0^3", 
       "target": "_t h0 d0^4 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^2 d0 e0", 
@@ -8426,7 +8498,7 @@
     {
       "source": "_M P^2 h1^2 d0^2", 
       "target": "M P^3 c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P D^2 c0 d0^2", 
@@ -8438,7 +8510,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^3 c0 d0", "target": "M P^4 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^3 c0 d0", "target": "M P^4 d0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^2 D^2 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -8457,7 +8529,7 @@
     {
       "source": "_P^2 D h1 c0 d0^3", 
       "target": "P^3 D h1 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 d0^6", 
@@ -8477,7 +8549,7 @@
     {
       "source": "_P^2 h1^2 d0^4 e0", 
       "target": "P^3 c0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^3 c0 d0^3 e0", 
@@ -8487,7 +8559,7 @@
     {
       "source": "_P^3 c0 d0^3 e0", 
       "target": "P^4 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^4 D c0 d0^2", 
@@ -8507,7 +8579,7 @@
     {
       "source": "_P^6 D h1^2 e0", 
       "target": "_P^6 D h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^7 c0 d0^2", 
@@ -8527,14 +8599,14 @@
     {
       "source": "_P^9 h1^2 e0", 
       "target": "_P^9 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D D1 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "D D1 e0", "target": "M^2 h1^2", "attributes": ["dr", "2"] }, 
+    { "source": "D D1 e0", "target": "M^2 h1^2", "attributes": ["dr", "n2"] }, 
     {
       "source": "_M D h1 c0 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -8543,7 +8615,7 @@
     {
       "source": "_M D h1 c0 d0", 
       "target": "M P D h1 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M c0 g^2", "target": "M h1 c0 g^2"}, 
     {"source": "M D h1^4 g", "target": "M D h1^5 g"}, 
@@ -8560,7 +8632,7 @@
     {
       "source": "D^2 c0 e0 g", 
       "target": "D^2 h1^2 c0 e0^2", 
-      "attributes": ["dr", "2"]
+      "attributes": ["dr", "n2"]
     }, 
     {
       "source": "_M h1^2 d0^2 e0", 
@@ -8570,7 +8642,7 @@
     {
       "source": "_M h1^2 d0^2 e0", 
       "target": "M P c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M P c0 d0 e0", 
@@ -8580,7 +8652,7 @@
     {
       "source": "_M P c0 d0 e0", 
       "target": "M P^2 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M h1^3 c0 e0 g", "target": "M h1^4 c0 e0 g"}, 
     {
@@ -8596,7 +8668,7 @@
     {
       "source": "_D^2 h1^2 d0^3", 
       "target": "P D^2 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "D h1 e0^4", "target": "D h1^2 e0^4"}, 
     {
@@ -8607,7 +8679,7 @@
     {
       "source": "_P D^2 c0 d0^2", 
       "target": "P^2 D^2 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M h1^8 g^2", 
@@ -8622,7 +8694,7 @@
     {
       "source": "_P D h1 c0 e0^3", 
       "target": "P D h1 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 e0^5", 
@@ -8639,13 +8711,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0^4 e0^2", "target": "c0 d0^6", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0^4 e0^2", "target": "c0 d0^6", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 d0^6", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^6", "target": "P d0^6", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^6", "target": "P d0^6", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^2 D c0 d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -8664,7 +8736,7 @@
     {
       "source": "_P^3 D h1^2 d0^3", 
       "target": "P^4 D c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^5 c0", 
@@ -8675,7 +8747,7 @@
     {
       "source": "_P^4 D c0 d0^2", 
       "target": "_t P^4 h0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^5 D h1 d0^2", 
@@ -8700,14 +8772,14 @@
     {
       "source": "_P^6 h1^2 d0^3", 
       "target": "P^7 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^7 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^7 c0 d0^2", "target": "P^8 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_P^7 c0 d0^2", "target": "P^8 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^11 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -8719,14 +8791,18 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M c0 g^2", "target": "M d0 e0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_M c0 g^2", "target": "M d0 e0^2", "attributes": ["dr", "n0"] }, 
     {"source": "M D c0 e0", "target": "M D h1 c0 e0"}, 
     {
       "source": "_D^2 c0 e0 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_D^2 c0 e0 g", "target": "D^2 d0^2 e0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_D^2 c0 e0 g", 
+      "target": "D^2 d0^2 e0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {"source": "M h1 c0 g^2", "target": "M h1^2 c0 g^2"}, 
     { "source": "_t M h0 d0 e0^2", "target": "M P D h1 e0", "attributes": ["hh1"] }, 
     {"source": "M D h1^5 g", "target": "M D h1^6 g"}, 
@@ -8736,7 +8812,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "e0^2 g^3", "target": "M h1^8 g^2", "attributes": ["dr", "8"] }, 
+    { "source": "e0^2 g^3", "target": "M h1^8 g^2", "attributes": ["dr", "n8"] }, 
     {
       "source": "_t D^2 h0 d0^2 e0", 
       "target": "P D^3 h1 d0", 
@@ -8747,14 +8823,14 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0 e0 g^3", "target": "c0 e0^5", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0 e0 g^3", "target": "c0 e0^5", "attributes": ["dr", "n0"] }, 
     {"source": "M h1^4 c0 e0 g", "target": "M h1^5 c0 e0 g"}, 
     {
       "source": "_c0 e0^5", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 e0^5", "target": "d0^3 e0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 e0^5", "target": "d0^3 e0^3", "attributes": ["dr", "n0"] }, 
     {"source": "D h1^2 e0^4", "target": "D h1^3 e0^4"}, 
     {
       "source": "D c0 d0^2 e0^2", 
@@ -8770,7 +8846,7 @@
     {
       "source": "_P D h1^2 d0^3 e0", 
       "target": "P^2 D c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^3 c0 e0", 
@@ -8781,7 +8857,7 @@
     {
       "source": "_P^2 D c0 d0^2 e0", 
       "target": "_t P h0 d0^6", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^4 e0", 
@@ -8793,7 +8869,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^4 h1^2 d0", "target": "M P^5 c0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^4 h1^2 d0", "target": "M P^5 c0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^3 D h1 d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -8807,7 +8883,7 @@
     {
       "source": "_P^4 D h1 c0 d0^2", 
       "target": "P^5 D h1 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^6 h1", 
@@ -8832,7 +8908,7 @@
     {
       "source": "_P^4 h1^2 d0^3 e0", 
       "target": "P^5 c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^5 c0 d0^2 e0", 
@@ -8842,7 +8918,7 @@
     {
       "source": "_P^5 c0 d0^2 e0", 
       "target": "P^6 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^6 D c0 d0", 
@@ -8869,14 +8945,14 @@
     {
       "source": "_M D c0 e0", 
       "target": "_t M h0 d0 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "D^2 M h1^2", "target": "D^2 M h1^3"}, 
     {"source": "_D^3 c0 d0", "target": "_D^3 h1 c0 d0"}, 
     {
       "source": "_D^3 c0 d0", 
       "target": "_t D^2 h0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1 c0 e0", "target": "M D h1^2 c0 e0"}, 
     {"source": "M h1^2 c0 g^2", "target": "M h1^3 c0 g^2"}, 
@@ -8889,7 +8965,7 @@
     {
       "source": "_t h0 e0^2 g^3", 
       "target": "D h1^2 e0^4", 
-      "attributes": ["dr", "2"]
+      "attributes": ["dr", "n2"]
     }, 
     {"source": "M D h1^6 g", "target": "M D h1^7 g"}, 
     {"source": "D^3 h1 c0 d0", "target": "D^3 h1^2 c0 d0"}, 
@@ -8901,7 +8977,7 @@
     {
       "source": "_D h1^2 e0^4", 
       "target": "D c0 d0^2 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P D^3 h1 d0", 
@@ -8917,7 +8993,7 @@
     {
       "source": "_D c0 d0^2 e0^2", 
       "target": "_t h0 d0^3 e0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M h1^5 c0 e0 g", "target": "M h1^6 c0 e0 g"}, 
     {
@@ -8933,7 +9009,7 @@
     {
       "source": "_M P^2 h1^2 d0 e0", 
       "target": "M P^3 c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P D^2 c0 d0 e0", 
@@ -8950,7 +9026,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^3 c0 e0", "target": "M P^4 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^3 c0 e0", "target": "M P^4 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^2 D^2 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -8969,7 +9045,7 @@
     {
       "source": "_P^2 D h1 c0 d0^2 e0", 
       "target": "P^3 D h1 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 d0^5 e0", 
@@ -8986,19 +9062,23 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^5 h1 c0", "target": "M P^6 h1", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^5 h1 c0", "target": "M P^6 h1", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P h1^2 d0^6", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1^2 d0^6", "target": "P^2 c0 d0^5", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P h1^2 d0^6", 
+      "target": "P^2 c0 d0^5", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "_P^2 c0 d0^5", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^2 c0 d0^5", "target": "P^3 d0^5", "attributes": ["dr", "0"] }, 
+    { "source": "_P^2 c0 d0^5", "target": "P^3 d0^5", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^4 D c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -9017,7 +9097,7 @@
     {
       "source": "_P^5 D h1^2 d0^2", 
       "target": "P^6 D c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^7 D h1 d0", 
@@ -9039,7 +9119,11 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^8 h1^2 d0^2", "target": "P^9 c0 d0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P^8 h1^2 d0^2", 
+      "target": "P^9 c0 d0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "P^10 h1 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -9050,7 +9134,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_D D1 h1^2 e0", "target": "_M^2 h1^4", "attributes": ["dr", "0"] }, 
+    { "source": "_D D1 h1^2 e0", "target": "_M^2 h1^4", "attributes": ["dr", "n0"] }, 
     {
       "source": "_M D h1 c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -9059,7 +9143,7 @@
     {
       "source": "_M D h1 c0 e0", 
       "target": "M P D h1 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "D^2 M h1^3", "target": "D^2 M h1^4"}, 
     {"source": "M e0^3", "target": "M h1 e0^3"}, 
@@ -9071,7 +9155,7 @@
     {
       "source": "_D^3 h1 c0 d0", 
       "target": "P D^3 h1 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M h1^2 d0 e0^2", 
@@ -9081,7 +9165,7 @@
     {
       "source": "_M h1^2 d0 e0^2", 
       "target": "M c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1^2 c0 e0", "target": "M D h1^3 c0 e0"}, 
     {
@@ -9089,7 +9173,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M c0 d0^3", "target": "M P d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_M c0 d0^3", "target": "M P d0^3", "attributes": ["dr", "n0"] }, 
     {"source": "M h1^3 c0 g^2", "target": "M h1^4 c0 g^2"}, 
     {"source": "D^2 d0 e0^2", "target": "D^2 h1 d0 e0^2"}, 
     {
@@ -9100,14 +9184,14 @@
     {
       "source": "_D^2 h1^2 d0^2 e0", 
       "target": "P D^2 c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D h1 e0^3 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "D h1 e0^3 g", "target": "D h1^3 e0^4", "attributes": ["dr", "2"] }, 
+    { "source": "D h1 e0^3 g", "target": "D h1^3 e0^4", "attributes": ["dr", "n2"] }, 
     {"source": "M D h1^7 g", "target": "M D h1^8 g"}, 
     {
       "source": "_M P D h1^4 d0", 
@@ -9127,7 +9211,7 @@
     {
       "source": "_P D^2 c0 d0 e0", 
       "target": "P^2 D^2 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_D h1 c0 d0^2 e0^2", 
@@ -9137,7 +9221,7 @@
     {
       "source": "_D h1 c0 d0^2 e0^2", 
       "target": "D h1 d0^5", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M h1^6 c0 e0 g", "target": "M h1^7 c0 e0 g"}, 
     {
@@ -9158,14 +9242,14 @@
     {
       "source": "_h1^2 d0^3 e0^3", 
       "target": "c0 d0^5 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_c0 d0^5 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^5 e0", "target": "P d0^5 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^5 e0", "target": "P d0^5 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P D c0 d0^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -9184,7 +9268,7 @@
     {
       "source": "_P^3 D h1^2 d0^2 e0", 
       "target": "P^4 D c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 D^2 h1^2 c0 d0", 
@@ -9195,7 +9279,7 @@
     {
       "source": "_P^4 D c0 d0 e0", 
       "target": "_t P^3 h0 d0^5", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^4 D^2 h1^2 d0", 
@@ -9215,7 +9299,7 @@
     {
       "source": "_P^6 D h1 c0 d0", 
       "target": "P^7 D h1 d0", 
-      "attributes": ["dr", "1"]
+      "attributes": ["dr", "n1"]
     }, 
     {
       "source": "P^4 c0 d0^4", 
@@ -9235,20 +9319,24 @@
     {
       "source": "_P^6 h1^2 d0^2 e0", 
       "target": "P^7 c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^7 c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^7 c0 d0 e0", "target": "P^8 d0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^7 c0 d0 e0", "target": "P^8 d0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^9 h1 c0 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^9 h1 c0 d0", "target": "P^10 h1 d0", "attributes": ["dr", "1"] }, 
+    {
+      "source": "_P^9 h1 c0 d0", 
+      "target": "P^10 h1 d0", 
+      "attributes": ["dr", "n1"]
+    }, 
     {
       "source": "P^11 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -9266,14 +9354,18 @@
     {
       "source": "_M P D h1^2 e0", 
       "target": "_M P D h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D^3 c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "D^3 c0 e0", "target": "D^3 h1^2 c0 d0", "attributes": ["dr", "2"] }, 
+    {
+      "source": "D^3 c0 e0", 
+      "target": "D^3 h1^2 c0 d0", 
+      "attributes": ["dr", "n2"]
+    }, 
     {"source": "M h1 e0^3", "target": "M h1^2 e0^3"}, 
     {"source": "M D h1^3 c0 e0", "target": "M D h1^4 c0 e0"}, 
     {
@@ -9286,7 +9378,11 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0^2 g^3", "target": "c0 e0^4 g", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_h1^2 e0^2 g^3", 
+      "target": "c0 e0^4 g", 
+      "attributes": ["dr", "n0"]
+    }, 
     {"source": "M h1^4 c0 g^2", "target": "M h1^5 c0 g^2"}, 
     {"source": "D^2 h1 d0 e0^2", "target": "D^2 h1^2 d0 e0^2"}, 
     {
@@ -9294,7 +9390,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 e0^4 g", "target": "d0^2 e0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 e0^4 g", "target": "d0^2 e0^4", "attributes": ["dr", "n0"] }, 
     {"source": "M D h1^8 g", "target": "M D h1^9 g"}, 
     {
       "source": "D c0 d0 e0^3", 
@@ -9308,7 +9404,11 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_D h1^2 d0^5", "target": "P D c0 d0^4", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_D h1^2 d0^5", 
+      "target": "P D c0 d0^4", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "M P^2 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -9318,7 +9418,7 @@
     {
       "source": "_P D c0 d0^4", 
       "target": "_t P h0 d0^5 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^3 d0^2", 
@@ -9333,7 +9433,7 @@
     {
       "source": "_M P^4 h1^2 e0", 
       "target": "P^3 D^2 h1^2 c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^2 D^2 h1^4 d0^2", 
@@ -9348,7 +9448,7 @@
     {
       "source": "_P^3 D^2 h1^2 c0 d0", 
       "target": "P^4 D^2 h1^2 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 D h1 d0^4", 
@@ -9363,7 +9463,7 @@
     {
       "source": "_P^4 D h1 c0 d0 e0", 
       "target": "P^5 D h1 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 c0 d0^4 e0", 
@@ -9383,14 +9483,14 @@
     {
       "source": "_P^3 h1^2 d0^5", 
       "target": "P^4 c0 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^4 c0 d0^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^4 c0 d0^4", "target": "P^5 d0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_P^4 c0 d0^4", "target": "P^5 d0^4", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^6 D c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -9415,13 +9515,13 @@
     {"source": "M D1 h1", "target": "M D1 h1^2"}, 
     {"source": "M^2 c0", "target": "M^2 h1 c0"}, 
     {"source": "_M D c0 g", "target": "_M D h1 c0 g"}, 
-    { "source": "_M D c0 g", "target": "_t M h0 e0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_M D c0 g", "target": "_t M h0 e0^3", "attributes": ["dr", "n0"] }, 
     {"source": "_D^2 M h1^4", "target": "_D^2 M h1^5"}, 
     {"source": "_D^3 c0 e0", "target": "_D^3 h1 c0 e0"}, 
     {
       "source": "_D^3 c0 e0", 
       "target": "_t D^2 h0 d0 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1 c0 g", "target": "M D h1^2 c0 g"}, 
     {"source": "D^2 M h1^5", "target": "D^2 M h1^6"}, 
@@ -9431,7 +9531,7 @@
       "attributes": ["h1tower"]
     }, 
     { "source": "_t h0 e0 g^4", "target": "D h1 e0^2 g^2", "attributes": ["hh1"] }, 
-    { "source": "_t h0 e0 g^4", "target": "M D h1^8 g", "attributes": ["dr", "8"] }, 
+    { "source": "_t h0 e0 g^4", "target": "M D h1^8 g", "attributes": ["dr", "n8"] }, 
     {"source": "M h1^2 e0^3", "target": "M h1^3 e0^3"}, 
     {
       "source": "_D h1^2 e0^3 g", 
@@ -9441,7 +9541,7 @@
     {
       "source": "_D h1^2 e0^3 g", 
       "target": "D c0 d0 e0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1^4 c0 e0", "target": "M D h1^5 c0 e0"}, 
     {
@@ -9458,7 +9558,7 @@
     {
       "source": "_D c0 d0 e0^3", 
       "target": "_t h0 d0^2 e0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M h1^5 c0 g^2", "target": "M h1^6 c0 g^2"}, 
     {
@@ -9479,7 +9579,7 @@
     {
       "source": "_M P h1^2 d0^3", 
       "target": "M P^2 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D^2 c0 d0^3", 
@@ -9499,7 +9599,7 @@
     {
       "source": "_M P^2 c0 d0^2", 
       "target": "M P^3 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P D^2 d0^3", 
@@ -9514,7 +9614,7 @@
     {
       "source": "_P^2 D^2 h1^2 d0 e0", 
       "target": "_P^2 D^2 h1^4 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M h1^8 c0 e0 g", 
@@ -9534,7 +9634,7 @@
     {
       "source": "_P D h1 c0 d0^4", 
       "target": "P^2 D h1 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 d0^4 e0^2", 
@@ -9550,7 +9650,7 @@
     {
       "source": "_P h1^2 d0^5 e0", 
       "target": "P^2 c0 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^2 c0 d0^4 e0", 
@@ -9560,7 +9660,7 @@
     {
       "source": "_P^2 c0 d0^4 e0", 
       "target": "P^3 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 D c0 d0^3", 
@@ -9580,7 +9680,7 @@
     {
       "source": "_P^5 D h1^2 d0 e0", 
       "target": "P^6 D c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M P^6 h1^4", 
@@ -9591,7 +9691,7 @@
     {
       "source": "_P^6 D c0 e0", 
       "target": "_t P^5 h0 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^7 D h1 e0", 
@@ -9616,14 +9716,14 @@
     {
       "source": "_P^8 h1^2 d0 e0", 
       "target": "P^9 c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^9 c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^9 c0 e0", "target": "P^10 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^9 c0 e0", "target": "P^10 e0", "attributes": ["dr", "n0"] }, 
     {"source": "M D1 h1^2", "target": "M D1 h1^3"}, 
     {"source": "M^2 h1 c0", "target": "M^2 h1^2 c0"}, 
     {
@@ -9631,7 +9731,11 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M D h1 c0 g", "target": "M D h1 d0^2", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_M D h1 c0 g", 
+      "target": "M D h1 d0^2", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "M^2 P h1", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -9647,7 +9751,7 @@
     {
       "source": "_D^3 h1 c0 e0", 
       "target": "P D^3 h1 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M h1^2 e0^3", 
@@ -9657,7 +9761,7 @@
     {
       "source": "_M h1^2 e0^3", 
       "target": "M c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1^2 c0 g", "target": "M D h1^3 c0 g"}, 
     {
@@ -9668,7 +9772,7 @@
     {
       "source": "_M c0 d0^2 e0", 
       "target": "M P d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D^2 e0^3", 
@@ -9678,7 +9782,7 @@
     {
       "source": "D^2 e0^3", 
       "target": "D^2 h1^2 d0 e0^2", 
-      "attributes": ["dr", "2"]
+      "attributes": ["dr", "n2"]
     }, 
     {"source": "D^2 M h1^6", "target": "D^2 M h1^7"}, 
     {
@@ -9689,14 +9793,18 @@
     {
       "source": "_D^2 h1^2 d0 e0^2", 
       "target": "D^2 c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D h1 e0^2 g^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "D h1 e0^2 g^2", "target": "M D h1^9 g", "attributes": ["dr", "8"] }, 
+    {
+      "source": "D h1 e0^2 g^2", 
+      "target": "M D h1^9 g", 
+      "attributes": ["dr", "n8"]
+    }, 
     {"source": "M h1^3 e0^3", "target": "M h1^4 e0^3"}, 
     {
       "source": "M P D c0 d0", 
@@ -9708,7 +9816,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_D^2 c0 d0^3", "target": "P D^2 d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_D^2 c0 d0^3", "target": "P D^2 d0^3", "attributes": ["dr", "n0"] }, 
     {"source": "M D h1^5 c0 e0", "target": "M D h1^6 c0 e0"}, 
     {
       "source": "_t M P h0 d0^2 e0 + D^2 c0 d0^3", 
@@ -9723,7 +9831,7 @@
     {
       "source": "c0 d0 e0 g^3", 
       "target": "M h1^8 c0 e0 g", 
-      "attributes": ["dr", "8"]
+      "attributes": ["dr", "n8"]
     }, 
     {
       "source": "_D h1 c0 d0 e0^3", 
@@ -9733,7 +9841,7 @@
     {
       "source": "_D h1 c0 d0 e0^3", 
       "target": "D h1 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M h1^6 c0 g^2", "target": "M h1^7 c0 g^2"}, 
     {
@@ -9754,14 +9862,14 @@
     {
       "source": "_h1^2 d0^2 e0^4", 
       "target": "c0 d0^4 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_c0 d0^4 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^4 e0^2", "target": "d0^7", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^4 e0^2", "target": "d0^7", "attributes": ["dr", "n0"] }, 
     {
       "source": "P D c0 d0^3 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -9776,7 +9884,7 @@
     {
       "source": "_P^2 D h1^2 d0^4", 
       "target": "P^3 D c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^4 c0 d0", 
@@ -9787,7 +9895,7 @@
     {
       "source": "_P^3 D c0 d0^3", 
       "target": "_t P^3 h0 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^5 d0", 
@@ -9802,7 +9910,7 @@
     {
       "source": "_P^4 D^2 h1^4 d0", 
       "target": "_M P^6 h1^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^4 D h1 d0^3", 
@@ -9817,7 +9925,7 @@
     {
       "source": "_P^6 D h1 c0 e0", 
       "target": "P^7 D h1 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^4 c0 d0^3 e0", 
@@ -9837,14 +9945,14 @@
     {
       "source": "_P^5 h1^2 d0^4", 
       "target": "P^6 c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^6 c0 d0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^6 c0 d0^3", "target": "P^7 d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_P^6 c0 d0^3", "target": "P^7 d0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^7 D h1^4 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -9866,7 +9974,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M^2 h1 c0", "target": "M^2 P h1", "attributes": ["dr", "0"] }, 
+    { "source": "_M^2 h1 c0", "target": "M^2 P h1", "attributes": ["dr", "n0"] }, 
     {
       "source": "M^2 h1^2 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -9881,7 +9989,7 @@
     {
       "source": "_M D h1^2 d0^2", 
       "target": "M P D c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "_D^2 M h1^6", "target": "_D^2 M h1^7"}, 
     {"source": "M h1 e0^2 g", "target": "M h1^2 e0^2 g"}, 
@@ -9889,7 +9997,7 @@
     {
       "source": "_M P D c0 d0", 
       "target": "_t M P h0 d0^2 e0 + D^2 c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1^3 c0 g", "target": "M D h1^4 c0 g"}, 
     { "source": "_t D^2 h0 e0^3", "target": "D^3 h1 d0^2", "attributes": ["hh1"] }, 
@@ -9901,7 +10009,7 @@
     {
       "source": "_P D^3 h1^2 e0", 
       "target": "_P D^3 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "D^2 M h1^7", "target": "D^2 M h1^8"}, 
     {
@@ -9909,7 +10017,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0 e0 g^3", "target": "d0 e0^5", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0 e0 g^3", "target": "d0 e0^5", "attributes": ["dr", "n0"] }, 
     {"source": "M h1^4 e0^3", "target": "M h1^5 e0^3"}, 
     {"source": "M D h1^6 c0 e0", "target": "M D h1^7 c0 e0"}, 
     {
@@ -9932,7 +10040,7 @@
     {
       "source": "_D h1^2 d0^4 e0", 
       "target": "P D c0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^2 c0 d0 e0", 
@@ -9943,7 +10051,7 @@
     {
       "source": "_P D c0 d0^3 e0", 
       "target": "_t h0 d0^7", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^3 d0 e0", 
@@ -9958,7 +10066,7 @@
     {
       "source": "_M P^3 h1^2 d0^2", 
       "target": "M P^4 c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 D^2 c0 d0^2", 
@@ -9970,7 +10078,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^4 c0 d0", "target": "M P^5 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^4 c0 d0", "target": "M P^5 d0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^2 D h1 d0^3 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -9984,7 +10092,7 @@
     {
       "source": "_P^3 D h1 c0 d0^3", 
       "target": "P^4 D h1 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P c0 d0^6", 
@@ -10004,7 +10112,7 @@
     {
       "source": "_P^3 h1^2 d0^4 e0", 
       "target": "P^4 c0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^4 c0 d0^3 e0", 
@@ -10014,7 +10122,7 @@
     {
       "source": "_P^4 c0 d0^3 e0", 
       "target": "P^5 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^5 D c0 d0^2", 
@@ -10034,7 +10142,7 @@
     {
       "source": "_P^7 D h1^2 e0", 
       "target": "_P^7 D h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^8 c0 d0^2", 
@@ -10054,7 +10162,7 @@
     {
       "source": "_P^10 h1^2 e0", 
       "target": "_P^10 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D1 h1^4", "target": "M D1 h1^5"}, 
     {
@@ -10062,7 +10170,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "D D1 c0 e0", "target": "M^2 h1^2 c0", "attributes": ["dr", "2"] }, 
+    { "source": "D D1 c0 e0", "target": "M^2 h1^2 c0", "attributes": ["dr", "n2"] }, 
     {
       "source": "P D D1 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -10085,7 +10193,7 @@
     {
       "source": "_D h1^2 e0^2 g^2", 
       "target": "D c0 e0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M P D h1 c0 d0", 
@@ -10095,7 +10203,7 @@
     {
       "source": "_M P D h1 c0 d0", 
       "target": "M P^2 D h1 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1^4 c0 g", "target": "M D h1^5 c0 g"}, 
     {"source": "D^3 h1 d0^2", "target": "D^3 h1^2 d0^2"}, 
@@ -10105,7 +10213,11 @@
       "attributes": ["h1tower"]
     }, 
     {"source": "_D c0 e0^4", "target": "_D h1 c0 e0^4"}, 
-    { "source": "_D c0 e0^4", "target": "_t h0 d0 e0^5", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_D c0 e0^4", 
+      "target": "_t h0 d0 e0^5", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "D^2 M h1^8", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -10124,7 +10236,7 @@
     {
       "source": "_M P h1^2 d0^2 e0", 
       "target": "M P^2 c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M h1^5 e0^3", "target": "M h1^6 e0^3"}, 
     {
@@ -10140,7 +10252,7 @@
     {
       "source": "_M P^2 c0 d0 e0", 
       "target": "M P^3 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1^7 c0 e0", "target": "M D h1^8 c0 e0"}, 
     {
@@ -10156,7 +10268,7 @@
     {
       "source": "_P D^2 h1^2 d0^3", 
       "target": "P^2 D^2 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M h1^8 c0 g^2", 
@@ -10176,7 +10288,7 @@
     {
       "source": "_P D h1 c0 d0^3 e0", 
       "target": "P^2 D h1 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 d0^3 e0^3", 
@@ -10193,7 +10305,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0^7", "target": "P c0 d0^6", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0^7", "target": "P c0 d0^6", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^3 D^2 h1 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -10204,7 +10316,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P c0 d0^6", "target": "P^2 d0^6", "attributes": ["dr", "0"] }, 
+    { "source": "_P c0 d0^6", "target": "P^2 d0^6", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^3 D c0 d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -10223,7 +10335,7 @@
     {
       "source": "_P^4 D h1^2 d0^3", 
       "target": "P^5 D c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^6 c0", 
@@ -10234,7 +10346,7 @@
     {
       "source": "_P^5 D c0 d0^2", 
       "target": "_t P^5 h0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     { "source": "M P^7", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
     {
@@ -10260,14 +10372,14 @@
     {
       "source": "_P^7 h1^2 d0^3", 
       "target": "P^8 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^8 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^8 c0 d0^2", "target": "P^9 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_P^8 c0 d0^2", "target": "P^9 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^12 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -10280,14 +10392,14 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_D D1 c0 e0", "target": "P D D1 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_D D1 c0 e0", "target": "P D D1 e0", "attributes": ["dr", "n0"] }, 
     {"source": "M D1 h1^5", "target": "M D1 h1^6"}, 
     {
       "source": "M e0 g^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "M e0 g^2", "target": "M h1^2 e0^2 g", "attributes": ["dr", "2"] }, 
+    { "source": "M e0 g^2", "target": "M h1^2 e0^2 g", "attributes": ["dr", "n2"] }, 
     {"source": "D^2 M h1 c0", "target": "D^2 M h1^2 c0"}, 
     {
       "source": "_M h1^2 e0^2 g", 
@@ -10297,7 +10409,7 @@
     {
       "source": "_M h1^2 e0^2 g", 
       "target": "M c0 d0 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "D^2 M P h1", "target": "D^2 M P h1^2"}, 
     {
@@ -10305,13 +10417,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "D^2 e0^2 g", "target": "D^2 M h1^8", "attributes": ["dr", "7"] }, 
+    { "source": "D^2 e0^2 g", "target": "D^2 M h1^8", "attributes": ["dr", "n7"] }, 
     {
       "source": "_M c0 d0 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M c0 d0 e0^2", "target": "M d0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_M c0 d0 e0^2", "target": "M d0^4", "attributes": ["dr", "n0"] }, 
     {"source": "M D h1^2 d0 e0", "target": "M D h1^3 d0 e0"}, 
     {
       "source": "_D^2 h1^2 e0^3", 
@@ -10321,7 +10433,7 @@
     {
       "source": "_D^2 h1^2 e0^3", 
       "target": "D^2 c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M P D c0 e0", "target": "M P D h1 c0 e0"}, 
     {
@@ -10337,7 +10449,7 @@
     {
       "source": "_D^2 c0 d0^2 e0", 
       "target": "P D^2 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1^5 c0 g", "target": "M D h1^6 c0 g"}, 
     {
@@ -10354,7 +10466,7 @@
     {
       "source": "c0 e0^2 g^3", 
       "target": "M h1^8 c0 g^2", 
-      "attributes": ["dr", "8"]
+      "attributes": ["dr", "n8"]
     }, 
     {
       "source": "_D h1 c0 e0^4", 
@@ -10364,7 +10476,7 @@
     {
       "source": "_D h1 c0 e0^4", 
       "target": "D h1 d0^3 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D^3 P c0 d0", 
@@ -10381,7 +10493,7 @@
     {
       "source": "_h1^2 d0 e0^5", 
       "target": "c0 d0^3 e0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M D h1^8 c0 e0", 
@@ -10393,7 +10505,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^3 e0^3", "target": "d0^6 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^3 e0^3", "target": "d0^6 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^2 D^2 h1 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -10402,7 +10514,7 @@
     {
       "source": "_P^2 D^2 h1 c0 d0^2", 
       "target": "P^3 D^2 h1 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D c0 d0^5", 
@@ -10418,7 +10530,7 @@
     {
       "source": "_P^2 D h1^2 d0^3 e0", 
       "target": "P^3 D c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^4 c0 e0", 
@@ -10429,7 +10541,7 @@
     {
       "source": "_P^3 D c0 d0^2 e0", 
       "target": "_t P^2 h0 d0^6", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^5 e0", 
@@ -10441,13 +10553,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^5 h1^2 d0", "target": "M P^6 c0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^5 h1^2 d0", "target": "M P^6 c0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_M P^6 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^6 c0", "target": "M P^7", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^6 c0", "target": "M P^7", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^4 D h1 d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -10461,7 +10573,7 @@
     {
       "source": "_P^5 D h1 c0 d0^2", 
       "target": "P^6 D h1 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 c0 d0^5", 
@@ -10481,7 +10593,7 @@
     {
       "source": "_P^5 h1^2 d0^3 e0", 
       "target": "P^6 c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^6 c0 d0^2 e0", 
@@ -10491,7 +10603,7 @@
     {
       "source": "_P^6 c0 d0^2 e0", 
       "target": "P^7 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^7 D c0 d0", 
@@ -10520,7 +10632,7 @@
     {
       "source": "_M D h1^2 d0 e0", 
       "target": "_D^2 M h1^8", 
-      "attributes": ["dr", "4"]
+      "attributes": ["dr", "n4"]
     }, 
     {"source": "D^2 M h1^2 c0", "target": "D^2 M h1^3 c0"}, 
     {
@@ -10532,7 +10644,7 @@
     {
       "source": "_M P D c0 e0", 
       "target": "_t M h0 d0^4 + D^2 c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_t D^2 h0 e0^2 g", 
@@ -10542,7 +10654,7 @@
     {
       "source": "_t D^2 h0 e0^2 g", 
       "target": "D^3 h1^2 d0^2", 
-      "attributes": ["dr", "2"]
+      "attributes": ["dr", "n2"]
     }, 
     {"source": "D^2 M P h1^2", "target": "D^2 M P h1^3"}, 
     {
@@ -10553,7 +10665,7 @@
     {
       "source": "_D^3 h1^2 d0^2", 
       "target": "D^3 P c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1^3 d0 e0", "target": "M D h1^4 d0 e0"}, 
     {
@@ -10561,7 +10673,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 e0^2 g^3", "target": "e0^6", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 e0^2 g^3", "target": "e0^6", "attributes": ["dr", "n0"] }, 
     {"source": "M P D h1 c0 e0", "target": "M P D h1^2 c0 e0"}, 
     {
       "source": "D c0 e0^3 g", 
@@ -10571,7 +10683,7 @@
     {
       "source": "D c0 e0^3 g", 
       "target": "M D h1^8 c0 e0", 
-      "attributes": ["dr", "8"]
+      "attributes": ["dr", "n8"]
     }, 
     {"source": "M D h1^6 c0 g", "target": "M D h1^7 c0 g"}, 
     {
@@ -10593,7 +10705,7 @@
     {
       "source": "_D h1^2 d0^3 e0^2", 
       "target": "D c0 d0^5", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M h1^7 e0^3", "target": "M h1^8 e0^3"}, 
     {
@@ -10607,7 +10719,11 @@
       "attributes": ["h1tower"]
     }, 
     {"source": "_D c0 d0^5", "target": "_D h1 c0 d0^5"}, 
-    { "source": "_D c0 d0^5", "target": "_t h0 d0^6 e0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_D c0 d0^5", 
+      "target": "_t h0 d0^6 e0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "M P^2 d0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -10621,7 +10737,7 @@
     {
       "source": "_M P^3 h1^2 d0 e0", 
       "target": "M P^4 c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 D^2 c0 d0 e0", 
@@ -10633,7 +10749,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^4 c0 e0", "target": "M P^5 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^4 c0 e0", "target": "M P^5 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^3 D^2 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -10652,7 +10768,7 @@
     {
       "source": "_P^3 D h1 c0 d0^2 e0", 
       "target": "P^4 D h1 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P c0 d0^5 e0", 
@@ -10672,14 +10788,14 @@
     {
       "source": "_P^2 h1^2 d0^6", 
       "target": "P^3 c0 d0^5", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^3 c0 d0^5", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^3 c0 d0^5", "target": "P^4 d0^5", "attributes": ["dr", "0"] }, 
+    { "source": "_P^3 c0 d0^5", "target": "P^4 d0^5", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^5 D c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -10698,7 +10814,7 @@
     {
       "source": "_P^6 D h1^2 d0^2", 
       "target": "P^7 D c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^8 D h1 d0", 
@@ -10723,14 +10839,14 @@
     {
       "source": "_P^9 h1^2 d0^2", 
       "target": "P^10 c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^10 c0 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^10 c0 d0", "target": "P^11 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^10 c0 d0", "target": "P^11 d0", "attributes": ["dr", "n0"] }, 
     {"source": "h1 x103,12", "target": "h1^2 x103,12"}, 
     {"source": "_M D1 h1^6", "target": "_M D1 h1^7"}, 
     {"source": "M^2 d0", "target": "M^2 h1 d0"}, 
@@ -10742,7 +10858,7 @@
     {
       "source": "_P D D1 h1^2 e0", 
       "target": "_M^2 P h1^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D1 h1^7", "target": "M D1 h1^8"}, 
     {"source": "_D^2 M h1^2 c0", "target": "_D^2 M h1^3 c0"}, 
@@ -10756,7 +10872,7 @@
     {
       "source": "_M P D h1 c0 e0", 
       "target": "M D P^2 h1 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D^3 h1 d0 e0", 
@@ -10766,7 +10882,7 @@
     {
       "source": "D^3 h1 d0 e0", 
       "target": "D^3 h1^3 d0^2", 
-      "attributes": ["dr", "2"]
+      "attributes": ["dr", "n2"]
     }, 
     {"source": "D^2 M P h1^3", "target": "D^2 M P h1^4"}, 
     {
@@ -10775,7 +10891,7 @@
       "attributes": ["h1tower"]
     }, 
     {"source": "_D c0 e0^3 g", "target": "_D h1 c0 e0^3 g"}, 
-    { "source": "_D c0 e0^3 g", "target": "_t h0 e0^6", "attributes": ["dr", "0"] }, 
+    { "source": "_D c0 e0^3 g", "target": "_t h0 e0^6", "attributes": ["dr", "n0"] }, 
     {"source": "M D h1^4 d0 e0", "target": "M D h1^5 d0 e0"}, 
     {
       "source": "M d0^3 e0", 
@@ -10790,14 +10906,18 @@
     {
       "source": "_D^3 P h1 c0 d0", 
       "target": "P^2 D^3 h1 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M h1^2 d0^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M h1^2 d0^4", "target": "M P c0 d0^3", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_M h1^2 d0^4", 
+      "target": "M P c0 d0^3", 
+      "attributes": ["dr", "n0"]
+    }, 
     {"source": "M P D h1^2 c0 e0", "target": "M P D h1^3 c0 e0"}, 
     {
       "source": "D^2 c0 d0 e0^2", 
@@ -10809,7 +10929,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P c0 d0^3", "target": "M P^2 d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_M P c0 d0^3", "target": "M P^2 d0^3", "attributes": ["dr", "n0"] }, 
     {"source": "M D h1^7 c0 g", "target": "M D h1^8 c0 g"}, 
     {
       "source": "D^2 d0^4", 
@@ -10824,7 +10944,7 @@
     {
       "source": "_P D^2 h1^2 d0^2 e0", 
       "target": "P^2 D^2 c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D h1 d0^2 e0^3", 
@@ -10844,7 +10964,7 @@
     {
       "source": "_P^2 D^2 c0 d0 e0", 
       "target": "P^3 D^2 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M h1^8 e0^3", 
@@ -10859,7 +10979,7 @@
     {
       "source": "_D h1 c0 d0^5", 
       "target": "P D h1 d0^5", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 d0^2 e0^4", 
@@ -10879,7 +10999,7 @@
     {
       "source": "_h1^2 d0^6 e0", 
       "target": "P c0 d0^5 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P c0 d0^5 e0", 
@@ -10889,7 +11009,7 @@
     {
       "source": "_P c0 d0^5 e0", 
       "target": "P^2 d0^5 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 D c0 d0^4", 
@@ -10909,7 +11029,7 @@
     {
       "source": "_P^4 D h1^2 d0^2 e0", 
       "target": "P^5 D c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^4 D^2 h1^2 c0 d0", 
@@ -10920,7 +11040,7 @@
     {
       "source": "_P^5 D c0 d0 e0", 
       "target": "_t P^4 h0 d0^5", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^5 D^2 h1^2 d0", 
@@ -10940,7 +11060,7 @@
     {
       "source": "_P^7 D h1 c0 d0", 
       "target": "P^8 D h1 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^5 c0 d0^4", 
@@ -10960,14 +11080,14 @@
     {
       "source": "_P^7 h1^2 d0^2 e0", 
       "target": "P^8 c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^8 c0 d0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^8 c0 d0 e0", "target": "P^9 d0 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^8 c0 d0 e0", "target": "P^9 d0 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^12 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -10983,14 +11103,18 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M h1^2 e0 g^2", "target": "M c0 e0^3", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_M h1^2 e0 g^2", 
+      "target": "M c0 e0^3", 
+      "attributes": ["dr", "n0"]
+    }, 
     {"source": "_D^2 M h1^3 c0", "target": "_D^2 M h1^4 c0"}, 
     {
       "source": "_M c0 e0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M c0 e0^3", "target": "M d0^3 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_M c0 e0^3", "target": "M d0^3 e0", "attributes": ["dr", "n0"] }, 
     {"source": "M D h1^2 e0^2", "target": "M D h1^3 e0^2"}, 
     {
       "source": "_D^2 h1^2 e0^2 g", 
@@ -11000,7 +11124,7 @@
     {
       "source": "_D^2 h1^2 e0^2 g", 
       "target": "D^2 c0 d0 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "D^2 M h1^4 c0", "target": "D^2 M h1^5 c0"}, 
     {
@@ -11013,7 +11137,11 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_D^2 c0 d0 e0^2", "target": "D^2 d0^4", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_D^2 c0 d0 e0^2", 
+      "target": "D^2 d0^4", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "_t M h0 d0^3 e0 + D^2 c0 d0 e0^2", 
       "target": "M P D h1 d0^2", 
@@ -11028,7 +11156,7 @@
     {
       "source": "_D h1 c0 e0^3 g", 
       "target": "D h1 d0^2 e0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M D P^2 h1^2 e0", 
@@ -11038,7 +11166,7 @@
     {
       "source": "_M D P^2 h1^2 e0", 
       "target": "_M P^2 D h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1^5 d0 e0", "target": "M D h1^6 d0 e0"}, 
     {
@@ -11051,7 +11179,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "e0^5 g", "target": "M h1^8 e0^3", "attributes": ["dr", "8"] }, 
+    { "source": "e0^5 g", "target": "M h1^8 e0^3", "attributes": ["dr", "n8"] }, 
     {"source": "M P D h1^3 c0 e0", "target": "M P D h1^4 c0 e0"}, 
     { "source": "_t D^2 h0 d0^4", "target": "P^2 D^3 h1 e0", "attributes": ["hh1"] }, 
     {
@@ -11059,7 +11187,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0^6", "target": "c0 d0^2 e0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0^6", "target": "c0 d0^2 e0^4", "attributes": ["dr", "n0"] }, 
     {
       "source": "M D h1^8 c0 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -11070,7 +11198,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^2 e0^4", "target": "d0^5 e0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^2 e0^4", "target": "d0^5 e0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "D c0 d0^4 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -11089,7 +11217,7 @@
     {
       "source": "_P D h1^2 d0^5", 
       "target": "P^2 D c0 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^3 c0 d0^2", 
@@ -11100,7 +11228,7 @@
     {
       "source": "_P^2 D c0 d0^4", 
       "target": "_t P^2 h0 d0^5 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^4 d0^2", 
@@ -11115,7 +11243,7 @@
     {
       "source": "_M P^5 h1^2 e0", 
       "target": "P^4 D^2 h1^2 c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^3 D^2 h1^4 d0^2", 
@@ -11130,7 +11258,7 @@
     {
       "source": "_P^4 D^2 h1^2 c0 d0", 
       "target": "P^5 D^2 h1^2 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 D h1 d0^4", 
@@ -11145,7 +11273,7 @@
     {
       "source": "_P^5 D h1 c0 d0 e0", 
       "target": "P^6 D h1 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 c0 d0^4 e0", 
@@ -11165,14 +11293,14 @@
     {
       "source": "_P^4 h1^2 d0^5", 
       "target": "P^5 c0 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^5 c0 d0^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^5 c0 d0^4", "target": "P^6 d0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_P^5 c0 d0^4", "target": "P^6 d0^4", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^7 D c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -11203,7 +11331,7 @@
     {
       "source": "_t M h0 g^3", 
       "target": "M D h1^2 e0^2", 
-      "attributes": ["dr", "2"]
+      "attributes": ["dr", "n2"]
     }, 
     {
       "source": "M^2 h1^2 d0", 
@@ -11218,7 +11346,7 @@
     {
       "source": "_M D h1^2 e0^2", 
       "target": "M D c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D1 h1^9", "target": "M D1 h1^10"}, 
     {
@@ -11230,13 +11358,13 @@
     {
       "source": "_M D c0 d0^2", 
       "target": "_t M h0 d0^3 e0 + D^2 c0 d0 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     { "source": "_t D^2 h0 e0 g^2", "target": "D^3 h1 e0^2", "attributes": ["hh1"] }, 
     {
       "source": "_t D^2 h0 e0 g^2", 
       "target": "D^2 M P h1^4", 
-      "attributes": ["dr", "4"]
+      "attributes": ["dr", "n4"]
     }, 
     {"source": "_D^2 M h1^4 c0", "target": "_D^2 M h1^5 c0"}, 
     {
@@ -11252,7 +11380,7 @@
     {
       "source": "_D^3 h1^2 d0 e0", 
       "target": "D^3 P c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "_D^2 M P h1^4", "target": "_D^2 M P h1^5"}, 
     {
@@ -11264,7 +11392,7 @@
     {
       "source": "_D^3 P c0 e0", 
       "target": "_t D^2 h0 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "D^2 M h1^5 c0", "target": "D^2 M h1^6 c0"}, 
     {
@@ -11275,7 +11403,7 @@
     {
       "source": "D c0 e0^2 g^2", 
       "target": "M D h1^8 c0 g", 
-      "attributes": ["dr", "8"]
+      "attributes": ["dr", "n8"]
     }, 
     {
       "source": "M P D h1 d0^2", 
@@ -11297,7 +11425,7 @@
     {
       "source": "_D h1^2 d0^2 e0^3", 
       "target": "D c0 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P D h1^4 c0 e0", 
@@ -11318,7 +11446,7 @@
     {
       "source": "_D c0 d0^4 e0", 
       "target": "_t h0 d0^5 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^2 d0^2 e0", 
@@ -11333,7 +11461,7 @@
     {
       "source": "_M P^2 h1^2 d0^3", 
       "target": "M P^3 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P D^2 c0 d0^3", 
@@ -11348,7 +11476,7 @@
     {
       "source": "_M P^3 c0 d0^2", 
       "target": "M P^4 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 D^2 d0^3", 
@@ -11363,7 +11491,7 @@
     {
       "source": "_P^3 D^2 h1^2 d0 e0", 
       "target": "_P^3 D^2 h1^4 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P D h1 d0^4 e0", 
@@ -11378,7 +11506,7 @@
     {
       "source": "_P^2 D h1 c0 d0^4", 
       "target": "P^3 D h1 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 d0^7", 
@@ -11398,7 +11526,7 @@
     {
       "source": "_P^2 h1^2 d0^5 e0", 
       "target": "P^3 c0 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^3 c0 d0^4 e0", 
@@ -11408,7 +11536,7 @@
     {
       "source": "_P^3 c0 d0^4 e0", 
       "target": "P^4 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^4 D c0 d0^3", 
@@ -11428,7 +11556,7 @@
     {
       "source": "_P^6 D h1^2 d0 e0", 
       "target": "P^7 D c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M P^7 h1^4", 
@@ -11439,7 +11567,7 @@
     {
       "source": "_P^7 D c0 e0", 
       "target": "_t P^6 h0 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^8 D h1 e0", 
@@ -11464,14 +11592,14 @@
     {
       "source": "_P^9 h1^2 d0 e0", 
       "target": "P^10 c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^10 c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^10 c0 e0", "target": "P^11 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_P^10 c0 e0", "target": "P^11 e0", "attributes": ["dr", "n0"] }, 
     {"source": "_h1^3 x103,12", "target": "_h1^4 x103,12"}, 
     {"source": "M D1 h1^2 c0", "target": "M D1 h1^3 c0"}, 
     {
@@ -11479,7 +11607,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "M^2 e0", "target": "M^2 h1^2 d0", "attributes": ["dr", "2"] }, 
+    { "source": "M^2 e0", "target": "M^2 h1^2 d0", "attributes": ["dr", "n2"] }, 
     {"source": "h1^4 x103,12", "target": "h1^5 x103,12"}, 
     {"source": "M D1 P h1^2", "target": "M D1 P h1^3"}, 
     {
@@ -11487,13 +11615,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M^2 h1^2 d0", "target": "M^2 P c0", "attributes": ["dr", "0"] }, 
+    { "source": "_M^2 h1^2 d0", "target": "M^2 P c0", "attributes": ["dr", "n0"] }, 
     {
       "source": "_M^2 P c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M^2 P c0", "target": "M^2 P^2", "attributes": ["dr", "0"] }, 
+    { "source": "_M^2 P c0", "target": "M^2 P^2", "attributes": ["dr", "n0"] }, 
     {"source": "_M D1 h1^9", "target": "_M D1 h1^10"}, 
     {"source": "M D^2 d0", "target": "M D^2 h1 d0"}, 
     {
@@ -11504,7 +11632,7 @@
     {
       "source": "M D h1 e0 g", 
       "target": "M D h1^3 e0^2", 
-      "attributes": ["dr", "2"]
+      "attributes": ["dr", "n2"]
     }, 
     {"source": "M D1 h1^10", "target": "M D1 h1^11"}, 
     {
@@ -11515,21 +11643,25 @@
     {
       "source": "_M D h1 c0 d0^2", 
       "target": "M P D h1 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D^3 h1 e0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "D^3 h1 e0^2", "target": "D^2 M P h1^5", "attributes": ["dr", "4"] }, 
+    {
+      "source": "D^3 h1 e0^2", 
+      "target": "D^2 M P h1^5", 
+      "attributes": ["dr", "n4"]
+    }, 
     {"source": "_D^2 M h1^5 c0", "target": "_D^2 M h1^6 c0"}, 
     {"source": "M c0 e0^2 g", "target": "M h1 c0 e0^2 g"}, 
     {"source": "_D c0 e0^2 g^2", "target": "_D h1 c0 e0^2 g^2"}, 
     {
       "source": "_D c0 e0^2 g^2", 
       "target": "_t h0 e0^5 g", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "_D^2 M P h1^5", "target": "_D^2 M P h1^6"}, 
     {
@@ -11545,7 +11677,7 @@
     {
       "source": "D^2 c0 e0^3", 
       "target": "M P D h1^4 c0 e0", 
-      "attributes": ["dr", "4"]
+      "attributes": ["dr", "n4"]
     }, 
     {
       "source": "_D^3 P h1 c0 e0", 
@@ -11555,7 +11687,7 @@
     {
       "source": "_D^3 P h1 c0 e0", 
       "target": "P^2 D^3 h1 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M h1^2 d0^3 e0", 
@@ -11565,7 +11697,7 @@
     {
       "source": "_M h1^2 d0^3 e0", 
       "target": "M P c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "D^2 M h1^6 c0", "target": "D^2 M h1^7 c0"}, 
     {
@@ -11576,7 +11708,7 @@
     {
       "source": "_M P c0 d0^2 e0", 
       "target": "M P^2 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D^2 d0^3 e0", 
@@ -11591,7 +11723,7 @@
     {
       "source": "_D^2 h1^2 d0^4", 
       "target": "P D^2 c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D h1^7 d0 e0", "target": "M D h1^8 d0 e0"}, 
     {
@@ -11612,7 +11744,7 @@
     {
       "source": "_P D^2 c0 d0^3", 
       "target": "P^2 D^2 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_D h1 c0 d0^4 e0", 
@@ -11622,7 +11754,7 @@
     {
       "source": "_D h1 c0 d0^4 e0", 
       "target": "P D h1 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^2 D^3 h1^4 d0", 
@@ -11644,13 +11776,13 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 d0^5 e0^2", "target": "c0 d0^7", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 d0^5 e0^2", "target": "c0 d0^7", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 d0^7", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^7", "target": "P d0^7", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^7", "target": "P d0^7", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^2 D c0 d0^3 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -11669,7 +11801,7 @@
     {
       "source": "_P^3 D h1^2 d0^4", 
       "target": "P^4 D c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^5 c0 d0", 
@@ -11680,7 +11812,7 @@
     {
       "source": "_P^4 D c0 d0^3", 
       "target": "_t P^4 h0 d0^4 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^6 d0", 
@@ -11695,7 +11827,7 @@
     {
       "source": "_P^5 D^2 h1^4 d0", 
       "target": "_M P^7 h1^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^5 D h1 d0^3", 
@@ -11710,7 +11842,7 @@
     {
       "source": "_P^7 D h1 c0 e0", 
       "target": "P^8 D h1 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^5 c0 d0^3 e0", 
@@ -11730,14 +11862,14 @@
     {
       "source": "_P^6 h1^2 d0^4", 
       "target": "P^7 c0 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^7 c0 d0^3", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^7 c0 d0^3", "target": "P^8 d0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_P^7 c0 d0^3", "target": "P^8 d0^3", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^8 D h1^4 d0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -11765,7 +11897,11 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M c0 e0^2 g", "target": "M d0^2 e0^2", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_M c0 e0^2 g", 
+      "target": "M d0^2 e0^2", 
+      "attributes": ["dr", "n0"]
+    }, 
     {"source": "M D1 h1^11", "target": "M D1 h1^12"}, 
     {
       "source": "M D c0 d0 e0", 
@@ -11777,7 +11913,11 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_D^2 c0 e0^3", "target": "D^2 d0^3 e0", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_D^2 c0 e0^3", 
+      "target": "D^2 d0^3 e0", 
+      "attributes": ["dr", "n0"]
+    }, 
     {"source": "_D^2 M h1^6 c0", "target": "_D^2 M h1^7 c0"}, 
     {"source": "M h1 c0 e0^2 g", "target": "M h1^2 c0 e0^2 g"}, 
     {
@@ -11793,7 +11933,7 @@
     {
       "source": "_D h1 c0 e0^2 g^2", 
       "target": "D h1 d0 e0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M P D h1^2 d0^2", 
@@ -11803,7 +11943,7 @@
     {
       "source": "_M P D h1^2 d0^2", 
       "target": "M P^2 D c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "_D^2 M P h1^6", "target": "_D^2 M P h1^7"}, 
     {
@@ -11826,20 +11966,20 @@
     {
       "source": "_P^2 D^3 h1^2 e0", 
       "target": "_P^2 D^3 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_h1^2 e0^5 g", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_h1^2 e0^5 g", "target": "c0 d0 e0^5", "attributes": ["dr", "0"] }, 
+    { "source": "_h1^2 e0^5 g", "target": "c0 d0 e0^5", "attributes": ["dr", "n0"] }, 
     {
       "source": "_c0 d0 e0^5", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0 e0^5", "target": "d0^4 e0^3", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0 e0^5", "target": "d0^4 e0^3", "attributes": ["dr", "n0"] }, 
     {"source": "M D h1^8 d0 e0", "target": "M D h1^9 d0 e0"}, 
     {
       "source": "D c0 d0^3 e0^2", 
@@ -11860,7 +12000,7 @@
     {
       "source": "_P D h1^2 d0^4 e0", 
       "target": "P^2 D c0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^3 c0 d0 e0", 
@@ -11871,7 +12011,7 @@
     {
       "source": "_P^2 D c0 d0^3 e0", 
       "target": "_t P h0 d0^7", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^4 d0 e0", 
@@ -11886,7 +12026,7 @@
     {
       "source": "_M P^4 h1^2 d0^2", 
       "target": "M P^5 c0 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^3 D^2 c0 d0^2", 
@@ -11898,7 +12038,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^5 c0 d0", "target": "M P^6 d0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^5 c0 d0", "target": "M P^6 d0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^4 D^2 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -11917,7 +12057,7 @@
     {
       "source": "_P^4 D h1 c0 d0^3", 
       "target": "P^5 D h1 d0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 c0 d0^6", 
@@ -11937,7 +12077,7 @@
     {
       "source": "_P^4 h1^2 d0^4 e0", 
       "target": "P^5 c0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^5 c0 d0^3 e0", 
@@ -11947,7 +12087,7 @@
     {
       "source": "_P^5 c0 d0^3 e0", 
       "target": "P^6 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^6 D c0 d0^2", 
@@ -11967,7 +12107,7 @@
     {
       "source": "_P^8 D h1^2 e0", 
       "target": "_P^8 D h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^9 c0 d0^2", 
@@ -11987,7 +12127,7 @@
     {
       "source": "_P^11 h1^2 e0", 
       "target": "_P^11 h1^4 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "x109,13", "target": "h1 x109,13"}, 
     { "source": "_t M D1 P h2", "target": "x110,15", "attributes": ["hh1"] }, 
@@ -12012,7 +12152,7 @@
     {
       "source": "_M D h1^2 e0 g", 
       "target": "M D c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P D D1 c0 e0", 
@@ -12023,7 +12163,7 @@
     {
       "source": "_M D c0 d0 e0", 
       "target": "_t M h0 d0^2 e0^2 + D^2 c0 e0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "_M D1 h1^11", "target": "_M D1 h1^12"}, 
     {
@@ -12044,14 +12184,14 @@
     {
       "source": "_D^3 h1^2 e0^2", 
       "target": "D^3 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "D^2 M P c0", "target": "D^2 M P h1 c0"}, 
     {"source": "_D^3 c0 d0^2", "target": "_D^3 h1 c0 d0^2"}, 
     {
       "source": "_D^3 c0 d0^2", 
       "target": "_t D^2 h0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "M D1 h1^12", "target": "M D1 h1^13"}, 
     {"source": "_D^2 M h1^7 c0", "target": "_D^2 M h1^8 c0"}, 
@@ -12069,7 +12209,7 @@
     {
       "source": "_t h0 e0^4 g^2", 
       "target": "M D h1^8 d0 e0", 
-      "attributes": ["dr", "8"]
+      "attributes": ["dr", "n8"]
     }, 
     {"source": "_D^2 M P h1^7", "target": "_D^2 M P h1^8"}, 
     {
@@ -12080,7 +12220,7 @@
     {
       "source": "_D h1^2 d0 e0^4", 
       "target": "D c0 d0^3 e0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M P^2 D h1 c0 d0", 
@@ -12090,7 +12230,7 @@
     {
       "source": "_M P^2 D h1 c0 d0", 
       "target": "M P^3 D h1 d0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {"source": "h1 e0^4 g^2", "target": "h1^2 e0^4 g^2"}, 
     {
@@ -12112,7 +12252,7 @@
     {
       "source": "_D c0 d0^3 e0^2", 
       "target": "_t h0 d0^4 e0^3", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P d0^4", 
@@ -12127,7 +12267,7 @@
     {
       "source": "_M P^2 h1^2 d0^2 e0", 
       "target": "M P^3 c0 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P D^2 c0 d0^2 e0", 
@@ -12147,7 +12287,7 @@
     {
       "source": "_M P^3 c0 d0 e0", 
       "target": "M P^4 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 D^2 d0^2 e0", 
@@ -12162,7 +12302,7 @@
     {
       "source": "_P^2 D^2 h1^2 d0^3", 
       "target": "P^3 D^2 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D h1 d0^6", 
@@ -12177,7 +12317,7 @@
     {
       "source": "_P^3 D^2 c0 d0^2", 
       "target": "P^4 D^2 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^2 D h1 c0 d0^3 e0", 
@@ -12187,7 +12327,7 @@
     {
       "source": "_P^2 D h1 c0 d0^3 e0", 
       "target": "P^3 D h1 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "c0 d0^6 e0", 
@@ -12204,13 +12344,17 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P h1^2 d0^7", "target": "P^2 c0 d0^6", "attributes": ["dr", "0"] }, 
+    {
+      "source": "_P h1^2 d0^7", 
+      "target": "P^2 c0 d0^6", 
+      "attributes": ["dr", "n0"]
+    }, 
     {
       "source": "_P^2 c0 d0^6", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^2 c0 d0^6", "target": "P^3 d0^6", "attributes": ["dr", "0"] }, 
+    { "source": "_P^2 c0 d0^6", "target": "P^3 d0^6", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^4 D c0 d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -12229,7 +12373,7 @@
     {
       "source": "_P^5 D h1^2 d0^3", 
       "target": "P^6 D c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^7 c0", 
@@ -12240,7 +12384,7 @@
     {
       "source": "_P^6 D c0 d0^2", 
       "target": "_t P^6 h0 d0^3 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^7 D h1 d0^2", 
@@ -12265,14 +12409,14 @@
     {
       "source": "_P^8 h1^2 d0^3", 
       "target": "P^9 c0 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^9 c0 d0^2", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_P^9 c0 d0^2", "target": "P^10 d0^2", "attributes": ["dr", "0"] }, 
+    { "source": "_P^9 c0 d0^2", "target": "P^10 d0^2", "attributes": ["dr", "n0"] }, 
     {
       "source": "_P^13 h1^4", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -12289,8 +12433,8 @@
       "attributes": ["h1tower"]
     }, 
     { "source": "M^2 g", "offset": {"x": 0.7, "y": 0.7}, "attributes": ["h1tower"] }, 
-    { "source": "M^2 g", "target": "M D1 P h1^4", "attributes": ["dr", "p", "3"] }, 
-    { "source": "M^2 g", "target": "h1^6 x103,12", "attributes": ["dr", "p", "3"] }, 
+    { "source": "M^2 g", "target": "M D1 P h1^4", "attributes": ["dr", "p", "n3"] }, 
+    { "source": "M^2 g", "target": "h1^6 x103,12", "attributes": ["dr", "p", "n3"] }, 
     {
       "source": "_M D1 h1^4 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -12304,7 +12448,7 @@
     {
       "source": "_M^2 h1^2 e0", 
       "target": "P D D1 c0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M D1 P h1^4", 
@@ -12321,7 +12465,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "M D^2 e0", "target": "M D^2 h1^2 d0", "attributes": ["dr", "2"] }, 
+    { "source": "M D^2 e0", "target": "M D^2 h1^2 d0", "attributes": ["dr", "n2"] }, 
     {
       "source": "_P D D1 c0 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -12330,7 +12474,7 @@
     {
       "source": "_P D D1 c0 e0", 
       "target": "P^2 D D1 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M D1 h1^5 c0", 
@@ -12345,7 +12489,7 @@
     {
       "source": "M c0 e0 g^2", 
       "target": "M h1^2 c0 e0^2 g", 
-      "attributes": ["dr", "2"]
+      "attributes": ["dr", "n2"]
     }, 
     {
       "source": "_M D h1 c0 d0 e0", 
@@ -12355,7 +12499,7 @@
     {
       "source": "_M D h1 c0 d0 e0", 
       "target": "M P D h1 d0 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M D1 h1^12", 
@@ -12380,7 +12524,7 @@
     {
       "source": "D^2 c0 e0^2 g", 
       "target": "D^2 M h1^8 c0", 
-      "attributes": ["dr", "8"]
+      "attributes": ["dr", "n8"]
     }, 
     {
       "source": "_D^3 h1 c0 d0^2", 
@@ -12390,7 +12534,7 @@
     {
       "source": "_D^3 h1 c0 d0^2", 
       "target": "P D^3 h1 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_M h1^2 d0^2 e0^2", 
@@ -12400,7 +12544,7 @@
     {
       "source": "_M h1^2 d0^2 e0^2", 
       "target": "M c0 d0^4", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M D1 h1^13", 
@@ -12417,7 +12561,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M c0 d0^4", "target": "M P d0^4", "attributes": ["dr", "0"] }, 
+    { "source": "_M c0 d0^4", "target": "M P d0^4", "attributes": ["dr", "n0"] }, 
     {
       "source": "_D^2 M h1^8 c0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -12436,14 +12580,18 @@
     {
       "source": "_D^2 h1^2 d0^3 e0", 
       "target": "P D^2 c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "D h1 e0^5", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "D h1 e0^5", "target": "M D h1^9 d0 e0", "attributes": ["dr", "8"] }, 
+    {
+      "source": "D h1 e0^5", 
+      "target": "M D h1^9 d0 e0", 
+      "attributes": ["dr", "n8"]
+    }, 
     {
       "source": "_D^2 M P h1^8", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -12462,7 +12610,7 @@
     {
       "source": "_P D^2 c0 d0^2 e0", 
       "target": "P^2 D^2 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "h1^2 e0^4 g^2", 
@@ -12477,7 +12625,7 @@
     {
       "source": "_D h1 c0 d0^3 e0^2", 
       "target": "D h1 d0^6", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^2 D^3 c0 d0", 
@@ -12502,14 +12650,14 @@
     {
       "source": "_h1^2 d0^4 e0^3", 
       "target": "c0 d0^6 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_c0 d0^6 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_c0 d0^6 e0", "target": "P d0^6 e0", "attributes": ["dr", "0"] }, 
+    { "source": "_c0 d0^6 e0", "target": "P d0^6 e0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P D c0 d0^5", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -12523,7 +12671,7 @@
     {
       "source": "_P^3 D h1^2 d0^3 e0", 
       "target": "P^4 D c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^5 c0 e0", 
@@ -12538,7 +12686,7 @@
     {
       "source": "_P^4 D c0 d0^2 e0", 
       "target": "_t P^3 h0 d0^6", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^6 e0", 
@@ -12550,7 +12698,7 @@
       "offset": {"x": 0.7, "y": 0.7}, 
       "attributes": ["h1tower"]
     }, 
-    { "source": "_M P^6 h1^2 d0", "target": "M P^7 c0", "attributes": ["dr", "0"] }, 
+    { "source": "_M P^6 h1^2 d0", "target": "M P^7 c0", "attributes": ["dr", "n0"] }, 
     {
       "source": "P^5 D h1 d0^2 e0", 
       "offset": {"x": 0.7, "y": 0.7}, 
@@ -12564,7 +12712,7 @@
     {
       "source": "_P^6 D h1 c0 d0^2", 
       "target": "P^7 D h1 d0^2", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "M P^8 h1", 
@@ -12589,7 +12737,7 @@
     {
       "source": "_P^6 h1^2 d0^3 e0", 
       "target": "P^7 c0 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "_P^7 c0 d0^2 e0", 
@@ -12599,7 +12747,7 @@
     {
       "source": "_P^7 c0 d0^2 e0", 
       "target": "P^8 d0^2 e0", 
-      "attributes": ["dr", "0"]
+      "attributes": ["dr", "n0"]
     }, 
     {
       "source": "P^8 D c0 d0", 

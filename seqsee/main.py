@@ -132,15 +132,10 @@ def load_template():
     return template
 
 
-def cssify_name(name):
+def css_class_name(name):
     """
-    Get a CSS-safe identifier from a name.
-
-    This is more complicated than just adding a period. This is because aliases can start with
-    numbers, but CSS classes cannot.
+    Given a name, return a CSS class name. This is done by prefixing the name with a dot.
     """
-    if name.isnumeric():
-        name = "n" + name
     return "." + name
 
 
@@ -190,7 +185,7 @@ def style_and_aliases_from_attributes(attributes):
                     new_style += {key: value}
         elif isinstance(attr, str):
             # This is a style alias
-            aliases.append(cssify_name(attr).removeprefix("."))
+            aliases.append(attr)
     return (new_style, aliases)
 
 
@@ -435,7 +430,7 @@ class Chart:
         # in the attribute aliases.
         for color_name, color_value in color_aliases.items():
             chart_css += {
-                cssify_name(color_name): {"fill": color_value, "stroke": color_value}
+                css_class_name(color_name): {"fill": color_value, "stroke": color_value}
             }
 
         # Save color aliases as CSS variables for use in the rest of the CSS
@@ -458,14 +453,14 @@ class Chart:
 
             style = copy.deepcopy(style)
             for alias in aliases:
-                style.append(chart_css[cssify_name(alias)])
+                style.append(chart_css[css_class_name(alias)])
 
             for property in ["fill", "stroke"]:
                 if property in style.keys() and style[property] in color_aliases:
                     # This is a color alias, so we need to use the CSS variable instead
                     style += {property: f"var(--{style[property]})"}
 
-            chart_css += {cssify_name(alias_name): style}
+            chart_css += {css_class_name(alias_name): style}
 
         self.chart_css = chart_css
 

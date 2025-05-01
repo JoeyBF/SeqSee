@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- We now require attribute names to be valid CSS identifiers.
+
 ## [0.2.0] - 2025-04-17
 
 ### Added
