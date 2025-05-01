@@ -31,7 +31,10 @@
       "properties": {
         "metadata": {
           "type": "object",
-          "properties": { "htmltitle": {"type": "string"} }
+          "properties": {
+            "htmltitle": {"type": "string"},
+            "title"    : {"type": "string"}
+          }
         },
         "chart": {
           "type": "object",

@@ -1,6 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/JoeyBF/SeqSee/refs/heads/master/seqsee/input_schema.json", 
   "header": {
+    "metadata": {
+      "htmltitle": "Adams-motivic-E6", 
+      "title": "Adams-motivic-E6", 
+      "author": "jsonmaker.py"
+    }, 
     "aliases": {
       "attributes": {
         "defaultNode": [ {"color": "gray"} ], 

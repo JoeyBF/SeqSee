@@ -233,8 +233,16 @@ def process_csv(input_file, output_file):
     # Load CSV data
     df = pd.read_csv(input_file)
 
+    # Parse reasonable title
+    title = input_file.split("/")[-1].split(".")[0]
+
     # Build a header that complies with the schema
     header = {
+        "metadata": {
+            "htmltitle": title,
+            "title": title,
+            "author": "jsonmaker.py",
+        },
         "aliases": {
             "attributes": {
                 "defaultNode": [{"color": "gray"}],

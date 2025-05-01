@@ -112,6 +112,8 @@ Contains global settings for chart configuration.
 
 - **`metadata`**: Holds metadata about the chart.
   - **`htmltitle`**: The `<title>` of the HTML output. Defaults to an empty string.
+  - **`title`**: The title displayed in the top left corner of the chart. Any LaTeX is automatically
+    rendered. Defaults to an empty string.
   - Any other key-value pair is accepted, but will have no effect on the output. This is useful for
     tagging output files, since the JSON format does not allow comments. Potentially useful data
     might include `author`, `date`, `source`, `version`, `description`, etc.

@@ -1,6 +1,6 @@
 SCHEMA_DEFAULTS = {
     "header": {
-        "metadata": {"htmltitle": ""},
+        "metadata": {"htmltitle": "", "title": ""},
         "chart": {
             "width": {"min": None, "max": None},
             "height": {"min": None, "max": None},

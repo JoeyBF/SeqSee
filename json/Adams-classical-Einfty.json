@@ -1,6 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/JoeyBF/SeqSee/refs/heads/master/seqsee/input_schema.json", 
   "header": {
+    "metadata": {
+      "htmltitle": "Adams-classical-Einfty", 
+      "title": "Adams-classical-Einfty", 
+      "author": "jsonmaker.py"
+    }, 
     "aliases": {
       "attributes": {
         "defaultNode": [ {"color": "gray"} ], 

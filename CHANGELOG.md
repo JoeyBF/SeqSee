@@ -5,6 +5,7 @@
 ### Changed
 
 - We now require attribute names to be valid CSS identifiers.
+- The `header/metadata/title` field is now rendered in the chart itself.
 
 ## [0.2.0] - 2025-04-17
 

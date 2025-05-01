@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title></title>
+  <title>algNovikov-E3</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
   <!-- KaTeX for math rendering -->
@@ -17,6 +17,10 @@
   <!-- Path data polyfill for SVG path manipulation -->
   <script src="https://cdn.jsdelivr.net/npm/path-data-polyfill@1.0.9/path-data-polyfill.min.js"></script>
   <style>
+    :root {
+      --spacing: 60.0px;
+    }
+
     body {
       font-family: "Computer Modern Serif", serif;
       font-size: 20pt;
@@ -258,12 +262,24 @@ circle {
       position: absolute;
       display: none;
       pointer-events: none;
-      border-style: solid;
-      border-width: 1px;
+      color: var(--textColor);
+      border: 1px solid var(--borderColor);
       padding: 5px;
       z-index: 10;
+    }
+
+    #floating-title {
+      position: absolute;
+      top: calc(var(--spacing) / 3);
+      left: var(--spacing);
+      padding: 0.5rem;
       color: var(--textColor);
-      border-color: var(--borderColor);
+      border: 2px solid var(--borderColor);
+      z-index: 20;
+    }
+
+    #floating-title:empty {
+      display: none;
     }
 
     .axis {
@@ -4713,6 +4729,7 @@ circle {
       </g>
     </svg>
   </div>
+  <div id="floating-title" class="background-style">algNovikov-E3</div>
   <div id="tooltip" class="background-style"></div>
   <script>
     function applyFunctionToPath(path, fn) {
@@ -5043,21 +5060,27 @@ circle {
         }
       });
 
+      const katexOptions = {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ],
+        throwOnError : false
+      };
+
+      // Render latex in the floating title
+      const floatingTitle = document.getElementById("floating-title");
+      window.renderMathInElement(floatingTitle, katexOptions);
+
       // Add hover events to nodes for tooltips
       document.querySelectorAll("circle").forEach((node) => {
         node.addEventListener("mouseover", function (event) {
           const label = this.getAttribute("data-label");
           if (label) {
             tooltip.innerHTML = label;
-            window.renderMathInElement(tooltip, {
-              delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '$', right: '$', display: false},
-                {left: '\\(', right: '\\)', display: false},
-                {left: '\\[', right: '\\]', display: true}
-              ],
-              throwOnError : false
-            });
+            window.renderMathInElement(tooltip, katexOptions);
             tooltip.style.display = "block";
           }
         });
