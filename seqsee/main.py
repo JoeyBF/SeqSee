@@ -5,12 +5,17 @@ import math
 import sys
 import os
 from collections import defaultdict
-from dataclasses import dataclass
 from jinja2 import Environment, FileSystemLoader
-from seqsee.defaults import (
-    SCHEMA_DEFAULTS,
-    get_schema_default,
+import pydantic
+from seqsee.chart_internals import (
+    Attribute,
+    Attributes,
+    DimensionRange,
+    Edge,
+    Header,
+    Node,
 )
+from typing import Callable, Dict, List, Optional
 
 # The distance between successive x or y coordinates. Units are in pixels. This will be fixed
 # throughout the html file, but zooming is implemented through a transformation matrix applied to
@@ -138,7 +143,7 @@ def css_class_name(name):
     return "." + name
 
 
-def style_and_aliases_from_attributes(attributes):
+def style_and_aliases_from_attributes(attributes: Attributes):
     """
     Given a list of attributes, return a `CssStyle` object that contains the union of all raw
     attribute objects, and a list of aliases.
@@ -147,10 +152,13 @@ def style_and_aliases_from_attributes(attributes):
     instead of a `style` attribute.
     """
 
+    assert scale is not None
+
     new_style = CssStyle()
-    aliases = []
+    aliases: List[str] = []
+
     for attr in attributes:
-        if isinstance(attr, dict):
+        if isinstance(attr, Attribute):
             # This is a raw attribute object
             for key, value in attr.items():
                 if key == "color":
@@ -188,98 +196,24 @@ def style_and_aliases_from_attributes(attributes):
     return (new_style, aliases)
 
 
-@dataclass
-class DimensionRange:
-    min: int | None
-    max: int | None
+class Chart(pydantic.BaseModel):
+    header: Header = Header()
+    nodes: Dict[str, Node] = {}
+    edges: List[Edge] = []
 
-    @classmethod
-    def from_json(cls, data):
-        return cls(data.get("min", None), data.get("max", None))
+    model_config = pydantic.ConfigDict(extra="allow", arbitrary_types_allowed=True)
+    _chart_css: Optional[CssStyle] = None
 
-
-class Chart:
     def __init__(self, chart_spec):
         global scale
 
         # validate against schema
         jsonschema.validate(instance=chart_spec, schema=schema)
+        super().__init__(**chart_spec)
 
-        self._spec = chart_spec
-
-        self.fill_defaults()
-
-        scale = self["header", "chart", "scale"]
-        self.width = DimensionRange.from_json(self["header", "chart", "width"])
-        self.height = DimensionRange.from_json(self["header", "chart", "height"])
+        scale = self.header.chart.scale
 
         self.generate_css_styles()
-
-    def __getitem__(self, path):
-        current_value = self._spec
-
-        if isinstance(path, str):
-            path = (path,)
-
-        for key in path:
-            current_value = current_value[key]
-
-        return current_value
-
-    def __setitem__(self, path, value):
-        current_value = self._spec
-
-        if isinstance(path, str):
-            path = (path,)
-
-        for key in path[:-1]:
-            current_value = current_value[key]
-
-        current_value[path[-1]] = value
-
-    def __contains__(self, path):
-        current_value = self._spec
-
-        if isinstance(path, str):
-            path = (path,)
-
-        for key in path:
-            if key not in current_value:
-                return False
-            current_value = current_value[key]
-
-        return True
-
-    def fill_defaults(self):
-        """
-        Fill in any missing values in the chart specification with the default values from the
-        schema.
-        """
-
-        def process_dict(spec_fragment, schema_fragment):
-            for key, value in schema_fragment.items():
-                if key not in spec_fragment:
-                    spec_fragment[key] = value
-                elif isinstance(value, dict):
-                    # This is a nested object, so we need to recurse
-                    process_dict(spec_fragment[key], value)
-                elif isinstance(value, list):
-                    # We need to merge this list with the existing one. This creates a new list
-                    # instead of modifying the existing one, which would be bad. This is because it
-                    # could mutate a default value, which would ultimately corrupt
-                    # `SCHEMA_DEFAULTS`.
-                    spec_fragment[key] = spec_fragment[key] + value
-
-        # Create top-level defaults
-        for key, value in SCHEMA_DEFAULTS.items():
-            if key not in self:
-                self[key] = type(value)()
-
-        process_dict(self["header"], SCHEMA_DEFAULTS["header"])
-
-        # Fill in the defaults for the nodes
-        for node in self["nodes"].values():
-            process_dict(node, SCHEMA_DEFAULTS["nodes"])
 
     def compute_chart_dimensions(self):
         """
@@ -291,8 +225,10 @@ class Chart:
         if there are no nodes.
         """
 
-        def compute_dimension_bounds(dim_range, coord_name, default):
-            coords = [node[coord_name] for node in self["nodes"].values()]
+        def compute_dimension_bounds(
+            dim_range: DimensionRange, coord: Callable[[Node], int], default: int
+        ):
+            coords = [coord(node) for node in self.nodes.values()]
 
             if dim_range.min is None:
                 # Greatest even number strictly smaller than the minimum coordinate of any node
@@ -305,36 +241,36 @@ class Chart:
                 dim_range.max = dimension
 
         # Arbitrary default values. These are only used if there are no nodes.
-        compute_dimension_bounds(self.width, "x", 0)
-        compute_dimension_bounds(self.height, "y", 0)
+        compute_dimension_bounds(self.header.chart.width, lambda node: node.x, 0)
+        compute_dimension_bounds(self.header.chart.height, lambda node: node.y, 0)
 
     def calculate_absolute_positions(self):
         """
         Compute the final positions of the nodes in the chart.
 
-        This modifies the nodes in `self.nodes` in-place to add attributes `absoluteX` and
-        `absoluteY`. They will be used by the SVG generation code to place the nodes at the correct
-        positions and to draw the edges.
+        This computes the values of the `_absoluteX` and `_absoluteY` properties of all nodes in
+        `self.nodes`. Those values will be used by the SVG generation code to place the nodes at the
+        correct positions and to draw the edges.
         """
 
         nodes_by_bidegree = defaultdict(list)
 
         # Group nodes by bidegree
-        for node_id, node in self["nodes"].items():
-            x, y = node["x"], node["y"]
+        for node_id, node in self.nodes.items():
+            x, y = node.x, node.y
             nodes_by_bidegree[x, y].append(node_id)
 
         # Sort bidegrees by the `position` attribute of the nodes
         for bidegree, nodes in nodes_by_bidegree.items():
             nodes_by_bidegree[bidegree] = sorted(
-                nodes, key=lambda node_id: self["nodes", node_id, "position"]
+                nodes, key=lambda node_id: self.nodes[node_id].position
             )
 
         # Get defaults and compute constants
-        chart_data = self["header", "chart"]
-        node_size = chart_data["nodeSize"]
-        node_spacing = chart_data["nodeSpacing"]
-        node_slope = chart_data["nodeSlope"]
+        chart_data = self.header.chart
+        node_size = chart_data.nodeSize
+        node_spacing = chart_data.nodeSpacing
+        node_slope = chart_data.nodeSlope
 
         distance_between_centers = node_spacing + 2 * node_size
 
@@ -351,26 +287,26 @@ class Chart:
             first_center_to_last_center = (bidegree_rank - 1) * distance_between_centers
             for i, node_id in enumerate(nodes):
                 offset = -first_center_to_last_center / 2 + i * distance_between_centers
-                self["nodes", node_id, "absoluteX"] = x + offset * math.cos(theta)
-                self["nodes", node_id, "absoluteY"] = y + offset * math.sin(theta)
+                self.nodes[node_id]._absoluteX = x + offset * math.cos(theta)
+                self.nodes[node_id]._absoluteY = y + offset * math.sin(theta)
 
     def generate_nodes_svg(self):
         """Generate an SVG <g> element containing all nodes."""
 
         nodes_svg = '<g id="nodes-group">\n'
 
-        for node_id, node in self["nodes"].items():
-            cx = node["absoluteX"] * scale
-            cy = node["absoluteY"] * scale
+        for node_id, node in self.nodes.items():
+            cx = node._absoluteX * scale
+            cy = node._absoluteY * scale
 
-            attributes = node.get("attributes", [])
+            attributes = node.attributes
             style, aliases = style_and_aliases_from_attributes(attributes)
             style = style.generate(indent=0).replace("\n", " ").strip(" {}")
             if style:
                 style = f'style="{style}"'
             aliases = " ".join(aliases)
 
-            label = node.get("label", "")
+            label = node.label
 
             nodes_svg += f'<circle id="{node_id}" class="defaultNode {aliases}" cx="{cx}" cy="{cy}" {style} data-label="{label}"></circle>\n'
 
@@ -382,38 +318,38 @@ class Chart:
 
         edges_svg = '<g id="edges-group">\n'
 
-        for edge in self["edges"]:
-            source = self["nodes", edge["source"]]
-            if "target" in edge:
-                target = self["nodes", edge["target"]]
-                target_x = target["absoluteX"] * scale
-                target_y = target["absoluteY"] * scale
-            elif "offset" in edge:
-                target_x = (source["absoluteX"] + edge["offset"]["x"]) * scale
-                target_y = (source["absoluteY"] + edge["offset"]["y"]) * scale
+        for edge in self.edges:
+            source = self.nodes[edge.source]
+            if edge.target is not None:
+                target = self.nodes[edge.target]
+                target_x = target._absoluteX * scale
+                target_y = target._absoluteY * scale
+            elif edge.offset is not None:
+                target_x = (source._absoluteX + edge.offset.x) * scale
+                target_y = (source._absoluteY + edge.offset.y) * scale
             else:
                 # Impossible due to schema
                 raise NotImplementedError
 
-            x1 = source["absoluteX"] * scale
-            y1 = source["absoluteY"] * scale
+            x1 = source._absoluteX * scale
+            y1 = source._absoluteY * scale
 
-            attributes = edge.get("attributes", [])
+            attributes = edge.attributes
             style, aliases = style_and_aliases_from_attributes(attributes)
             style = style.generate(indent=0).replace("\n", " ").strip(" {}")
             aliases = " ".join(aliases)
 
-            if edge.get("bezier"):
-                control_points = edge["bezier"]
+            if edge.bezier is not None:
+                control_points = edge.bezier
                 if len(control_points) == 1:
-                    control_x = control_points[0]["x"] * scale + x1
-                    control_y = control_points[0]["y"] * scale + y1
+                    control_x = control_points[0].x * scale + x1
+                    control_y = control_points[0].y * scale + y1
                     curve_d = f"Q {control_x} {control_y} {target_x} {target_y}"
                 elif len(control_points) == 2:
-                    control0_x = control_points[0]["x"] * scale + x1
-                    control0_y = control_points[0]["y"] * scale + y1
-                    control1_x = control_points[1]["x"] * scale + target_x
-                    control1_y = control_points[1]["y"] * scale + target_y
+                    control0_x = control_points[0].x * scale + x1
+                    control0_y = control_points[0].y * scale + y1
+                    control1_x = control_points[1].x * scale + target_x
+                    control1_y = control_points[1].y * scale + target_y
                     curve_d = f"C {control0_x} {control0_y} {control1_x} {control1_y} {target_x} {target_y}"
                 else:
                     # Impossible due to schema
@@ -445,9 +381,9 @@ class Chart:
 
         template = load_template()
         html_output = template.render(
-            chart=self,
-            spacing=scale,
-            css_styles=self.chart_css.generate(),
+            chart=self.header.chart,
+            metadata=self.header.metadata,
+            css_styles=self._chart_css.generate(),
             static_svg_content=static_svg_content,
         )
         return html_output
@@ -457,8 +393,8 @@ class Chart:
 
         chart_css = CssStyle()
 
-        color_aliases = self["header", "aliases", "colors"]
-        attribute_aliases = self["header", "aliases", "attributes"]
+        color_aliases = self.header.aliases.colors.model_dump()
+        attribute_aliases = self.header.aliases.attributes.merge_with_defaults()
 
         # Generate CSS classes for color aliases. We do it first because we may need to reference them
         # in the attribute aliases.
@@ -476,7 +412,7 @@ class Chart:
         }
 
         # Generate CSS class for nodes to set the appropriate size
-        node_size = self["header", "chart", "nodeSize"]
+        node_size = self.header.chart.nodeSize
         chart_css += {"circle": {"stroke-width": 0, "r": scale * node_size}}
 
         # Generate CSS classes for attribute aliases
@@ -494,7 +430,7 @@ class Chart:
 
             chart_css += {css_class_name(alias_name): style}
 
-        self.chart_css = chart_css
+        self._chart_css = chart_css
 
 
 def process_json(input_file, output_file):

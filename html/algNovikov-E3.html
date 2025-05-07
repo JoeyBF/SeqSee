@@ -40,6 +40,21 @@
     }
 
 /* Dynamically generated CSS styles */
+.backgroundColor {
+    fill: white;
+    stroke: white;
+}
+
+.borderColor {
+    fill: black;
+    stroke: black;
+}
+
+.textColor {
+    fill: black;
+    stroke: black;
+}
+
 .darkcyan {
     fill: #00B3B3;
     stroke: #00B3B3;
@@ -65,30 +80,15 @@
     stroke: #FF00FF;
 }
 
-.backgroundColor {
-    fill: white;
-    stroke: white;
-}
-
-.borderColor {
-    fill: black;
-    stroke: black;
-}
-
-.textColor {
-    fill: black;
-    stroke: black;
-}
-
 :root {
+    --backgroundColor: white;
+    --borderColor: black;
+    --textColor: black;
     --darkcyan: #00B3B3;
     --darkgreen: #00B300;
     --gray: #666666;
     --red: #FF0000;
     --magenta: #FF00FF;
-    --backgroundColor: white;
-    --borderColor: black;
-    --textColor: black;
 }
 
 circle {
@@ -96,14 +96,20 @@ circle {
     r: 2.4px;
 }
 
+.grid {
+    fill: #ccc;
+    stroke: #ccc;
+    stroke-width: 0.6px;
+}
+
 .defaultNode {
-    fill: black;
-    stroke: black;
+    fill: var(--gray);
+    stroke: var(--gray);
 }
 
 .defaultEdge {
-    fill: black;
-    stroke: black;
+    fill: var(--gray);
+    stroke: var(--gray);
     stroke-width: 1.2px;
 }
 
@@ -244,12 +250,6 @@ circle {
     marker-end: url(#arrow-simple);
     fill: var(--red);
     stroke: var(--red);
-}
-
-.grid {
-    fill: #ccc;
-    stroke: #ccc;
-    stroke-width: 0.6px;
 }
 
 
@@ -4729,7 +4729,7 @@ circle {
       </g>
     </svg>
   </div>
-  <div id="floating-title" class="background-style">algNovikov-E3</div>
+  <div id="floating-title" class="background-style"></div>
   <div id="tooltip" class="background-style"></div>
   <script>
     function applyFunctionToPath(path, fn) {

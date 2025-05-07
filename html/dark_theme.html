@@ -45,14 +45,14 @@
     stroke: #1a1a1a;
 }
 
-.textColor {
-    fill: #ffffff;
-    stroke: #ffffff;
-}
-
 .borderColor {
     fill: #4a4a4a;
     stroke: #4a4a4a;
+}
+
+.textColor {
+    fill: #ffffff;
+    stroke: #ffffff;
 }
 
 .neonBlue {
@@ -72,8 +72,8 @@
 
 :root {
     --backgroundColor: #1a1a1a;
-    --textColor: #ffffff;
     --borderColor: #4a4a4a;
+    --textColor: #ffffff;
     --neonBlue: #00ffff;
     --neonPink: #ff69b4;
     --neonGreen: #39ff14;
@@ -84,21 +84,21 @@ circle {
     r: 2.4px;
 }
 
-.defaultNode {
-    fill: black;
-    stroke: black;
-}
-
-.defaultEdge {
-    fill: black;
-    stroke: black;
+.grid {
+    fill: #2a2a2a;
+    stroke: #2a2a2a;
     stroke-width: 1.2px;
 }
 
-.grid {
-    fill: #ccc;
-    stroke: #ccc;
-    stroke-width: 0.6px;
+.defaultNode {
+    fill: var(--neonBlue);
+    stroke: var(--neonBlue);
+}
+
+.defaultEdge {
+    fill: var(--neonPink);
+    stroke: var(--neonPink);
+    stroke-width: 1.7999999999999998px;
 }
 
 .special {
@@ -233,7 +233,7 @@ circle {
       </g>
     </svg>
   </div>
-  <div id="floating-title" class="background-style">Custom Colors Demo</div>
+  <div id="floating-title" class="background-style"></div>
   <div id="tooltip" class="background-style"></div>
   <script>
     function applyFunctionToPath(path, fn) {

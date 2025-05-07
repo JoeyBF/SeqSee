@@ -40,21 +40,6 @@
     }
 
 /* Dynamically generated CSS styles */
-.gray {
-    fill: #666;
-    stroke: #666;
-}
-
-.tau1color {
-    fill: #DD0000;
-    stroke: #DD0000;
-}
-
-.tau1extncolor {
-    fill: magenta;
-    stroke: magenta;
-}
-
 .backgroundColor {
     fill: white;
     stroke: white;
@@ -70,13 +55,28 @@
     stroke: black;
 }
 
+.gray {
+    fill: #666;
+    stroke: #666;
+}
+
+.tau1color {
+    fill: #DD0000;
+    stroke: #DD0000;
+}
+
+.tau1extncolor {
+    fill: magenta;
+    stroke: magenta;
+}
+
 :root {
-    --gray: #666;
-    --tau1color: #DD0000;
-    --tau1extncolor: magenta;
     --backgroundColor: white;
     --borderColor: black;
     --textColor: black;
+    --gray: #666;
+    --tau1color: #DD0000;
+    --tau1extncolor: magenta;
 }
 
 circle {
@@ -84,14 +84,20 @@ circle {
     r: 2.4px;
 }
 
+.grid {
+    fill: #ccc;
+    stroke: #ccc;
+    stroke-width: 0.6px;
+}
+
 .defaultNode {
-    fill: black;
-    stroke: black;
+    fill: var(--gray);
+    stroke: var(--gray);
 }
 
 .defaultEdge {
-    fill: black;
-    stroke: black;
+    fill: var(--gray);
+    stroke: var(--gray);
     stroke-width: 1.2px;
 }
 
@@ -103,12 +109,6 @@ circle {
 .tau1extn {
     fill: var(--tau1extncolor);
     stroke: var(--tau1extncolor);
-}
-
-.grid {
-    fill: #ccc;
-    stroke: #ccc;
-    stroke-width: 0.6px;
 }
 
 
@@ -257,7 +257,7 @@ circle {
       </g>
     </svg>
   </div>
-  <div id="floating-title" class="background-style">First few $\mathbb{C}$-motivic stable stems</div>
+  <div id="floating-title" class="background-style">$E_2^{\mathrm{mot}}(\mathbb{S})$</div>
   <div id="tooltip" class="background-style"></div>
   <script>
     function applyFunctionToPath(path, fn) {

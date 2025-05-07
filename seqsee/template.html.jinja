@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>{{ chart.header.get("metadata", {}).get("htmltitle", "") }}</title>
+  <title>{{ metadata.htmltitle }}</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
   <!-- KaTeX for math rendering -->
@@ -18,7 +18,7 @@
   <script src="https://cdn.jsdelivr.net/npm/path-data-polyfill@1.0.9/path-data-polyfill.min.js"></script>
   <style>
     :root {
-      --spacing: {{ spacing }}px;
+      --spacing: {{ chart.scale }}px;
     }
 
     body {
@@ -108,8 +108,8 @@
           <path d='M0,0 V4 L2,2 Z' />
         </marker>
         <!-- Define the grid pattern -->
-        <pattern id="grid" width="{{ 2*spacing }}" height="{{ 2*spacing }}" patternUnits="userSpaceOnUse">
-          <path id="grid-path" d="M {{ 2*spacing }} 0 L 0 0 0 {{ 2*spacing }}" class="grid" style="fill: none;"/>
+        <pattern id="grid" width="{{ 2 * chart.scale }}" height="{{ 2 * chart.scale }}" patternUnits="userSpaceOnUse">
+          <path id="grid-path" d="M {{ 2 * chart.scale }} 0 L 0 0 0 {{ 2 * chart.scale }}" class="grid" style="fill: none;"/>
         </pattern>
         <g id="chart-defs">
           <!-- Nodes and Edges generated statically by Python -->
@@ -120,12 +120,12 @@
       </defs>
       <g id="content-group" class="svg-pan-zoom_viewport">
         <!-- Translate the grid so that it covers the appropriate region outside the first quadrant -->
-        <g id="origin-translate" transform="translate({{ chart.width.min * spacing }} {{ -chart.height.min * spacing }})">
+        <g id="origin-translate" transform="translate({{ chart.width.min * chart.scale }} {{ -chart.height.min * chart.scale }})">
           <!-- Apply the grid pattern to a background rectangle -->
           <rect
             id="grid-background"
-            width="{{ (chart.width.max - chart.width.min) * spacing }}px"
-            height="{{ (chart.height.max - chart.height.min) * spacing }}px"
+            width="{{ (chart.width.max - chart.width.min) * chart.scale }}px"
+            height="{{ (chart.height.max - chart.height.min) * chart.scale }}px"
             fill="url(#grid)"
           />
         </g>
@@ -143,19 +143,19 @@
         <g id="ticks" class="tick">
           <g id="x-ticks" class="x-tick">
             {%- for i in range(chart.width.min, chart.width.max + 1, 2) %}
-              <text x="{{ i * spacing }}" y="{{ 0.5 * spacing }}">{{ i }}</text>
+              <text x="{{ i * chart.scale }}" y="{{ 0.5 * chart.scale }}">{{ i }}</text>
             {%- endfor %}
           </g>
           <g id="y-ticks" class="y-tick">
             {%- for j in range(chart.height.min, chart.height.max + 1, 2) %}
-              <text x="{{ 0.5 * spacing }}" y="{{ j * spacing }}">{{ j }}</text>
+              <text x="{{ 0.5 * chart.scale }}" y="{{ j * chart.scale }}">{{ j }}</text>
             {%- endfor %}
           </g>
         </g>
       </g>
     </svg>
   </div>
-  <div id="floating-title" class="background-style">{{ chart.header.get("metadata", {}).get("title", "") }}</div>
+  <div id="floating-title" class="background-style">{{ metadata.displaytitle }}</div>
   <div id="tooltip" class="background-style"></div>
   <script>
     function applyFunctionToPath(path, fn) {
@@ -202,7 +202,7 @@
     window.addEventListener("DOMContentLoaded", () => {
       var canvasHeight = 0;
       var canvasWidth = 0;
-      const spacing = {{ spacing }};
+      const spacing = {{ chart.scale }};
       const axisSpacing = 0.6 * spacing;
 
       const half_grid_width = parseFloat(window.getComputedStyle(document.getElementById("grid-path")).strokeWidth) / 2;
