@@ -17,11 +17,6 @@ from seqsee.chart_internals import (
 )
 from typing import Callable, Dict, List, Optional
 
-# The distance between successive x or y coordinates. Units are in pixels. This will be fixed
-# throughout the html file, but zooming is implemented through a transformation matrix applied to
-# the <g> element that contains the nodes, edges, and background grid.
-scale = None
-
 
 # Lifted/adapted from MIT-licensed https://github.com/slacy/pyssed/
 class CssStyle:
@@ -152,8 +147,6 @@ def style_and_aliases_from_attributes(attributes: Attributes):
     instead of a `style` attribute.
     """
 
-    assert scale is not None
-
     new_style = CssStyle()
     aliases: List[str] = []
 
@@ -164,9 +157,11 @@ def style_and_aliases_from_attributes(attributes: Attributes):
                 if key == "color":
                     new_style += {"fill": value, "stroke": value}
                 elif key == "size":
-                    new_style += {"r": scale * float(value)}
+                    new_style += {"r": f"calc({float(value)} * var(--spacing))"}
                 elif key == "thickness":
-                    new_style += {"stroke-width": scale * float(value)}
+                    new_style += {
+                        "stroke-width": f"calc({float(value)} * var(--spacing))"
+                    }
                 elif key == "arrowTip":
                     if value == "none":
                         new_style += {"marker-end": "none"}
@@ -205,13 +200,9 @@ class Chart(pydantic.BaseModel):
     _chart_css: Optional[CssStyle] = None
 
     def __init__(self, chart_spec):
-        global scale
-
         # validate against schema
         jsonschema.validate(instance=chart_spec, schema=schema)
         super().__init__(**chart_spec)
-
-        scale = self.header.chart.scale
 
         self.generate_css_styles()
 
@@ -293,6 +284,7 @@ class Chart(pydantic.BaseModel):
     def generate_nodes_svg(self):
         """Generate an SVG <g> element containing all nodes."""
 
+        scale = self.header.chart.scale
         nodes_svg = '<g id="nodes-group">\n'
 
         for node_id, node in self.nodes.items():
@@ -316,6 +308,7 @@ class Chart(pydantic.BaseModel):
     def generate_edges_svg(self):
         """Generate an SVG <g> element containing all edges."""
 
+        scale = self.header.chart.scale
         edges_svg = '<g id="edges-group">\n'
 
         for edge in self.edges:
@@ -413,7 +406,9 @@ class Chart(pydantic.BaseModel):
 
         # Generate CSS class for nodes to set the appropriate size
         node_size = self.header.chart.nodeSize
-        chart_css += {"circle": {"stroke-width": 0, "r": scale * node_size}}
+        chart_css += {
+            "circle": {"stroke-width": 0, "r": f"calc({node_size} * var(--spacing))"}
+        }
 
         # Generate CSS classes for attribute aliases
         for alias_name, attributes_list in attribute_aliases.items():
