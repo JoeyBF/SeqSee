@@ -181,7 +181,9 @@ def style_and_aliases_from_attributes(attributes: Attributes):
                             "stroke-dasharray": "0, 2",
                             "stroke-linecap": "round",
                         }
-                    # Other values impossible due to schema
+                    else:
+                        # Impossible due to schema
+                        raise NotImplementedError
                 else:
                     # Just treat the key-value pair as raw CSS
                     new_style += {key: value}
