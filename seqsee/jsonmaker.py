@@ -1,7 +1,7 @@
-import pandas as pd
+import pandas as pd  # type: ignore
 import re
 import sys
-from compact_json import Formatter
+from compact_json import Formatter  # type: ignore
 from jsonschema import validate
 from .main import load_schema
 
