@@ -198,15 +198,57 @@ class Chart(pydantic.BaseModel):
     nodes: Dict[str, Node] = {}
     edges: List[Edge] = []
 
-    model_config = pydantic.ConfigDict(extra="allow", arbitrary_types_allowed=True)
-    _chart_css: Optional[CssStyle] = None
-
     def __init__(self, chart_spec):
         # validate against schema
         jsonschema.validate(instance=chart_spec, schema=schema)
         super().__init__(**chart_spec)
 
-        self.generate_css_styles()
+    @property
+    def chart_css(self):
+        """Generate CSS from the data in `header/aliases`"""
+
+        chart_css = CssStyle()
+
+        color_aliases = self.header.aliases.colors.model_dump()
+        attribute_aliases = self.header.aliases.attributes.merge_with_defaults()
+
+        # Generate CSS classes for color aliases. We do it first because we may need to reference them
+        # in the attribute aliases.
+        for color_name, color_value in color_aliases.items():
+            chart_css += {
+                css_class_name(color_name): {"fill": color_value, "stroke": color_value}
+            }
+
+        # Save color aliases as CSS variables for use in the rest of the CSS
+        chart_css += {
+            ":root": {
+                f"--{color_name}": color_value
+                for color_name, color_value in color_aliases.items()
+            }
+        }
+
+        # Generate CSS class for nodes to set the appropriate size
+        node_size = self.header.chart.nodeSize
+        chart_css += {
+            "circle": {"stroke-width": 0, "r": f"calc({node_size} * var(--spacing))"}
+        }
+
+        # Generate CSS classes for attribute aliases
+        for alias_name, attributes_list in attribute_aliases.items():
+            style, aliases = style_and_aliases_from_attributes(attributes_list)
+
+            style = copy.deepcopy(style)
+            for alias in aliases:
+                style.append(chart_css[css_class_name(alias)])
+
+            for property in ["fill", "stroke"]:
+                if property in style.keys() and style[property] in color_aliases:
+                    # This is a color alias, so we need to use the CSS variable instead
+                    style += {property: f"var(--{style[property]})"}
+
+            chart_css += {css_class_name(alias_name): style}
+
+        return chart_css
 
     def compute_chart_dimensions(self):
         """
@@ -367,8 +409,6 @@ class Chart(pydantic.BaseModel):
         return self.generate_edges_svg() + self.generate_nodes_svg()
 
     def generate_html(self):
-        # Generate CSS styles to be placed in <head>
-        self.generate_css_styles()
         # Calculate chart dimensions
         self.compute_chart_dimensions()
         # Generate SVG content
@@ -378,56 +418,10 @@ class Chart(pydantic.BaseModel):
         html_output = template.render(
             chart=self.header.chart,
             metadata=self.header.metadata,
-            css_styles=self._chart_css.generate(),
+            css_styles=self.chart_css.generate(),
             static_svg_content=static_svg_content,
         )
         return html_output
-
-    def generate_css_styles(self):
-        """Generate `self.chart_css` from the data in "header/aliases" """
-
-        chart_css = CssStyle()
-
-        color_aliases = self.header.aliases.colors.model_dump()
-        attribute_aliases = self.header.aliases.attributes.merge_with_defaults()
-
-        # Generate CSS classes for color aliases. We do it first because we may need to reference them
-        # in the attribute aliases.
-        for color_name, color_value in color_aliases.items():
-            chart_css += {
-                css_class_name(color_name): {"fill": color_value, "stroke": color_value}
-            }
-
-        # Save color aliases as CSS variables for use in the rest of the CSS
-        chart_css += {
-            ":root": {
-                f"--{color_name}": color_value
-                for color_name, color_value in color_aliases.items()
-            }
-        }
-
-        # Generate CSS class for nodes to set the appropriate size
-        node_size = self.header.chart.nodeSize
-        chart_css += {
-            "circle": {"stroke-width": 0, "r": f"calc({node_size} * var(--spacing))"}
-        }
-
-        # Generate CSS classes for attribute aliases
-        for alias_name, attributes_list in attribute_aliases.items():
-            style, aliases = style_and_aliases_from_attributes(attributes_list)
-
-            style = copy.deepcopy(style)
-            for alias in aliases:
-                style.append(chart_css[css_class_name(alias)])
-
-            for property in ["fill", "stroke"]:
-                if property in style.keys() and style[property] in color_aliases:
-                    # This is a color alias, so we need to use the CSS variable instead
-                    style += {property: f"var(--{style[property]})"}
-
-            chart_css += {css_class_name(alias_name): style}
-
-        self._chart_css = chart_css
 
 
 def process_json(input_file, output_file):
