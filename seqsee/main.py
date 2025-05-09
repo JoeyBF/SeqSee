@@ -250,9 +250,10 @@ class Chart(pydantic.BaseModel):
 
         return chart_css
 
-    def compute_chart_dimensions(self):
+    def normalize_chart_dimensions(self):
         """
-        This replaces the null values in `self.width` and `self.height` by autodetected boundaries.
+        This replaces the null values in `self.width` and `self.height` by autodetected boundaries,
+        and ensures that the values are even numbers.
 
         The bounds on the width and height are calculated based on the positions of the nodes in the
         chart. For maximum values, we give the smallest even size that makes the last column/row
@@ -278,6 +279,29 @@ class Chart(pydantic.BaseModel):
         # Arbitrary default values. These are only used if there are no nodes.
         compute_dimension_bounds(self.header.chart.width, lambda node: node.x, 0)
         compute_dimension_bounds(self.header.chart.height, lambda node: node.y, 0)
+
+        # Make sure that the min and max values are even numbers
+        self.header.chart.width.make_even()
+        self.header.chart.height.make_even()
+
+    def trim_contents(self):
+        """Remove all nodes and edges that are not within bounds."""
+
+        # Remove nodes that are not in the chart
+        trimmed_nodes = {}
+        for node_id, node in self.nodes.items():
+            if node.x in self.header.chart.width and node.y in self.header.chart.height:
+                trimmed_nodes[node_id] = node
+        self.nodes = trimmed_nodes
+
+        trimmed_edges = []
+        for edge in self.edges:
+            if edge.source in self.nodes:
+                target_in_bounds = edge.target in self.nodes
+                is_freestanding = edge.target is None
+                if is_freestanding or target_in_bounds:
+                    trimmed_edges.append(edge)
+        self.edges = trimmed_edges
 
     def calculate_absolute_positions(self):
         """
@@ -409,8 +433,11 @@ class Chart(pydantic.BaseModel):
         return self.generate_edges_svg() + self.generate_nodes_svg()
 
     def generate_html(self):
-        # Calculate chart dimensions
-        self.compute_chart_dimensions()
+        # Trim contents to fit within the chart dimensions
+        self.trim_contents()
+        # Normalize chart dimensions. We do this after trimming because otherwise we might include
+        # too many nodes in the computation.
+        self.normalize_chart_dimensions()
         # Generate SVG content
         static_svg_content = self.generate_svg()
 

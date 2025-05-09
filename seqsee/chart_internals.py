@@ -6,6 +6,19 @@ class DimensionRange(pydantic.BaseModel):
     min: Optional[int] = None
     max: Optional[int] = None
 
+    def __contains__(self, item: int) -> bool:
+        if self.min is not None and item < self.min:
+            return False
+        if self.max is not None and item > self.max:
+            return False
+        return True
+
+    def make_even(self):
+        if self.min is not None and self.min % 2 != 0:
+            self.min -= 1
+        if self.max is not None and self.max % 2 != 0:
+            self.max += 1
+
 
 class Point(pydantic.BaseModel):
     x: float
