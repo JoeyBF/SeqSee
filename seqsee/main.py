@@ -205,7 +205,7 @@ class Chart(pydantic.BaseModel):
         super().__init__(**chart_spec)
 
     @property
-    def chart_css(self):
+    def css(self):
         """Generate CSS from the data in `header/aliases`"""
 
         chart_css = CssStyle()
@@ -439,16 +439,9 @@ class Chart(pydantic.BaseModel):
         # Normalize chart dimensions. We do this after trimming because otherwise we might include
         # too many nodes in the computation.
         self.normalize_chart_dimensions()
-        # Generate SVG content
-        static_svg_content = self.generate_svg()
 
         template = load_template()
-        html_output = template.render(
-            chart=self.header.chart,
-            metadata=self.header.metadata,
-            css_styles=self.chart_css.generate(),
-            static_svg_content=static_svg_content,
-        )
+        html_output = template.render(chart_data=self, config=self.header)
         return html_output
 
 
