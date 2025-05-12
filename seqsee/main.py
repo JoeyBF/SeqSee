@@ -4,9 +4,10 @@ import jsonschema
 import math
 import sys
 import os
+import pydantic
+
 from collections import defaultdict
 from jinja2 import Environment, FileSystemLoader
-import pydantic
 from seqsee.chart_internals import (
     Attribute,
     Attributes,
@@ -15,7 +16,7 @@ from seqsee.chart_internals import (
     Header,
     Node,
 )
-from typing import Callable, Dict, List, Optional
+from typing import Callable, Dict, List
 
 
 # Lifted/adapted from MIT-licensed https://github.com/slacy/pyssed/
