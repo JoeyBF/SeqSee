@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>algNovikov-h1periodic-Einfty</title>
+  <title></title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
   <!-- KaTeX for math rendering -->
@@ -33,55 +33,121 @@
       font-size: 1em !important;
     }
 
-    #canvas-container {
+    #chart-container {
       width: 100vw;
       height: 100vh;
       position: absolute;
     }
 
-/* Dynamically generated CSS styles */
-.backgroundColor {
-    fill: white;
-    stroke: white;
-}
+    .background-style {
+      background-color: var(--backgroundColor);
+      fill: var(--backgroundColor);
+    }
 
-.borderColor {
-    fill: black;
-    stroke: black;
-}
+    #tooltip {
+      position: absolute;
+      display: none;
+      pointer-events: none;
+      color: var(--textColor);
+      border: 1px solid var(--borderColor);
+      padding: 5px;
+      z-index: 10;
+    }
 
-.textColor {
-    fill: black;
-    stroke: black;
-}
+    #floating-title {
+      position: absolute;
+      top: calc(var(--spacing) / 3);
+      left: var(--spacing);
+      padding: 0.5rem;
+      color: var(--textColor);
+      border: 2px solid var(--borderColor);
+      z-index: 20;
+    }
 
-.darkcyan {
-    fill: #00B3B3;
-    stroke: #00B3B3;
-}
+    #floating-title:empty {
+      display: none;
+    }
 
-.darkgreen {
-    fill: #00B300;
-    stroke: #00B300;
-}
+    .axis {
+      stroke: var(--borderColor);
+      stroke-width: 2px;
+    }
 
-.gray {
-    fill: #666666;
-    stroke: #666666;
-}
+    #ticks text, .katex {
+      color: var(--textColor);
+      fill: currentColor;
+    }
 
-.red {
-    fill: #FF0000;
-    stroke: #FF0000;
-}
+    #ticks {
+      font-size: 12pt;
+    }
 
-.magenta {
-    fill: #FF00FF;
-    stroke: #FF00FF;
-}
+    #x-ticks {
+      text-anchor: middle;
+      dominant-baseline: hanging;
+    }
 
-:root {
-    --backgroundColor: white;
+    #y-ticks {
+      text-anchor: end;
+      dominant-baseline: middle;
+    }
+
+    /* Customized CSS styles */
+    :root {
+      --backgroundColor: white;
+      --borderColor: black;
+      --textColor: black;
+    }
+
+    #index-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      background-color: var(--backgroundColor);
+
+
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        flex: 1;
+        margin: 0 10px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+
+      .big-link {
+        display: block;
+        padding: 8px 0;
+        text-align: center;
+      }
+
+      .big-link button {
+        font: inherit;
+        text-decoration: none;
+        background: inherit;
+        border: none;
+        color: inherit;
+      }
+
+      .big-link button:hover {
+        text-decoration: underline;
+      }
+    }
+
+    
+    .chart-999 {
+          --backgroundColor: white;
     --borderColor: black;
     --textColor: black;
     --darkcyan: #00B3B3;
@@ -89,7 +155,6 @@
     --gray: #666666;
     --red: #FF0000;
     --magenta: #FF00FF;
-}
 
 circle {
     stroke-width: 0px;
@@ -252,65 +317,134 @@ circle {
     stroke: var(--red);
 }
 
-
-    .background-style {
-      background-color: var(--backgroundColor);
-      fill: var(--backgroundColor);
     }
-
-    #tooltip {
-      position: absolute;
-      display: none;
-      pointer-events: none;
-      color: var(--textColor);
-      border: 1px solid var(--borderColor);
-      padding: 5px;
-      z-index: 10;
-    }
-
-    #floating-title {
-      position: absolute;
-      top: calc(var(--spacing) / 3);
-      left: var(--spacing);
-      padding: 0.5rem;
-      color: var(--textColor);
-      border: 2px solid var(--borderColor);
-      z-index: 20;
-    }
-
-    #floating-title:empty {
-      display: none;
-    }
-
-    .axis {
-      stroke: var(--borderColor);
-      stroke-width: "2px";
-    }
-
-    .tick text, .katex {
-      color: var(--textColor);
-      fill: currentColor;
-    }
-
-    .tick {
-      font-size: 12pt;
-    }
-
-    .x-tick {
-      text-anchor: middle;
-      dominant-baseline: hanging;
-    }
-
-    .y-tick {
-      text-anchor: end;
-      dominant-baseline: middle;
-    }
-  </style>
+    </style>
 </head>
 
-<!-- We set `visibility: visible` in JS after some preprocessing -->
-<body style="visibility: hidden" class="background-style">
-  <div id="canvas-container">
+<body class="background-style">
+  <div id="index-page" class="background-style" style="display: none;">
+    <h1 id="index-title" class="use-katex"></h1>
+    <div class="container">
+      <div class="column" data-min="2" data-max="4">
+        <ul>
+          <li class="big-link"><button class="use-katex"  data-id="999">
+            algNovikov-h1periodic-$E_{\infty}$
+          </button></li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      function hideAllContents() {
+        const chartContainer = document.getElementById("chart-container");
+        const indexPage = document.getElementById("index-page");
+        chartContainer.style.display = "none";
+        indexPage.style.display = "none";
+      }
+
+      function showChartWithId(id, { pushState = true } = {}) {
+        hideAllContents();
+
+        const container = document.getElementById("chart-container");
+        container.innerHTML = document.getElementById(`chart-${id}`).innerHTML;
+        container.className = `chart-${id}`;
+
+        onChartLoad();
+        container.style.display = "block";
+
+        if (pushState) {
+          history.pushState({}, "", `#chart-${id}`);
+        }
+      }
+
+      function showChartAtOffset(offset) {
+        const currentId = parseInt(document.getElementById("chart-container").className.split('-')[1]);
+        const columnIds = Array.from(document.querySelectorAll(".column button")).map((button) => parseInt(button.dataset.id));
+
+        // Find the index of the current id
+        const currentIndex = columnIds.indexOf(currentId);
+
+        // Calculate the target index
+        const targetIndex = currentIndex + offset;
+
+        // Check if target index is valid
+        if (targetIndex < 0 || targetIndex >= columnIds.length) {
+          return;
+        }
+
+        // Get the id at the target index
+        const targetId = columnIds[targetIndex];
+
+        const currentPan = window.panZoom.getPan();
+        const currentZoom = window.panZoom.getZoom();
+
+        showChartWithId(targetId);
+
+        window.panZoom.zoom(currentZoom);
+        window.panZoom.pan(currentPan);
+      }
+
+      function showIndexPage(pushState = true) {
+        hideAllContents();
+        document.getElementById("index-page").style.display = "block";
+        if (pushState) {
+          history.pushState({}, "", "#index");
+        }
+      }
+
+      // Handle clicks on the index page buttons
+
+      document.querySelectorAll("#index-page .big-link button").forEach((button) => {
+        button.addEventListener("click", function () {
+          const chartId = parseInt(this.dataset.id);
+          showChartWithId(chartId);
+        });
+      });
+
+      // Enable Katex
+
+      const katexOptions = {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false },
+          { left: '\\(', right: '\\)', display: false },
+          { left: '\\[', right: '\\]', display: true }
+        ],
+        throwOnError: false
+      };
+
+      document.querySelectorAll(".use-katex").forEach((element) => {
+        window.renderMathInElement(element, katexOptions);
+      });
+
+      // Manage history state and deeplinks
+
+      function parseHash() {
+        const hash = location.hash;
+        const match = hash.match(/^#chart-(\d+)$/);
+        if (match) {
+          return {
+            chartId: parseInt(match[1])
+          };
+        }
+        return null;
+      }
+
+      function renderFromHash(pushState = false) {
+        const parsed = parseHash();
+
+        if (parsed && parsed.chartId != null) {
+          showChartWithId(parsed.chartId, { pushState });
+        } else {
+          showIndexPage(pushState);
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", () => renderFromHash(true));
+      window.addEventListener("hashchange", () => renderFromHash(false));
+      window.addEventListener("popstate", () => renderFromHash(false));
+    </script>
+  </div>
+  <template id="chart-999">
     <svg id="svg-canvas" width="100%" height="100%">
       <defs>
         <!-- Define the arrowhead markers -->
@@ -322,623 +456,8 @@ circle {
         <pattern id="grid" width="120.0" height="120.0" patternUnits="userSpaceOnUse">
           <path id="grid-path" d="M 120.0 0 L 0 0 0 120.0" class="grid" style="fill: none;"/>
         </pattern>
-        <g id="chart-defs">
-          <!-- Nodes and Edges generated statically by Python -->
-          <g id="chart">
-            <g id="edges-group">
-<line x1="3120.0" y1="720.0" x2="3180.0" y2="780.0" class="defaultEdge hh1"></line>
-<line x1="4320.0" y1="960.0" x2="4380.0" y2="1020.0" class="defaultEdge hh1"></line>
-<line x1="4680.0" y1="960.0" x2="4740.0" y2="1020.0" class="defaultEdge hh1"></line>
-<line x1="4980.0" y1="840.0" x2="5040.0" y2="900.0" class="defaultEdge hh1"></line>
-<line x1="5340.0" y1="840.0" x2="5400.0" y2="900.0" class="defaultEdge hh1"></line>
-<line x1="5520.0" y1="1200.0" x2="5580.0" y2="1260.0" class="defaultEdge hh1"></line>
-<line x1="6000.0" y1="1080.0" x2="6060.0" y2="1140.0" class="defaultEdge hh1"></line>
-<line x1="6003.0" y1="1200.0" x2="6063.0" y2="1260.0" class="defaultEdge hh1"></line>
-<line x1="6120.0" y1="660.0" x2="6180.0" y2="720.0" class="defaultEdge hh1"></line>
-<line x1="6180.0" y1="1080.0" x2="6240.0" y2="1140.0" class="defaultEdge hh1"></line>
-<line x1="6540.0" y1="840.0" x2="6600.0" y2="900.0" class="defaultEdge hh1"></line>
-<line x1="6537.0" y1="1080.0" x2="6600.0" y2="1140.0" class="defaultEdge p"></line>
-<line x1="6543.0" y1="1080.0" x2="6600.0" y2="1140.0" class="defaultEdge p"></line>
-<line x1="60.0" y1="60.0" x2="102.0" y2="102.0" class="defaultEdge h1tower"></line>
-<line x1="300.0" y1="180.0" x2="342.0" y2="222.0" class="defaultEdge h1tower"></line>
-<line x1="480.0" y1="180.0" x2="522.0" y2="222.0" class="defaultEdge h1tower"></line>
-<line x1="540.0" y1="300.0" x2="582.0" y2="342.0" class="defaultEdge h1tower"></line>
-<line x1="660.0" y1="240.0" x2="702.0" y2="282.0" class="defaultEdge h1tower"></line>
-<line x1="780.0" y1="420.0" x2="822.0" y2="462.0" class="defaultEdge h1tower"></line>
-<line x1="840.0" y1="240.0" x2="900.0" y2="300.0" class="defaultEdge "></line>
-<line x1="960.0" y1="420.0" x2="1002.0" y2="462.0" class="defaultEdge h1tower"></line>
-<line x1="1020.0" y1="540.0" x2="1062.0" y2="582.0" class="defaultEdge h1tower"></line>
-<line x1="1140.0" y1="480.0" x2="1182.0" y2="522.0" class="defaultEdge h1tower"></line>
-<line x1="1260.0" y1="660.0" x2="1302.0" y2="702.0" class="defaultEdge h1tower"></line>
-<line x1="1320.0" y1="420.0" x2="1380.0" y2="480.0" class="defaultEdge "></line>
-<line x1="1440.0" y1="660.0" x2="1482.0" y2="702.0" class="defaultEdge h1tower"></line>
-<line x1="1500.0" y1="780.0" x2="1542.0" y2="822.0" class="defaultEdge h1tower"></line>
-<line x1="1620.0" y1="720.0" x2="1662.0" y2="762.0" class="defaultEdge h1tower"></line>
-<line x1="1680.0" y1="480.0" x2="1740.0" y2="540.0" class="defaultEdge "></line>
-<line x1="1740.0" y1="900.0" x2="1782.0" y2="942.0" class="defaultEdge h1tower"></line>
-<line x1="1920.0" y1="900.0" x2="1962.0000000000002" y2="942.0" class="defaultEdge h1tower"></line>
-<line x1="1980.0" y1="1020.0" x2="2022.0000000000002" y2="1062.0" class="defaultEdge h1tower"></line>
-<line x1="2040.0" y1="480.0" x2="2100.0" y2="540.0" class="defaultEdge "></line>
-<line x1="2100.0" y1="960.0" x2="2142.0" y2="1002.0" class="defaultEdge h1tower"></line>
-<line x1="2220.0" y1="1140.0" x2="2262.0" y2="1182.0" class="defaultEdge h1tower"></line>
-<line x1="2400.0" y1="1140.0" x2="2442.0" y2="1182.0" class="defaultEdge h1tower"></line>
-<line x1="2460.0" y1="1260.0" x2="2502.0" y2="1302.0" class="defaultEdge h1tower"></line>
-<line x1="2520.0" y1="660.0" x2="2580.0" y2="720.0" class="defaultEdge "></line>
-<line x1="2580.0" y1="1200.0" x2="2622.0" y2="1242.0" class="defaultEdge h1tower"></line>
-<line x1="2700.0" y1="1380.0" x2="2742.0" y2="1422.0" class="defaultEdge h1tower"></line>
-<line x1="2760.0" y1="420.0" x2="2820.0" y2="480.0" class="defaultEdge "></line>
-<line x1="2760.0" y1="660.0" x2="2820.0" y2="720.0" class="defaultEdge "></line>
-<line x1="2820.0" y1="480.0" x2="2880.0" y2="540.0" class="defaultEdge "></line>
-<line x1="2880.0" y1="540.0" x2="2940.0" y2="600.0" class="defaultEdge "></line>
-<line x1="2880.0" y1="720.0" x2="2940.0" y2="780.0" class="defaultEdge "></line>
-<line x1="2880.0" y1="1380.0" x2="2922.0" y2="1422.0" class="defaultEdge h1tower"></line>
-<line x1="2940.0" y1="600.0" x2="3000.0" y2="660.0" class="defaultEdge "></line>
-<line x1="2940.0" y1="1500.0" x2="2982.0" y2="1542.0" class="defaultEdge h1tower"></line>
-<line x1="3000.0" y1="540.0" x2="3060.0" y2="600.0" class="defaultEdge "></line>
-<line x1="3000.0" y1="660.0" x2="3060.0" y2="720.0" class="defaultEdge "></line>
-<line x1="3060.0" y1="600.0" x2="3120.0" y2="660.0" class="defaultEdge "></line>
-<line x1="3060.0" y1="720.0" x2="3120.0" y2="780.0" class="defaultEdge "></line>
-<line x1="3060.0" y1="1440.0" x2="3102.0" y2="1482.0" class="defaultEdge h1tower"></line>
-<line x1="3120.0" y1="660.0" x2="3180.0" y2="720.0" class="defaultEdge "></line>
-<line x1="3180.0" y1="540.0" x2="3240.0" y2="600.0" class="defaultEdge "></line>
-<line x1="3180.0" y1="600.0" x2="3240.0" y2="660.0" class="defaultEdge "></line>
-<line x1="3180.0" y1="720.0" x2="3240.0" y2="780.0" class="defaultEdge "></line>
-<line x1="3180.0" y1="1620.0" x2="3222.0" y2="1662.0" class="defaultEdge h1tower"></line>
-<line x1="3240.0" y1="600.0" x2="3300.0" y2="660.0" class="defaultEdge "></line>
-<line x1="3240.0" y1="660.0" x2="3300.0" y2="720.0" class="defaultEdge "></line>
-<line x1="3240.0" y1="780.0" x2="3300.0" y2="840.0" class="defaultEdge "></line>
-<line x1="3300.0" y1="660.0" x2="3360.0" y2="720.0" class="defaultEdge "></line>
-<line x1="3300.0" y1="720.0" x2="3360.0" y2="780.0" class="defaultEdge "></line>
-<line x1="3300.0" y1="840.0" x2="3360.0" y2="900.0" class="defaultEdge "></line>
-<line x1="3360.0" y1="600.0" x2="3420.0" y2="660.0" class="defaultEdge "></line>
-<line x1="3360.0" y1="720.0" x2="3420.0" y2="780.0" class="defaultEdge "></line>
-<line x1="3360.0" y1="900.0" x2="3420.0" y2="960.0" class="defaultEdge "></line>
-<line x1="3360.0" y1="1620.0" x2="3402.0" y2="1662.0" class="defaultEdge h1tower"></line>
-<line x1="3420.0" y1="660.0" x2="3480.0" y2="720.0" class="defaultEdge "></line>
-<line x1="3420.0" y1="780.0" x2="3480.0" y2="840.0" class="defaultEdge "></line>
-<line x1="3420.0" y1="1740.0" x2="3462.0" y2="1782.0" class="defaultEdge h1tower"></line>
-<line x1="3480.0" y1="720.0" x2="3540.0" y2="780.0" class="defaultEdge "></line>
-<line x1="3480.0" y1="780.0" x2="3540.0" y2="840.0" class="defaultEdge "></line>
-<line x1="3480.0" y1="840.0" x2="3540.0" y2="900.0" class="defaultEdge "></line>
-<line x1="3540.0" y1="600.0" x2="3600.0" y2="660.0" class="defaultEdge "></line>
-<line x1="3540.0" y1="780.0" x2="3600.0" y2="840.0" class="defaultEdge "></line>
-<line x1="3540.0" y1="840.0" x2="3600.0" y2="900.0" class="defaultEdge "></line>
-<line x1="3540.0" y1="900.0" x2="3600.0" y2="960.0" class="defaultEdge "></line>
-<line x1="3540.0" y1="1680.0" x2="3582.0" y2="1722.0" class="defaultEdge h1tower"></line>
-<line x1="3600.0" y1="840.0" x2="3660.0" y2="900.0" class="defaultEdge "></line>
-<line x1="3600.0" y1="900.0" x2="3660.0" y2="960.0" class="defaultEdge "></line>
-<line x1="3660.0" y1="780.0" x2="3720.0" y2="840.0" class="defaultEdge "></line>
-<line x1="3660.0" y1="900.0" x2="3720.0" y2="960.0" class="defaultEdge "></line>
-<line x1="3660.0" y1="1860.0" x2="3702.0" y2="1902.0" class="defaultEdge h1tower"></line>
-<line x1="3720.0" y1="840.0" x2="3780.0" y2="900.0" class="defaultEdge "></line>
-<line x1="3720.0" y1="960.0" x2="3780.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="3780.0" y1="900.0" x2="3840.0" y2="960.0" class="defaultEdge "></line>
-<line x1="3840.0" y1="840.0" x2="3900.0" y2="900.0" class="defaultEdge "></line>
-<line x1="3840.0" y1="1860.0" x2="3882.0" y2="1902.0" class="defaultEdge h1tower"></line>
-<line x1="3900.0" y1="900.0" x2="3960.0" y2="960.0" class="defaultEdge "></line>
-<line x1="3900.0" y1="1980.0" x2="3942.0" y2="2022.0000000000002" class="defaultEdge h1tower"></line>
-<line x1="3960.0" y1="960.0" x2="4020.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="4020.0" y1="780.0" x2="4080.0" y2="840.0" class="defaultEdge "></line>
-<line x1="4020.0" y1="1920.0" x2="4062.0" y2="1962.0000000000002" class="defaultEdge h1tower"></line>
-<line x1="4080.0" y1="960.0" x2="4140.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="4140.0" y1="2100.0" x2="4182.0" y2="2142.0" class="defaultEdge h1tower"></line>
-<line x1="4320.0" y1="2100.0" x2="4362.0" y2="2142.0" class="defaultEdge h1tower"></line>
-<line x1="4380.0" y1="840.0" x2="4440.0" y2="900.0" class="defaultEdge "></line>
-<line x1="4380.0" y1="2220.0" x2="4422.0" y2="2262.0" class="defaultEdge h1tower"></line>
-<line x1="4440.0" y1="960.0" x2="4500.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="4500.0" y1="2160.0" x2="4542.0" y2="2202.0" class="defaultEdge h1tower"></line>
-<line x1="4560.0" y1="960.0" x2="4620.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="4620.0" y1="2340.0" x2="4662.0" y2="2382.0" class="defaultEdge h1tower"></line>
-<line x1="4740.0" y1="840.0" x2="4800.0" y2="900.0" class="defaultEdge "></line>
-<line x1="4800.0" y1="2340.0" x2="4842.0" y2="2382.0" class="defaultEdge h1tower"></line>
-<line x1="4860.0" y1="2460.0" x2="4902.0" y2="2502.0" class="defaultEdge h1tower"></line>
-<line x1="4920.0" y1="960.0" x2="4980.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="4920.0" y1="1140.0" x2="4980.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="4980.0" y1="2400.0" x2="5022.0" y2="2442.0" class="defaultEdge h1tower"></line>
-<line x1="5100.0" y1="840.0" x2="5160.0" y2="900.0" class="defaultEdge "></line>
-<line x1="5100.0" y1="2580.0" x2="5142.0" y2="2622.0" class="defaultEdge h1tower"></line>
-<line x1="5160.0" y1="900.0" x2="5220.0" y2="960.0" class="defaultEdge "></line>
-<line x1="5160.0" y1="1140.0" x2="5220.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="5220.0" y1="960.0" x2="5280.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="5280.0" y1="1020.0" x2="5340.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="5280.0" y1="1200.0" x2="5340.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="5280.0" y1="2580.0" x2="5322.0" y2="2622.0" class="defaultEdge h1tower"></line>
-<line x1="5340.0" y1="1080.0" x2="5397.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="5340.0" y1="2700.0" x2="5382.0" y2="2742.0" class="defaultEdge h1tower"></line>
-<line x1="5400.0" y1="720.0" x2="5460.0" y2="780.0" class="defaultEdge "></line>
-<line x1="5400.0" y1="900.0" x2="5460.0" y2="960.0" class="defaultEdge "></line>
-<line x1="5400.0" y1="1020.0" x2="5460.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="5397.0" y1="1140.0" x2="5457.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="5403.0" y1="1140.0" x2="5463.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="5460.0" y1="960.0" x2="5520.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="5460.0" y1="1080.0" x2="5520.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="5457.0" y1="1200.0" x2="5520.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="5460.0" y1="2640.0" x2="5502.0" y2="2682.0" class="defaultEdge h1tower"></line>
-<line x1="5520.0" y1="1020.0" x2="5580.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="5520.0" y1="1140.0" x2="5580.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="5580.0" y1="1020.0" x2="5640.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="5580.0" y1="1080.0" x2="5637.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="5580.0" y1="1200.0" x2="5640.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="5580.0" y1="2820.0" x2="5622.0" y2="2862.0" class="defaultEdge h1tower"></line>
-<line x1="5640.0" y1="900.0" x2="5700.0" y2="960.0" class="defaultEdge "></line>
-<line x1="5640.0" y1="1020.0" x2="5700.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="5640.0" y1="1080.0" x2="5700.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="5637.0" y1="1140.0" x2="5697.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="5643.0" y1="1140.0" x2="5703.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="5640.0" y1="1260.0" x2="5700.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="5700.0" y1="960.0" x2="5760.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="5700.0" y1="1080.0" x2="5760.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="5700.0" y1="1140.0" x2="5757.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="5697.0" y1="1200.0" x2="5760.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="5700.0" y1="1320.0" x2="5760.0" y2="1380.0" class="defaultEdge "></line>
-<line x1="5760.0" y1="1020.0" x2="5820.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="5760.0" y1="1080.0" x2="5820.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="5760.0" y1="1140.0" x2="5820.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="5757.0" y1="1200.0" x2="5817.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="5763.0" y1="1200.0" x2="5823.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="5760.0" y1="1380.0" x2="5820.0" y2="1440.0" class="defaultEdge "></line>
-<line x1="5760.0" y1="2820.0" x2="5802.0" y2="2862.0" class="defaultEdge h1tower"></line>
-<line x1="5820.0" y1="600.0" x2="5880.0" y2="660.0" class="defaultEdge "></line>
-<line x1="5820.0" y1="1020.0" x2="5880.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="5820.0" y1="1080.0" x2="5880.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="5820.0" y1="1140.0" x2="5880.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="5820.0" y1="1200.0" x2="5880.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="5817.0" y1="1260.0" x2="5880.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="5820.0" y1="2940.0" x2="5862.0" y2="2982.0" class="defaultEdge h1tower"></line>
-<line x1="5880.0" y1="660.0" x2="5940.0" y2="720.0" class="defaultEdge "></line>
-<line x1="5880.0" y1="900.0" x2="5940.0" y2="960.0" class="defaultEdge "></line>
-<line x1="5880.0" y1="1020.0" x2="5937.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="5880.0" y1="1080.0" x2="5940.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="5880.0" y1="1140.0" x2="5940.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="5880.0" y1="1200.0" x2="5940.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="5880.0" y1="1260.0" x2="5940.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="5880.0" y1="1320.0" x2="5940.0" y2="1380.0" class="defaultEdge "></line>
-<line x1="5940.0" y1="720.0" x2="6000.0" y2="780.0" class="defaultEdge "></line>
-<line x1="5937.0" y1="1080.0" x2="5997.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="5943.0" y1="1080.0" x2="6003.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="5940.0" y1="1140.0" x2="5997.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="5940.0" y1="1200.0" x2="6000.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="5940.0" y1="1260.0" x2="6000.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="5940.0" y1="1320.0" x2="6000.0" y2="1380.0" class="defaultEdge "></line>
-<line x1="5940.0" y1="1380.0" x2="6000.0" y2="1440.0" class="defaultEdge "></line>
-<line x1="5940.0" y1="2880.0" x2="5982.0" y2="2922.0" class="defaultEdge h1tower"></line>
-<line x1="6000.0" y1="780.0" x2="6060.0" y2="840.0" class="defaultEdge "></line>
-<line x1="5997.0" y1="1140.0" x2="6060.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="5997.0" y1="1200.0" x2="6057.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="6000.0" y1="1320.0" x2="6060.0" y2="1380.0" class="defaultEdge "></line>
-<line x1="6000.0" y1="1380.0" x2="6060.0" y2="1440.0" class="defaultEdge "></line>
-<line x1="6060.0" y1="840.0" x2="6120.0" y2="900.0" class="defaultEdge "></line>
-<line x1="6060.0" y1="1020.0" x2="6120.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="6060.0" y1="1080.0" x2="6120.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="6060.0" y1="1140.0" x2="6120.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="6057.0" y1="1260.0" x2="6120.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="6060.0" y1="1380.0" x2="6120.0" y2="1440.0" class="defaultEdge "></line>
-<line x1="6060.0" y1="3060.0" x2="6102.0" y2="3102.0" class="defaultEdge h1tower"></line>
-<line x1="6120.0" y1="780.0" x2="6180.0" y2="840.0" class="defaultEdge "></line>
-<line x1="6120.0" y1="900.0" x2="6180.0" y2="960.0" class="defaultEdge "></line>
-<line x1="6120.0" y1="1080.0" x2="6180.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="6120.0" y1="1140.0" x2="6180.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="6120.0" y1="1200.0" x2="6180.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="6120.0" y1="1260.0" x2="6180.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="6120.0" y1="1320.0" x2="6180.0" y2="1380.0" class="defaultEdge "></line>
-<line x1="6120.0" y1="1440.0" x2="6180.0" y2="1500.0" class="defaultEdge "></line>
-<line x1="6180.0" y1="720.0" x2="6240.0" y2="780.0" class="defaultEdge "></line>
-<line x1="6180.0" y1="840.0" x2="6240.0" y2="900.0" class="defaultEdge "></line>
-<line x1="6180.0" y1="960.0" x2="6240.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="6180.0" y1="1140.0" x2="6240.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="6180.0" y1="1200.0" x2="6240.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="6180.0" y1="1260.0" x2="6240.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="6180.0" y1="1320.0" x2="6240.0" y2="1380.0" class="defaultEdge "></line>
-<line x1="6180.0" y1="1380.0" x2="6240.0" y2="1440.0" class="defaultEdge "></line>
-<line x1="6240.0" y1="780.0" x2="6300.0" y2="840.0" class="defaultEdge "></line>
-<line x1="6240.0" y1="900.0" x2="6300.0" y2="960.0" class="defaultEdge "></line>
-<line x1="6240.0" y1="960.0" x2="6300.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="6240.0" y1="1020.0" x2="6300.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="6240.0" y1="1080.0" x2="6300.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="6240.0" y1="1200.0" x2="6300.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="6240.0" y1="1320.0" x2="6300.0" y2="1380.0" class="defaultEdge "></line>
-<line x1="6240.0" y1="1380.0" x2="6300.0" y2="1440.0" class="defaultEdge "></line>
-<line x1="6240.0" y1="3060.0" x2="6282.0" y2="3102.0" class="defaultEdge h1tower"></line>
-<line x1="6300.0" y1="780.0" x2="6360.0" y2="840.0" class="defaultEdge "></line>
-<line x1="6300.0" y1="840.0" x2="6357.0" y2="900.0" class="defaultEdge "></line>
-<line x1="6300.0" y1="960.0" x2="6360.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="6300.0" y1="1080.0" x2="6360.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="6300.0" y1="1140.0" x2="6360.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="6300.0" y1="1260.0" x2="6360.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="6300.0" y1="1380.0" x2="6360.0" y2="1440.0" class="defaultEdge "></line>
-<line x1="6300.0" y1="3180.0" x2="6342.0" y2="3222.0" class="defaultEdge h1tower"></line>
-<line x1="6360.0" y1="780.0" x2="6420.0" y2="840.0" class="defaultEdge "></line>
-<line x1="6360.0" y1="840.0" x2="6420.0" y2="900.0" class="defaultEdge "></line>
-<line x1="6357.0" y1="900.0" x2="6417.0" y2="960.0" class="defaultEdge "></line>
-<line x1="6363.0" y1="900.0" x2="6423.0" y2="960.0" class="defaultEdge "></line>
-<line x1="6360.0" y1="1020.0" x2="6417.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="6360.0" y1="1140.0" x2="6420.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="6360.0" y1="1200.0" x2="6417.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="6360.0" y1="1260.0" x2="6420.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="6360.0" y1="1320.0" x2="6420.0" y2="1380.0" class="defaultEdge "></line>
-<line x1="6360.0" y1="1440.0" x2="6420.0" y2="1500.0" class="defaultEdge "></line>
-<line x1="6420.0" y1="840.0" x2="6480.0" y2="900.0" class="defaultEdge "></line>
-<line x1="6420.0" y1="900.0" x2="6480.0" y2="960.0" class="defaultEdge "></line>
-<line x1="6417.0" y1="960.0" x2="6477.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="6423.0" y1="960.0" x2="6483.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="6417.0" y1="1080.0" x2="6477.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="6423.0" y1="1080.0" x2="6483.0" y2="1140.0" class="defaultEdge "></line>
-<line x1="6420.0" y1="1200.0" x2="6480.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="6417.0" y1="1260.0" x2="6477.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="6423.0" y1="1260.0" x2="6483.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="6420.0" y1="1320.0" x2="6480.0" y2="1380.0" class="defaultEdge "></line>
-<line x1="6420.0" y1="1380.0" x2="6477.0" y2="1440.0" class="defaultEdge "></line>
-<line x1="6420.0" y1="3120.0" x2="6462.0" y2="3162.0" class="defaultEdge h1tower"></line>
-<line x1="6480.0" y1="840.0" x2="6540.0" y2="900.0" class="defaultEdge "></line>
-<line x1="6480.0" y1="900.0" x2="6540.0" y2="960.0" class="defaultEdge "></line>
-<line x1="6480.0" y1="960.0" x2="6540.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="6477.0" y1="1020.0" x2="6537.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="6483.0" y1="1020.0" x2="6543.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="6477.0" y1="1140.0" x2="6540.0" y2="1200.0" class="defaultEdge "></line>
-<line x1="6480.0" y1="1260.0" x2="6540.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="6477.0" y1="1320.0" x2="6540.0" y2="1380.0" class="defaultEdge "></line>
-<line x1="6480.0" y1="1380.0" x2="6540.0" y2="1440.0" class="defaultEdge "></line>
-<line x1="6483.0" y1="1440.0" x2="6540.0" y2="1500.0" class="defaultEdge "></line>
-<line x1="6540.0" y1="780.0" x2="6600.0" y2="840.0" class="defaultEdge "></line>
-<line x1="6540.0" y1="900.0" x2="6603.0" y2="960.0" class="defaultEdge "></line>
-<line x1="6540.0" y1="960.0" x2="6603.0" y2="1020.0" class="defaultEdge "></line>
-<line x1="6540.0" y1="1020.0" x2="6600.0" y2="1080.0" class="defaultEdge "></line>
-<line x1="6540.0" y1="1200.0" x2="6600.0" y2="1260.0" class="defaultEdge "></line>
-<line x1="6540.0" y1="1260.0" x2="6600.0" y2="1320.0" class="defaultEdge "></line>
-<line x1="6540.0" y1="1320.0" x2="6600.0" y2="1380.0" class="defaultEdge "></line>
-<line x1="6540.0" y1="1380.0" x2="6600.0" y2="1440.0" class="defaultEdge "></line>
-<line x1="6540.0" y1="1440.0" x2="6600.0" y2="1500.0" class="defaultEdge "></line>
-<line x1="6540.0" y1="3300.0" x2="6582.0" y2="3342.0" class="defaultEdge h1tower"></line>
-</g>
-<g id="nodes-group">
-<circle id="M^2 g" class="defaultNode " cx="6597.0" cy="960.0"  data-label="$M^{2} g$    (60)"></circle>
-<circle id="_t h0 e0^3" class="defaultNode " cx="3120.0" cy="720.0"  data-label="$\overline{\tau h_{0} e_{0}^{3}}$    (28)"></circle>
-<circle id="_t h0 e0^3 g" class="defaultNode " cx="4320.0" cy="960.0"  data-label="$\overline{\tau h_{0} e_{0}^{3} g}$    (40)"></circle>
-<circle id="_t h0 e0 g^3" class="defaultNode " cx="4680.0" cy="960.0"  data-label="$\overline{\tau h_{0} e_{0} g^{3}}$    (44)"></circle>
-<circle id="_t M h0 e0 g" class="defaultNode " cx="4980.0" cy="840.0"  data-label="$\overline{\tau M h_{0} e_{0} g}$    (44)"></circle>
-<circle id="_t M h2 g^2" class="defaultNode " cx="5340.0" cy="840.0"  data-label="$\overline{\tau M h_{2} g^{2}}$    (48)"></circle>
-<circle id="_t h0 d0 e0 g^3" class="defaultNode " cx="5520.0" cy="1200.0"  data-label="$\overline{\tau h_{0} d_{0} e_{0} g^{3}}$    (52)"></circle>
-<circle id="_t M h0 e0^2 g" class="defaultNode " cx="6000.0" cy="1080.0"  data-label="$\overline{\tau M h_{0} e_{0}^{2} g}$    (54)"></circle>
-<circle id="_t D^2 h0 e0^3" class="defaultNode " cx="6003.0" cy="1200.0"  data-label="$\overline{\tau \Delta^{2} h_{0} e_{0}^{3}}$    (52)"></circle>
-<circle id="_t^2 c1 H1 g" class="defaultNode " cx="6120.0" cy="660.0"  data-label="$\overline{\tau^{2} c_{1} H_{1} g}$    (53)"></circle>
-<circle id="_t M h0 e0 g^2" class="defaultNode " cx="6180.0" cy="1080.0"  data-label="$\overline{\tau M h_{0} e_{0} g^{2}}$    (56)"></circle>
-<circle id="_t M D1 P h2" class="defaultNode " cx="6540.0" cy="840.0"  data-label="$\overline{\tau M \Delta_{1} P h_{2}}$    (56)"></circle>
-<circle id="h1^6 x103,12" class="defaultNode " cx="6537.0" cy="1080.0"  data-label="$h_{1}^{6} x_{103,12}$    (60)"></circle>
-<circle id="M D1 P h1^4" class="defaultNode " cx="6543.0" cy="1080.0"  data-label="$M \Delta_{1} P h_{1}^{4}$    (60)"></circle>
-<circle id="h1" class="defaultNode " cx="60.0" cy="60.0"  data-label="$h_{1}$    (1)"></circle>
-<circle id="_h1^4" class="defaultNode " cx="300.0" cy="180.0"  data-label="$\overline{h_{1}^{4}}$    (3)"></circle>
-<circle id="c0" class="defaultNode " cx="480.0" cy="180.0"  data-label="$c_{0}$    (5)"></circle>
-<circle id="P h1" class="defaultNode " cx="540.0" cy="300.0"  data-label="$P h_{1}$    (5)"></circle>
-<circle id="_h1^2 c0" class="defaultNode " cx="660.0" cy="240.0"  data-label="$\overline{h_{1}^{2} c_{0}}$    (6)"></circle>
-<circle id="_P h1^4" class="defaultNode " cx="780.0" cy="420.0"  data-label="$\overline{P h_{1}^{4}}$    (7)"></circle>
-<circle id="d0" class="defaultNode " cx="840.0" cy="240.0"  data-label="$d_{0}$    (8)"></circle>
-<circle id="h1 d0" class="defaultNode " cx="900.0" cy="300.0"  data-label="$h_{1} d_{0}$    (9)"></circle>
-<circle id="P c0" class="defaultNode " cx="960.0" cy="420.0"  data-label="$P c_{0}$    (9)"></circle>
-<circle id="P^2 h1" class="defaultNode " cx="1020.0" cy="540.0"  data-label="$P^{2} h_{1}$    (9)"></circle>
-<circle id="_P h1^2 c0" class="defaultNode " cx="1140.0" cy="480.0"  data-label="$\overline{P h_{1}^{2} c_{0}}$    (10)"></circle>
-<circle id="_P^2 h1^4" class="defaultNode " cx="1260.0" cy="660.0"  data-label="$\overline{P^{2} h_{1}^{4}}$    (11)"></circle>
-<circle id="c0 d0" class="defaultNode " cx="1320.0" cy="420.0"  data-label="$c_{0} d_{0}$    (13)"></circle>
-<circle id="h1 c0 d0" class="defaultNode " cx="1380.0" cy="480.0"  data-label="$h_{1} c_{0} d_{0}$    (14)"></circle>
-<circle id="P^2 c0" class="defaultNode " cx="1440.0" cy="660.0"  data-label="$P^{2} c_{0}$    (13)"></circle>
-<circle id="P^3 h1" class="defaultNode " cx="1500.0" cy="780.0"  data-label="$P^{3} h_{1}$    (13)"></circle>
-<circle id="_P^2 h1^2 c0" class="defaultNode " cx="1620.0" cy="720.0"  data-label="$\overline{P^{2} h_{1}^{2} c_{0}}$    (14)"></circle>
-<circle id="d0^2" class="defaultNode " cx="1680.0" cy="480.0"  data-label="$d_{0}^{2}$    (16)"></circle>
-<circle id="h1 d0^2" class="defaultNode " cx="1740.0" cy="540.0"  data-label="$h_{1} d_{0}^{2}$    (17)"></circle>
-<circle id="_P^3 h1^4" class="defaultNode " cx="1740.0" cy="900.0"  data-label="$\overline{P^{3} h_{1}^{4}}$    (15)"></circle>
-<circle id="P^2 d0" class="defaultNode " cx="1800.0" cy="720.0"  data-label="$P^{2} d_{0}$    (16)"></circle>
-<circle id="P^3 c0" class="defaultNode " cx="1920.0" cy="900.0"  data-label="$P^{3} c_{0}$    (17)"></circle>
-<circle id="P^4 h1" class="defaultNode " cx="1980.0" cy="1020.0"  data-label="$P^{4} h_{1}$    (17)"></circle>
-<circle id="e0^2" class="defaultNode " cx="2040.0" cy="480.0"  data-label="$e_{0}^{2}$    (20)"></circle>
-<circle id="h1 e0^2" class="defaultNode " cx="2100.0" cy="540.0"  data-label="$h_{1} e_{0}^{2}$    (21)"></circle>
-<circle id="_P^3 h1^2 c0" class="defaultNode " cx="2100.0" cy="960.0"  data-label="$\overline{P^{3} h_{1}^{2} c_{0}}$    (18)"></circle>
-<circle id="_P^4 h1^4" class="defaultNode " cx="2220.0" cy="1140.0"  data-label="$\overline{P^{4} h_{1}^{4}}$    (19)"></circle>
-<circle id="u" class="defaultNode " cx="2340.0" cy="540.0"  data-label="$u$    (21)"></circle>
-<circle id="P^4 c0" class="defaultNode " cx="2400.0" cy="1140.0"  data-label="$P^{4} c_{0}$    (21)"></circle>
-<circle id="P^5 h1" class="defaultNode " cx="2460.0" cy="1260.0"  data-label="$P^{5} h_{1}$    (21)"></circle>
-<circle id="c0 e0^2" class="defaultNode " cx="2520.0" cy="660.0"  data-label="$c_{0} e_{0}^{2}$    (25)"></circle>
-<circle id="h1 c0 e0^2" class="defaultNode " cx="2580.0" cy="720.0"  data-label="$h_{1} c_{0} e_{0}^{2}$    (26)"></circle>
-<circle id="_P^4 h1^2 c0" class="defaultNode " cx="2580.0" cy="1200.0"  data-label="$\overline{P^{4} h_{1}^{2} c_{0}}$    (22)"></circle>
-<circle id="_P^5 h1^4" class="defaultNode " cx="2700.0" cy="1380.0"  data-label="$\overline{P^{5} h_{1}^{4}}$    (23)"></circle>
-<circle id="B1" class="defaultNode " cx="2760.0" cy="420.0"  data-label="$B_{1}$    (25)"></circle>
-<circle id="u'" class="defaultNode " cx="2760.0" cy="660.0"  data-label="$u'$    (25)"></circle>
-<circle id="P^4 d0" class="defaultNode " cx="2760.0" cy="1200.0"  data-label="$P^{4} d_{0}$    (24)"></circle>
-<circle id="h1 B1" class="defaultNode " cx="2820.0" cy="480.0"  data-label="$h_{1} B_{1}$    (26)"></circle>
-<circle id="h1 u'" class="defaultNode " cx="2820.0" cy="720.0"  data-label="$h_{1} u'$    (26)"></circle>
-<circle id="h1^2 B1" class="defaultNode " cx="2880.0" cy="540.0"  data-label="$h_{1}^{2} B_{1}$    (27)"></circle>
-<circle id="d0 e0^2" class="defaultNode " cx="2880.0" cy="720.0"  data-label="$d_{0} e_{0}^{2}$    (28)"></circle>
-<circle id="P^5 c0" class="defaultNode " cx="2880.0" cy="1380.0"  data-label="$P^{5} c_{0}$    (25)"></circle>
-<circle id="h1^3 B1" class="defaultNode " cx="2940.0" cy="600.0"  data-label="$h_{1}^{3} B_{1}$    (28)"></circle>
-<circle id="h1 d0 e0^2" class="defaultNode " cx="2940.0" cy="780.0"  data-label="$h_{1} d_{0} e_{0}^{2}$    (29)"></circle>
-<circle id="P^6 h1" class="defaultNode " cx="2940.0" cy="1500.0"  data-label="$P^{6} h_{1}$    (25)"></circle>
-<circle id="_h1^3 B1" class="defaultNode " cx="3000.0" cy="540.0"  data-label="$\overline{h_{1}^{3} B_{1}}$    (27)"></circle>
-<circle id="h1^4 B1" class="defaultNode " cx="3000.0" cy="660.0"  data-label="$h_{1}^{4} B_{1}$    (29)"></circle>
-<circle id="_h1^4 B1" class="defaultNode " cx="3060.0" cy="600.0"  data-label="$\overline{h_{1}^{4} B_{1}}$    (28)"></circle>
-<circle id="h1^5 B1" class="defaultNode " cx="3060.0" cy="720.0"  data-label="$h_{1}^{5} B_{1}$    (30)"></circle>
-<circle id="_P^5 h1^2 c0" class="defaultNode " cx="3060.0" cy="1440.0"  data-label="$\overline{P^{5} h_{1}^{2} c_{0}}$    (26)"></circle>
-<circle id="_h1^5 B1" class="defaultNode " cx="3120.0" cy="660.0"  data-label="$\overline{h_{1}^{5} B_{1}}$    (29)"></circle>
-<circle id="h1^6 B1" class="defaultNode " cx="3120.0" cy="780.0"  data-label="$h_{1}^{6} B_{1}$    (31)"></circle>
-<circle id="B8" class="defaultNode " cx="3180.0" cy="540.0"  data-label="$B_{8}$    (29)"></circle>
-<circle id="x'" class="defaultNode " cx="3180.0" cy="600.0"  data-label="$x'$    (28)"></circle>
-<circle id="_h1^6 B1" class="defaultNode " cx="3180.0" cy="720.0"  data-label="$\overline{h_{1}^{6} B_{1}}$    (30)"></circle>
-<circle id="d0 u" class="defaultNode " cx="3180.0" cy="780.0"  data-label="$d_{0} u$    (29)"></circle>
-<circle id="_P^6 h1^4" class="defaultNode " cx="3180.0" cy="1620.0"  data-label="$\overline{P^{6} h_{1}^{4}}$    (27)"></circle>
-<circle id="h1 B8" class="defaultNode " cx="3240.0" cy="600.0"  data-label="$h_{1} B_{8}$    (30)"></circle>
-<circle id="h1 x'" class="defaultNode " cx="3240.0" cy="660.0"  data-label="$h_{1} x'$    (29)"></circle>
-<circle id="_h1^7 B1" class="defaultNode " cx="3240.0" cy="780.0"  data-label="$\overline{h_{1}^{7} B_{1}}$    (31)"></circle>
-<circle id="h1^2 B8" class="defaultNode " cx="3300.0" cy="660.0"  data-label="$h_{1}^{2} B_{8}$    (31)"></circle>
-<circle id="h1^2 x'" class="defaultNode " cx="3300.0" cy="720.0"  data-label="$h_{1}^{2} x'$    (30)"></circle>
-<circle id="_h1^8 B1" class="defaultNode " cx="3300.0" cy="840.0"  data-label="$\overline{h_{1}^{8} B_{1}}$    (32)"></circle>
-<circle id="_h1^2 B8" class="defaultNode " cx="3360.0" cy="600.0"  data-label="$\overline{h_{1}^{2} B_{8}}$    (30)"></circle>
-<circle id="h1^3 B8" class="defaultNode " cx="3360.0" cy="720.0"  data-label="$h_{1}^{3} B_{8}$    (32)"></circle>
-<circle id="h1^3 x'" class="defaultNode " cx="3360.0" cy="780.0"  data-label="$h_{1}^{3} x'$    (31)"></circle>
-<circle id="_h1^9 B1" class="defaultNode " cx="3360.0" cy="900.0"  data-label="$\overline{h_{1}^{9} B_{1}}$    (33)"></circle>
-<circle id="P^6 c0" class="defaultNode " cx="3360.0" cy="1620.0"  data-label="$P^{6} c_{0}$    (29)"></circle>
-<circle id="_h1^3 B8" class="defaultNode " cx="3420.0" cy="660.0"  data-label="$\overline{h_{1}^{3} B_{8}}$    (31)"></circle>
-<circle id="h1^4 B8" class="defaultNode " cx="3420.0" cy="780.0"  data-label="$h_{1}^{4} B_{8}$    (33)"></circle>
-<circle id="_h1^10 B1" class="defaultNode " cx="3420.0" cy="960.0"  data-label="$\overline{h_{1}^{10} B_{1}}$    (34)"></circle>
-<circle id="P^7 h1" class="defaultNode " cx="3420.0" cy="1740.0"  data-label="$P^{7} h_{1}$    (29)"></circle>
-<circle id="_h1^4 B8" class="defaultNode " cx="3480.0" cy="720.0"  data-label="$\overline{h_{1}^{4} B_{8}}$    (32)"></circle>
-<circle id="_h1^4 x'" class="defaultNode " cx="3480.0" cy="780.0"  data-label="$\overline{h_{1}^{4} x'}$    (31)"></circle>
-<circle id="h1^5 B8" class="defaultNode " cx="3480.0" cy="840.0"  data-label="$h_{1}^{5} B_{8}$    (34)"></circle>
-<circle id="B21" class="defaultNode " cx="3540.0" cy="600.0"  data-label="$B_{21}$    (32)"></circle>
-<circle id="_h1^5 B8" class="defaultNode " cx="3540.0" cy="780.0"  data-label="$\overline{h_{1}^{5} B_{8}}$    (33)"></circle>
-<circle id="_h1^5 x'" class="defaultNode " cx="3540.0" cy="840.0"  data-label="$\overline{h_{1}^{5} x'}$    (32)"></circle>
-<circle id="h1^6 B8" class="defaultNode " cx="3540.0" cy="900.0"  data-label="$h_{1}^{6} B_{8}$    (35)"></circle>
-<circle id="_P^6 h1^2 c0" class="defaultNode " cx="3540.0" cy="1680.0"  data-label="$\overline{P^{6} h_{1}^{2} c_{0}}$    (30)"></circle>
-<circle id="h1 B21" class="defaultNode " cx="3600.0" cy="660.0"  data-label="$h_{1} B_{21}$    (33)"></circle>
-<circle id="_h1^6 B8" class="defaultNode " cx="3600.0" cy="840.0"  data-label="$\overline{h_{1}^{6} B_{8}}$    (34)"></circle>
-<circle id="_h1^6 x'" class="defaultNode " cx="3600.0" cy="900.0"  data-label="$\overline{h_{1}^{6} x'}$    (33)"></circle>
-<circle id="h1^7 B8" class="defaultNode " cx="3600.0" cy="960.0"  data-label="$h_{1}^{7} B_{8}$    (36)"></circle>
-<circle id="c0 x'" class="defaultNode " cx="3660.0" cy="780.0"  data-label="$c_{0} x'$    (33)"></circle>
-<circle id="_h1^7 B8" class="defaultNode " cx="3660.0" cy="900.0"  data-label="$\overline{h_{1}^{7} B_{8}}$    (35)"></circle>
-<circle id="_h1^7 x'" class="defaultNode " cx="3660.0" cy="960.0"  data-label="$\overline{h_{1}^{7} x'}$    (34)"></circle>
-<circle id="_P^7 h1^4" class="defaultNode " cx="3660.0" cy="1860.0"  data-label="$\overline{P^{7} h_{1}^{4}}$    (31)"></circle>
-<circle id="h1 c0 x'" class="defaultNode " cx="3720.0" cy="840.0"  data-label="$h_{1} c_{0} x'$    (34)"></circle>
-<circle id="_h1^8 B8" class="defaultNode " cx="3720.0" cy="960.0"  data-label="$\overline{h_{1}^{8} B_{8}}$    (36)"></circle>
-<circle id="_t P^2 h0 d0^2 e0" class="defaultNode " cx="3720.0" cy="1200.0"  data-label="$\overline{\tau P^{2} h_{0} d_{0}^{2} e_{0}}$    (32)"></circle>
-<circle id="P^6 d0" class="defaultNode " cx="3720.0" cy="1680.0"  data-label="$P^{6} d_{0}$    (32)"></circle>
-<circle id="h1^2 c0 x'" class="defaultNode " cx="3780.0" cy="900.0"  data-label="$h_{1}^{2} c_{0} x'$    (35)"></circle>
-<circle id="_h1^9 B8" class="defaultNode " cx="3780.0" cy="1020.0"  data-label="$\overline{h_{1}^{9} B_{8}}$    (37)"></circle>
-<circle id="U" class="defaultNode " cx="3840.0" cy="840.0"  data-label="$U$    (34)"></circle>
-<circle id="h1^3 c0 x'" class="defaultNode " cx="3840.0" cy="960.0"  data-label="$h_{1}^{3} c_{0} x'$    (36)"></circle>
-<circle id="P^7 c0" class="defaultNode " cx="3840.0" cy="1860.0"  data-label="$P^{7} c_{0}$    (33)"></circle>
-<circle id="h1 U" class="defaultNode " cx="3900.0" cy="900.0"  data-label="$h_{1} U$    (35)"></circle>
-<circle id="P^8 h1" class="defaultNode " cx="3900.0" cy="1980.0"  data-label="$P^{8} h_{1}$    (33)"></circle>
-<circle id="h1^2 U" class="defaultNode " cx="3960.0" cy="960.0"  data-label="$h_{1}^{2} U$    (36)"></circle>
-<circle id="B8 d0" class="defaultNode " cx="4020.0" cy="780.0"  data-label="$B_{8} d_{0}$    (37)"></circle>
-<circle id="d0 x'" class="defaultNode " cx="4020.0" cy="840.0"  data-label="$d_{0} x'$    (36)"></circle>
-<circle id="h1^3 U" class="defaultNode " cx="4020.0" cy="1020.0"  data-label="$h_{1}^{3} U$    (37)"></circle>
-<circle id="_P^7 h1^2 c0" class="defaultNode " cx="4020.0" cy="1920.0"  data-label="$\overline{P^{7} h_{1}^{2} c_{0}}$    (34)"></circle>
-<circle id="h1 B8 d0" class="defaultNode " cx="4080.0" cy="840.0"  data-label="$h_{1} B_{8} d_{0}$    (38)"></circle>
-<circle id="e0^4" class="defaultNode " cx="4080.0" cy="960.0"  data-label="$e_{0}^{4}$    (40)"></circle>
-<circle id="h1 e0^4" class="defaultNode " cx="4140.0" cy="1020.0"  data-label="$h_{1} e_{0}^{4}$    (41)"></circle>
-<circle id="_P^8 h1^4" class="defaultNode " cx="4140.0" cy="2100.0"  data-label="$\overline{P^{8} h_{1}^{4}}$    (35)"></circle>
-<circle id="P^8 c0" class="defaultNode " cx="4320.0" cy="2100.0"  data-label="$P^{8} c_{0}$    (37)"></circle>
-<circle id="M d0^2" class="defaultNode " cx="4380.0" cy="840.0"  data-label="$M d_{0}^{2}$    (40)"></circle>
-<circle id="D h1 d0 e0^2" class="defaultNode " cx="4380.0" cy="1020.0"  data-label="$\Delta h_{1} d_{0} e_{0}^{2}$    (41)"></circle>
-<circle id="P^9 h1" class="defaultNode " cx="4380.0" cy="2220.0"  data-label="$P^{9} h_{1}$    (37)"></circle>
-<circle id="M h1 d0^2" class="defaultNode " cx="4440.0" cy="900.0"  data-label="$M h_{1} d_{0}^{2}$    (41)"></circle>
-<circle id="e0^2 g^2" class="defaultNode " cx="4440.0" cy="960.0"  data-label="$e_{0}^{2} g^{2}$    (44)"></circle>
-<circle id="h1 e0^2 g^2" class="defaultNode " cx="4500.0" cy="1020.0"  data-label="$h_{1} e_{0}^{2} g^{2}$    (45)"></circle>
-<circle id="_P^8 h1^2 c0" class="defaultNode " cx="4500.0" cy="2160.0"  data-label="$\overline{P^{8} h_{1}^{2} c_{0}}$    (38)"></circle>
-<circle id="D^2 d0^2" class="defaultNode " cx="4560.0" cy="960.0"  data-label="$\Delta^{2} d_{0}^{2}$    (40)"></circle>
-<circle id="D^2 h1 d0^2" class="defaultNode " cx="4620.0" cy="1020.0"  data-label="$\Delta^{2} h_{1} d_{0}^{2}$    (41)"></circle>
-<circle id="_P^9 h1^4" class="defaultNode " cx="4620.0" cy="2340.0"  data-label="$\overline{P^{9} h_{1}^{4}}$    (39)"></circle>
-<circle id="P^8 d0" class="defaultNode " cx="4680.0" cy="2160.0"  data-label="$P^{8} d_{0}$    (40)"></circle>
-<circle id="M e0^2" class="defaultNode " cx="4740.0" cy="840.0"  data-label="$M e_{0}^{2}$    (44)"></circle>
-<circle id="D h1 e0^2 g" class="defaultNode " cx="4740.0" cy="1020.0"  data-label="$\Delta h_{1} e_{0}^{2} g$    (45)"></circle>
-<circle id="M h1 e0^2" class="defaultNode " cx="4800.0" cy="900.0"  data-label="$M h_{1} e_{0}^{2}$    (45)"></circle>
-<circle id="P^9 c0" class="defaultNode " cx="4800.0" cy="2340.0"  data-label="$P^{9} c_{0}$    (41)"></circle>
-<circle id="P^10 h1" class="defaultNode " cx="4860.0" cy="2460.0"  data-label="$P^{10} h_{1}$    (41)"></circle>
-<circle id="D^2 e0^2" class="defaultNode " cx="4920.0" cy="960.0"  data-label="$\Delta^{2} e_{0}^{2}$    (44)"></circle>
-<circle id="c0 e0^2 g^2" class="defaultNode " cx="4920.0" cy="1140.0"  data-label="$c_{0} e_{0}^{2} g^{2}$    (49)"></circle>
-<circle id="D^2 h1 e0^2" class="defaultNode " cx="4980.0" cy="1020.0"  data-label="$\Delta^{2} h_{1} e_{0}^{2}$    (45)"></circle>
-<circle id="h1 c0 e0^2 g^2" class="defaultNode " cx="4980.0" cy="1200.0"  data-label="$h_{1} c_{0} e_{0}^{2} g^{2}$    (50)"></circle>
-<circle id="_P^9 h1^2 c0" class="defaultNode " cx="4980.0" cy="2400.0"  data-label="$\overline{P^{9} h_{1}^{2} c_{0}}$    (42)"></circle>
-<circle id="M D h1 d0" class="defaultNode " cx="5040.0" cy="900.0"  data-label="$M \Delta h_{1} d_{0}$    (45)"></circle>
-<circle id="M g^2" class="defaultNode " cx="5100.0" cy="840.0"  data-label="$M g^{2}$    (48)"></circle>
-<circle id="_P^10 h1^4" class="defaultNode " cx="5100.0" cy="2580.0"  data-label="$\overline{P^{10} h_{1}^{4}}$    (43)"></circle>
-<circle id="M h1 g^2" class="defaultNode " cx="5160.0" cy="900.0"  data-label="$M h_{1} g^{2}$    (49)"></circle>
-<circle id="D c0 e0^2 g" class="defaultNode " cx="5160.0" cy="1140.0"  data-label="$\Delta c_{0} e_{0}^{2} g$    (49)"></circle>
-<circle id="M h1^2 g^2" class="defaultNode " cx="5220.0" cy="960.0"  data-label="$M h_{1}^{2} g^{2}$    (50)"></circle>
-<circle id="D^3 h1 d0" class="defaultNode " cx="5220.0" cy="1020.0"  data-label="$\Delta^{3} h_{1} d_{0}$    (45)"></circle>
-<circle id="D h1 c0 e0^2 g" class="defaultNode " cx="5220.0" cy="1200.0"  data-label="$\Delta h_{1} c_{0} e_{0}^{2} g$    (50)"></circle>
-<circle id="M h1^3 g^2" class="defaultNode " cx="5280.0" cy="1020.0"  data-label="$M h_{1}^{3} g^{2}$    (51)"></circle>
-<circle id="e0^4 g" class="defaultNode " cx="5280.0" cy="1200.0"  data-label="$e_{0}^{4} g$    (52)"></circle>
-<circle id="P^10 c0" class="defaultNode " cx="5280.0" cy="2580.0"  data-label="$P^{10} c_{0}$    (45)"></circle>
-<circle id="M h1^4 g^2" class="defaultNode " cx="5340.0" cy="1080.0"  data-label="$M h_{1}^{4} g^{2}$    (52)"></circle>
-<circle id="h1 e0^4 g" class="defaultNode " cx="5340.0" cy="1260.0"  data-label="$h_{1} e_{0}^{4} g$    (53)"></circle>
-<circle id="P^11 h1" class="defaultNode " cx="5340.0" cy="2700.0"  data-label="$P^{11} h_{1}$    (45)"></circle>
-<circle id="M^2" class="defaultNode " cx="5400.0" cy="720.0"  data-label="$M^{2}$    (48)"></circle>
-<circle id="M D h1 g" class="defaultNode " cx="5400.0" cy="900.0"  data-label="$M \Delta h_{1} g$    (49)"></circle>
-<circle id="M c0 e0 g" class="defaultNode " cx="5400.0" cy="1020.0"  data-label="$M c_{0} e_{0} g$    (51)"></circle>
-<circle id="M h1^5 g^2" class="defaultNode " cx="5397.0" cy="1140.0"  data-label="$M h_{1}^{5} g^{2}$    (53)"></circle>
-<circle id="D^2 c0 e0^2" class="defaultNode " cx="5403.0" cy="1140.0"  data-label="$\Delta^{2} c_{0} e_{0}^{2}$    (49)"></circle>
-<circle id="M^2 h1" class="defaultNode " cx="5460.0" cy="780.0"  data-label="$M^{2} h_{1}$    (49)"></circle>
-<circle id="M D h1^2 g" class="defaultNode " cx="5460.0" cy="960.0"  data-label="$M \Delta h_{1}^{2} g$    (50)"></circle>
-<circle id="M h1 c0 e0 g" class="defaultNode " cx="5460.0" cy="1080.0"  data-label="$M h_{1} c_{0} e_{0} g$    (52)"></circle>
-<circle id="M h1^6 g^2" class="defaultNode " cx="5457.0" cy="1200.0"  data-label="$M h_{1}^{6} g^{2}$    (54)"></circle>
-<circle id="D^2 h1 c0 e0^2" class="defaultNode " cx="5463.0" cy="1200.0"  data-label="$\Delta^{2} h_{1} c_{0} e_{0}^{2}$    (50)"></circle>
-<circle id="_P^10 h1^2 c0" class="defaultNode " cx="5460.0" cy="2640.0"  data-label="$\overline{P^{10} h_{1}^{2} c_{0}}$    (46)"></circle>
-<circle id="M D h1^3 g" class="defaultNode " cx="5520.0" cy="1020.0"  data-label="$M \Delta h_{1}^{3} g$    (51)"></circle>
-<circle id="M h1^2 c0 e0 g" class="defaultNode " cx="5520.0" cy="1140.0"  data-label="$M h_{1}^{2} c_{0} e_{0} g$    (53)"></circle>
-<circle id="M h1^7 g^2" class="defaultNode " cx="5520.0" cy="1260.0"  data-label="$M h_{1}^{7} g^{2}$    (55)"></circle>
-<circle id="M c0 g^2" class="defaultNode " cx="5580.0" cy="1020.0"  data-label="$M c_{0} g^{2}$    (53)"></circle>
-<circle id="M D h1^4 g" class="defaultNode " cx="5580.0" cy="1080.0"  data-label="$M \Delta h_{1}^{4} g$    (52)"></circle>
-<circle id="M h1^3 c0 e0 g" class="defaultNode " cx="5580.0" cy="1200.0"  data-label="$M h_{1}^{3} c_{0} e_{0} g$    (54)"></circle>
-<circle id="D h1 e0^4" class="defaultNode " cx="5580.0" cy="1260.0"  data-label="$\Delta h_{1} e_{0}^{4}$    (53)"></circle>
-<circle id="_P^11 h1^4" class="defaultNode " cx="5580.0" cy="2820.0"  data-label="$\overline{P^{11} h_{1}^{4}}$    (47)"></circle>
-<circle id="M D^2 h1" class="defaultNode " cx="5640.0" cy="900.0"  data-label="$M \Delta^{2} h_{1}$    (49)"></circle>
-<circle id="M D c0 e0" class="defaultNode " cx="5640.0" cy="1020.0"  data-label="$M \Delta c_{0} e_{0}$    (51)"></circle>
-<circle id="M h1 c0 g^2" class="defaultNode " cx="5640.0" cy="1080.0"  data-label="$M h_{1} c_{0} g^{2}$    (54)"></circle>
-<circle id="M D h1^5 g" class="defaultNode " cx="5637.0" cy="1140.0"  data-label="$M \Delta h_{1}^{5} g$    (53)"></circle>
-<circle id="D^3 c0 d0" class="defaultNode " cx="5643.0" cy="1140.0"  data-label="$\Delta^{3} c_{0} d_{0}$    (49)"></circle>
-<circle id="M h1^4 c0 e0 g" class="defaultNode " cx="5640.0" cy="1260.0"  data-label="$M h_{1}^{4} c_{0} e_{0} g$    (55)"></circle>
-<circle id="_t P^6 h0 d0^2 e0" class="defaultNode " cx="5640.0" cy="2160.0"  data-label="$\overline{\tau P^{6} h_{0} d_{0}^{2} e_{0}}$    (48)"></circle>
-<circle id="P^10 d0" class="defaultNode " cx="5640.0" cy="2640.0"  data-label="$P^{10} d_{0}$    (48)"></circle>
-<circle id="D^2 M h1^2" class="defaultNode " cx="5700.0" cy="960.0"  data-label="$\Delta^{2} M h_{1}^{2}$    (50)"></circle>
-<circle id="M D h1 c0 e0" class="defaultNode " cx="5700.0" cy="1080.0"  data-label="$M \Delta h_{1} c_{0} e_{0}$    (52)"></circle>
-<circle id="M h1^2 c0 g^2" class="defaultNode " cx="5700.0" cy="1140.0"  data-label="$M h_{1}^{2} c_{0} g^{2}$    (55)"></circle>
-<circle id="M D h1^6 g" class="defaultNode " cx="5697.0" cy="1200.0"  data-label="$M \Delta h_{1}^{6} g$    (54)"></circle>
-<circle id="D^3 h1 c0 d0" class="defaultNode " cx="5703.0" cy="1200.0"  data-label="$\Delta^{3} h_{1} c_{0} d_{0}$    (50)"></circle>
-<circle id="M h1^5 c0 e0 g" class="defaultNode " cx="5700.0" cy="1320.0"  data-label="$M h_{1}^{5} c_{0} e_{0} g$    (56)"></circle>
-<circle id="D^2 M h1^3" class="defaultNode " cx="5760.0" cy="1020.0"  data-label="$\Delta^{2} M h_{1}^{3}$    (51)"></circle>
-<circle id="M e0^3" class="defaultNode " cx="5760.0" cy="1080.0"  data-label="$M e_{0}^{3}$    (54)"></circle>
-<circle id="M D h1^2 c0 e0" class="defaultNode " cx="5760.0" cy="1140.0"  data-label="$M \Delta h_{1}^{2} c_{0} e_{0}$    (53)"></circle>
-<circle id="M h1^3 c0 g^2" class="defaultNode " cx="5757.0" cy="1200.0"  data-label="$M h_{1}^{3} c_{0} g^{2}$    (56)"></circle>
-<circle id="D^2 d0 e0^2" class="defaultNode " cx="5763.0" cy="1200.0"  data-label="$\Delta^{2} d_{0} e_{0}^{2}$    (52)"></circle>
-<circle id="M D h1^7 g" class="defaultNode " cx="5760.0" cy="1260.0"  data-label="$M \Delta h_{1}^{7} g$    (55)"></circle>
-<circle id="M h1^6 c0 e0 g" class="defaultNode " cx="5760.0" cy="1380.0"  data-label="$M h_{1}^{6} c_{0} e_{0} g$    (57)"></circle>
-<circle id="P^11 c0" class="defaultNode " cx="5760.0" cy="2820.0"  data-label="$P^{11} c_{0}$    (49)"></circle>
-<circle id="M D1" class="defaultNode " cx="5820.0" cy="600.0"  data-label="$M \Delta_{1}$    (52)"></circle>
-<circle id="M D c0 g" class="defaultNode " cx="5820.0" cy="1020.0"  data-label="$M \Delta c_{0} g$    (53)"></circle>
-<circle id="D^2 M h1^4" class="defaultNode " cx="5820.0" cy="1080.0"  data-label="$\Delta^{2} M h_{1}^{4}$    (52)"></circle>
-<circle id="M h1 e0^3" class="defaultNode " cx="5820.0" cy="1140.0"  data-label="$M h_{1} e_{0}^{3}$    (55)"></circle>
-<circle id="M D h1^3 c0 e0" class="defaultNode " cx="5820.0" cy="1200.0"  data-label="$M \Delta h_{1}^{3} c_{0} e_{0}$    (54)"></circle>
-<circle id="M h1^4 c0 g^2" class="defaultNode " cx="5817.0" cy="1260.0"  data-label="$M h_{1}^{4} c_{0} g^{2}$    (57)"></circle>
-<circle id="D^2 h1 d0 e0^2" class="defaultNode " cx="5823.0" cy="1260.0"  data-label="$\Delta^{2} h_{1} d_{0} e_{0}^{2}$    (53)"></circle>
-<circle id="M h1^7 c0 e0 g" class="defaultNode " cx="5820.0" cy="1440.0"  data-label="$M h_{1}^{7} c_{0} e_{0} g$    (58)"></circle>
-<circle id="P^12 h1" class="defaultNode " cx="5820.0" cy="2940.0"  data-label="$P^{12} h_{1}$    (49)"></circle>
-<circle id="M D1 h1" class="defaultNode " cx="5880.0" cy="660.0"  data-label="$M \Delta_{1} h_{1}$    (53)"></circle>
-<circle id="M^2 c0" class="defaultNode " cx="5880.0" cy="900.0"  data-label="$M^{2} c_{0}$    (53)"></circle>
-<circle id="_M D^2 h1^4" class="defaultNode " cx="5880.0" cy="1020.0"  data-label="$\overline{M \Delta^{2} h_{1}^{4}}$    (51)"></circle>
-<circle id="M D h1 c0 g" class="defaultNode " cx="5880.0" cy="1080.0"  data-label="$M \Delta h_{1} c_{0} g$    (54)"></circle>
-<circle id="D^2 M h1^5" class="defaultNode " cx="5880.0" cy="1140.0"  data-label="$\Delta^{2} M h_{1}^{5}$    (53)"></circle>
-<circle id="M h1^2 e0^3" class="defaultNode " cx="5880.0" cy="1200.0"  data-label="$M h_{1}^{2} e_{0}^{3}$    (56)"></circle>
-<circle id="M D h1^4 c0 e0" class="defaultNode " cx="5880.0" cy="1260.0"  data-label="$M \Delta h_{1}^{4} c_{0} e_{0}$    (55)"></circle>
-<circle id="M h1^5 c0 g^2" class="defaultNode " cx="5880.0" cy="1320.0"  data-label="$M h_{1}^{5} c_{0} g^{2}$    (58)"></circle>
-<circle id="M D1 h1^2" class="defaultNode " cx="5940.0" cy="720.0"  data-label="$M \Delta_{1} h_{1}^{2}$    (54)"></circle>
-<circle id="M^2 h1 c0" class="defaultNode " cx="5940.0" cy="960.0"  data-label="$M^{2} h_{1} c_{0}$    (54)"></circle>
-<circle id="_D^2 M h1^5" class="defaultNode " cx="5937.0" cy="1080.0"  data-label="$\overline{D^{2} M h_{1}^{5}}$    (52)"></circle>
-<circle id="M e0^2 g" class="defaultNode " cx="5943.0" cy="1080.0"  data-label="$M e_{0}^{2} g$    (56)"></circle>
-<circle id="M D h1^2 c0 g" class="defaultNode " cx="5940.0" cy="1140.0"  data-label="$M \Delta h_{1}^{2} c_{0} g$    (55)"></circle>
-<circle id="D^2 M h1^6" class="defaultNode " cx="5940.0" cy="1200.0"  data-label="$\Delta^{2} M h_{1}^{6}$    (54)"></circle>
-<circle id="M h1^3 e0^3" class="defaultNode " cx="5940.0" cy="1260.0"  data-label="$M h_{1}^{3} e_{0}^{3}$    (57)"></circle>
-<circle id="M D h1^5 c0 e0" class="defaultNode " cx="5940.0" cy="1320.0"  data-label="$M \Delta h_{1}^{5} c_{0} e_{0}$    (56)"></circle>
-<circle id="M h1^6 c0 g^2" class="defaultNode " cx="5940.0" cy="1380.0"  data-label="$M h_{1}^{6} c_{0} g^{2}$    (59)"></circle>
-<circle id="_P^11 h1^2 c0" class="defaultNode " cx="5940.0" cy="2880.0"  data-label="$\overline{P^{11} h_{1}^{2} c_{0}}$    (50)"></circle>
-<circle id="M D1 h1^3" class="defaultNode " cx="6000.0" cy="780.0"  data-label="$M \Delta_{1} h_{1}^{3}$    (55)"></circle>
-<circle id="_D^2 M h1^6" class="defaultNode " cx="5997.0" cy="1140.0"  data-label="$\overline{D^{2} M h_{1}^{6}}$    (53)"></circle>
-<circle id="M h1 e0^2 g" class="defaultNode " cx="6003.0" cy="1140.0"  data-label="$M h_{1} e_{0}^{2} g$    (57)"></circle>
-<circle id="M D h1^3 c0 g" class="defaultNode " cx="5997.0" cy="1200.0"  data-label="$M \Delta h_{1}^{3} c_{0} g$    (56)"></circle>
-<circle id="D^2 M h1^7" class="defaultNode " cx="6000.0" cy="1260.0"  data-label="$\Delta^{2} M h_{1}^{7}$    (55)"></circle>
-<circle id="M h1^4 e0^3" class="defaultNode " cx="6000.0" cy="1320.0"  data-label="$M h_{1}^{4} e_{0}^{3}$    (58)"></circle>
-<circle id="M D h1^6 c0 e0" class="defaultNode " cx="6000.0" cy="1380.0"  data-label="$M \Delta h_{1}^{6} c_{0} e_{0}$    (57)"></circle>
-<circle id="M h1^7 c0 g^2" class="defaultNode " cx="6000.0" cy="1440.0"  data-label="$M h_{1}^{7} c_{0} g^{2}$    (60)"></circle>
-<circle id="M D1 h1^4" class="defaultNode " cx="6060.0" cy="840.0"  data-label="$M \Delta_{1} h_{1}^{4}$    (56)"></circle>
-<circle id="M D^2 c0" class="defaultNode " cx="6060.0" cy="1020.0"  data-label="$M \Delta^{2} c_{0}$    (53)"></circle>
-<circle id="M D^2 P" class="defaultNode " cx="6060.0" cy="1080.0"  data-label="$M \Delta^{2} P$    (52)"></circle>
-<circle id="M D h1 d0 e0" class="defaultNode " cx="6060.0" cy="1140.0"  data-label="$M \Delta h_{1} d_{0} e_{0}$    (55)"></circle>
-<circle id="_D^2 M h1^7" class="defaultNode " cx="6060.0" cy="1200.0"  data-label="$\overline{D^{2} M h_{1}^{7}}$    (54)"></circle>
-<circle id="M D h1^4 c0 g" class="defaultNode " cx="6057.0" cy="1260.0"  data-label="$M \Delta h_{1}^{4} c_{0} g$    (57)"></circle>
-<circle id="D^3 h1 d0^2" class="defaultNode " cx="6063.0" cy="1260.0"  data-label="$\Delta^{3} h_{1} d_{0}^{2}$    (53)"></circle>
-<circle id="M h1^5 e0^3" class="defaultNode " cx="6060.0" cy="1380.0"  data-label="$M h_{1}^{5} e_{0}^{3}$    (59)"></circle>
-<circle id="M D h1^7 c0 e0" class="defaultNode " cx="6060.0" cy="1440.0"  data-label="$M \Delta h_{1}^{7} c_{0} e_{0}$    (58)"></circle>
-<circle id="_P^12 h1^4" class="defaultNode " cx="6060.0" cy="3060.0"  data-label="$\overline{P^{12} h_{1}^{4}}$    (51)"></circle>
-<circle id="_M D1 h1^4" class="defaultNode " cx="6120.0" cy="780.0"  data-label="$\overline{M \Delta_{1} h_{1}^{4}}$    (55)"></circle>
-<circle id="M D1 h1^5" class="defaultNode " cx="6120.0" cy="900.0"  data-label="$M \Delta_{1} h_{1}^{5}$    (57)"></circle>
-<circle id="D^2 M h1 c0" class="defaultNode " cx="6120.0" cy="1080.0"  data-label="$\Delta^{2} M h_{1} c_{0}$    (54)"></circle>
-<circle id="D^2 M P h1" class="defaultNode " cx="6120.0" cy="1140.0"  data-label="$\Delta^{2} M P h_{1}$    (53)"></circle>
-<circle id="M D h1^2 d0 e0" class="defaultNode " cx="6120.0" cy="1200.0"  data-label="$M \Delta h_{1}^{2} d_{0} e_{0}$    (56)"></circle>
-<circle id="M P D c0 e0" class="defaultNode " cx="6120.0" cy="1260.0"  data-label="$M P \Delta c_{0} e_{0}$    (55)"></circle>
-<circle id="M D h1^5 c0 g" class="defaultNode " cx="6120.0" cy="1320.0"  data-label="$M \Delta h_{1}^{5} c_{0} g$    (58)"></circle>
-<circle id="M h1^6 e0^3" class="defaultNode " cx="6120.0" cy="1440.0"  data-label="$M h_{1}^{6} e_{0}^{3}$    (60)"></circle>
-<circle id="x103,12" class="defaultNode " cx="6180.0" cy="720.0"  data-label="$x_{103,12}$    (54)"></circle>
-<circle id="_M D1 h1^5" class="defaultNode " cx="6180.0" cy="840.0"  data-label="$\overline{M \Delta_{1} h_{1}^{5}}$    (56)"></circle>
-<circle id="M D1 h1^6" class="defaultNode " cx="6180.0" cy="960.0"  data-label="$M \Delta_{1} h_{1}^{6}$    (58)"></circle>
-<circle id="D^2 M h1^2 c0" class="defaultNode " cx="6180.0" cy="1140.0"  data-label="$\Delta^{2} M h_{1}^{2} c_{0}$    (55)"></circle>
-<circle id="D^2 M P h1^2" class="defaultNode " cx="6180.0" cy="1200.0"  data-label="$\Delta^{2} M P h_{1}^{2}$    (54)"></circle>
-<circle id="M D h1^3 d0 e0" class="defaultNode " cx="6180.0" cy="1260.0"  data-label="$M \Delta h_{1}^{3} d_{0} e_{0}$    (57)"></circle>
-<circle id="M P D h1 c0 e0" class="defaultNode " cx="6180.0" cy="1320.0"  data-label="$M P \Delta h_{1} c_{0} e_{0}$    (56)"></circle>
-<circle id="M D h1^6 c0 g" class="defaultNode " cx="6180.0" cy="1380.0"  data-label="$M \Delta h_{1}^{6} c_{0} g$    (59)"></circle>
-<circle id="M h1^7 e0^3" class="defaultNode " cx="6180.0" cy="1500.0"  data-label="$M h_{1}^{7} e_{0}^{3}$    (61)"></circle>
-<circle id="h1 x103,12" class="defaultNode " cx="6240.0" cy="780.0"  data-label="$h_{1} x_{103,12}$    (55)"></circle>
-<circle id="_M D1 h1^6" class="defaultNode " cx="6240.0" cy="900.0"  data-label="$\overline{M \Delta_{1} h_{1}^{6}}$    (57)"></circle>
-<circle id="M^2 d0" class="defaultNode " cx="6240.0" cy="960.0"  data-label="$M^{2} d_{0}$    (56)"></circle>
-<circle id="M D1 h1^7" class="defaultNode " cx="6240.0" cy="1020.0"  data-label="$M \Delta_{1} h_{1}^{7}$    (59)"></circle>
-<circle id="_M D^2 h1^2 c0" class="defaultNode " cx="6240.0" cy="1080.0"  data-label="$\overline{M \Delta^{2} h_{1}^{2} c_{0}}$    (54)"></circle>
-<circle id="M D h1 e0^2" class="defaultNode " cx="6240.0" cy="1140.0"  data-label="$M \Delta h_{1} e_{0}^{2}$    (57)"></circle>
-<circle id="D^2 M h1^3 c0" class="defaultNode " cx="6240.0" cy="1200.0"  data-label="$\Delta^{2} M h_{1}^{3} c_{0}$    (56)"></circle>
-<circle id="D^2 M P h1^3" class="defaultNode " cx="6240.0" cy="1260.0"  data-label="$\Delta^{2} M P h_{1}^{3}$    (55)"></circle>
-<circle id="M D h1^4 d0 e0" class="defaultNode " cx="6240.0" cy="1320.0"  data-label="$M \Delta h_{1}^{4} d_{0} e_{0}$    (58)"></circle>
-<circle id="M P D h1^2 c0 e0" class="defaultNode " cx="6240.0" cy="1380.0"  data-label="$M P \Delta h_{1}^{2} c_{0} e_{0}$    (57)"></circle>
-<circle id="M D h1^7 c0 g" class="defaultNode " cx="6240.0" cy="1440.0"  data-label="$M \Delta h_{1}^{7} c_{0} g$    (60)"></circle>
-<circle id="P^12 c0" class="defaultNode " cx="6240.0" cy="3060.0"  data-label="$P^{12} c_{0}$    (53)"></circle>
-<circle id="M D1 c0" class="defaultNode " cx="6300.0" cy="780.0"  data-label="$M \Delta_{1} c_{0}$    (57)"></circle>
-<circle id="h1^2 x103,12" class="defaultNode " cx="6300.0" cy="840.0"  data-label="$h_{1}^{2} x_{103,12}$    (56)"></circle>
-<circle id="_M D1 h1^7" class="defaultNode " cx="6300.0" cy="960.0"  data-label="$\overline{M \Delta_{1} h_{1}^{7}}$    (58)"></circle>
-<circle id="M^2 h1 d0" class="defaultNode " cx="6300.0" cy="1020.0"  data-label="$M^{2} h_{1} d_{0}$    (57)"></circle>
-<circle id="M D1 h1^8" class="defaultNode " cx="6300.0" cy="1080.0"  data-label="$M \Delta_{1} h_{1}^{8}$    (60)"></circle>
-<circle id="_D^2 M h1^3 c0" class="defaultNode " cx="6300.0" cy="1140.0"  data-label="$\overline{D^{2} M h_{1}^{3} c_{0}}$    (55)"></circle>
-<circle id="D^2 M h1^4 c0" class="defaultNode " cx="6300.0" cy="1260.0"  data-label="$\Delta^{2} M h_{1}^{4} c_{0}$    (57)"></circle>
-<circle id="M D h1^5 d0 e0" class="defaultNode " cx="6300.0" cy="1380.0"  data-label="$M \Delta h_{1}^{5} d_{0} e_{0}$    (59)"></circle>
-<circle id="M P D h1^3 c0 e0" class="defaultNode " cx="6300.0" cy="1440.0"  data-label="$M P \Delta h_{1}^{3} c_{0} e_{0}$    (58)"></circle>
-<circle id="P^13 h1" class="defaultNode " cx="6300.0" cy="3180.0"  data-label="$P^{13} h_{1}$    (53)"></circle>
-<circle id="_h1^2 x103,12" class="defaultNode " cx="6360.0" cy="780.0"  data-label="$\overline{h_{1}^{2} x_{103,12}}$    (55)"></circle>
-<circle id="M D1 h1 c0" class="defaultNode " cx="6360.0" cy="840.0"  data-label="$M \Delta_{1} h_{1} c_{0}$    (58)"></circle>
-<circle id="h1^3 x103,12" class="defaultNode " cx="6357.0" cy="900.0"  data-label="$h_{1}^{3} x_{103,12}$    (57)"></circle>
-<circle id="M D1 P h1" class="defaultNode " cx="6363.0" cy="900.0"  data-label="$M \Delta_{1} P h_{1}$    (57)"></circle>
-<circle id="_M D1 h1^8" class="defaultNode " cx="6360.0" cy="1020.0"  data-label="$\overline{M \Delta_{1} h_{1}^{8}}$    (59)"></circle>
-<circle id="M D1 h1^9" class="defaultNode " cx="6360.0" cy="1140.0"  data-label="$M \Delta_{1} h_{1}^{9}$    (61)"></circle>
-<circle id="_D^2 M h1^4 c0" class="defaultNode " cx="6360.0" cy="1200.0"  data-label="$\overline{D^{2} M h_{1}^{4} c_{0}}$    (56)"></circle>
-<circle id="_M D^2 P h1^4" class="defaultNode " cx="6360.0" cy="1260.0"  data-label="$\overline{M \Delta^{2} P h_{1}^{4}}$    (55)"></circle>
-<circle id="D^2 M h1^5 c0" class="defaultNode " cx="6360.0" cy="1320.0"  data-label="$\Delta^{2} M h_{1}^{5} c_{0}$    (58)"></circle>
-<circle id="M D h1^6 d0 e0" class="defaultNode " cx="6360.0" cy="1440.0"  data-label="$M \Delta h_{1}^{6} d_{0} e_{0}$    (60)"></circle>
-<circle id="_h1^3 x103,12" class="defaultNode " cx="6420.0" cy="840.0"  data-label="$\overline{h_{1}^{3} x_{103,12}}$    (56)"></circle>
-<circle id="M D1 h1^2 c0" class="defaultNode " cx="6420.0" cy="900.0"  data-label="$M \Delta_{1} h_{1}^{2} c_{0}$    (59)"></circle>
-<circle id="h1^4 x103,12" class="defaultNode " cx="6417.0" cy="960.0"  data-label="$h_{1}^{4} x_{103,12}$    (58)"></circle>
-<circle id="M D1 P h1^2" class="defaultNode " cx="6423.0" cy="960.0"  data-label="$M \Delta_{1} P h_{1}^{2}$    (58)"></circle>
-<circle id="_M D1 h1^9" class="defaultNode " cx="6417.0" cy="1080.0"  data-label="$\overline{M \Delta_{1} h_{1}^{9}}$    (60)"></circle>
-<circle id="M D^2 d0" class="defaultNode " cx="6423.0" cy="1080.0"  data-label="$M \Delta^{2} d_{0}$    (56)"></circle>
-<circle id="M D1 h1^10" class="defaultNode " cx="6420.0" cy="1200.0"  data-label="$M \Delta_{1} h_{1}^{10}$    (62)"></circle>
-<circle id="_D^2 M h1^5 c0" class="defaultNode " cx="6417.0" cy="1260.0"  data-label="$\overline{D^{2} M h_{1}^{5} c_{0}}$    (57)"></circle>
-<circle id="M c0 e0^2 g" class="defaultNode " cx="6423.0" cy="1260.0"  data-label="$M c_{0} e_{0}^{2} g$    (61)"></circle>
-<circle id="_D^2 M P h1^5" class="defaultNode " cx="6420.0" cy="1320.0"  data-label="$\overline{D^{2} M P h_{1}^{5}}$    (56)"></circle>
-<circle id="D^2 M h1^6 c0" class="defaultNode " cx="6420.0" cy="1380.0"  data-label="$\Delta^{2} M h_{1}^{6} c_{0}$    (59)"></circle>
-<circle id="M D h1^7 d0 e0" class="defaultNode " cx="6420.0" cy="1500.0"  data-label="$M \Delta h_{1}^{7} d_{0} e_{0}$    (61)"></circle>
-<circle id="_P^12 h1^2 c0" class="defaultNode " cx="6420.0" cy="3120.0"  data-label="$\overline{P^{12} h_{1}^{2} c_{0}}$    (54)"></circle>
-<circle id="_M D1 h1^2 c0" class="defaultNode " cx="6480.0" cy="840.0"  data-label="$\overline{M \Delta_{1} h_{1}^{2} c_{0}}$    (58)"></circle>
-<circle id="_h1^4 x103,12" class="defaultNode " cx="6480.0" cy="900.0"  data-label="$\overline{h_{1}^{4} x_{103,12}}$    (57)"></circle>
-<circle id="M D1 h1^3 c0" class="defaultNode " cx="6480.0" cy="960.0"  data-label="$M \Delta_{1} h_{1}^{3} c_{0}$    (60)"></circle>
-<circle id="h1^5 x103,12" class="defaultNode " cx="6477.0" cy="1020.0"  data-label="$h_{1}^{5} x_{103,12}$    (59)"></circle>
-<circle id="M D1 P h1^3" class="defaultNode " cx="6483.0" cy="1020.0"  data-label="$M \Delta_{1} P h_{1}^{3}$    (59)"></circle>
-<circle id="_M D1 h1^10" class="defaultNode " cx="6477.0" cy="1140.0"  data-label="$\overline{M \Delta_{1} h_{1}^{10}}$    (61)"></circle>
-<circle id="M D^2 h1 d0" class="defaultNode " cx="6483.0" cy="1140.0"  data-label="$M \Delta^{2} h_{1} d_{0}$    (57)"></circle>
-<circle id="M D1 h1^11" class="defaultNode " cx="6480.0" cy="1260.0"  data-label="$M \Delta_{1} h_{1}^{11}$    (63)"></circle>
-<circle id="_D^2 M h1^6 c0" class="defaultNode " cx="6477.0" cy="1320.0"  data-label="$\overline{D^{2} M h_{1}^{6} c_{0}}$    (58)"></circle>
-<circle id="M h1 c0 e0^2 g" class="defaultNode " cx="6483.0" cy="1320.0"  data-label="$M h_{1} c_{0} e_{0}^{2} g$    (62)"></circle>
-<circle id="_D^2 M P h1^6" class="defaultNode " cx="6480.0" cy="1380.0"  data-label="$\overline{D^{2} M P h_{1}^{6}}$    (57)"></circle>
-<circle id="D^2 M h1^7 c0" class="defaultNode " cx="6477.0" cy="1440.0"  data-label="$\Delta^{2} M h_{1}^{7} c_{0}$    (60)"></circle>
-<circle id="e0^4 g^2" class="defaultNode " cx="6483.0" cy="1440.0"  data-label="$e_{0}^{4} g^{2}$    (64)"></circle>
-<circle id="x109,13" class="defaultNode " cx="6540.0" cy="780.0"  data-label="$x_{109,13}$    (57)"></circle>
-<circle id="_M D1 h1^3 c0" class="defaultNode " cx="6540.0" cy="900.0"  data-label="$\overline{M \Delta_{1} h_{1}^{3} c_{0}}$    (59)"></circle>
-<circle id="_h1^5 x103,12" class="defaultNode " cx="6540.0" cy="960.0"  data-label="$\overline{h_{1}^{5} x_{103,12}}$    (58)"></circle>
-<circle id="M D1 h1^4 c0" class="defaultNode " cx="6540.0" cy="1020.0"  data-label="$M \Delta_{1} h_{1}^{4} c_{0}$    (61)"></circle>
-<circle id="_M D1 h1^11" class="defaultNode " cx="6540.0" cy="1200.0"  data-label="$\overline{M \Delta_{1} h_{1}^{11}}$    (62)"></circle>
-<circle id="M D^2 P c0" class="defaultNode " cx="6540.0" cy="1260.0"  data-label="$M \Delta^{2} P c_{0}$    (57)"></circle>
-<circle id="M D1 h1^12" class="defaultNode " cx="6540.0" cy="1320.0"  data-label="$M \Delta_{1} h_{1}^{12}$    (64)"></circle>
-<circle id="_D^2 M h1^7 c0" class="defaultNode " cx="6540.0" cy="1380.0"  data-label="$\overline{D^{2} M h_{1}^{7} c_{0}}$    (59)"></circle>
-<circle id="_D^2 M P h1^7" class="defaultNode " cx="6540.0" cy="1440.0"  data-label="$\overline{D^{2} M P h_{1}^{7}}$    (58)"></circle>
-<circle id="h1 e0^4 g^2" class="defaultNode " cx="6540.0" cy="1500.0"  data-label="$h_{1} e_{0}^{4} g^{2}$    (65)"></circle>
-<circle id="_P^13 h1^4" class="defaultNode " cx="6540.0" cy="3300.0"  data-label="$\overline{P^{13} h_{1}^{4}}$    (55)"></circle>
-<circle id="h1 x109,13" class="defaultNode " cx="6600.0" cy="840.0"  data-label="$h_{1} x_{109,13}$    (58)"></circle>
-<circle id="x110,15" class="defaultNode " cx="6600.0" cy="900.0"  data-label="$x_{110,15}$    (57)"></circle>
-<circle id="_M D1 h1^4 c0" class="defaultNode " cx="6603.0" cy="960.0"  data-label="$\overline{M \Delta_{1} h_{1}^{4} c_{0}}$    (60)"></circle>
-<circle id="_M D1 P h1^4" class="defaultNode " cx="6597.0" cy="1020.0"  data-label="$\overline{M \Delta_{1} P h_{1}^{4}}$    (59)"></circle>
-<circle id="_h1^6 x103,12" class="defaultNode " cx="6603.0" cy="1020.0"  data-label="$\overline{h_{1}^{6} x_{103,12}}$    (59)"></circle>
-<circle id="M D1 h1^5 c0" class="defaultNode " cx="6600.0" cy="1080.0"  data-label="$M \Delta_{1} h_{1}^{5} c_{0}$    (62)"></circle>
-<circle id="M D1 P h1^5" class="defaultNode " cx="6600.0" cy="1140.0"  data-label="$M \Delta_{1} P h_{1}^{5}$    (61)"></circle>
-<circle id="_M D1 h1^12" class="defaultNode " cx="6600.0" cy="1260.0"  data-label="$\overline{M \Delta_{1} h_{1}^{12}}$    (63)"></circle>
-<circle id="D^2 M P h1 c0" class="defaultNode " cx="6600.0" cy="1320.0"  data-label="$\Delta^{2} M P h_{1} c_{0}$    (58)"></circle>
-<circle id="M D1 h1^13" class="defaultNode " cx="6600.0" cy="1380.0"  data-label="$M \Delta_{1} h_{1}^{13}$    (65)"></circle>
-<circle id="_D^2 M h1^8 c0" class="defaultNode " cx="6600.0" cy="1440.0"  data-label="$\overline{D^{2} M h_{1}^{8} c_{0}}$    (60)"></circle>
-<circle id="_D^2 M P h1^8" class="defaultNode " cx="6600.0" cy="1500.0"  data-label="$\overline{D^{2} M P h_{1}^{8}}$    (59)"></circle>
-</g>
-
-          </g>
-        </g>
       </defs>
-      <g id="content-group" class="svg-pan-zoom_viewport">
+      <g id="chart-content" class="svg-pan-zoom_viewport">
         <!-- Translate the grid so that it covers the appropriate region outside the first quadrant -->
         <g id="origin-translate" transform="translate(-120.0 120.0)">
           <!-- Apply the grid pattern to a background rectangle -->
@@ -949,9 +468,617 @@ circle {
             fill="url(#grid)"
           />
         </g>
-        <use href="#chart" />
+        <g id="edges">
+          <line x1="3120.0" y1="720.0" x2="3180.0" y2="780.0" class="defaultEdge hh1"></line>
+          <line x1="4320.0" y1="960.0" x2="4380.0" y2="1020.0" class="defaultEdge hh1"></line>
+          <line x1="4680.0" y1="960.0" x2="4740.0" y2="1020.0" class="defaultEdge hh1"></line>
+          <line x1="4980.0" y1="840.0" x2="5040.0" y2="900.0" class="defaultEdge hh1"></line>
+          <line x1="5340.0" y1="840.0" x2="5400.0" y2="900.0" class="defaultEdge hh1"></line>
+          <line x1="5520.0" y1="1200.0" x2="5580.0" y2="1260.0" class="defaultEdge hh1"></line>
+          <line x1="6000.0" y1="1080.0" x2="6060.0" y2="1140.0" class="defaultEdge hh1"></line>
+          <line x1="6003.0" y1="1200.0" x2="6063.0" y2="1260.0" class="defaultEdge hh1"></line>
+          <line x1="6120.0" y1="660.0" x2="6180.0" y2="720.0" class="defaultEdge hh1"></line>
+          <line x1="6180.0" y1="1080.0" x2="6240.0" y2="1140.0" class="defaultEdge hh1"></line>
+          <line x1="6540.0" y1="840.0" x2="6600.0" y2="900.0" class="defaultEdge hh1"></line>
+          <line x1="6537.0" y1="1080.0" x2="6600.0" y2="1140.0" class="defaultEdge p"></line>
+          <line x1="6543.0" y1="1080.0" x2="6600.0" y2="1140.0" class="defaultEdge p"></line>
+          <line x1="60.0" y1="60.0" x2="102.0" y2="102.0" class="defaultEdge h1tower"></line>
+          <line x1="300.0" y1="180.0" x2="342.0" y2="222.0" class="defaultEdge h1tower"></line>
+          <line x1="480.0" y1="180.0" x2="522.0" y2="222.0" class="defaultEdge h1tower"></line>
+          <line x1="540.0" y1="300.0" x2="582.0" y2="342.0" class="defaultEdge h1tower"></line>
+          <line x1="660.0" y1="240.0" x2="702.0" y2="282.0" class="defaultEdge h1tower"></line>
+          <line x1="780.0" y1="420.0" x2="822.0" y2="462.0" class="defaultEdge h1tower"></line>
+          <line x1="840.0" y1="240.0" x2="900.0" y2="300.0" class="defaultEdge "></line>
+          <line x1="960.0" y1="420.0" x2="1002.0" y2="462.0" class="defaultEdge h1tower"></line>
+          <line x1="1020.0" y1="540.0" x2="1062.0" y2="582.0" class="defaultEdge h1tower"></line>
+          <line x1="1140.0" y1="480.0" x2="1182.0" y2="522.0" class="defaultEdge h1tower"></line>
+          <line x1="1260.0" y1="660.0" x2="1302.0" y2="702.0" class="defaultEdge h1tower"></line>
+          <line x1="1320.0" y1="420.0" x2="1380.0" y2="480.0" class="defaultEdge "></line>
+          <line x1="1440.0" y1="660.0" x2="1482.0" y2="702.0" class="defaultEdge h1tower"></line>
+          <line x1="1500.0" y1="780.0" x2="1542.0" y2="822.0" class="defaultEdge h1tower"></line>
+          <line x1="1620.0" y1="720.0" x2="1662.0" y2="762.0" class="defaultEdge h1tower"></line>
+          <line x1="1680.0" y1="480.0" x2="1740.0" y2="540.0" class="defaultEdge "></line>
+          <line x1="1740.0" y1="900.0" x2="1782.0" y2="942.0" class="defaultEdge h1tower"></line>
+          <line x1="1920.0" y1="900.0" x2="1962.0000000000002" y2="942.0" class="defaultEdge h1tower"></line>
+          <line x1="1980.0" y1="1020.0" x2="2022.0000000000002" y2="1062.0" class="defaultEdge h1tower"></line>
+          <line x1="2040.0" y1="480.0" x2="2100.0" y2="540.0" class="defaultEdge "></line>
+          <line x1="2100.0" y1="960.0" x2="2142.0" y2="1002.0" class="defaultEdge h1tower"></line>
+          <line x1="2220.0" y1="1140.0" x2="2262.0" y2="1182.0" class="defaultEdge h1tower"></line>
+          <line x1="2400.0" y1="1140.0" x2="2442.0" y2="1182.0" class="defaultEdge h1tower"></line>
+          <line x1="2460.0" y1="1260.0" x2="2502.0" y2="1302.0" class="defaultEdge h1tower"></line>
+          <line x1="2520.0" y1="660.0" x2="2580.0" y2="720.0" class="defaultEdge "></line>
+          <line x1="2580.0" y1="1200.0" x2="2622.0" y2="1242.0" class="defaultEdge h1tower"></line>
+          <line x1="2700.0" y1="1380.0" x2="2742.0" y2="1422.0" class="defaultEdge h1tower"></line>
+          <line x1="2760.0" y1="420.0" x2="2820.0" y2="480.0" class="defaultEdge "></line>
+          <line x1="2760.0" y1="660.0" x2="2820.0" y2="720.0" class="defaultEdge "></line>
+          <line x1="2820.0" y1="480.0" x2="2880.0" y2="540.0" class="defaultEdge "></line>
+          <line x1="2880.0" y1="540.0" x2="2940.0" y2="600.0" class="defaultEdge "></line>
+          <line x1="2880.0" y1="720.0" x2="2940.0" y2="780.0" class="defaultEdge "></line>
+          <line x1="2880.0" y1="1380.0" x2="2922.0" y2="1422.0" class="defaultEdge h1tower"></line>
+          <line x1="2940.0" y1="600.0" x2="3000.0" y2="660.0" class="defaultEdge "></line>
+          <line x1="2940.0" y1="1500.0" x2="2982.0" y2="1542.0" class="defaultEdge h1tower"></line>
+          <line x1="3000.0" y1="540.0" x2="3060.0" y2="600.0" class="defaultEdge "></line>
+          <line x1="3000.0" y1="660.0" x2="3060.0" y2="720.0" class="defaultEdge "></line>
+          <line x1="3060.0" y1="600.0" x2="3120.0" y2="660.0" class="defaultEdge "></line>
+          <line x1="3060.0" y1="720.0" x2="3120.0" y2="780.0" class="defaultEdge "></line>
+          <line x1="3060.0" y1="1440.0" x2="3102.0" y2="1482.0" class="defaultEdge h1tower"></line>
+          <line x1="3120.0" y1="660.0" x2="3180.0" y2="720.0" class="defaultEdge "></line>
+          <line x1="3180.0" y1="540.0" x2="3240.0" y2="600.0" class="defaultEdge "></line>
+          <line x1="3180.0" y1="600.0" x2="3240.0" y2="660.0" class="defaultEdge "></line>
+          <line x1="3180.0" y1="720.0" x2="3240.0" y2="780.0" class="defaultEdge "></line>
+          <line x1="3180.0" y1="1620.0" x2="3222.0" y2="1662.0" class="defaultEdge h1tower"></line>
+          <line x1="3240.0" y1="600.0" x2="3300.0" y2="660.0" class="defaultEdge "></line>
+          <line x1="3240.0" y1="660.0" x2="3300.0" y2="720.0" class="defaultEdge "></line>
+          <line x1="3240.0" y1="780.0" x2="3300.0" y2="840.0" class="defaultEdge "></line>
+          <line x1="3300.0" y1="660.0" x2="3360.0" y2="720.0" class="defaultEdge "></line>
+          <line x1="3300.0" y1="720.0" x2="3360.0" y2="780.0" class="defaultEdge "></line>
+          <line x1="3300.0" y1="840.0" x2="3360.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="3360.0" y1="600.0" x2="3420.0" y2="660.0" class="defaultEdge "></line>
+          <line x1="3360.0" y1="720.0" x2="3420.0" y2="780.0" class="defaultEdge "></line>
+          <line x1="3360.0" y1="900.0" x2="3420.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="3360.0" y1="1620.0" x2="3402.0" y2="1662.0" class="defaultEdge h1tower"></line>
+          <line x1="3420.0" y1="660.0" x2="3480.0" y2="720.0" class="defaultEdge "></line>
+          <line x1="3420.0" y1="780.0" x2="3480.0" y2="840.0" class="defaultEdge "></line>
+          <line x1="3420.0" y1="1740.0" x2="3462.0" y2="1782.0" class="defaultEdge h1tower"></line>
+          <line x1="3480.0" y1="720.0" x2="3540.0" y2="780.0" class="defaultEdge "></line>
+          <line x1="3480.0" y1="780.0" x2="3540.0" y2="840.0" class="defaultEdge "></line>
+          <line x1="3480.0" y1="840.0" x2="3540.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="3540.0" y1="600.0" x2="3600.0" y2="660.0" class="defaultEdge "></line>
+          <line x1="3540.0" y1="780.0" x2="3600.0" y2="840.0" class="defaultEdge "></line>
+          <line x1="3540.0" y1="840.0" x2="3600.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="3540.0" y1="900.0" x2="3600.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="3540.0" y1="1680.0" x2="3582.0" y2="1722.0" class="defaultEdge h1tower"></line>
+          <line x1="3600.0" y1="840.0" x2="3660.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="3600.0" y1="900.0" x2="3660.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="3660.0" y1="780.0" x2="3720.0" y2="840.0" class="defaultEdge "></line>
+          <line x1="3660.0" y1="900.0" x2="3720.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="3660.0" y1="1860.0" x2="3702.0" y2="1902.0" class="defaultEdge h1tower"></line>
+          <line x1="3720.0" y1="840.0" x2="3780.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="3720.0" y1="960.0" x2="3780.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="3780.0" y1="900.0" x2="3840.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="3840.0" y1="840.0" x2="3900.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="3840.0" y1="1860.0" x2="3882.0" y2="1902.0" class="defaultEdge h1tower"></line>
+          <line x1="3900.0" y1="900.0" x2="3960.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="3900.0" y1="1980.0" x2="3942.0" y2="2022.0000000000002" class="defaultEdge h1tower"></line>
+          <line x1="3960.0" y1="960.0" x2="4020.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="4020.0" y1="780.0" x2="4080.0" y2="840.0" class="defaultEdge "></line>
+          <line x1="4020.0" y1="1920.0" x2="4062.0" y2="1962.0000000000002" class="defaultEdge h1tower"></line>
+          <line x1="4080.0" y1="960.0" x2="4140.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="4140.0" y1="2100.0" x2="4182.0" y2="2142.0" class="defaultEdge h1tower"></line>
+          <line x1="4320.0" y1="2100.0" x2="4362.0" y2="2142.0" class="defaultEdge h1tower"></line>
+          <line x1="4380.0" y1="840.0" x2="4440.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="4380.0" y1="2220.0" x2="4422.0" y2="2262.0" class="defaultEdge h1tower"></line>
+          <line x1="4440.0" y1="960.0" x2="4500.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="4500.0" y1="2160.0" x2="4542.0" y2="2202.0" class="defaultEdge h1tower"></line>
+          <line x1="4560.0" y1="960.0" x2="4620.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="4620.0" y1="2340.0" x2="4662.0" y2="2382.0" class="defaultEdge h1tower"></line>
+          <line x1="4740.0" y1="840.0" x2="4800.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="4800.0" y1="2340.0" x2="4842.0" y2="2382.0" class="defaultEdge h1tower"></line>
+          <line x1="4860.0" y1="2460.0" x2="4902.0" y2="2502.0" class="defaultEdge h1tower"></line>
+          <line x1="4920.0" y1="960.0" x2="4980.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="4920.0" y1="1140.0" x2="4980.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="4980.0" y1="2400.0" x2="5022.0" y2="2442.0" class="defaultEdge h1tower"></line>
+          <line x1="5100.0" y1="840.0" x2="5160.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="5100.0" y1="2580.0" x2="5142.0" y2="2622.0" class="defaultEdge h1tower"></line>
+          <line x1="5160.0" y1="900.0" x2="5220.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="5160.0" y1="1140.0" x2="5220.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="5220.0" y1="960.0" x2="5280.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="5280.0" y1="1020.0" x2="5340.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="5280.0" y1="1200.0" x2="5340.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="5280.0" y1="2580.0" x2="5322.0" y2="2622.0" class="defaultEdge h1tower"></line>
+          <line x1="5340.0" y1="1080.0" x2="5397.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="5340.0" y1="2700.0" x2="5382.0" y2="2742.0" class="defaultEdge h1tower"></line>
+          <line x1="5400.0" y1="720.0" x2="5460.0" y2="780.0" class="defaultEdge "></line>
+          <line x1="5400.0" y1="900.0" x2="5460.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="5400.0" y1="1020.0" x2="5460.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="5397.0" y1="1140.0" x2="5457.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="5403.0" y1="1140.0" x2="5463.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="5460.0" y1="960.0" x2="5520.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="5460.0" y1="1080.0" x2="5520.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="5457.0" y1="1200.0" x2="5520.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="5460.0" y1="2640.0" x2="5502.0" y2="2682.0" class="defaultEdge h1tower"></line>
+          <line x1="5520.0" y1="1020.0" x2="5580.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="5520.0" y1="1140.0" x2="5580.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="5580.0" y1="1020.0" x2="5640.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="5580.0" y1="1080.0" x2="5637.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="5580.0" y1="1200.0" x2="5640.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="5580.0" y1="2820.0" x2="5622.0" y2="2862.0" class="defaultEdge h1tower"></line>
+          <line x1="5640.0" y1="900.0" x2="5700.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="5640.0" y1="1020.0" x2="5700.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="5640.0" y1="1080.0" x2="5700.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="5637.0" y1="1140.0" x2="5697.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="5643.0" y1="1140.0" x2="5703.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="5640.0" y1="1260.0" x2="5700.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="5700.0" y1="960.0" x2="5760.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="5700.0" y1="1080.0" x2="5760.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="5700.0" y1="1140.0" x2="5757.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="5697.0" y1="1200.0" x2="5760.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="5700.0" y1="1320.0" x2="5760.0" y2="1380.0" class="defaultEdge "></line>
+          <line x1="5760.0" y1="1020.0" x2="5820.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="5760.0" y1="1080.0" x2="5820.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="5760.0" y1="1140.0" x2="5820.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="5757.0" y1="1200.0" x2="5817.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="5763.0" y1="1200.0" x2="5823.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="5760.0" y1="1380.0" x2="5820.0" y2="1440.0" class="defaultEdge "></line>
+          <line x1="5760.0" y1="2820.0" x2="5802.0" y2="2862.0" class="defaultEdge h1tower"></line>
+          <line x1="5820.0" y1="600.0" x2="5880.0" y2="660.0" class="defaultEdge "></line>
+          <line x1="5820.0" y1="1020.0" x2="5880.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="5820.0" y1="1080.0" x2="5880.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="5820.0" y1="1140.0" x2="5880.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="5820.0" y1="1200.0" x2="5880.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="5817.0" y1="1260.0" x2="5880.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="5820.0" y1="2940.0" x2="5862.0" y2="2982.0" class="defaultEdge h1tower"></line>
+          <line x1="5880.0" y1="660.0" x2="5940.0" y2="720.0" class="defaultEdge "></line>
+          <line x1="5880.0" y1="900.0" x2="5940.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="5880.0" y1="1020.0" x2="5937.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="5880.0" y1="1080.0" x2="5940.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="5880.0" y1="1140.0" x2="5940.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="5880.0" y1="1200.0" x2="5940.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="5880.0" y1="1260.0" x2="5940.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="5880.0" y1="1320.0" x2="5940.0" y2="1380.0" class="defaultEdge "></line>
+          <line x1="5940.0" y1="720.0" x2="6000.0" y2="780.0" class="defaultEdge "></line>
+          <line x1="5937.0" y1="1080.0" x2="5997.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="5943.0" y1="1080.0" x2="6003.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="5940.0" y1="1140.0" x2="5997.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="5940.0" y1="1200.0" x2="6000.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="5940.0" y1="1260.0" x2="6000.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="5940.0" y1="1320.0" x2="6000.0" y2="1380.0" class="defaultEdge "></line>
+          <line x1="5940.0" y1="1380.0" x2="6000.0" y2="1440.0" class="defaultEdge "></line>
+          <line x1="5940.0" y1="2880.0" x2="5982.0" y2="2922.0" class="defaultEdge h1tower"></line>
+          <line x1="6000.0" y1="780.0" x2="6060.0" y2="840.0" class="defaultEdge "></line>
+          <line x1="5997.0" y1="1140.0" x2="6060.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="5997.0" y1="1200.0" x2="6057.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="6000.0" y1="1320.0" x2="6060.0" y2="1380.0" class="defaultEdge "></line>
+          <line x1="6000.0" y1="1380.0" x2="6060.0" y2="1440.0" class="defaultEdge "></line>
+          <line x1="6060.0" y1="840.0" x2="6120.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="6060.0" y1="1020.0" x2="6120.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="6060.0" y1="1080.0" x2="6120.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="6060.0" y1="1140.0" x2="6120.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="6057.0" y1="1260.0" x2="6120.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="6060.0" y1="1380.0" x2="6120.0" y2="1440.0" class="defaultEdge "></line>
+          <line x1="6060.0" y1="3060.0" x2="6102.0" y2="3102.0" class="defaultEdge h1tower"></line>
+          <line x1="6120.0" y1="780.0" x2="6180.0" y2="840.0" class="defaultEdge "></line>
+          <line x1="6120.0" y1="900.0" x2="6180.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="6120.0" y1="1080.0" x2="6180.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="6120.0" y1="1140.0" x2="6180.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="6120.0" y1="1200.0" x2="6180.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="6120.0" y1="1260.0" x2="6180.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="6120.0" y1="1320.0" x2="6180.0" y2="1380.0" class="defaultEdge "></line>
+          <line x1="6120.0" y1="1440.0" x2="6180.0" y2="1500.0" class="defaultEdge "></line>
+          <line x1="6180.0" y1="720.0" x2="6240.0" y2="780.0" class="defaultEdge "></line>
+          <line x1="6180.0" y1="840.0" x2="6240.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="6180.0" y1="960.0" x2="6240.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="6180.0" y1="1140.0" x2="6240.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="6180.0" y1="1200.0" x2="6240.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="6180.0" y1="1260.0" x2="6240.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="6180.0" y1="1320.0" x2="6240.0" y2="1380.0" class="defaultEdge "></line>
+          <line x1="6180.0" y1="1380.0" x2="6240.0" y2="1440.0" class="defaultEdge "></line>
+          <line x1="6240.0" y1="780.0" x2="6300.0" y2="840.0" class="defaultEdge "></line>
+          <line x1="6240.0" y1="900.0" x2="6300.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="6240.0" y1="960.0" x2="6300.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="6240.0" y1="1020.0" x2="6300.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="6240.0" y1="1080.0" x2="6300.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="6240.0" y1="1200.0" x2="6300.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="6240.0" y1="1320.0" x2="6300.0" y2="1380.0" class="defaultEdge "></line>
+          <line x1="6240.0" y1="1380.0" x2="6300.0" y2="1440.0" class="defaultEdge "></line>
+          <line x1="6240.0" y1="3060.0" x2="6282.0" y2="3102.0" class="defaultEdge h1tower"></line>
+          <line x1="6300.0" y1="780.0" x2="6360.0" y2="840.0" class="defaultEdge "></line>
+          <line x1="6300.0" y1="840.0" x2="6357.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="6300.0" y1="960.0" x2="6360.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="6300.0" y1="1080.0" x2="6360.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="6300.0" y1="1140.0" x2="6360.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="6300.0" y1="1260.0" x2="6360.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="6300.0" y1="1380.0" x2="6360.0" y2="1440.0" class="defaultEdge "></line>
+          <line x1="6300.0" y1="3180.0" x2="6342.0" y2="3222.0" class="defaultEdge h1tower"></line>
+          <line x1="6360.0" y1="780.0" x2="6420.0" y2="840.0" class="defaultEdge "></line>
+          <line x1="6360.0" y1="840.0" x2="6420.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="6357.0" y1="900.0" x2="6417.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="6363.0" y1="900.0" x2="6423.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="6360.0" y1="1020.0" x2="6417.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="6360.0" y1="1140.0" x2="6420.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="6360.0" y1="1200.0" x2="6417.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="6360.0" y1="1260.0" x2="6420.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="6360.0" y1="1320.0" x2="6420.0" y2="1380.0" class="defaultEdge "></line>
+          <line x1="6360.0" y1="1440.0" x2="6420.0" y2="1500.0" class="defaultEdge "></line>
+          <line x1="6420.0" y1="840.0" x2="6480.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="6420.0" y1="900.0" x2="6480.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="6417.0" y1="960.0" x2="6477.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="6423.0" y1="960.0" x2="6483.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="6417.0" y1="1080.0" x2="6477.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="6423.0" y1="1080.0" x2="6483.0" y2="1140.0" class="defaultEdge "></line>
+          <line x1="6420.0" y1="1200.0" x2="6480.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="6417.0" y1="1260.0" x2="6477.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="6423.0" y1="1260.0" x2="6483.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="6420.0" y1="1320.0" x2="6480.0" y2="1380.0" class="defaultEdge "></line>
+          <line x1="6420.0" y1="1380.0" x2="6477.0" y2="1440.0" class="defaultEdge "></line>
+          <line x1="6420.0" y1="3120.0" x2="6462.0" y2="3162.0" class="defaultEdge h1tower"></line>
+          <line x1="6480.0" y1="840.0" x2="6540.0" y2="900.0" class="defaultEdge "></line>
+          <line x1="6480.0" y1="900.0" x2="6540.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="6480.0" y1="960.0" x2="6540.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="6477.0" y1="1020.0" x2="6537.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="6483.0" y1="1020.0" x2="6543.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="6477.0" y1="1140.0" x2="6540.0" y2="1200.0" class="defaultEdge "></line>
+          <line x1="6480.0" y1="1260.0" x2="6540.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="6477.0" y1="1320.0" x2="6540.0" y2="1380.0" class="defaultEdge "></line>
+          <line x1="6480.0" y1="1380.0" x2="6540.0" y2="1440.0" class="defaultEdge "></line>
+          <line x1="6483.0" y1="1440.0" x2="6540.0" y2="1500.0" class="defaultEdge "></line>
+          <line x1="6540.0" y1="780.0" x2="6600.0" y2="840.0" class="defaultEdge "></line>
+          <line x1="6540.0" y1="900.0" x2="6603.0" y2="960.0" class="defaultEdge "></line>
+          <line x1="6540.0" y1="960.0" x2="6603.0" y2="1020.0" class="defaultEdge "></line>
+          <line x1="6540.0" y1="1020.0" x2="6600.0" y2="1080.0" class="defaultEdge "></line>
+          <line x1="6540.0" y1="1200.0" x2="6600.0" y2="1260.0" class="defaultEdge "></line>
+          <line x1="6540.0" y1="1260.0" x2="6600.0" y2="1320.0" class="defaultEdge "></line>
+          <line x1="6540.0" y1="1320.0" x2="6600.0" y2="1380.0" class="defaultEdge "></line>
+          <line x1="6540.0" y1="1380.0" x2="6600.0" y2="1440.0" class="defaultEdge "></line>
+          <line x1="6540.0" y1="1440.0" x2="6600.0" y2="1500.0" class="defaultEdge "></line>
+          <line x1="6540.0" y1="3300.0" x2="6582.0" y2="3342.0" class="defaultEdge h1tower"></line>
+        </g>
+        <g id="nodes">
+          <circle class="defaultNode " cx="6597.0" cy="960.0" data-label="$M^{2} g$    (60)"></circle>
+          <circle class="defaultNode " cx="3120.0" cy="720.0" data-label="$\overline{\tau h_{0} e_{0}^{3}}$    (28)"></circle>
+          <circle class="defaultNode " cx="4320.0" cy="960.0" data-label="$\overline{\tau h_{0} e_{0}^{3} g}$    (40)"></circle>
+          <circle class="defaultNode " cx="4680.0" cy="960.0" data-label="$\overline{\tau h_{0} e_{0} g^{3}}$    (44)"></circle>
+          <circle class="defaultNode " cx="4980.0" cy="840.0" data-label="$\overline{\tau M h_{0} e_{0} g}$    (44)"></circle>
+          <circle class="defaultNode " cx="5340.0" cy="840.0" data-label="$\overline{\tau M h_{2} g^{2}}$    (48)"></circle>
+          <circle class="defaultNode " cx="5520.0" cy="1200.0" data-label="$\overline{\tau h_{0} d_{0} e_{0} g^{3}}$    (52)"></circle>
+          <circle class="defaultNode " cx="6000.0" cy="1080.0" data-label="$\overline{\tau M h_{0} e_{0}^{2} g}$    (54)"></circle>
+          <circle class="defaultNode " cx="6003.0" cy="1200.0" data-label="$\overline{\tau \Delta^{2} h_{0} e_{0}^{3}}$    (52)"></circle>
+          <circle class="defaultNode " cx="6120.0" cy="660.0" data-label="$\overline{\tau^{2} c_{1} H_{1} g}$    (53)"></circle>
+          <circle class="defaultNode " cx="6180.0" cy="1080.0" data-label="$\overline{\tau M h_{0} e_{0} g^{2}}$    (56)"></circle>
+          <circle class="defaultNode " cx="6540.0" cy="840.0" data-label="$\overline{\tau M \Delta_{1} P h_{2}}$    (56)"></circle>
+          <circle class="defaultNode " cx="6537.0" cy="1080.0" data-label="$h_{1}^{6} x_{103,12}$    (60)"></circle>
+          <circle class="defaultNode " cx="6543.0" cy="1080.0" data-label="$M \Delta_{1} P h_{1}^{4}$    (60)"></circle>
+          <circle class="defaultNode " cx="60.0" cy="60.0" data-label="$h_{1}$    (1)"></circle>
+          <circle class="defaultNode " cx="300.0" cy="180.0" data-label="$\overline{h_{1}^{4}}$    (3)"></circle>
+          <circle class="defaultNode " cx="480.0" cy="180.0" data-label="$c_{0}$    (5)"></circle>
+          <circle class="defaultNode " cx="540.0" cy="300.0" data-label="$P h_{1}$    (5)"></circle>
+          <circle class="defaultNode " cx="660.0" cy="240.0" data-label="$\overline{h_{1}^{2} c_{0}}$    (6)"></circle>
+          <circle class="defaultNode " cx="780.0" cy="420.0" data-label="$\overline{P h_{1}^{4}}$    (7)"></circle>
+          <circle class="defaultNode " cx="840.0" cy="240.0" data-label="$d_{0}$    (8)"></circle>
+          <circle class="defaultNode " cx="900.0" cy="300.0" data-label="$h_{1} d_{0}$    (9)"></circle>
+          <circle class="defaultNode " cx="960.0" cy="420.0" data-label="$P c_{0}$    (9)"></circle>
+          <circle class="defaultNode " cx="1020.0" cy="540.0" data-label="$P^{2} h_{1}$    (9)"></circle>
+          <circle class="defaultNode " cx="1140.0" cy="480.0" data-label="$\overline{P h_{1}^{2} c_{0}}$    (10)"></circle>
+          <circle class="defaultNode " cx="1260.0" cy="660.0" data-label="$\overline{P^{2} h_{1}^{4}}$    (11)"></circle>
+          <circle class="defaultNode " cx="1320.0" cy="420.0" data-label="$c_{0} d_{0}$    (13)"></circle>
+          <circle class="defaultNode " cx="1380.0" cy="480.0" data-label="$h_{1} c_{0} d_{0}$    (14)"></circle>
+          <circle class="defaultNode " cx="1440.0" cy="660.0" data-label="$P^{2} c_{0}$    (13)"></circle>
+          <circle class="defaultNode " cx="1500.0" cy="780.0" data-label="$P^{3} h_{1}$    (13)"></circle>
+          <circle class="defaultNode " cx="1620.0" cy="720.0" data-label="$\overline{P^{2} h_{1}^{2} c_{0}}$    (14)"></circle>
+          <circle class="defaultNode " cx="1680.0" cy="480.0" data-label="$d_{0}^{2}$    (16)"></circle>
+          <circle class="defaultNode " cx="1740.0" cy="540.0" data-label="$h_{1} d_{0}^{2}$    (17)"></circle>
+          <circle class="defaultNode " cx="1740.0" cy="900.0" data-label="$\overline{P^{3} h_{1}^{4}}$    (15)"></circle>
+          <circle class="defaultNode " cx="1800.0" cy="720.0" data-label="$P^{2} d_{0}$    (16)"></circle>
+          <circle class="defaultNode " cx="1920.0" cy="900.0" data-label="$P^{3} c_{0}$    (17)"></circle>
+          <circle class="defaultNode " cx="1980.0" cy="1020.0" data-label="$P^{4} h_{1}$    (17)"></circle>
+          <circle class="defaultNode " cx="2040.0" cy="480.0" data-label="$e_{0}^{2}$    (20)"></circle>
+          <circle class="defaultNode " cx="2100.0" cy="540.0" data-label="$h_{1} e_{0}^{2}$    (21)"></circle>
+          <circle class="defaultNode " cx="2100.0" cy="960.0" data-label="$\overline{P^{3} h_{1}^{2} c_{0}}$    (18)"></circle>
+          <circle class="defaultNode " cx="2220.0" cy="1140.0" data-label="$\overline{P^{4} h_{1}^{4}}$    (19)"></circle>
+          <circle class="defaultNode " cx="2340.0" cy="540.0" data-label="$u$    (21)"></circle>
+          <circle class="defaultNode " cx="2400.0" cy="1140.0" data-label="$P^{4} c_{0}$    (21)"></circle>
+          <circle class="defaultNode " cx="2460.0" cy="1260.0" data-label="$P^{5} h_{1}$    (21)"></circle>
+          <circle class="defaultNode " cx="2520.0" cy="660.0" data-label="$c_{0} e_{0}^{2}$    (25)"></circle>
+          <circle class="defaultNode " cx="2580.0" cy="720.0" data-label="$h_{1} c_{0} e_{0}^{2}$    (26)"></circle>
+          <circle class="defaultNode " cx="2580.0" cy="1200.0" data-label="$\overline{P^{4} h_{1}^{2} c_{0}}$    (22)"></circle>
+          <circle class="defaultNode " cx="2700.0" cy="1380.0" data-label="$\overline{P^{5} h_{1}^{4}}$    (23)"></circle>
+          <circle class="defaultNode " cx="2760.0" cy="420.0" data-label="$B_{1}$    (25)"></circle>
+          <circle class="defaultNode " cx="2760.0" cy="660.0" data-label="$u'$    (25)"></circle>
+          <circle class="defaultNode " cx="2760.0" cy="1200.0" data-label="$P^{4} d_{0}$    (24)"></circle>
+          <circle class="defaultNode " cx="2820.0" cy="480.0" data-label="$h_{1} B_{1}$    (26)"></circle>
+          <circle class="defaultNode " cx="2820.0" cy="720.0" data-label="$h_{1} u'$    (26)"></circle>
+          <circle class="defaultNode " cx="2880.0" cy="540.0" data-label="$h_{1}^{2} B_{1}$    (27)"></circle>
+          <circle class="defaultNode " cx="2880.0" cy="720.0" data-label="$d_{0} e_{0}^{2}$    (28)"></circle>
+          <circle class="defaultNode " cx="2880.0" cy="1380.0" data-label="$P^{5} c_{0}$    (25)"></circle>
+          <circle class="defaultNode " cx="2940.0" cy="600.0" data-label="$h_{1}^{3} B_{1}$    (28)"></circle>
+          <circle class="defaultNode " cx="2940.0" cy="780.0" data-label="$h_{1} d_{0} e_{0}^{2}$    (29)"></circle>
+          <circle class="defaultNode " cx="2940.0" cy="1500.0" data-label="$P^{6} h_{1}$    (25)"></circle>
+          <circle class="defaultNode " cx="3000.0" cy="540.0" data-label="$\overline{h_{1}^{3} B_{1}}$    (27)"></circle>
+          <circle class="defaultNode " cx="3000.0" cy="660.0" data-label="$h_{1}^{4} B_{1}$    (29)"></circle>
+          <circle class="defaultNode " cx="3060.0" cy="600.0" data-label="$\overline{h_{1}^{4} B_{1}}$    (28)"></circle>
+          <circle class="defaultNode " cx="3060.0" cy="720.0" data-label="$h_{1}^{5} B_{1}$    (30)"></circle>
+          <circle class="defaultNode " cx="3060.0" cy="1440.0" data-label="$\overline{P^{5} h_{1}^{2} c_{0}}$    (26)"></circle>
+          <circle class="defaultNode " cx="3120.0" cy="660.0" data-label="$\overline{h_{1}^{5} B_{1}}$    (29)"></circle>
+          <circle class="defaultNode " cx="3120.0" cy="780.0" data-label="$h_{1}^{6} B_{1}$    (31)"></circle>
+          <circle class="defaultNode " cx="3180.0" cy="540.0" data-label="$B_{8}$    (29)"></circle>
+          <circle class="defaultNode " cx="3180.0" cy="600.0" data-label="$x'$    (28)"></circle>
+          <circle class="defaultNode " cx="3180.0" cy="720.0" data-label="$\overline{h_{1}^{6} B_{1}}$    (30)"></circle>
+          <circle class="defaultNode " cx="3180.0" cy="780.0" data-label="$d_{0} u$    (29)"></circle>
+          <circle class="defaultNode " cx="3180.0" cy="1620.0" data-label="$\overline{P^{6} h_{1}^{4}}$    (27)"></circle>
+          <circle class="defaultNode " cx="3240.0" cy="600.0" data-label="$h_{1} B_{8}$    (30)"></circle>
+          <circle class="defaultNode " cx="3240.0" cy="660.0" data-label="$h_{1} x'$    (29)"></circle>
+          <circle class="defaultNode " cx="3240.0" cy="780.0" data-label="$\overline{h_{1}^{7} B_{1}}$    (31)"></circle>
+          <circle class="defaultNode " cx="3300.0" cy="660.0" data-label="$h_{1}^{2} B_{8}$    (31)"></circle>
+          <circle class="defaultNode " cx="3300.0" cy="720.0" data-label="$h_{1}^{2} x'$    (30)"></circle>
+          <circle class="defaultNode " cx="3300.0" cy="840.0" data-label="$\overline{h_{1}^{8} B_{1}}$    (32)"></circle>
+          <circle class="defaultNode " cx="3360.0" cy="600.0" data-label="$\overline{h_{1}^{2} B_{8}}$    (30)"></circle>
+          <circle class="defaultNode " cx="3360.0" cy="720.0" data-label="$h_{1}^{3} B_{8}$    (32)"></circle>
+          <circle class="defaultNode " cx="3360.0" cy="780.0" data-label="$h_{1}^{3} x'$    (31)"></circle>
+          <circle class="defaultNode " cx="3360.0" cy="900.0" data-label="$\overline{h_{1}^{9} B_{1}}$    (33)"></circle>
+          <circle class="defaultNode " cx="3360.0" cy="1620.0" data-label="$P^{6} c_{0}$    (29)"></circle>
+          <circle class="defaultNode " cx="3420.0" cy="660.0" data-label="$\overline{h_{1}^{3} B_{8}}$    (31)"></circle>
+          <circle class="defaultNode " cx="3420.0" cy="780.0" data-label="$h_{1}^{4} B_{8}$    (33)"></circle>
+          <circle class="defaultNode " cx="3420.0" cy="960.0" data-label="$\overline{h_{1}^{10} B_{1}}$    (34)"></circle>
+          <circle class="defaultNode " cx="3420.0" cy="1740.0" data-label="$P^{7} h_{1}$    (29)"></circle>
+          <circle class="defaultNode " cx="3480.0" cy="720.0" data-label="$\overline{h_{1}^{4} B_{8}}$    (32)"></circle>
+          <circle class="defaultNode " cx="3480.0" cy="780.0" data-label="$\overline{h_{1}^{4} x'}$    (31)"></circle>
+          <circle class="defaultNode " cx="3480.0" cy="840.0" data-label="$h_{1}^{5} B_{8}$    (34)"></circle>
+          <circle class="defaultNode " cx="3540.0" cy="600.0" data-label="$B_{21}$    (32)"></circle>
+          <circle class="defaultNode " cx="3540.0" cy="780.0" data-label="$\overline{h_{1}^{5} B_{8}}$    (33)"></circle>
+          <circle class="defaultNode " cx="3540.0" cy="840.0" data-label="$\overline{h_{1}^{5} x'}$    (32)"></circle>
+          <circle class="defaultNode " cx="3540.0" cy="900.0" data-label="$h_{1}^{6} B_{8}$    (35)"></circle>
+          <circle class="defaultNode " cx="3540.0" cy="1680.0" data-label="$\overline{P^{6} h_{1}^{2} c_{0}}$    (30)"></circle>
+          <circle class="defaultNode " cx="3600.0" cy="660.0" data-label="$h_{1} B_{21}$    (33)"></circle>
+          <circle class="defaultNode " cx="3600.0" cy="840.0" data-label="$\overline{h_{1}^{6} B_{8}}$    (34)"></circle>
+          <circle class="defaultNode " cx="3600.0" cy="900.0" data-label="$\overline{h_{1}^{6} x'}$    (33)"></circle>
+          <circle class="defaultNode " cx="3600.0" cy="960.0" data-label="$h_{1}^{7} B_{8}$    (36)"></circle>
+          <circle class="defaultNode " cx="3660.0" cy="780.0" data-label="$c_{0} x'$    (33)"></circle>
+          <circle class="defaultNode " cx="3660.0" cy="900.0" data-label="$\overline{h_{1}^{7} B_{8}}$    (35)"></circle>
+          <circle class="defaultNode " cx="3660.0" cy="960.0" data-label="$\overline{h_{1}^{7} x'}$    (34)"></circle>
+          <circle class="defaultNode " cx="3660.0" cy="1860.0" data-label="$\overline{P^{7} h_{1}^{4}}$    (31)"></circle>
+          <circle class="defaultNode " cx="3720.0" cy="840.0" data-label="$h_{1} c_{0} x'$    (34)"></circle>
+          <circle class="defaultNode " cx="3720.0" cy="960.0" data-label="$\overline{h_{1}^{8} B_{8}}$    (36)"></circle>
+          <circle class="defaultNode " cx="3720.0" cy="1200.0" data-label="$\overline{\tau P^{2} h_{0} d_{0}^{2} e_{0}}$    (32)"></circle>
+          <circle class="defaultNode " cx="3720.0" cy="1680.0" data-label="$P^{6} d_{0}$    (32)"></circle>
+          <circle class="defaultNode " cx="3780.0" cy="900.0" data-label="$h_{1}^{2} c_{0} x'$    (35)"></circle>
+          <circle class="defaultNode " cx="3780.0" cy="1020.0" data-label="$\overline{h_{1}^{9} B_{8}}$    (37)"></circle>
+          <circle class="defaultNode " cx="3840.0" cy="840.0" data-label="$U$    (34)"></circle>
+          <circle class="defaultNode " cx="3840.0" cy="960.0" data-label="$h_{1}^{3} c_{0} x'$    (36)"></circle>
+          <circle class="defaultNode " cx="3840.0" cy="1860.0" data-label="$P^{7} c_{0}$    (33)"></circle>
+          <circle class="defaultNode " cx="3900.0" cy="900.0" data-label="$h_{1} U$    (35)"></circle>
+          <circle class="defaultNode " cx="3900.0" cy="1980.0" data-label="$P^{8} h_{1}$    (33)"></circle>
+          <circle class="defaultNode " cx="3960.0" cy="960.0" data-label="$h_{1}^{2} U$    (36)"></circle>
+          <circle class="defaultNode " cx="4020.0" cy="780.0" data-label="$B_{8} d_{0}$    (37)"></circle>
+          <circle class="defaultNode " cx="4020.0" cy="840.0" data-label="$d_{0} x'$    (36)"></circle>
+          <circle class="defaultNode " cx="4020.0" cy="1020.0" data-label="$h_{1}^{3} U$    (37)"></circle>
+          <circle class="defaultNode " cx="4020.0" cy="1920.0" data-label="$\overline{P^{7} h_{1}^{2} c_{0}}$    (34)"></circle>
+          <circle class="defaultNode " cx="4080.0" cy="840.0" data-label="$h_{1} B_{8} d_{0}$    (38)"></circle>
+          <circle class="defaultNode " cx="4080.0" cy="960.0" data-label="$e_{0}^{4}$    (40)"></circle>
+          <circle class="defaultNode " cx="4140.0" cy="1020.0" data-label="$h_{1} e_{0}^{4}$    (41)"></circle>
+          <circle class="defaultNode " cx="4140.0" cy="2100.0" data-label="$\overline{P^{8} h_{1}^{4}}$    (35)"></circle>
+          <circle class="defaultNode " cx="4320.0" cy="2100.0" data-label="$P^{8} c_{0}$    (37)"></circle>
+          <circle class="defaultNode " cx="4380.0" cy="840.0" data-label="$M d_{0}^{2}$    (40)"></circle>
+          <circle class="defaultNode " cx="4380.0" cy="1020.0" data-label="$\Delta h_{1} d_{0} e_{0}^{2}$    (41)"></circle>
+          <circle class="defaultNode " cx="4380.0" cy="2220.0" data-label="$P^{9} h_{1}$    (37)"></circle>
+          <circle class="defaultNode " cx="4440.0" cy="900.0" data-label="$M h_{1} d_{0}^{2}$    (41)"></circle>
+          <circle class="defaultNode " cx="4440.0" cy="960.0" data-label="$e_{0}^{2} g^{2}$    (44)"></circle>
+          <circle class="defaultNode " cx="4500.0" cy="1020.0" data-label="$h_{1} e_{0}^{2} g^{2}$    (45)"></circle>
+          <circle class="defaultNode " cx="4500.0" cy="2160.0" data-label="$\overline{P^{8} h_{1}^{2} c_{0}}$    (38)"></circle>
+          <circle class="defaultNode " cx="4560.0" cy="960.0" data-label="$\Delta^{2} d_{0}^{2}$    (40)"></circle>
+          <circle class="defaultNode " cx="4620.0" cy="1020.0" data-label="$\Delta^{2} h_{1} d_{0}^{2}$    (41)"></circle>
+          <circle class="defaultNode " cx="4620.0" cy="2340.0" data-label="$\overline{P^{9} h_{1}^{4}}$    (39)"></circle>
+          <circle class="defaultNode " cx="4680.0" cy="2160.0" data-label="$P^{8} d_{0}$    (40)"></circle>
+          <circle class="defaultNode " cx="4740.0" cy="840.0" data-label="$M e_{0}^{2}$    (44)"></circle>
+          <circle class="defaultNode " cx="4740.0" cy="1020.0" data-label="$\Delta h_{1} e_{0}^{2} g$    (45)"></circle>
+          <circle class="defaultNode " cx="4800.0" cy="900.0" data-label="$M h_{1} e_{0}^{2}$    (45)"></circle>
+          <circle class="defaultNode " cx="4800.0" cy="2340.0" data-label="$P^{9} c_{0}$    (41)"></circle>
+          <circle class="defaultNode " cx="4860.0" cy="2460.0" data-label="$P^{10} h_{1}$    (41)"></circle>
+          <circle class="defaultNode " cx="4920.0" cy="960.0" data-label="$\Delta^{2} e_{0}^{2}$    (44)"></circle>
+          <circle class="defaultNode " cx="4920.0" cy="1140.0" data-label="$c_{0} e_{0}^{2} g^{2}$    (49)"></circle>
+          <circle class="defaultNode " cx="4980.0" cy="1020.0" data-label="$\Delta^{2} h_{1} e_{0}^{2}$    (45)"></circle>
+          <circle class="defaultNode " cx="4980.0" cy="1200.0" data-label="$h_{1} c_{0} e_{0}^{2} g^{2}$    (50)"></circle>
+          <circle class="defaultNode " cx="4980.0" cy="2400.0" data-label="$\overline{P^{9} h_{1}^{2} c_{0}}$    (42)"></circle>
+          <circle class="defaultNode " cx="5040.0" cy="900.0" data-label="$M \Delta h_{1} d_{0}$    (45)"></circle>
+          <circle class="defaultNode " cx="5100.0" cy="840.0" data-label="$M g^{2}$    (48)"></circle>
+          <circle class="defaultNode " cx="5100.0" cy="2580.0" data-label="$\overline{P^{10} h_{1}^{4}}$    (43)"></circle>
+          <circle class="defaultNode " cx="5160.0" cy="900.0" data-label="$M h_{1} g^{2}$    (49)"></circle>
+          <circle class="defaultNode " cx="5160.0" cy="1140.0" data-label="$\Delta c_{0} e_{0}^{2} g$    (49)"></circle>
+          <circle class="defaultNode " cx="5220.0" cy="960.0" data-label="$M h_{1}^{2} g^{2}$    (50)"></circle>
+          <circle class="defaultNode " cx="5220.0" cy="1020.0" data-label="$\Delta^{3} h_{1} d_{0}$    (45)"></circle>
+          <circle class="defaultNode " cx="5220.0" cy="1200.0" data-label="$\Delta h_{1} c_{0} e_{0}^{2} g$    (50)"></circle>
+          <circle class="defaultNode " cx="5280.0" cy="1020.0" data-label="$M h_{1}^{3} g^{2}$    (51)"></circle>
+          <circle class="defaultNode " cx="5280.0" cy="1200.0" data-label="$e_{0}^{4} g$    (52)"></circle>
+          <circle class="defaultNode " cx="5280.0" cy="2580.0" data-label="$P^{10} c_{0}$    (45)"></circle>
+          <circle class="defaultNode " cx="5340.0" cy="1080.0" data-label="$M h_{1}^{4} g^{2}$    (52)"></circle>
+          <circle class="defaultNode " cx="5340.0" cy="1260.0" data-label="$h_{1} e_{0}^{4} g$    (53)"></circle>
+          <circle class="defaultNode " cx="5340.0" cy="2700.0" data-label="$P^{11} h_{1}$    (45)"></circle>
+          <circle class="defaultNode " cx="5400.0" cy="720.0" data-label="$M^{2}$    (48)"></circle>
+          <circle class="defaultNode " cx="5400.0" cy="900.0" data-label="$M \Delta h_{1} g$    (49)"></circle>
+          <circle class="defaultNode " cx="5400.0" cy="1020.0" data-label="$M c_{0} e_{0} g$    (51)"></circle>
+          <circle class="defaultNode " cx="5397.0" cy="1140.0" data-label="$M h_{1}^{5} g^{2}$    (53)"></circle>
+          <circle class="defaultNode " cx="5403.0" cy="1140.0" data-label="$\Delta^{2} c_{0} e_{0}^{2}$    (49)"></circle>
+          <circle class="defaultNode " cx="5460.0" cy="780.0" data-label="$M^{2} h_{1}$    (49)"></circle>
+          <circle class="defaultNode " cx="5460.0" cy="960.0" data-label="$M \Delta h_{1}^{2} g$    (50)"></circle>
+          <circle class="defaultNode " cx="5460.0" cy="1080.0" data-label="$M h_{1} c_{0} e_{0} g$    (52)"></circle>
+          <circle class="defaultNode " cx="5457.0" cy="1200.0" data-label="$M h_{1}^{6} g^{2}$    (54)"></circle>
+          <circle class="defaultNode " cx="5463.0" cy="1200.0" data-label="$\Delta^{2} h_{1} c_{0} e_{0}^{2}$    (50)"></circle>
+          <circle class="defaultNode " cx="5460.0" cy="2640.0" data-label="$\overline{P^{10} h_{1}^{2} c_{0}}$    (46)"></circle>
+          <circle class="defaultNode " cx="5520.0" cy="1020.0" data-label="$M \Delta h_{1}^{3} g$    (51)"></circle>
+          <circle class="defaultNode " cx="5520.0" cy="1140.0" data-label="$M h_{1}^{2} c_{0} e_{0} g$    (53)"></circle>
+          <circle class="defaultNode " cx="5520.0" cy="1260.0" data-label="$M h_{1}^{7} g^{2}$    (55)"></circle>
+          <circle class="defaultNode " cx="5580.0" cy="1020.0" data-label="$M c_{0} g^{2}$    (53)"></circle>
+          <circle class="defaultNode " cx="5580.0" cy="1080.0" data-label="$M \Delta h_{1}^{4} g$    (52)"></circle>
+          <circle class="defaultNode " cx="5580.0" cy="1200.0" data-label="$M h_{1}^{3} c_{0} e_{0} g$    (54)"></circle>
+          <circle class="defaultNode " cx="5580.0" cy="1260.0" data-label="$\Delta h_{1} e_{0}^{4}$    (53)"></circle>
+          <circle class="defaultNode " cx="5580.0" cy="2820.0" data-label="$\overline{P^{11} h_{1}^{4}}$    (47)"></circle>
+          <circle class="defaultNode " cx="5640.0" cy="900.0" data-label="$M \Delta^{2} h_{1}$    (49)"></circle>
+          <circle class="defaultNode " cx="5640.0" cy="1020.0" data-label="$M \Delta c_{0} e_{0}$    (51)"></circle>
+          <circle class="defaultNode " cx="5640.0" cy="1080.0" data-label="$M h_{1} c_{0} g^{2}$    (54)"></circle>
+          <circle class="defaultNode " cx="5637.0" cy="1140.0" data-label="$M \Delta h_{1}^{5} g$    (53)"></circle>
+          <circle class="defaultNode " cx="5643.0" cy="1140.0" data-label="$\Delta^{3} c_{0} d_{0}$    (49)"></circle>
+          <circle class="defaultNode " cx="5640.0" cy="1260.0" data-label="$M h_{1}^{4} c_{0} e_{0} g$    (55)"></circle>
+          <circle class="defaultNode " cx="5640.0" cy="2160.0" data-label="$\overline{\tau P^{6} h_{0} d_{0}^{2} e_{0}}$    (48)"></circle>
+          <circle class="defaultNode " cx="5640.0" cy="2640.0" data-label="$P^{10} d_{0}$    (48)"></circle>
+          <circle class="defaultNode " cx="5700.0" cy="960.0" data-label="$\Delta^{2} M h_{1}^{2}$    (50)"></circle>
+          <circle class="defaultNode " cx="5700.0" cy="1080.0" data-label="$M \Delta h_{1} c_{0} e_{0}$    (52)"></circle>
+          <circle class="defaultNode " cx="5700.0" cy="1140.0" data-label="$M h_{1}^{2} c_{0} g^{2}$    (55)"></circle>
+          <circle class="defaultNode " cx="5697.0" cy="1200.0" data-label="$M \Delta h_{1}^{6} g$    (54)"></circle>
+          <circle class="defaultNode " cx="5703.0" cy="1200.0" data-label="$\Delta^{3} h_{1} c_{0} d_{0}$    (50)"></circle>
+          <circle class="defaultNode " cx="5700.0" cy="1320.0" data-label="$M h_{1}^{5} c_{0} e_{0} g$    (56)"></circle>
+          <circle class="defaultNode " cx="5760.0" cy="1020.0" data-label="$\Delta^{2} M h_{1}^{3}$    (51)"></circle>
+          <circle class="defaultNode " cx="5760.0" cy="1080.0" data-label="$M e_{0}^{3}$    (54)"></circle>
+          <circle class="defaultNode " cx="5760.0" cy="1140.0" data-label="$M \Delta h_{1}^{2} c_{0} e_{0}$    (53)"></circle>
+          <circle class="defaultNode " cx="5757.0" cy="1200.0" data-label="$M h_{1}^{3} c_{0} g^{2}$    (56)"></circle>
+          <circle class="defaultNode " cx="5763.0" cy="1200.0" data-label="$\Delta^{2} d_{0} e_{0}^{2}$    (52)"></circle>
+          <circle class="defaultNode " cx="5760.0" cy="1260.0" data-label="$M \Delta h_{1}^{7} g$    (55)"></circle>
+          <circle class="defaultNode " cx="5760.0" cy="1380.0" data-label="$M h_{1}^{6} c_{0} e_{0} g$    (57)"></circle>
+          <circle class="defaultNode " cx="5760.0" cy="2820.0" data-label="$P^{11} c_{0}$    (49)"></circle>
+          <circle class="defaultNode " cx="5820.0" cy="600.0" data-label="$M \Delta_{1}$    (52)"></circle>
+          <circle class="defaultNode " cx="5820.0" cy="1020.0" data-label="$M \Delta c_{0} g$    (53)"></circle>
+          <circle class="defaultNode " cx="5820.0" cy="1080.0" data-label="$\Delta^{2} M h_{1}^{4}$    (52)"></circle>
+          <circle class="defaultNode " cx="5820.0" cy="1140.0" data-label="$M h_{1} e_{0}^{3}$    (55)"></circle>
+          <circle class="defaultNode " cx="5820.0" cy="1200.0" data-label="$M \Delta h_{1}^{3} c_{0} e_{0}$    (54)"></circle>
+          <circle class="defaultNode " cx="5817.0" cy="1260.0" data-label="$M h_{1}^{4} c_{0} g^{2}$    (57)"></circle>
+          <circle class="defaultNode " cx="5823.0" cy="1260.0" data-label="$\Delta^{2} h_{1} d_{0} e_{0}^{2}$    (53)"></circle>
+          <circle class="defaultNode " cx="5820.0" cy="1440.0" data-label="$M h_{1}^{7} c_{0} e_{0} g$    (58)"></circle>
+          <circle class="defaultNode " cx="5820.0" cy="2940.0" data-label="$P^{12} h_{1}$    (49)"></circle>
+          <circle class="defaultNode " cx="5880.0" cy="660.0" data-label="$M \Delta_{1} h_{1}$    (53)"></circle>
+          <circle class="defaultNode " cx="5880.0" cy="900.0" data-label="$M^{2} c_{0}$    (53)"></circle>
+          <circle class="defaultNode " cx="5880.0" cy="1020.0" data-label="$\overline{M \Delta^{2} h_{1}^{4}}$    (51)"></circle>
+          <circle class="defaultNode " cx="5880.0" cy="1080.0" data-label="$M \Delta h_{1} c_{0} g$    (54)"></circle>
+          <circle class="defaultNode " cx="5880.0" cy="1140.0" data-label="$\Delta^{2} M h_{1}^{5}$    (53)"></circle>
+          <circle class="defaultNode " cx="5880.0" cy="1200.0" data-label="$M h_{1}^{2} e_{0}^{3}$    (56)"></circle>
+          <circle class="defaultNode " cx="5880.0" cy="1260.0" data-label="$M \Delta h_{1}^{4} c_{0} e_{0}$    (55)"></circle>
+          <circle class="defaultNode " cx="5880.0" cy="1320.0" data-label="$M h_{1}^{5} c_{0} g^{2}$    (58)"></circle>
+          <circle class="defaultNode " cx="5940.0" cy="720.0" data-label="$M \Delta_{1} h_{1}^{2}$    (54)"></circle>
+          <circle class="defaultNode " cx="5940.0" cy="960.0" data-label="$M^{2} h_{1} c_{0}$    (54)"></circle>
+          <circle class="defaultNode " cx="5937.0" cy="1080.0" data-label="$\overline{D^{2} M h_{1}^{5}}$    (52)"></circle>
+          <circle class="defaultNode " cx="5943.0" cy="1080.0" data-label="$M e_{0}^{2} g$    (56)"></circle>
+          <circle class="defaultNode " cx="5940.0" cy="1140.0" data-label="$M \Delta h_{1}^{2} c_{0} g$    (55)"></circle>
+          <circle class="defaultNode " cx="5940.0" cy="1200.0" data-label="$\Delta^{2} M h_{1}^{6}$    (54)"></circle>
+          <circle class="defaultNode " cx="5940.0" cy="1260.0" data-label="$M h_{1}^{3} e_{0}^{3}$    (57)"></circle>
+          <circle class="defaultNode " cx="5940.0" cy="1320.0" data-label="$M \Delta h_{1}^{5} c_{0} e_{0}$    (56)"></circle>
+          <circle class="defaultNode " cx="5940.0" cy="1380.0" data-label="$M h_{1}^{6} c_{0} g^{2}$    (59)"></circle>
+          <circle class="defaultNode " cx="5940.0" cy="2880.0" data-label="$\overline{P^{11} h_{1}^{2} c_{0}}$    (50)"></circle>
+          <circle class="defaultNode " cx="6000.0" cy="780.0" data-label="$M \Delta_{1} h_{1}^{3}$    (55)"></circle>
+          <circle class="defaultNode " cx="5997.0" cy="1140.0" data-label="$\overline{D^{2} M h_{1}^{6}}$    (53)"></circle>
+          <circle class="defaultNode " cx="6003.0" cy="1140.0" data-label="$M h_{1} e_{0}^{2} g$    (57)"></circle>
+          <circle class="defaultNode " cx="5997.0" cy="1200.0" data-label="$M \Delta h_{1}^{3} c_{0} g$    (56)"></circle>
+          <circle class="defaultNode " cx="6000.0" cy="1260.0" data-label="$\Delta^{2} M h_{1}^{7}$    (55)"></circle>
+          <circle class="defaultNode " cx="6000.0" cy="1320.0" data-label="$M h_{1}^{4} e_{0}^{3}$    (58)"></circle>
+          <circle class="defaultNode " cx="6000.0" cy="1380.0" data-label="$M \Delta h_{1}^{6} c_{0} e_{0}$    (57)"></circle>
+          <circle class="defaultNode " cx="6000.0" cy="1440.0" data-label="$M h_{1}^{7} c_{0} g^{2}$    (60)"></circle>
+          <circle class="defaultNode " cx="6060.0" cy="840.0" data-label="$M \Delta_{1} h_{1}^{4}$    (56)"></circle>
+          <circle class="defaultNode " cx="6060.0" cy="1020.0" data-label="$M \Delta^{2} c_{0}$    (53)"></circle>
+          <circle class="defaultNode " cx="6060.0" cy="1080.0" data-label="$M \Delta^{2} P$    (52)"></circle>
+          <circle class="defaultNode " cx="6060.0" cy="1140.0" data-label="$M \Delta h_{1} d_{0} e_{0}$    (55)"></circle>
+          <circle class="defaultNode " cx="6060.0" cy="1200.0" data-label="$\overline{D^{2} M h_{1}^{7}}$    (54)"></circle>
+          <circle class="defaultNode " cx="6057.0" cy="1260.0" data-label="$M \Delta h_{1}^{4} c_{0} g$    (57)"></circle>
+          <circle class="defaultNode " cx="6063.0" cy="1260.0" data-label="$\Delta^{3} h_{1} d_{0}^{2}$    (53)"></circle>
+          <circle class="defaultNode " cx="6060.0" cy="1380.0" data-label="$M h_{1}^{5} e_{0}^{3}$    (59)"></circle>
+          <circle class="defaultNode " cx="6060.0" cy="1440.0" data-label="$M \Delta h_{1}^{7} c_{0} e_{0}$    (58)"></circle>
+          <circle class="defaultNode " cx="6060.0" cy="3060.0" data-label="$\overline{P^{12} h_{1}^{4}}$    (51)"></circle>
+          <circle class="defaultNode " cx="6120.0" cy="780.0" data-label="$\overline{M \Delta_{1} h_{1}^{4}}$    (55)"></circle>
+          <circle class="defaultNode " cx="6120.0" cy="900.0" data-label="$M \Delta_{1} h_{1}^{5}$    (57)"></circle>
+          <circle class="defaultNode " cx="6120.0" cy="1080.0" data-label="$\Delta^{2} M h_{1} c_{0}$    (54)"></circle>
+          <circle class="defaultNode " cx="6120.0" cy="1140.0" data-label="$\Delta^{2} M P h_{1}$    (53)"></circle>
+          <circle class="defaultNode " cx="6120.0" cy="1200.0" data-label="$M \Delta h_{1}^{2} d_{0} e_{0}$    (56)"></circle>
+          <circle class="defaultNode " cx="6120.0" cy="1260.0" data-label="$M P \Delta c_{0} e_{0}$    (55)"></circle>
+          <circle class="defaultNode " cx="6120.0" cy="1320.0" data-label="$M \Delta h_{1}^{5} c_{0} g$    (58)"></circle>
+          <circle class="defaultNode " cx="6120.0" cy="1440.0" data-label="$M h_{1}^{6} e_{0}^{3}$    (60)"></circle>
+          <circle class="defaultNode " cx="6180.0" cy="720.0" data-label="$x_{103,12}$    (54)"></circle>
+          <circle class="defaultNode " cx="6180.0" cy="840.0" data-label="$\overline{M \Delta_{1} h_{1}^{5}}$    (56)"></circle>
+          <circle class="defaultNode " cx="6180.0" cy="960.0" data-label="$M \Delta_{1} h_{1}^{6}$    (58)"></circle>
+          <circle class="defaultNode " cx="6180.0" cy="1140.0" data-label="$\Delta^{2} M h_{1}^{2} c_{0}$    (55)"></circle>
+          <circle class="defaultNode " cx="6180.0" cy="1200.0" data-label="$\Delta^{2} M P h_{1}^{2}$    (54)"></circle>
+          <circle class="defaultNode " cx="6180.0" cy="1260.0" data-label="$M \Delta h_{1}^{3} d_{0} e_{0}$    (57)"></circle>
+          <circle class="defaultNode " cx="6180.0" cy="1320.0" data-label="$M P \Delta h_{1} c_{0} e_{0}$    (56)"></circle>
+          <circle class="defaultNode " cx="6180.0" cy="1380.0" data-label="$M \Delta h_{1}^{6} c_{0} g$    (59)"></circle>
+          <circle class="defaultNode " cx="6180.0" cy="1500.0" data-label="$M h_{1}^{7} e_{0}^{3}$    (61)"></circle>
+          <circle class="defaultNode " cx="6240.0" cy="780.0" data-label="$h_{1} x_{103,12}$    (55)"></circle>
+          <circle class="defaultNode " cx="6240.0" cy="900.0" data-label="$\overline{M \Delta_{1} h_{1}^{6}}$    (57)"></circle>
+          <circle class="defaultNode " cx="6240.0" cy="960.0" data-label="$M^{2} d_{0}$    (56)"></circle>
+          <circle class="defaultNode " cx="6240.0" cy="1020.0" data-label="$M \Delta_{1} h_{1}^{7}$    (59)"></circle>
+          <circle class="defaultNode " cx="6240.0" cy="1080.0" data-label="$\overline{M \Delta^{2} h_{1}^{2} c_{0}}$    (54)"></circle>
+          <circle class="defaultNode " cx="6240.0" cy="1140.0" data-label="$M \Delta h_{1} e_{0}^{2}$    (57)"></circle>
+          <circle class="defaultNode " cx="6240.0" cy="1200.0" data-label="$\Delta^{2} M h_{1}^{3} c_{0}$    (56)"></circle>
+          <circle class="defaultNode " cx="6240.0" cy="1260.0" data-label="$\Delta^{2} M P h_{1}^{3}$    (55)"></circle>
+          <circle class="defaultNode " cx="6240.0" cy="1320.0" data-label="$M \Delta h_{1}^{4} d_{0} e_{0}$    (58)"></circle>
+          <circle class="defaultNode " cx="6240.0" cy="1380.0" data-label="$M P \Delta h_{1}^{2} c_{0} e_{0}$    (57)"></circle>
+          <circle class="defaultNode " cx="6240.0" cy="1440.0" data-label="$M \Delta h_{1}^{7} c_{0} g$    (60)"></circle>
+          <circle class="defaultNode " cx="6240.0" cy="3060.0" data-label="$P^{12} c_{0}$    (53)"></circle>
+          <circle class="defaultNode " cx="6300.0" cy="780.0" data-label="$M \Delta_{1} c_{0}$    (57)"></circle>
+          <circle class="defaultNode " cx="6300.0" cy="840.0" data-label="$h_{1}^{2} x_{103,12}$    (56)"></circle>
+          <circle class="defaultNode " cx="6300.0" cy="960.0" data-label="$\overline{M \Delta_{1} h_{1}^{7}}$    (58)"></circle>
+          <circle class="defaultNode " cx="6300.0" cy="1020.0" data-label="$M^{2} h_{1} d_{0}$    (57)"></circle>
+          <circle class="defaultNode " cx="6300.0" cy="1080.0" data-label="$M \Delta_{1} h_{1}^{8}$    (60)"></circle>
+          <circle class="defaultNode " cx="6300.0" cy="1140.0" data-label="$\overline{D^{2} M h_{1}^{3} c_{0}}$    (55)"></circle>
+          <circle class="defaultNode " cx="6300.0" cy="1260.0" data-label="$\Delta^{2} M h_{1}^{4} c_{0}$    (57)"></circle>
+          <circle class="defaultNode " cx="6300.0" cy="1380.0" data-label="$M \Delta h_{1}^{5} d_{0} e_{0}$    (59)"></circle>
+          <circle class="defaultNode " cx="6300.0" cy="1440.0" data-label="$M P \Delta h_{1}^{3} c_{0} e_{0}$    (58)"></circle>
+          <circle class="defaultNode " cx="6300.0" cy="3180.0" data-label="$P^{13} h_{1}$    (53)"></circle>
+          <circle class="defaultNode " cx="6360.0" cy="780.0" data-label="$\overline{h_{1}^{2} x_{103,12}}$    (55)"></circle>
+          <circle class="defaultNode " cx="6360.0" cy="840.0" data-label="$M \Delta_{1} h_{1} c_{0}$    (58)"></circle>
+          <circle class="defaultNode " cx="6357.0" cy="900.0" data-label="$h_{1}^{3} x_{103,12}$    (57)"></circle>
+          <circle class="defaultNode " cx="6363.0" cy="900.0" data-label="$M \Delta_{1} P h_{1}$    (57)"></circle>
+          <circle class="defaultNode " cx="6360.0" cy="1020.0" data-label="$\overline{M \Delta_{1} h_{1}^{8}}$    (59)"></circle>
+          <circle class="defaultNode " cx="6360.0" cy="1140.0" data-label="$M \Delta_{1} h_{1}^{9}$    (61)"></circle>
+          <circle class="defaultNode " cx="6360.0" cy="1200.0" data-label="$\overline{D^{2} M h_{1}^{4} c_{0}}$    (56)"></circle>
+          <circle class="defaultNode " cx="6360.0" cy="1260.0" data-label="$\overline{M \Delta^{2} P h_{1}^{4}}$    (55)"></circle>
+          <circle class="defaultNode " cx="6360.0" cy="1320.0" data-label="$\Delta^{2} M h_{1}^{5} c_{0}$    (58)"></circle>
+          <circle class="defaultNode " cx="6360.0" cy="1440.0" data-label="$M \Delta h_{1}^{6} d_{0} e_{0}$    (60)"></circle>
+          <circle class="defaultNode " cx="6420.0" cy="840.0" data-label="$\overline{h_{1}^{3} x_{103,12}}$    (56)"></circle>
+          <circle class="defaultNode " cx="6420.0" cy="900.0" data-label="$M \Delta_{1} h_{1}^{2} c_{0}$    (59)"></circle>
+          <circle class="defaultNode " cx="6417.0" cy="960.0" data-label="$h_{1}^{4} x_{103,12}$    (58)"></circle>
+          <circle class="defaultNode " cx="6423.0" cy="960.0" data-label="$M \Delta_{1} P h_{1}^{2}$    (58)"></circle>
+          <circle class="defaultNode " cx="6417.0" cy="1080.0" data-label="$\overline{M \Delta_{1} h_{1}^{9}}$    (60)"></circle>
+          <circle class="defaultNode " cx="6423.0" cy="1080.0" data-label="$M \Delta^{2} d_{0}$    (56)"></circle>
+          <circle class="defaultNode " cx="6420.0" cy="1200.0" data-label="$M \Delta_{1} h_{1}^{10}$    (62)"></circle>
+          <circle class="defaultNode " cx="6417.0" cy="1260.0" data-label="$\overline{D^{2} M h_{1}^{5} c_{0}}$    (57)"></circle>
+          <circle class="defaultNode " cx="6423.0" cy="1260.0" data-label="$M c_{0} e_{0}^{2} g$    (61)"></circle>
+          <circle class="defaultNode " cx="6420.0" cy="1320.0" data-label="$\overline{D^{2} M P h_{1}^{5}}$    (56)"></circle>
+          <circle class="defaultNode " cx="6420.0" cy="1380.0" data-label="$\Delta^{2} M h_{1}^{6} c_{0}$    (59)"></circle>
+          <circle class="defaultNode " cx="6420.0" cy="1500.0" data-label="$M \Delta h_{1}^{7} d_{0} e_{0}$    (61)"></circle>
+          <circle class="defaultNode " cx="6420.0" cy="3120.0" data-label="$\overline{P^{12} h_{1}^{2} c_{0}}$    (54)"></circle>
+          <circle class="defaultNode " cx="6480.0" cy="840.0" data-label="$\overline{M \Delta_{1} h_{1}^{2} c_{0}}$    (58)"></circle>
+          <circle class="defaultNode " cx="6480.0" cy="900.0" data-label="$\overline{h_{1}^{4} x_{103,12}}$    (57)"></circle>
+          <circle class="defaultNode " cx="6480.0" cy="960.0" data-label="$M \Delta_{1} h_{1}^{3} c_{0}$    (60)"></circle>
+          <circle class="defaultNode " cx="6477.0" cy="1020.0" data-label="$h_{1}^{5} x_{103,12}$    (59)"></circle>
+          <circle class="defaultNode " cx="6483.0" cy="1020.0" data-label="$M \Delta_{1} P h_{1}^{3}$    (59)"></circle>
+          <circle class="defaultNode " cx="6477.0" cy="1140.0" data-label="$\overline{M \Delta_{1} h_{1}^{10}}$    (61)"></circle>
+          <circle class="defaultNode " cx="6483.0" cy="1140.0" data-label="$M \Delta^{2} h_{1} d_{0}$    (57)"></circle>
+          <circle class="defaultNode " cx="6480.0" cy="1260.0" data-label="$M \Delta_{1} h_{1}^{11}$    (63)"></circle>
+          <circle class="defaultNode " cx="6477.0" cy="1320.0" data-label="$\overline{D^{2} M h_{1}^{6} c_{0}}$    (58)"></circle>
+          <circle class="defaultNode " cx="6483.0" cy="1320.0" data-label="$M h_{1} c_{0} e_{0}^{2} g$    (62)"></circle>
+          <circle class="defaultNode " cx="6480.0" cy="1380.0" data-label="$\overline{D^{2} M P h_{1}^{6}}$    (57)"></circle>
+          <circle class="defaultNode " cx="6477.0" cy="1440.0" data-label="$\Delta^{2} M h_{1}^{7} c_{0}$    (60)"></circle>
+          <circle class="defaultNode " cx="6483.0" cy="1440.0" data-label="$e_{0}^{4} g^{2}$    (64)"></circle>
+          <circle class="defaultNode " cx="6540.0" cy="780.0" data-label="$x_{109,13}$    (57)"></circle>
+          <circle class="defaultNode " cx="6540.0" cy="900.0" data-label="$\overline{M \Delta_{1} h_{1}^{3} c_{0}}$    (59)"></circle>
+          <circle class="defaultNode " cx="6540.0" cy="960.0" data-label="$\overline{h_{1}^{5} x_{103,12}}$    (58)"></circle>
+          <circle class="defaultNode " cx="6540.0" cy="1020.0" data-label="$M \Delta_{1} h_{1}^{4} c_{0}$    (61)"></circle>
+          <circle class="defaultNode " cx="6540.0" cy="1200.0" data-label="$\overline{M \Delta_{1} h_{1}^{11}}$    (62)"></circle>
+          <circle class="defaultNode " cx="6540.0" cy="1260.0" data-label="$M \Delta^{2} P c_{0}$    (57)"></circle>
+          <circle class="defaultNode " cx="6540.0" cy="1320.0" data-label="$M \Delta_{1} h_{1}^{12}$    (64)"></circle>
+          <circle class="defaultNode " cx="6540.0" cy="1380.0" data-label="$\overline{D^{2} M h_{1}^{7} c_{0}}$    (59)"></circle>
+          <circle class="defaultNode " cx="6540.0" cy="1440.0" data-label="$\overline{D^{2} M P h_{1}^{7}}$    (58)"></circle>
+          <circle class="defaultNode " cx="6540.0" cy="1500.0" data-label="$h_{1} e_{0}^{4} g^{2}$    (65)"></circle>
+          <circle class="defaultNode " cx="6540.0" cy="3300.0" data-label="$\overline{P^{13} h_{1}^{4}}$    (55)"></circle>
+          <circle class="defaultNode " cx="6600.0" cy="840.0" data-label="$h_{1} x_{109,13}$    (58)"></circle>
+          <circle class="defaultNode " cx="6600.0" cy="900.0" data-label="$x_{110,15}$    (57)"></circle>
+          <circle class="defaultNode " cx="6603.0" cy="960.0" data-label="$\overline{M \Delta_{1} h_{1}^{4} c_{0}}$    (60)"></circle>
+          <circle class="defaultNode " cx="6597.0" cy="1020.0" data-label="$\overline{M \Delta_{1} P h_{1}^{4}}$    (59)"></circle>
+          <circle class="defaultNode " cx="6603.0" cy="1020.0" data-label="$\overline{h_{1}^{6} x_{103,12}}$    (59)"></circle>
+          <circle class="defaultNode " cx="6600.0" cy="1080.0" data-label="$M \Delta_{1} h_{1}^{5} c_{0}$    (62)"></circle>
+          <circle class="defaultNode " cx="6600.0" cy="1140.0" data-label="$M \Delta_{1} P h_{1}^{5}$    (61)"></circle>
+          <circle class="defaultNode " cx="6600.0" cy="1260.0" data-label="$\overline{M \Delta_{1} h_{1}^{12}}$    (63)"></circle>
+          <circle class="defaultNode " cx="6600.0" cy="1320.0" data-label="$\Delta^{2} M P h_{1} c_{0}$    (58)"></circle>
+          <circle class="defaultNode " cx="6600.0" cy="1380.0" data-label="$M \Delta_{1} h_{1}^{13}$    (65)"></circle>
+          <circle class="defaultNode " cx="6600.0" cy="1440.0" data-label="$\overline{D^{2} M h_{1}^{8} c_{0}}$    (60)"></circle>
+          <circle class="defaultNode " cx="6600.0" cy="1500.0" data-label="$\overline{D^{2} M P h_{1}^{8}}$    (59)"></circle>
+        </g>
       </g>
-      <g id="axes-group">
+      <g id="chart-axes">
         <!-- X-axis -->
         <line id="x-axis" class="axis" />
         <!-- Y-axis -->
@@ -960,106 +1087,111 @@ circle {
         <rect id="x-block" x="0" y="0" class="background-style" />
         <rect id="y-block" x="0" y="0" class="background-style" />
         <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
-        <g id="ticks" class="tick">
-          <g id="x-ticks" class="x-tick">
-              <text x="-120.0" y="30.0">-2</text>
-              <text x="0.0" y="30.0">0</text>
-              <text x="120.0" y="30.0">2</text>
-              <text x="240.0" y="30.0">4</text>
-              <text x="360.0" y="30.0">6</text>
-              <text x="480.0" y="30.0">8</text>
-              <text x="600.0" y="30.0">10</text>
-              <text x="720.0" y="30.0">12</text>
-              <text x="840.0" y="30.0">14</text>
-              <text x="960.0" y="30.0">16</text>
-              <text x="1080.0" y="30.0">18</text>
-              <text x="1200.0" y="30.0">20</text>
-              <text x="1320.0" y="30.0">22</text>
-              <text x="1440.0" y="30.0">24</text>
-              <text x="1560.0" y="30.0">26</text>
-              <text x="1680.0" y="30.0">28</text>
-              <text x="1800.0" y="30.0">30</text>
-              <text x="1920.0" y="30.0">32</text>
-              <text x="2040.0" y="30.0">34</text>
-              <text x="2160.0" y="30.0">36</text>
-              <text x="2280.0" y="30.0">38</text>
-              <text x="2400.0" y="30.0">40</text>
-              <text x="2520.0" y="30.0">42</text>
-              <text x="2640.0" y="30.0">44</text>
-              <text x="2760.0" y="30.0">46</text>
-              <text x="2880.0" y="30.0">48</text>
-              <text x="3000.0" y="30.0">50</text>
-              <text x="3120.0" y="30.0">52</text>
-              <text x="3240.0" y="30.0">54</text>
-              <text x="3360.0" y="30.0">56</text>
-              <text x="3480.0" y="30.0">58</text>
-              <text x="3600.0" y="30.0">60</text>
-              <text x="3720.0" y="30.0">62</text>
-              <text x="3840.0" y="30.0">64</text>
-              <text x="3960.0" y="30.0">66</text>
-              <text x="4080.0" y="30.0">68</text>
-              <text x="4200.0" y="30.0">70</text>
-              <text x="4320.0" y="30.0">72</text>
-              <text x="4440.0" y="30.0">74</text>
-              <text x="4560.0" y="30.0">76</text>
-              <text x="4680.0" y="30.0">78</text>
-              <text x="4800.0" y="30.0">80</text>
-              <text x="4920.0" y="30.0">82</text>
-              <text x="5040.0" y="30.0">84</text>
-              <text x="5160.0" y="30.0">86</text>
-              <text x="5280.0" y="30.0">88</text>
-              <text x="5400.0" y="30.0">90</text>
-              <text x="5520.0" y="30.0">92</text>
-              <text x="5640.0" y="30.0">94</text>
-              <text x="5760.0" y="30.0">96</text>
-              <text x="5880.0" y="30.0">98</text>
-              <text x="6000.0" y="30.0">100</text>
-              <text x="6120.0" y="30.0">102</text>
-              <text x="6240.0" y="30.0">104</text>
-              <text x="6360.0" y="30.0">106</text>
-              <text x="6480.0" y="30.0">108</text>
-              <text x="6600.0" y="30.0">110</text>
-              <text x="6720.0" y="30.0">112</text>
+        <g id="ticks">
+          <g id="x-ticks">
+            <text x="-120.0" y="30.0">-2</text>
+            <text x="0.0" y="30.0">0</text>
+            <text x="120.0" y="30.0">2</text>
+            <text x="240.0" y="30.0">4</text>
+            <text x="360.0" y="30.0">6</text>
+            <text x="480.0" y="30.0">8</text>
+            <text x="600.0" y="30.0">10</text>
+            <text x="720.0" y="30.0">12</text>
+            <text x="840.0" y="30.0">14</text>
+            <text x="960.0" y="30.0">16</text>
+            <text x="1080.0" y="30.0">18</text>
+            <text x="1200.0" y="30.0">20</text>
+            <text x="1320.0" y="30.0">22</text>
+            <text x="1440.0" y="30.0">24</text>
+            <text x="1560.0" y="30.0">26</text>
+            <text x="1680.0" y="30.0">28</text>
+            <text x="1800.0" y="30.0">30</text>
+            <text x="1920.0" y="30.0">32</text>
+            <text x="2040.0" y="30.0">34</text>
+            <text x="2160.0" y="30.0">36</text>
+            <text x="2280.0" y="30.0">38</text>
+            <text x="2400.0" y="30.0">40</text>
+            <text x="2520.0" y="30.0">42</text>
+            <text x="2640.0" y="30.0">44</text>
+            <text x="2760.0" y="30.0">46</text>
+            <text x="2880.0" y="30.0">48</text>
+            <text x="3000.0" y="30.0">50</text>
+            <text x="3120.0" y="30.0">52</text>
+            <text x="3240.0" y="30.0">54</text>
+            <text x="3360.0" y="30.0">56</text>
+            <text x="3480.0" y="30.0">58</text>
+            <text x="3600.0" y="30.0">60</text>
+            <text x="3720.0" y="30.0">62</text>
+            <text x="3840.0" y="30.0">64</text>
+            <text x="3960.0" y="30.0">66</text>
+            <text x="4080.0" y="30.0">68</text>
+            <text x="4200.0" y="30.0">70</text>
+            <text x="4320.0" y="30.0">72</text>
+            <text x="4440.0" y="30.0">74</text>
+            <text x="4560.0" y="30.0">76</text>
+            <text x="4680.0" y="30.0">78</text>
+            <text x="4800.0" y="30.0">80</text>
+            <text x="4920.0" y="30.0">82</text>
+            <text x="5040.0" y="30.0">84</text>
+            <text x="5160.0" y="30.0">86</text>
+            <text x="5280.0" y="30.0">88</text>
+            <text x="5400.0" y="30.0">90</text>
+            <text x="5520.0" y="30.0">92</text>
+            <text x="5640.0" y="30.0">94</text>
+            <text x="5760.0" y="30.0">96</text>
+            <text x="5880.0" y="30.0">98</text>
+            <text x="6000.0" y="30.0">100</text>
+            <text x="6120.0" y="30.0">102</text>
+            <text x="6240.0" y="30.0">104</text>
+            <text x="6360.0" y="30.0">106</text>
+            <text x="6480.0" y="30.0">108</text>
+            <text x="6600.0" y="30.0">110</text>
+            <text x="6720.0" y="30.0">112</text>
           </g>
-          <g id="y-ticks" class="y-tick">
-              <text x="30.0" y="-120.0">-2</text>
-              <text x="30.0" y="0.0">0</text>
-              <text x="30.0" y="120.0">2</text>
-              <text x="30.0" y="240.0">4</text>
-              <text x="30.0" y="360.0">6</text>
-              <text x="30.0" y="480.0">8</text>
-              <text x="30.0" y="600.0">10</text>
-              <text x="30.0" y="720.0">12</text>
-              <text x="30.0" y="840.0">14</text>
-              <text x="30.0" y="960.0">16</text>
-              <text x="30.0" y="1080.0">18</text>
-              <text x="30.0" y="1200.0">20</text>
-              <text x="30.0" y="1320.0">22</text>
-              <text x="30.0" y="1440.0">24</text>
-              <text x="30.0" y="1560.0">26</text>
-              <text x="30.0" y="1680.0">28</text>
-              <text x="30.0" y="1800.0">30</text>
-              <text x="30.0" y="1920.0">32</text>
-              <text x="30.0" y="2040.0">34</text>
-              <text x="30.0" y="2160.0">36</text>
-              <text x="30.0" y="2280.0">38</text>
-              <text x="30.0" y="2400.0">40</text>
-              <text x="30.0" y="2520.0">42</text>
-              <text x="30.0" y="2640.0">44</text>
-              <text x="30.0" y="2760.0">46</text>
-              <text x="30.0" y="2880.0">48</text>
-              <text x="30.0" y="3000.0">50</text>
-              <text x="30.0" y="3120.0">52</text>
-              <text x="30.0" y="3240.0">54</text>
-              <text x="30.0" y="3360.0">56</text>
+          <g id="y-ticks">
+            <text x="30.0" y="-120.0">-2</text>
+            <text x="30.0" y="0.0">0</text>
+            <text x="30.0" y="120.0">2</text>
+            <text x="30.0" y="240.0">4</text>
+            <text x="30.0" y="360.0">6</text>
+            <text x="30.0" y="480.0">8</text>
+            <text x="30.0" y="600.0">10</text>
+            <text x="30.0" y="720.0">12</text>
+            <text x="30.0" y="840.0">14</text>
+            <text x="30.0" y="960.0">16</text>
+            <text x="30.0" y="1080.0">18</text>
+            <text x="30.0" y="1200.0">20</text>
+            <text x="30.0" y="1320.0">22</text>
+            <text x="30.0" y="1440.0">24</text>
+            <text x="30.0" y="1560.0">26</text>
+            <text x="30.0" y="1680.0">28</text>
+            <text x="30.0" y="1800.0">30</text>
+            <text x="30.0" y="1920.0">32</text>
+            <text x="30.0" y="2040.0">34</text>
+            <text x="30.0" y="2160.0">36</text>
+            <text x="30.0" y="2280.0">38</text>
+            <text x="30.0" y="2400.0">40</text>
+            <text x="30.0" y="2520.0">42</text>
+            <text x="30.0" y="2640.0">44</text>
+            <text x="30.0" y="2760.0">46</text>
+            <text x="30.0" y="2880.0">48</text>
+            <text x="30.0" y="3000.0">50</text>
+            <text x="30.0" y="3120.0">52</text>
+            <text x="30.0" y="3240.0">54</text>
+            <text x="30.0" y="3360.0">56</text>
           </g>
         </g>
       </g>
     </svg>
-  </div>
-  <div id="floating-title" class="background-style"></div>
-  <div id="tooltip" class="background-style"></div>
+    <div id="floating-title" class="background-style">algNovikov-h1periodic-$E_{\infty}$</div>
+    <div id="tooltip" class="background-style"></div>
+  </template>
+  <!-- This div will be filled with the correct template dynamically -->
+  <div id="chart-container"></div>
   <script>
+    const spacing = 60.0;
+    const axisSpacing = 0.6 * spacing;
+
     function applyFunctionToPath(path, fn) {
       let pathData = [];
       for (let seg of path.getPathData()) {
@@ -1101,11 +1233,14 @@ circle {
       applyFunctionToPath(path, (x, y) => [x, -y])
     };
 
-    window.addEventListener("DOMContentLoaded", () => {
+    function initialZoom() {
+      window.panZoom.reset();
+      window.panZoom.panBy({ x: 2 * axisSpacing, y: -2 * axisSpacing });
+    }
+
+    const onChartLoad = () => {
       var canvasHeight = 0;
       var canvasWidth = 0;
-      const spacing = 60.0;
-      const axisSpacing = 0.6 * spacing;
 
       const half_grid_width = parseFloat(window.getComputedStyle(document.getElementById("grid-path")).strokeWidth) / 2;
 
@@ -1115,9 +1250,9 @@ circle {
 
       // Negate all y-coordinates:
 
-      // - all elements in content-group and all chart definitions
+      // - all chart contents
       document
-        .querySelectorAll("#content-group *, #chart-defs *")
+        .querySelectorAll("#chart-content *")
         .forEach((element) => {
           if (element.tagName === "line") {
             negateValueInElement(element, "y1");
@@ -1131,7 +1266,7 @@ circle {
 
       // - axes
       document
-        .querySelectorAll("#axes-group line")
+        .querySelectorAll("#chart-axes line")
         .forEach((element) => {
           if (element.id === "x-axis") {
             element.setAttribute("x1", axisSpacing);
@@ -1148,7 +1283,7 @@ circle {
 
       // - axis blocks
       document
-        .querySelectorAll("#axes-group rect")
+        .querySelectorAll("#chart-axes rect")
         .forEach((element) => {
           if (element.id === "x-block") {
             element.setAttribute("width", canvasWidth);
@@ -1162,7 +1297,7 @@ circle {
 
       // - ticks
       document
-        .querySelectorAll("#axes-group text")
+        .querySelectorAll("#chart-axes text")
         .forEach((element) => {
           negateValueInElement(element, "y");
         });
@@ -1178,7 +1313,7 @@ circle {
 
         // Adjust y-values for all elements in content-group and chart definitions
         document
-          .querySelectorAll("#content-group *, #chart-defs *")
+          .querySelectorAll("#chart-content *")
           .forEach((element) => {
             if (element.tagName === "line") {
               applyOffsetToElement(element, "y1", yOffset);
@@ -1200,7 +1335,7 @@ circle {
 
         // Put in end values for axes and apply y-flip
         document
-          .querySelectorAll("#axes-group line")
+          .querySelectorAll("#chart-axes line")
           .forEach((element) => {
             if (element.id === "x-axis") {
               applyOffsetToElement(element, "y1", yOffset);
@@ -1213,7 +1348,7 @@ circle {
 
         // Do the same for axis blocks
         document
-          .querySelectorAll("#axes-group rect")
+          .querySelectorAll("#chart-axes rect")
           .forEach((element) => {
             if (element.id === "x-block") {
               applyOffsetToElement(element, "width", xOffset);
@@ -1225,14 +1360,13 @@ circle {
 
         // And ticks
         document
-          .querySelectorAll("#axes-group text")
+          .querySelectorAll("#chart-axes text")
           .forEach((element) => {
             applyOffsetToElement(element, "y", yOffset);
           });
-        
+
         // Reset pan, then pan slightly so the origin is visible
-        window.panZoom.reset();
-        window.panZoom.panBy({ x: 2 * axisSpacing, y: -2 * axisSpacing });
+        initialZoom();
 
         canvasHeight = newCanvasHeight;
         canvasWidth = newCanvasWidth;
@@ -1245,15 +1379,13 @@ circle {
         const xTranslate = ctm.e;
         const yTranslate = ctm.f;
 
-        document.querySelectorAll("#x-ticks").forEach((element) => {
-          element.setAttribute("transform", `translate(${xTranslate} 0)`);
-        });
+        document.getElementById("x-ticks").setAttribute("transform", `translate(${xTranslate} 0)`);
+
+        document.getElementById("y-ticks").setAttribute("transform", `translate(0 ${yTranslate})`);
+
         document.querySelectorAll("#x-ticks text").forEach((element) => {
           const xCoord = parseInt(element.textContent) * spacing;
           element.setAttribute("x", xCoord * scale);
-        });
-        document.querySelectorAll("#y-ticks").forEach((element) => {
-          element.setAttribute("transform", `translate(0 ${yTranslate})`);
         });
         document.querySelectorAll("#y-ticks text").forEach((element) => {
           const yCoord = parseInt(element.textContent) * spacing;
@@ -1265,7 +1397,7 @@ circle {
       // Taken from https://github.com/bumbu/svg-pan-zoom/blob/master/demo/mobile.html
       const hammerEventsHandler = {
         haltEventListeners: ['touchstart', 'touchend', 'touchmove', 'touchleave', 'touchcancel'],
-        init: function(options) {
+        init: function (options) {
           var instance = options.instance
             , initialScale = 1
             , pannedX = 0
@@ -1278,15 +1410,15 @@ circle {
           })
 
           // Enable pinch
-          this.hammer.get('pinch').set({enable: true})
+          this.hammer.get('pinch').set({ enable: true })
 
           // Handle double tap
-          this.hammer.on('doubletap', function(ev){
+          this.hammer.on('doubletap', function (ev) {
             instance.zoomAtPoint(ev.center.x, ev.center.y)
           })
 
           // Handle pan
-          this.hammer.on('panstart panmove', function(ev){
+          this.hammer.on('panstart panmove', function (ev) {
             // Fix https://github.com/hammerjs/hammer.js/issues/1134 using
             // https://github.com/hammerjs/hammer.js/issues/871#issuecomment-179143062
             if (Date.now() - lastPinchTime < 200) {
@@ -1301,28 +1433,28 @@ circle {
             }
 
             // Pan only the difference
-            instance.panBy({x: ev.deltaX - pannedX, y: ev.deltaY - pannedY})
+            instance.panBy({ x: ev.deltaX - pannedX, y: ev.deltaY - pannedY })
             pannedX = ev.deltaX
             pannedY = ev.deltaY
           })
 
           // Handle pinch
           var lastPinchTime;
-          this.hammer.on('pinchstart pinchmove', function(ev){
+          this.hammer.on('pinchstart pinchmove', function (ev) {
             lastPinchTime = Date.now();
             // On pinch start remember initial zoom
             if (ev.type === 'pinchstart') {
               initialScale = instance.getZoom()
-              instance.zoomAtPoint(initialScale * ev.scale, {x: ev.center.x, y: ev.center.y})
+              instance.zoomAtPoint(initialScale * ev.scale, { x: ev.center.x, y: ev.center.y })
             }
 
-            instance.zoomAtPoint(initialScale * ev.scale, {x: ev.center.x, y: ev.center.y})
+            instance.zoomAtPoint(initialScale * ev.scale, { x: ev.center.x, y: ev.center.y })
           })
 
           // Prevent moving the page on some devices when panning over SVG
-          options.svgElement.addEventListener('touchmove', function(e){ e.preventDefault(); });
+          options.svgElement.addEventListener('touchmove', function (e) { e.preventDefault(); });
         },
-        destroy: function(){
+        destroy: function () {
           this.hammer.destroy()
         }
       }
@@ -1342,61 +1474,6 @@ circle {
       });
 
       onResize();
-
-      // Show the SVG after y-values are adjusted
-      document.body.style.visibility = "visible";
-
-      window.addEventListener("keydown", function (event) {
-
-        const panSpeed = spacing;
-        switch (event.key) {
-          // Add arrow key controls for panning
-          case "ArrowUp":
-            event.preventDefault();
-            window.panZoom.panBy({ x: 0, y: panSpeed });
-            break;
-          case "ArrowDown":
-            event.preventDefault();
-            window.panZoom.panBy({ x: 0, y: -panSpeed });
-            break;
-          case "ArrowLeft":
-            event.preventDefault();
-            window.panZoom.panBy({ x: panSpeed, y: 0 });
-            break;
-          case "ArrowRight":
-            event.preventDefault();
-            window.panZoom.panBy({ x: -panSpeed, y: 0 });
-            break;
-          // Add + and - key controls for zooming
-          case "+":
-          case "=":
-            event.preventDefault();
-            window.panZoom.zoomIn();
-            break;
-          case "-":
-          case "_":
-            event.preventDefault();
-            window.panZoom.zoomOut();
-            break;
-          // Add controls for resetting pan and zoom
-          case "Backspace":
-          case "0":
-          case ")":
-            event.preventDefault();
-            onResize();
-            break;
-        }
-      });
-
-      const katexOptions = {
-        delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false},
-          {left: '\\(', right: '\\)', display: false},
-          {left: '\\[', right: '\\]', display: true}
-        ],
-        throwOnError : false
-      };
 
       // Render latex in the floating title
       const floatingTitle = document.getElementById("floating-title");
@@ -1420,6 +1497,76 @@ circle {
           tooltip.style.display = "none";
         });
       });
+    };
+
+    // Set up keyboard shortcuts
+    window.addEventListener("keydown", function (event) {
+      const panSpeed = spacing;
+      switch (event.key) {
+        // -- Inter-chart navigation --
+        // Return to the index page
+        case "Escape":
+          event.preventDefault();
+          showIndexPage();
+          break;
+        // Previous chart
+        case "w":
+        case "W":
+          event.preventDefault();
+          showChartAtOffset(-1);
+          break;
+        // Next chart
+        case "s":
+        case "S":
+          event.preventDefault();
+          showChartAtOffset(1);
+          break;
+
+        // -- Intra-chart navigation --
+        // Pan
+        case "ArrowUp":
+          event.preventDefault();
+          window.panZoom.panBy({ x: 0, y: panSpeed });
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          window.panZoom.panBy({ x: 0, y: -panSpeed });
+          break;
+        case "ArrowLeft":
+          if (!event.altKey) {
+            // Only pan if we're not holding alt
+            // Alt + left arrow is the shortcut for going back in browser history
+            event.preventDefault();
+            window.panZoom.panBy({ x: panSpeed, y: 0 });
+          }
+          break;
+        case "ArrowRight":
+          if (!event.altKey) {
+            // Only pan if we're not holding alt
+            // Alt + right arrow is the shortcut for going forward in browser history
+            event.preventDefault();
+            window.panZoom.panBy({ x: -panSpeed, y: 0 });
+          }
+          break;
+        // Zoom
+        case "+":
+        case "=":
+          event.preventDefault();
+          window.panZoom.zoomIn();
+          break;
+        case "-":
+        case "_":
+          event.preventDefault();
+          window.panZoom.zoomOut();
+          break;
+        // Reset pan and zoom
+        case "Backspace":
+        case "0":
+        case ")":
+          event.preventDefault();
+          initialZoom();
+          break;
+      }
     });
   </script>
 </body>

@@ -1,0 +1,11 @@
+{
+  "$schema": "../seqsee/input_schema.json",
+  "header": {
+    "metadata": {"title": "Adams Spectral Sequence for $\\mathbb{S}$"}
+  },
+  "charts": [
+    "Adams-classical-E2.json"    ,
+    "Adams-classical-E3.json"    ,
+    "Adams-classical-Einfty.json"
+  ]
+}

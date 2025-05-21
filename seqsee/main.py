@@ -1,5 +1,6 @@
 import copy
 import json
+from pathlib import Path
 import jsonschema
 import math
 import sys
@@ -16,104 +17,8 @@ from seqsee.chart_internals import (
     Header,
     Node,
 )
-from typing import Callable, Dict, List
-
-
-# Lifted/adapted from MIT-licensed https://github.com/slacy/pyssed/
-class CssStyle:
-    """A list of CSS styles, but stored as a dict.
-    Can contain nested styles."""
-
-    def __init__(self, *args, **kwargs):
-        self._styles = {}
-        for a in args:
-            self.append(a)
-
-        for name, value in kwargs.items():
-            self._styles[name] = value
-
-    def __getitem__(self, key):
-        return self._styles[key]
-
-    def keys(self):
-        """Return keys of the style dict."""
-        return self._styles.keys()
-
-    def items(self):
-        """Return iterable contents."""
-        return self._styles.items()
-
-    def append(self, other):
-        """Append style 'other' to self."""
-        self._styles = self.__add__(other)._styles
-
-    def __add__(self, other):
-        """Add self and other, and return a new style instance."""
-        summed = copy.deepcopy(self)
-        if isinstance(other, str):
-            single = other.split(":")
-            summed._styles[single[0]] = single[1]
-        elif isinstance(other, dict):
-            summed._styles.update(other)
-        elif isinstance(other, CssStyle):
-            summed._styles.update(other._styles)
-        else:
-            raise "Bad type for style"
-        return summed
-
-    def __repr__(self):
-        return str(self._styles)
-
-    def generate(self, parent="", indent=4):
-        """Given a dict mapping CSS selectors to a dict of styles, generate a
-        list of lines of CSS output."""
-        subnodes = []
-        stylenodes = []
-        result = []
-
-        for name, value in self.items():
-            # If the sub node is a sub-style...
-            if isinstance(value, dict):
-                subnodes.append((name, CssStyle(value)))
-            elif isinstance(value, CssStyle):
-                subnodes.append((name, value))
-            # Else, it's a string, and thus, a single style element
-            elif (
-                isinstance(value, str)
-                or isinstance(value, int)
-                or isinstance(value, float)
-            ):
-                stylenodes.append((name, value))
-            else:
-                raise "Bad error"
-
-        if stylenodes:
-            result.append(parent.strip() + " {")
-            for stylenode in stylenodes:
-                attribute = stylenode[0].strip(" ;:")
-                if isinstance(stylenode[1], str):
-                    # string
-                    value = stylenode[1].strip(" ;:")
-                else:
-                    # everything else (int or float, likely)
-                    value = str(stylenode[1]) + "px"
-
-                result.append(" " * indent + "%s: %s;" % (attribute, value))
-
-            result.append("}")
-            result.append("")  # a newline
-
-        for subnode in subnodes:
-            result += subnode[1].generate(
-                parent=(parent.strip() + " " + subnode[0]).strip()
-            )
-
-        if parent == "":
-            ret = "\n".join(result)
-        else:
-            ret = result
-
-        return ret
+from seqsee.css import CssStyle
+from typing import Callable, Dict, List, Optional, Union
 
 
 def load_schema():
@@ -200,6 +105,8 @@ class Chart(pydantic.BaseModel):
     nodes: Dict[str, Node] = {}
     edges: List[Edge] = []
 
+    model_config = pydantic.ConfigDict(extra="allow")
+
     def __init__(self, chart_spec):
         # validate against schema
         jsonschema.validate(instance=chart_spec, schema=schema)
@@ -214,19 +121,10 @@ class Chart(pydantic.BaseModel):
         color_aliases = self.header.aliases.colors.model_dump()
         attribute_aliases = self.header.aliases.attributes.merge_with_defaults()
 
-        # Generate CSS classes for color aliases. We do it first because we may need to reference them
-        # in the attribute aliases.
-        for color_name, color_value in color_aliases.items():
-            chart_css += {
-                css_class_name(color_name): {"fill": color_value, "stroke": color_value}
-            }
-
         # Save color aliases as CSS variables for use in the rest of the CSS
         chart_css += {
-            ":root": {
-                f"--{color_name}": color_value
-                for color_name, color_value in color_aliases.items()
-            }
+            f"--{color_name}": color_value
+            for color_name, color_value in color_aliases.items()
         }
 
         # Generate CSS class for nodes to set the appropriate size
@@ -351,107 +249,104 @@ class Chart(pydantic.BaseModel):
                 self.nodes[node_id]._absoluteX = x + offset * math.cos(theta)
                 self.nodes[node_id]._absoluteY = y + offset * math.sin(theta)
 
-    def generate_nodes_svg(self):
-        """Generate an SVG <g> element containing all nodes."""
-
-        scale = self.header.chart.scale
-        nodes_svg = '<g id="nodes-group">\n'
-
-        for node_id, node in self.nodes.items():
-            cx = node._absoluteX * scale
-            cy = node._absoluteY * scale
-
-            attributes = node.attributes
-            style, aliases = style_and_aliases_from_attributes(attributes)
-            style = style.generate(indent=0).replace("\n", " ").strip(" {}")
-            if style:
-                style = f'style="{style}"'
-            aliases = " ".join(aliases)
-
-            label = node.label
-
-            nodes_svg += f'<circle id="{node_id}" class="defaultNode {aliases}" cx="{cx}" cy="{cy}" {style} data-label="{label}"></circle>\n'
-
-        nodes_svg += "</g>\n"
-        return nodes_svg
-
-    def generate_edges_svg(self):
-        """Generate an SVG <g> element containing all edges."""
-
-        scale = self.header.chart.scale
-        edges_svg = '<g id="edges-group">\n'
+    def add_nodes_to_edges(self):
+        """
+        For each edge, set the `_concrete_source` and `_concrete_target` properties to the actual
+        node objects.
+        """
 
         for edge in self.edges:
-            source = self.nodes[edge.source]
+            assert (
+                edge.source in self.nodes
+            ), f"Edge {edge} has source {edge.source} that is not in the chart."
+            edge._concrete_source = self.nodes[edge.source]
+
             if edge.target is not None:
-                target = self.nodes[edge.target]
-                target_x = target._absoluteX * scale
-                target_y = target._absoluteY * scale
-            elif edge.offset is not None:
-                target_x = (source._absoluteX + edge.offset.x) * scale
-                target_y = (source._absoluteY + edge.offset.y) * scale
-            else:
-                # Impossible due to schema
-                raise NotImplementedError
+                assert (
+                    edge.target in self.nodes
+                ), f"Edge {edge} has target {edge.target} that is not in the chart."
+                edge._concrete_target = self.nodes[edge.target]
 
-            x1 = source._absoluteX * scale
-            y1 = source._absoluteY * scale
-
-            attributes = edge.attributes
-            style, aliases = style_and_aliases_from_attributes(attributes)
-            style = style.generate(indent=0).replace("\n", " ").strip(" {}")
-            aliases = " ".join(aliases)
-
-            if edge.bezier is not None:
-                control_points = edge.bezier
-                if len(control_points) == 1:
-                    control_x = control_points[0].x * scale + x1
-                    control_y = control_points[0].y * scale + y1
-                    curve_d = f"Q {control_x} {control_y} {target_x} {target_y}"
-                elif len(control_points) == 2:
-                    control0_x = control_points[0].x * scale + x1
-                    control0_y = control_points[0].y * scale + y1
-                    control1_x = control_points[1].x * scale + target_x
-                    control1_y = control_points[1].y * scale + target_y
-                    curve_d = f"C {control0_x} {control0_y} {control1_x} {control1_y} {target_x} {target_y}"
-                else:
-                    # Impossible due to schema
-                    raise NotImplementedError
-                edge_svg = f'<path d="M {x1} {y1} {curve_d}" class="{aliases}" style="fill: none;{style}"></path>\n'
-            else:
-                edge_svg = f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="defaultEdge {aliases}" style="{style}"></line>\n'
-
-            # Remove empty style attribute for cleaner output. This is not strictly necessary, but it
-            # makes me feel better.
-            edges_svg += edge_svg.replace(' style=""', "")
-
-        edges_svg += "</g>\n"
-        return edges_svg
-
-    def generate_svg(self):
-        # First make sure that the absolute positions are calculated
-        self.calculate_absolute_positions()
-        # We generate nodes after edges so that they are drawn on top
-        return self.generate_edges_svg() + self.generate_nodes_svg()
-
-    def generate_html(self):
+    def prepare(self):
         # Trim contents to fit within the chart dimensions
         self.trim_contents()
         # Normalize chart dimensions. We do this after trimming because otherwise we might include
         # too many nodes in the computation.
         self.normalize_chart_dimensions()
+        # First make sure that the absolute positions are calculated
+        self.calculate_absolute_positions()
+        # Then add the node objects to the edges
+        self.add_nodes_to_edges()
+
+
+class Collection(pydantic.BaseModel):
+    header: Header = Header()
+    charts: List[Union[Chart, str]] = []
+
+    model_config = pydantic.ConfigDict(extra="allow")
+    _input_file: Optional[str] = None
+
+    def __init__(self, spec, input_file=None):
+        from jsonschema import RefResolver
+
+        # Create a resolver rooted at the full schema
+        resolver = RefResolver.from_schema(schema)
+
+        def matches_ref(ref):
+            ref_schema = {"$ref": ref}
+            validator = jsonschema.Draft7Validator(schema=ref_schema, resolver=resolver)
+            return validator.is_valid(spec)
+
+        if matches_ref("#/$defs/collection_spec"):
+            # This is a genuine collection
+            super().__init__(**spec)
+        elif matches_ref("#/$defs/chart_spec"):
+            # This is a single chart, so we need to wrap it in a collection
+            super().__init__(charts=[Chart(spec)])
+        else:
+            # Impossible due to schema
+            raise NotImplementedError
+
+        self._input_file = input_file
+
+        self._load_charts()
+
+    def __iter__(self):
+        return self.charts.__iter__()
+
+    def _load_charts(self):
+        """Replace all internal chart references with the actual chart objects."""
+
+        expanded_charts = []
+        for chart in self.charts:
+            if isinstance(chart, str):
+                # This is a reference to another chart
+                assert (
+                    self._input_file is not None
+                ), "Cannot load chart from file without input file"
+                chart_path = Path(self._input_file).parent / chart
+                with open(chart_path, "r") as f:
+                    chart_spec = json.load(f)
+                expanded_charts.append(Chart(chart_spec))
+            else:
+                # This is a Chart object
+                expanded_charts.append(chart)
+        self.charts = expanded_charts
+
+    def generate_html(self):
+        for chart in self:
+            chart.prepare()
 
         template = load_template()
-        html_output = template.render(chart_data=self, config=self.header)
-        return html_output
+        return template.render(collection=self)
 
 
 def process_json(input_file, output_file):
     # Load input JSON
     with open(input_file, "r") as f:
-        chart_spec = json.load(f)
+        spec = json.load(f)
 
-    chart = Chart(chart_spec)
+    chart = Collection(spec, input_file=input_file)
 
     # Generate HTML
     html_content = chart.generate_html()

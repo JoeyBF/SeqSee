@@ -1,0 +1,23 @@
+{
+  "$schema": "../seqsee/input_schema.json",
+  "header": {
+    "metadata": {
+      "title": "The Motivic Adams Spectral Sequence for $\\mathbb{S}$"
+    },
+    "aliases": {
+      "colors": {
+        "backgroundColor": "black",
+        "borderColor"    : "white",
+        "textColor"      : "white"
+      }
+    }
+  },
+  "charts": [
+    "Adams-motivic-E2.json"    ,
+    "Adams-motivic-E3.json"    ,
+    "Adams-motivic-E4.json"    ,
+    "Adams-motivic-E5.json"    ,
+    "Adams-motivic-E6.json"    ,
+    "Adams-motivic-Einfty.json"
+  ]
+}

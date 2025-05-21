@@ -4,7 +4,9 @@
     "metadata": {
       "htmltitle": "Adams-motivic-E5", 
       "title": "Adams-motivic-E5", 
-      "author": "jsonmaker.py"
+      "author": "jsonmaker.py", 
+      "displaytitle": "Adams-motivic-$E_{5}$", 
+      "id": 5
     }, 
     "aliases": {
       "attributes": {

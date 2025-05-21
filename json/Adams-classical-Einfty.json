@@ -4,7 +4,9 @@
     "metadata": {
       "htmltitle": "Adams-classical-Einfty", 
       "title": "Adams-classical-Einfty", 
-      "author": "jsonmaker.py"
+      "author": "jsonmaker.py", 
+      "displaytitle": "Adams-classical-$E_{\\infty}$", 
+      "id": 999
     }, 
     "aliases": {
       "attributes": {

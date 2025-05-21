@@ -13,7 +13,7 @@
           "default": []
         }
       },
-      "additionalProperties": false
+      "required": ["charts"]
     },
     "chart_spec": {
       "type": "object",
@@ -23,7 +23,12 @@
           "properties": {
             "metadata": {
               "type": "object",
-              "properties": { "htmltitle": {"type": "string", "default": ""} }
+              "properties": {
+                "htmltitle"   : {"type": "string" , "default": ""},
+                "title"       : {"type": "string" , "default": ""},
+                "displaytitle": {"type": "string" , "default": ""},
+                "id"          : {"type": "integer"               }
+              }
             },
             "coordinates": {
               "type": ["null", "integer", "array"],

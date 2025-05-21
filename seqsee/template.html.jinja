@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>{{ config.metadata.htmltitle }}</title>
+  <title>{{ collection.header.metadata.htmltitle }}</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
   <!-- KaTeX for math rendering -->
@@ -18,7 +18,7 @@
   <script src="https://cdn.jsdelivr.net/npm/path-data-polyfill@1.0.9/path-data-polyfill.min.js"></script>
   <style>
     :root {
-      --spacing: {{ config.chart.scale }}px;
+      --spacing: {{ collection.header.chart.scale }}px;
     }
 
     body {
@@ -33,14 +33,11 @@
       font-size: 1em !important;
     }
 
-    #canvas-container {
+    #chart-container {
       width: 100vw;
       height: 100vh;
       position: absolute;
     }
-
-/* Dynamically generated CSS styles */
-{{ chart_data.css.generate() }}
 
     .background-style {
       background-color: var(--backgroundColor);
@@ -73,33 +70,226 @@
 
     .axis {
       stroke: var(--borderColor);
-      stroke-width: "2px";
+      stroke-width: 2px;
     }
 
-    .tick text, .katex {
+    #ticks text, .katex {
       color: var(--textColor);
       fill: currentColor;
     }
 
-    .tick {
+    #ticks {
       font-size: 12pt;
     }
 
-    .x-tick {
+    #x-ticks {
       text-anchor: middle;
       dominant-baseline: hanging;
     }
 
-    .y-tick {
+    #y-ticks {
       text-anchor: end;
       dominant-baseline: middle;
     }
+
+    /* Customized CSS styles */
+    :root {
+      --backgroundColor: white;
+      --borderColor: black;
+      --textColor: black;
+    }
+
+    #index-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      background-color: var(--backgroundColor);
+
+
+      .container {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        flex: 1;
+        margin: 0 10px;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+
+      .big-link {
+        display: block;
+        padding: 8px 0;
+        text-align: center;
+      }
+
+      .big-link button {
+        font: inherit;
+        text-decoration: none;
+        background: inherit;
+        border: none;
+        color: inherit;
+      }
+
+      .big-link button:hover {
+        text-decoration: underline;
+      }
+    }
+
+    {% for chart in collection %}
+    .chart-{{ chart.header.metadata.id }} {
+      {{ chart.css.generate() }}
+    }
+    {% endfor -%}
   </style>
 </head>
 
-<!-- We set `visibility: visible` in JS after some preprocessing -->
-<body style="visibility: hidden" class="background-style">
-  <div id="canvas-container">
+<body class="background-style">
+  <div id="index-page" class="background-style" style="display: none;">
+    <h1 id="index-title" class="use-katex">{{ collection.header.metadata.title }}</h1>
+    <div class="container">
+      <div class="column" data-min="2" data-max="4">
+        <ul>
+          {%- for chart in collection %}
+          {%- set meta = chart.header.metadata %}
+          <li class="big-link"><button class="use-katex" {# onclick="showChartWithId({{ meta.id }})" #} data-id="{{ meta.id }}">
+            {% if meta.displaytitle -%}
+              {{- meta.displaytitle -}}
+            {%- elif meta.title -%}
+              {{- meta.title -}}
+            {%- elif meta.htmltitle -%}
+              {{- meta.htmltitle -}}
+            {%- else -%}
+              {{- meta.id -}}
+            {%- endif %}
+          </button></li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </div>
+    <script>
+      function hideAllContents() {
+        const chartContainer = document.getElementById("chart-container");
+        const indexPage = document.getElementById("index-page");
+        chartContainer.style.display = "none";
+        indexPage.style.display = "none";
+      }
+
+      function showChartWithId(id, { pushState = true } = {}) {
+        hideAllContents();
+
+        const container = document.getElementById("chart-container");
+        container.innerHTML = document.getElementById(`chart-${id}`).innerHTML;
+        container.className = `chart-${id}`;
+
+        onChartLoad();
+        container.style.display = "block";
+
+        if (pushState) {
+          history.pushState({}, "", `#chart-${id}`);
+        }
+      }
+
+      function showChartAtOffset(offset) {
+        const currentId = parseInt(document.getElementById("chart-container").className.split('-')[1]);
+        const columnIds = Array.from(document.querySelectorAll(".column button")).map((button) => parseInt(button.dataset.id));
+
+        // Find the index of the current id
+        const currentIndex = columnIds.indexOf(currentId);
+
+        // Calculate the target index
+        const targetIndex = currentIndex + offset;
+
+        // Check if target index is valid
+        if (targetIndex < 0 || targetIndex >= columnIds.length) {
+          return;
+        }
+
+        // Get the id at the target index
+        const targetId = columnIds[targetIndex];
+
+        const currentPan = window.panZoom.getPan();
+        const currentZoom = window.panZoom.getZoom();
+
+        showChartWithId(targetId);
+
+        window.panZoom.zoom(currentZoom);
+        window.panZoom.pan(currentPan);
+      }
+
+      function showIndexPage(pushState = true) {
+        hideAllContents();
+        document.getElementById("index-page").style.display = "block";
+        if (pushState) {
+          history.pushState({}, "", "#index");
+        }
+      }
+
+      // Handle clicks on the index page buttons
+
+      document.querySelectorAll("#index-page .big-link button").forEach((button) => {
+        button.addEventListener("click", function () {
+          const chartId = parseInt(this.dataset.id);
+          showChartWithId(chartId);
+        });
+      });
+
+      // Enable Katex
+
+      const katexOptions = {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false },
+          { left: '\\(', right: '\\)', display: false },
+          { left: '\\[', right: '\\]', display: true }
+        ],
+        throwOnError: false
+      };
+
+      document.querySelectorAll(".use-katex").forEach((element) => {
+        window.renderMathInElement(element, katexOptions);
+      });
+
+      // Manage history state and deeplinks
+
+      function parseHash() {
+        const hash = location.hash;
+        const match = hash.match(/^#chart-(\d+)$/);
+        if (match) {
+          return {
+            chartId: parseInt(match[1])
+          };
+        }
+        return null;
+      }
+
+      function renderFromHash(pushState = false) {
+        const parsed = parseHash();
+
+        if (parsed && parsed.chartId != null) {
+          showChartWithId(parsed.chartId, { pushState });
+        } else {
+          showIndexPage(pushState);
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", () => renderFromHash(true));
+      window.addEventListener("hashchange", () => renderFromHash(false));
+      window.addEventListener("popstate", () => renderFromHash(false));
+    </script>
+  </div>
+  {% for chart in collection.charts -%}
+  {% set config = chart.header -%}
+  <template id="chart-{{ config.metadata.id }}">
     <svg id="svg-canvas" width="100%" height="100%">
       <defs>
         <!-- Define the arrowhead markers -->
@@ -111,14 +301,8 @@
         <pattern id="grid" width="{{ 2 * config.chart.scale }}" height="{{ 2 * config.chart.scale }}" patternUnits="userSpaceOnUse">
           <path id="grid-path" d="M {{ 2 * config.chart.scale }} 0 L 0 0 0 {{ 2 * config.chart.scale }}" class="grid" style="fill: none;"/>
         </pattern>
-        <g id="chart-defs">
-          <!-- Nodes and Edges generated statically by Python -->
-          <g id="chart">
-            {{ chart_data.generate_svg() }}
-          </g>
-        </g>
       </defs>
-      <g id="content-group" class="svg-pan-zoom_viewport">
+      <g id="chart-content" class="svg-pan-zoom_viewport">
         <!-- Translate the grid so that it covers the appropriate region outside the first quadrant -->
         <g id="origin-translate" transform="translate({{ config.chart.width.min * config.chart.scale }} {{ -config.chart.height.min * config.chart.scale }})">
           <!-- Apply the grid pattern to a background rectangle -->
@@ -129,9 +313,18 @@
             fill="url(#grid)"
           />
         </g>
-        <use href="#chart" />
+        <g id="edges">
+          {%- for edge in chart.edges %}
+          {{ edge.svg(config.chart.scale) }}
+          {%- endfor %}
+        </g>
+        <g id="nodes">
+          {%- for node in chart.nodes.values() %}
+          {{ node.svg(config.chart.scale) }}
+          {%- endfor %}
+        </g>
       </g>
-      <g id="axes-group">
+      <g id="chart-axes">
         <!-- X-axis -->
         <line id="x-axis" class="axis" />
         <!-- Y-axis -->
@@ -140,24 +333,30 @@
         <rect id="x-block" x="0" y="0" class="background-style" />
         <rect id="y-block" x="0" y="0" class="background-style" />
         <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
-        <g id="ticks" class="tick">
-          <g id="x-ticks" class="x-tick">
+        <g id="ticks">
+          <g id="x-ticks">
             {%- for i in range(config.chart.width.min, config.chart.width.max + 1, 2) %}
-              <text x="{{ i * config.chart.scale }}" y="{{ 0.5 * config.chart.scale }}">{{ i }}</text>
+            <text x="{{ i * config.chart.scale }}" y="{{ 0.5 * config.chart.scale }}">{{ i }}</text>
             {%- endfor %}
           </g>
-          <g id="y-ticks" class="y-tick">
+          <g id="y-ticks">
             {%- for j in range(config.chart.height.min, config.chart.height.max + 1, 2) %}
-              <text x="{{ 0.5 * config.chart.scale }}" y="{{ j * config.chart.scale }}">{{ j }}</text>
+            <text x="{{ 0.5 * config.chart.scale }}" y="{{ j * config.chart.scale }}">{{ j }}</text>
             {%- endfor %}
           </g>
         </g>
       </g>
     </svg>
-  </div>
-  <div id="floating-title" class="background-style">{{ config.metadata.displaytitle }}</div>
-  <div id="tooltip" class="background-style"></div>
+    <div id="floating-title" class="background-style">{{ config.metadata.displaytitle }}</div>
+    <div id="tooltip" class="background-style"></div>
+  </template>
+  {% endfor -%}
+  <!-- This div will be filled with the correct template dynamically -->
+  <div id="chart-container"></div>
   <script>
+    const spacing = 60.0;
+    const axisSpacing = 0.6 * spacing;
+
     function applyFunctionToPath(path, fn) {
       let pathData = [];
       for (let seg of path.getPathData()) {
@@ -199,11 +398,14 @@
       applyFunctionToPath(path, (x, y) => [x, -y])
     };
 
-    window.addEventListener("DOMContentLoaded", () => {
+    function initialZoom() {
+      window.panZoom.reset();
+      window.panZoom.panBy({ x: 2 * axisSpacing, y: -2 * axisSpacing });
+    }
+
+    const onChartLoad = () => {
       var canvasHeight = 0;
       var canvasWidth = 0;
-      const spacing = {{ config.chart.scale }};
-      const axisSpacing = 0.6 * spacing;
 
       const half_grid_width = parseFloat(window.getComputedStyle(document.getElementById("grid-path")).strokeWidth) / 2;
 
@@ -213,9 +415,9 @@
 
       // Negate all y-coordinates:
 
-      // - all elements in content-group and all chart definitions
+      // - all chart contents
       document
-        .querySelectorAll("#content-group *, #chart-defs *")
+        .querySelectorAll("#chart-content *")
         .forEach((element) => {
           if (element.tagName === "line") {
             negateValueInElement(element, "y1");
@@ -229,7 +431,7 @@
 
       // - axes
       document
-        .querySelectorAll("#axes-group line")
+        .querySelectorAll("#chart-axes line")
         .forEach((element) => {
           if (element.id === "x-axis") {
             element.setAttribute("x1", axisSpacing);
@@ -246,7 +448,7 @@
 
       // - axis blocks
       document
-        .querySelectorAll("#axes-group rect")
+        .querySelectorAll("#chart-axes rect")
         .forEach((element) => {
           if (element.id === "x-block") {
             element.setAttribute("width", canvasWidth);
@@ -260,7 +462,7 @@
 
       // - ticks
       document
-        .querySelectorAll("#axes-group text")
+        .querySelectorAll("#chart-axes text")
         .forEach((element) => {
           negateValueInElement(element, "y");
         });
@@ -276,7 +478,7 @@
 
         // Adjust y-values for all elements in content-group and chart definitions
         document
-          .querySelectorAll("#content-group *, #chart-defs *")
+          .querySelectorAll("#chart-content *")
           .forEach((element) => {
             if (element.tagName === "line") {
               applyOffsetToElement(element, "y1", yOffset);
@@ -298,7 +500,7 @@
 
         // Put in end values for axes and apply y-flip
         document
-          .querySelectorAll("#axes-group line")
+          .querySelectorAll("#chart-axes line")
           .forEach((element) => {
             if (element.id === "x-axis") {
               applyOffsetToElement(element, "y1", yOffset);
@@ -311,7 +513,7 @@
 
         // Do the same for axis blocks
         document
-          .querySelectorAll("#axes-group rect")
+          .querySelectorAll("#chart-axes rect")
           .forEach((element) => {
             if (element.id === "x-block") {
               applyOffsetToElement(element, "width", xOffset);
@@ -323,14 +525,13 @@
 
         // And ticks
         document
-          .querySelectorAll("#axes-group text")
+          .querySelectorAll("#chart-axes text")
           .forEach((element) => {
             applyOffsetToElement(element, "y", yOffset);
           });
-        
+
         // Reset pan, then pan slightly so the origin is visible
-        window.panZoom.reset();
-        window.panZoom.panBy({ x: 2 * axisSpacing, y: -2 * axisSpacing });
+        initialZoom();
 
         canvasHeight = newCanvasHeight;
         canvasWidth = newCanvasWidth;
@@ -343,15 +544,13 @@
         const xTranslate = ctm.e;
         const yTranslate = ctm.f;
 
-        document.querySelectorAll("#x-ticks").forEach((element) => {
-          element.setAttribute("transform", `translate(${xTranslate} 0)`);
-        });
+        document.getElementById("x-ticks").setAttribute("transform", `translate(${xTranslate} 0)`);
+
+        document.getElementById("y-ticks").setAttribute("transform", `translate(0 ${yTranslate})`);
+
         document.querySelectorAll("#x-ticks text").forEach((element) => {
           const xCoord = parseInt(element.textContent) * spacing;
           element.setAttribute("x", xCoord * scale);
-        });
-        document.querySelectorAll("#y-ticks").forEach((element) => {
-          element.setAttribute("transform", `translate(0 ${yTranslate})`);
         });
         document.querySelectorAll("#y-ticks text").forEach((element) => {
           const yCoord = parseInt(element.textContent) * spacing;
@@ -363,7 +562,7 @@
       // Taken from https://github.com/bumbu/svg-pan-zoom/blob/master/demo/mobile.html
       const hammerEventsHandler = {
         haltEventListeners: ['touchstart', 'touchend', 'touchmove', 'touchleave', 'touchcancel'],
-        init: function(options) {
+        init: function (options) {
           var instance = options.instance
             , initialScale = 1
             , pannedX = 0
@@ -376,15 +575,15 @@
           })
 
           // Enable pinch
-          this.hammer.get('pinch').set({enable: true})
+          this.hammer.get('pinch').set({ enable: true })
 
           // Handle double tap
-          this.hammer.on('doubletap', function(ev){
+          this.hammer.on('doubletap', function (ev) {
             instance.zoomAtPoint(ev.center.x, ev.center.y)
           })
 
           // Handle pan
-          this.hammer.on('panstart panmove', function(ev){
+          this.hammer.on('panstart panmove', function (ev) {
             // Fix https://github.com/hammerjs/hammer.js/issues/1134 using
             // https://github.com/hammerjs/hammer.js/issues/871#issuecomment-179143062
             if (Date.now() - lastPinchTime < 200) {
@@ -399,28 +598,28 @@
             }
 
             // Pan only the difference
-            instance.panBy({x: ev.deltaX - pannedX, y: ev.deltaY - pannedY})
+            instance.panBy({ x: ev.deltaX - pannedX, y: ev.deltaY - pannedY })
             pannedX = ev.deltaX
             pannedY = ev.deltaY
           })
 
           // Handle pinch
           var lastPinchTime;
-          this.hammer.on('pinchstart pinchmove', function(ev){
+          this.hammer.on('pinchstart pinchmove', function (ev) {
             lastPinchTime = Date.now();
             // On pinch start remember initial zoom
             if (ev.type === 'pinchstart') {
               initialScale = instance.getZoom()
-              instance.zoomAtPoint(initialScale * ev.scale, {x: ev.center.x, y: ev.center.y})
+              instance.zoomAtPoint(initialScale * ev.scale, { x: ev.center.x, y: ev.center.y })
             }
 
-            instance.zoomAtPoint(initialScale * ev.scale, {x: ev.center.x, y: ev.center.y})
+            instance.zoomAtPoint(initialScale * ev.scale, { x: ev.center.x, y: ev.center.y })
           })
 
           // Prevent moving the page on some devices when panning over SVG
-          options.svgElement.addEventListener('touchmove', function(e){ e.preventDefault(); });
+          options.svgElement.addEventListener('touchmove', function (e) { e.preventDefault(); });
         },
-        destroy: function(){
+        destroy: function () {
           this.hammer.destroy()
         }
       }
@@ -440,61 +639,6 @@
       });
 
       onResize();
-
-      // Show the SVG after y-values are adjusted
-      document.body.style.visibility = "visible";
-
-      window.addEventListener("keydown", function (event) {
-
-        const panSpeed = spacing;
-        switch (event.key) {
-          // Add arrow key controls for panning
-          case "ArrowUp":
-            event.preventDefault();
-            window.panZoom.panBy({ x: 0, y: panSpeed });
-            break;
-          case "ArrowDown":
-            event.preventDefault();
-            window.panZoom.panBy({ x: 0, y: -panSpeed });
-            break;
-          case "ArrowLeft":
-            event.preventDefault();
-            window.panZoom.panBy({ x: panSpeed, y: 0 });
-            break;
-          case "ArrowRight":
-            event.preventDefault();
-            window.panZoom.panBy({ x: -panSpeed, y: 0 });
-            break;
-          // Add + and - key controls for zooming
-          case "+":
-          case "=":
-            event.preventDefault();
-            window.panZoom.zoomIn();
-            break;
-          case "-":
-          case "_":
-            event.preventDefault();
-            window.panZoom.zoomOut();
-            break;
-          // Add controls for resetting pan and zoom
-          case "Backspace":
-          case "0":
-          case ")":
-            event.preventDefault();
-            onResize();
-            break;
-        }
-      });
-
-      const katexOptions = {
-        delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false},
-          {left: '\\(', right: '\\)', display: false},
-          {left: '\\[', right: '\\]', display: true}
-        ],
-        throwOnError : false
-      };
 
       // Render latex in the floating title
       const floatingTitle = document.getElementById("floating-title");
@@ -518,6 +662,76 @@
           tooltip.style.display = "none";
         });
       });
+    };
+
+    // Set up keyboard shortcuts
+    window.addEventListener("keydown", function (event) {
+      const panSpeed = spacing;
+      switch (event.key) {
+        // -- Inter-chart navigation --
+        // Return to the index page
+        case "Escape":
+          event.preventDefault();
+          showIndexPage();
+          break;
+        // Previous chart
+        case "w":
+        case "W":
+          event.preventDefault();
+          showChartAtOffset(-1);
+          break;
+        // Next chart
+        case "s":
+        case "S":
+          event.preventDefault();
+          showChartAtOffset(1);
+          break;
+
+        // -- Intra-chart navigation --
+        // Pan
+        case "ArrowUp":
+          event.preventDefault();
+          window.panZoom.panBy({ x: 0, y: panSpeed });
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          window.panZoom.panBy({ x: 0, y: -panSpeed });
+          break;
+        case "ArrowLeft":
+          if (!event.altKey) {
+            // Only pan if we're not holding alt
+            // Alt + left arrow is the shortcut for going back in browser history
+            event.preventDefault();
+            window.panZoom.panBy({ x: panSpeed, y: 0 });
+          }
+          break;
+        case "ArrowRight":
+          if (!event.altKey) {
+            // Only pan if we're not holding alt
+            // Alt + right arrow is the shortcut for going forward in browser history
+            event.preventDefault();
+            window.panZoom.panBy({ x: -panSpeed, y: 0 });
+          }
+          break;
+        // Zoom
+        case "+":
+        case "=":
+          event.preventDefault();
+          window.panZoom.zoomIn();
+          break;
+        case "-":
+        case "_":
+          event.preventDefault();
+          window.panZoom.zoomOut();
+          break;
+        // Reset pan and zoom
+        case "Backspace":
+        case "0":
+        case ")":
+          event.preventDefault();
+          initialZoom();
+          break;
+      }
     });
   </script>
 </body>

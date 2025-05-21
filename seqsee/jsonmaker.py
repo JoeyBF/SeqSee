@@ -226,6 +226,32 @@ def edges_to_json(df, nodes):
     return edges
 
 
+def get_metadata(title):
+    meta = {
+        "htmltitle": title,
+        "title": title,
+        "author": "jsonmaker.py",
+    }
+
+    get_r = r"E(\d+|infty)"
+
+    if match := re.search(get_r, title):
+        r = match.group(1)
+
+        if r == "infty":
+            # Use arbitrary large number as a stand-in for infinity
+            sub = r"$E_{\\infty}$"
+            id = 999
+        else:
+            sub = f"$E_{{{r}}}$"
+            id = int(r)
+
+        meta["displaytitle"] = re.sub(get_r, sub, title)
+        meta["id"] = id
+
+    return meta
+
+
 def process_csv(input_file, output_file):
     # Define the JSON schema
     schema = load_schema()
@@ -238,11 +264,7 @@ def process_csv(input_file, output_file):
 
     # Build a header that complies with the schema
     header = {
-        "metadata": {
-            "htmltitle": title,
-            "title": title,
-            "author": "jsonmaker.py",
-        },
+        "metadata": get_metadata(title),
         "aliases": {
             "attributes": {
                 "defaultNode": [{"color": "gray"}],

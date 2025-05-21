@@ -38,15 +38,15 @@ class Attribute(pydantic.BaseModel):
 
     def items(self) -> Iterator[tuple[str, Union[str, float]]]:
         def inner_items() -> Iterator[tuple[str, Union[str, float]]]:
-            if self.color:
+            if self.color is not None:
                 yield ("color", self.color)
-            if self.size:
+            if self.size is not None:
                 yield ("size", self.size)
-            if self.thickness:
+            if self.thickness is not None:
                 yield ("thickness", self.thickness)
-            if self.arrowTip:
+            if self.arrowTip is not None:
                 yield ("arrowTip", self.arrowTip)
-            if self.pattern:
+            if self.pattern is not None:
                 yield ("pattern", self.pattern)
             for key, value in self.__pydantic_extra__.items():
                 yield (key, value)
@@ -60,6 +60,7 @@ class ChartMetadata(pydantic.BaseModel):
     htmltitle: str = ""
     title: str = ""
     displaytitle: str = ""
+    id: int = 0
 
 
 class ChartConfig(pydantic.BaseModel):
@@ -138,6 +139,25 @@ class Node(pydantic.BaseModel):
 
     model_config = pydantic.ConfigDict(extra="forbid")
 
+    def svg(self, scale: float) -> str:
+        from seqsee.main import style_and_aliases_from_attributes
+
+        assert self._absoluteX is not None
+        assert self._absoluteY is not None
+
+        cx = self._absoluteX * scale
+        cy = self._absoluteY * scale
+
+        style, aliases = style_and_aliases_from_attributes(self.attributes)
+        style = style.generate(indent=0).replace("\n", " ").strip(" {}")
+        if style:
+            style = f' style="{style}"'
+        aliases = " ".join(aliases)
+
+        label = self.label
+
+        return f'<circle class="defaultNode {aliases}" cx="{cx}" cy="{cy}"{style} data-label="{label}"></circle>'
+
 
 class Edge(pydantic.BaseModel):
     source: str
@@ -147,9 +167,66 @@ class Edge(pydantic.BaseModel):
     bezier: Optional[List[Point]] = None
     attributes: Attributes = []
 
+    _concrete_source: Optional[Node] = None
+    _concrete_target: Optional[Node] = None
+
     model_config = pydantic.ConfigDict(
         extra="forbid",
         json_schema_extra={
             "oneOf": [{"required": ["target"]}, {"required": ["offset"]}]
         },
     )
+
+    def svg(self, scale: float) -> str:
+        from seqsee.main import style_and_aliases_from_attributes
+
+        assert self._concrete_source is not None
+        source = self._concrete_source
+        assert source._absoluteX is not None
+        assert source._absoluteY is not None
+
+        if self.target is not None:
+            assert self._concrete_target is not None
+            target = self._concrete_target
+            assert target._absoluteX is not None
+            assert target._absoluteY is not None
+
+            target_x = target._absoluteX * scale
+            target_y = target._absoluteY * scale
+        elif self.offset is not None:
+            target_x = (source._absoluteX + self.offset.x) * scale
+            target_y = (source._absoluteY + self.offset.y) * scale
+        else:
+            # Impossible due to schema
+            raise NotImplementedError
+
+        x1 = source._absoluteX * scale
+        y1 = source._absoluteY * scale
+
+        attributes = self.attributes
+        style, aliases = style_and_aliases_from_attributes(attributes)
+        style = style.generate(indent=0).replace("\n", " ").strip(" {}")
+        aliases = " ".join(aliases)
+
+        if self.bezier is not None:
+            control_points = self.bezier
+            if len(control_points) == 1:
+                control_x = control_points[0].x * scale + x1
+                control_y = control_points[0].y * scale + y1
+                curve_d = f"Q {control_x} {control_y} {target_x} {target_y}"
+            elif len(control_points) == 2:
+                control0_x = control_points[0].x * scale + x1
+                control0_y = control_points[0].y * scale + y1
+                control1_x = control_points[1].x * scale + target_x
+                control1_y = control_points[1].y * scale + target_y
+                curve_d = f"C {control0_x} {control0_y} {control1_x} {control1_y} {target_x} {target_y}"
+            else:
+                # Impossible due to schema
+                raise NotImplementedError
+            edge_svg = f'<path d="M {x1} {y1} {curve_d}" class="{aliases}" style="fill: none;{style}"></path>'
+        else:
+            if style:
+                style = f' style="{style}"'
+            edge_svg = f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="defaultEdge {aliases}"{style}></line>'
+
+        return edge_svg
