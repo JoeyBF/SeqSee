@@ -1,5 +1,6 @@
+import copy
 import pydantic
-from typing import Dict, Iterator, List, Literal, Optional, Union, Any
+from typing import Dict, Iterator, List, Literal, Optional, Union
 
 
 class DimensionRange(pydantic.BaseModel):
@@ -126,6 +127,47 @@ class Header(pydantic.BaseModel):
 
     model_config = pydantic.ConfigDict(extra="forbid")
 
+    def css(self):
+        from seqsee.css import (
+            CssStyle,
+            css_class_name,
+            style_and_aliases_from_attributes,
+        )
+
+        chart_css = CssStyle()
+
+        color_aliases = self.aliases.colors.model_dump()
+        attribute_aliases = self.aliases.attributes.merge_with_defaults()
+
+        # Save color aliases as CSS variables for use in the rest of the CSS
+        chart_css += {
+            f"--{color_name}": color_value
+            for color_name, color_value in color_aliases.items()
+        }
+
+        # Generate CSS class for nodes to set the appropriate size
+        node_size = self.chart.nodeSize
+        chart_css += {
+            "circle": {"stroke-width": 0, "r": f"calc({node_size} * var(--spacing))"}
+        }
+
+        # Generate CSS classes for attribute aliases
+        for alias_name, attributes_list in attribute_aliases.items():
+            style, aliases = style_and_aliases_from_attributes(attributes_list)
+
+            style = copy.deepcopy(style)
+            for alias in aliases:
+                style.append(chart_css[css_class_name(alias)])
+
+            for property in ["fill", "stroke"]:
+                if property in style.keys() and style[property] in color_aliases:
+                    # This is a color alias, so we need to use the CSS variable instead
+                    style += {property: f"var(--{style[property]})"}
+
+            chart_css += {css_class_name(alias_name): style}
+
+        return chart_css
+
 
 class Node(pydantic.BaseModel):
     x: int
@@ -140,7 +182,7 @@ class Node(pydantic.BaseModel):
     model_config = pydantic.ConfigDict(extra="forbid")
 
     def svg(self, scale: float) -> str:
-        from seqsee.main import style_and_aliases_from_attributes
+        from seqsee.css import style_and_aliases_from_attributes
 
         assert self._absoluteX is not None
         assert self._absoluteY is not None
@@ -178,7 +220,7 @@ class Edge(pydantic.BaseModel):
     )
 
     def svg(self, scale: float) -> str:
-        from seqsee.main import style_and_aliases_from_attributes
+        from seqsee.css import style_and_aliases_from_attributes
 
         assert self._concrete_source is not None
         source = self._concrete_source

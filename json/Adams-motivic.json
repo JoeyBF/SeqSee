@@ -2,14 +2,7 @@
   "$schema": "../seqsee/input_schema.json",
   "header": {
     "metadata": {
-      "title": "The Motivic Adams Spectral Sequence for $\\mathbb{S}$"
-    },
-    "aliases": {
-      "colors": {
-        "backgroundColor": "black",
-        "borderColor"    : "white",
-        "textColor"      : "white"
-      }
+      "title": "The $\\mathbb{C}$-Motivic Adams Spectral Sequence for $\\mathbb{S}$"
     }
   },
   "charts": [

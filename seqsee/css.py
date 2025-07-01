@@ -1,6 +1,8 @@
 # Lifted/adapted from MIT-licensed https://github.com/slacy/pyssed/
 import copy
-from typing import Dict, Self, Union
+from typing import Dict, List, Self, Union
+
+from seqsee.chart_internals import Attribute, Attributes
 
 
 class CssStyle:
@@ -100,3 +102,65 @@ class CssStyle:
             ret = result
 
         return ret
+
+
+def css_class_name(name):
+    """
+    Given a name, return a CSS class name. This is done by prefixing the name with a dot.
+    """
+    return "." + name
+
+
+def style_and_aliases_from_attributes(attributes: Attributes):
+    """
+    Given a list of attributes, return a `CssStyle` object that contains the union of all raw
+    attribute objects, and a list of aliases.
+
+    We return the aliases separately because we may want to specify them in a `class` attribute
+    instead of a `style` attribute.
+    """
+
+    new_style = CssStyle()
+    aliases: List[str] = []
+
+    for attr in attributes:
+        if isinstance(attr, Attribute):
+            # This is a raw attribute object
+            for key, value in attr.items():
+                if key == "color":
+                    new_style += {"fill": value, "stroke": value}
+                elif key == "size":
+                    new_style += {"r": f"calc({float(value)} * var(--spacing))"}
+                elif key == "thickness":
+                    new_style += {
+                        "stroke-width": f"calc({float(value)} * var(--spacing))"
+                    }
+                elif key == "arrowTip":
+                    if value == "none":
+                        new_style += {"marker-end": "none"}
+                    else:
+                        # We only support a few hardcoded arrow tips. To define a new arrow tip
+                        # `foo`, you need to define a `<marker>` element with id `arrow-foo` in the
+                        # template file. See the `arrow-simple` marker for an example.
+                        new_style += {"marker-end": f"url(#arrow-{value})"}
+                elif key == "pattern":
+                    # We only support a few hardcoded patterns
+                    if value == "solid":
+                        new_style += {"stroke-dasharray": "none"}
+                    elif value == "dashed":
+                        new_style += {"stroke-dasharray": "5, 5"}
+                    elif value == "dotted":
+                        new_style += {
+                            "stroke-dasharray": "0, 2",
+                            "stroke-linecap": "round",
+                        }
+                    else:
+                        # Impossible due to schema
+                        raise NotImplementedError
+                else:
+                    # Just treat the key-value pair as raw CSS
+                    new_style += {key: value}
+        elif isinstance(attr, str):
+            # This is a style alias
+            aliases.append(attr)
+    return (new_style, aliases)

@@ -1,14 +1,7 @@
 {
   "$schema": "../seqsee/input_schema.json",
   "header": {
-    "metadata": {"title": "The Algebraic Novikov Spectral Sequence"},
-    "aliases": {
-      "colors": {
-        "backgroundColor": "black",
-        "borderColor"    : "white",
-        "textColor"      : "white"
-      }
-    }
+    "metadata": {"title": "The Algebraic Novikov Spectral Sequence"}
   },
   "charts": [
     "algNovikov-E2.json"    ,

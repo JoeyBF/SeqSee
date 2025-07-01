@@ -41,7 +41,6 @@
 
     .background-style {
       background-color: var(--backgroundColor);
-      fill: var(--backgroundColor);
     }
 
     #tooltip {
@@ -66,6 +65,10 @@
 
     #floating-title:empty {
       display: none;
+    }
+
+    .block {
+      fill: var(--backgroundColor);
     }
 
     .axis {
@@ -104,11 +107,10 @@
       flex-direction: column;
       align-items: center;
       height: 100vh;
-      background-color: var(--backgroundColor);
-
+      color: var(--textColor);
+      overflow-y: scroll;
 
       .container {
-        display: flex;
         justify-content: space-between;
       }
 
@@ -119,6 +121,8 @@
 
       h1 {
         text-align: center;
+        margin-top: 0rem;
+        padding-top: 1rem;
       }
 
       ul {
@@ -143,7 +147,33 @@
       .big-link button:hover {
         text-decoration: underline;
       }
-    }
+
+          --backgroundColor: white;
+    --borderColor: black;
+    --textColor: black;
+
+circle {
+    stroke-width: 0px;
+    r: calc(0.04 * var(--spacing));
+}
+
+.grid {
+    fill: #ccc;
+    stroke: #ccc;
+    stroke-width: calc(0.01 * var(--spacing));
+}
+
+.defaultNode {
+    fill: black;
+    stroke: black;
+}
+
+.defaultEdge {
+    fill: black;
+    stroke: black;
+    stroke-width: calc(0.02 * var(--spacing));
+}
+}
 
     
     .chart-2 {
@@ -316,18 +346,25 @@ circle {
     fill: var(--red);
     stroke: var(--red);
 }
-
-    }
+}
     </style>
+  <script>
+    // Define global constants
+
+    const spacing = 60.0;
+    const axisSpacing = 0.6 * spacing;
+
+    const isCollection = false
+  </script>
 </head>
 
-<body class="background-style">
+<body>
   <div id="index-page" class="background-style" style="display: none;">
     <h1 id="index-title" class="use-katex"></h1>
     <div class="container">
-      <div class="column" data-min="2" data-max="4">
+      <div class="column">
         <ul>
-          <li class="big-link"><button class="use-katex"  data-id="2">
+          <li class="big-link"><button class="use-katex" data-id="2">
             Adams-motivic-$E_{2}$
           </button></li>
         </ul>
@@ -335,13 +372,11 @@ circle {
     </div>
     <script>
       function hideAllContents() {
-        const chartContainer = document.getElementById("chart-container");
-        const indexPage = document.getElementById("index-page");
-        chartContainer.style.display = "none";
-        indexPage.style.display = "none";
+        document.getElementById("chart-container").style.display = "none";
+        document.getElementById("index-page").style.display = "none";
       }
 
-      function showChartWithId(id, { pushState = true } = {}) {
+      function showChartWithId(id, { center = null, zoom = null, pushState = true } = {}) {
         hideAllContents();
 
         const container = document.getElementById("chart-container");
@@ -351,36 +386,36 @@ circle {
         onChartLoad();
         container.style.display = "block";
 
+        const svg = container.querySelector("svg");
+        zoom = zoom || 1;
+        if (center) {
+          centerOn(svg, center.x, center.y, zoom);
+        }
+
         if (pushState) {
-          history.pushState({}, "", `#chart-${id}`);
+          const current = getCurrentCenter(svg);
+          updateHash(id, { x: current.x, y: current.y }, current.zoom);
         }
       }
 
       function showChartAtOffset(offset) {
         const currentId = parseInt(document.getElementById("chart-container").className.split('-')[1]);
-        const columnIds = Array.from(document.querySelectorAll(".column button")).map((button) => parseInt(button.dataset.id));
-
-        // Find the index of the current id
+        var columnIds = Array.from(document.querySelectorAll(".column button")).map(b => parseInt(b.dataset.id));
+        columnIds.sort((a, b) => a - b); // Ensure IDs are sorted
         const currentIndex = columnIds.indexOf(currentId);
-
-        // Calculate the target index
         const targetIndex = currentIndex + offset;
 
-        // Check if target index is valid
-        if (targetIndex < 0 || targetIndex >= columnIds.length) {
-          return;
-        }
+        if (targetIndex < 0 || targetIndex >= columnIds.length) return;
 
-        // Get the id at the target index
         const targetId = columnIds[targetIndex];
+        const svg = document.querySelector("#chart-container svg");
+        const { x, y, zoom } = getCurrentCenter(svg);
 
-        const currentPan = window.panZoom.getPan();
-        const currentZoom = window.panZoom.getZoom();
-
-        showChartWithId(targetId);
-
-        window.panZoom.zoom(currentZoom);
-        window.panZoom.pan(currentPan);
+        showChartWithId(targetId, {
+          center: { x, y },
+          zoom,
+          pushState: true
+        });
       }
 
       function showIndexPage(pushState = true) {
@@ -391,17 +426,21 @@ circle {
         }
       }
 
-      // Handle clicks on the index page buttons
+      function currentChartId() {
+        const container = document.getElementById("chart-container");
+        if (container.style.display === "none") return null;
+        return parseInt(container.className.split('-')[1]);
+      }
 
-      document.querySelectorAll("#index-page .big-link button").forEach((button) => {
+      // Index page button handlers
+      document.querySelectorAll("#index-page .big-link button").forEach(button => {
         button.addEventListener("click", function () {
           const chartId = parseInt(this.dataset.id);
           showChartWithId(chartId);
         });
       });
 
-      // Enable Katex
-
+      // Katex
       const katexOptions = {
         delimiters: [
           { left: '$$', right: '$$', display: true },
@@ -411,41 +450,95 @@ circle {
         ],
         throwOnError: false
       };
-
-      document.querySelectorAll(".use-katex").forEach((element) => {
-        window.renderMathInElement(element, katexOptions);
+      document.querySelectorAll(".use-katex").forEach(el => {
+        window.renderMathInElement(el, katexOptions);
       });
 
-      // Manage history state and deeplinks
+      // Coordinate conversion
+      function getCurrentCenter(svg) {
+        const { x: panX, y: panY } = window.panZoom.getPan();
+        const zoom = window.panZoom.getZoom();
+        const width = svg.clientWidth;
+        const height = svg.clientHeight;
+        const pxPerSpace = 1 / spacing;
 
-      function parseHash() {
-        const hash = location.hash;
-        const match = hash.match(/^#chart-(\d+)$/);
-        if (match) {
-          return {
-            chartId: parseInt(match[1])
-          };
-        }
-        return null;
+        const centerX = (width / 2 - panX) / zoom * pxPerSpace;
+        const centerY = (height - (height / 2 - panY) / zoom) * pxPerSpace;
+
+        return { x: centerX, y: centerY, zoom };
       }
 
+      function centerOn(svg, centerX, centerY, zoom) {
+        const width = svg.clientWidth;
+        const height = svg.clientHeight;
+        const pxPerSpace = 1 / spacing;
+
+        const viewX = centerX / pxPerSpace * zoom;
+        const viewY = (height - centerY / pxPerSpace) * zoom;
+
+        const panX = width / 2 - viewX;
+        const panY = height / 2 - viewY;
+
+        window.panZoom.zoom(zoom);
+        window.panZoom.pan({ x: panX, y: panY });
+      }
+
+      // Hash helpers
+      function parseHash() {
+        const hash = window.location.hash.slice(1);
+        const params = new URLSearchParams(hash);
+
+        const chartId = params.has("chart") ? parseInt(params.get("chart")) : null;
+        const zoom = params.has("zoom") ? parseFloat(params.get("zoom")) : null;
+        const center = (params.has("x") && params.has("y"))
+          ? { x: parseFloat(params.get("x")), y: parseFloat(params.get("y")) }
+          : null;
+
+        return { chartId, center, zoom };
+      }
+
+      function updateHash(chartId, center, zoom) {
+        const params = new URLSearchParams();
+        params.set("chart", chartId);
+        if (center) {
+          params.set("x", center.x.toFixed(2));
+          params.set("y", center.y.toFixed(2));
+        }
+        if (zoom != null) {
+          params.set("zoom", zoom.toFixed(2));
+        }
+        window.location.hash = params.toString();
+      }
+
+      // Unified state renderer
       function renderFromHash(pushState = false) {
         const parsed = parseHash();
-
-        if (parsed && parsed.chartId != null) {
-          showChartWithId(parsed.chartId, { pushState });
+        if (parsed.chartId != null) {
+          showChartWithId(parsed.chartId, {
+            center: parsed.center,
+            zoom: parsed.zoom,
+            pushState
+          });
         } else {
           showIndexPage(pushState);
         }
       }
 
+      // Show the chart on hashless load if it is unique
+      if (window.location.hash === "" && !isCollection) {
+        const charts = Array.from(document.querySelectorAll(".column button"));
+        const chartId = parseInt(charts[0].dataset.id);
+        window.location.hash = `#chart=${chartId}`;
+      }
+
+      // Set up event listeners for hash changes and initial rendering
       window.addEventListener("DOMContentLoaded", () => renderFromHash(true));
       window.addEventListener("hashchange", () => renderFromHash(false));
       window.addEventListener("popstate", () => renderFromHash(false));
     </script>
   </div>
   <template id="chart-2">
-    <svg id="svg-canvas" width="100%" height="100%">
+    <svg id="svg-canvas" class="background-style" width="100%" height="100%">
       <defs>
         <!-- Define the arrowhead markers -->
         <marker id='arrow-simple' orient="auto" markerWidth='3' markerHeight='4' refX='0.1' refY='2' fill="context-fill"
@@ -10221,8 +10314,8 @@ circle {
         <!-- Y-axis -->
         <line id="y-axis" class="axis" />
         <!-- Blocks under and to the left to hide the content -->
-        <rect id="x-block" x="0" y="0" class="background-style" />
-        <rect id="y-block" x="0" y="0" class="background-style" />
+        <rect id="x-block" x="0" y="0" class="block" />
+        <rect id="y-block" x="0" y="0" class="block" />
         <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
         <g id="ticks">
           <g id="x-ticks">
@@ -10326,9 +10419,6 @@ circle {
   <!-- This div will be filled with the correct template dynamically -->
   <div id="chart-container"></div>
   <script>
-    const spacing = 60.0;
-    const axisSpacing = 0.6 * spacing;
-
     function applyFunctionToPath(path, fn) {
       let pathData = [];
       for (let seg of path.getPathData()) {
@@ -10639,6 +10729,11 @@ circle {
     // Set up keyboard shortcuts
     window.addEventListener("keydown", function (event) {
       const panSpeed = spacing;
+      if (currentChartId() === null) {
+        // Don't handle key events if we're on the index page
+        return;
+      }
+
       switch (event.key) {
         // -- Inter-chart navigation --
         // Return to the index page

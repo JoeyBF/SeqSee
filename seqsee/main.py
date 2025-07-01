@@ -1,6 +1,4 @@
-import copy
 import json
-from pathlib import Path
 import jsonschema
 import math
 import sys
@@ -9,15 +7,13 @@ import pydantic
 
 from collections import defaultdict
 from jinja2 import Environment, FileSystemLoader
+from pathlib import Path
 from seqsee.chart_internals import (
-    Attribute,
-    Attributes,
     DimensionRange,
     Edge,
     Header,
     Node,
 )
-from seqsee.css import CssStyle
 from typing import Callable, Dict, List, Optional, Union
 
 
@@ -38,68 +34,6 @@ def load_template():
     return template
 
 
-def css_class_name(name):
-    """
-    Given a name, return a CSS class name. This is done by prefixing the name with a dot.
-    """
-    return "." + name
-
-
-def style_and_aliases_from_attributes(attributes: Attributes):
-    """
-    Given a list of attributes, return a `CssStyle` object that contains the union of all raw
-    attribute objects, and a list of aliases.
-
-    We return the aliases separately because we may want to specify them in a `class` attribute
-    instead of a `style` attribute.
-    """
-
-    new_style = CssStyle()
-    aliases: List[str] = []
-
-    for attr in attributes:
-        if isinstance(attr, Attribute):
-            # This is a raw attribute object
-            for key, value in attr.items():
-                if key == "color":
-                    new_style += {"fill": value, "stroke": value}
-                elif key == "size":
-                    new_style += {"r": f"calc({float(value)} * var(--spacing))"}
-                elif key == "thickness":
-                    new_style += {
-                        "stroke-width": f"calc({float(value)} * var(--spacing))"
-                    }
-                elif key == "arrowTip":
-                    if value == "none":
-                        new_style += {"marker-end": "none"}
-                    else:
-                        # We only support a few hardcoded arrow tips. To define a new arrow tip
-                        # `foo`, you need to define a `<marker>` element with id `arrow-foo` in the
-                        # template file. See the `arrow-simple` marker for an example.
-                        new_style += {"marker-end": f"url(#arrow-{value})"}
-                elif key == "pattern":
-                    # We only support a few hardcoded patterns
-                    if value == "solid":
-                        new_style += {"stroke-dasharray": "none"}
-                    elif value == "dashed":
-                        new_style += {"stroke-dasharray": "5, 5"}
-                    elif value == "dotted":
-                        new_style += {
-                            "stroke-dasharray": "0, 2",
-                            "stroke-linecap": "round",
-                        }
-                    else:
-                        # Impossible due to schema
-                        raise NotImplementedError
-                else:
-                    # Just treat the key-value pair as raw CSS
-                    new_style += {key: value}
-        elif isinstance(attr, str):
-            # This is a style alias
-            aliases.append(attr)
-    return (new_style, aliases)
-
-
 class Chart(pydantic.BaseModel):
     header: Header = Header()
     nodes: Dict[str, Node] = {}
@@ -107,48 +41,10 @@ class Chart(pydantic.BaseModel):
 
     model_config = pydantic.ConfigDict(extra="allow")
 
-    def __init__(self, chart_spec):
+    def __init__(self, **chart_spec):
         # validate against schema
         jsonschema.validate(instance=chart_spec, schema=schema)
         super().__init__(**chart_spec)
-
-    @property
-    def css(self):
-        """Generate CSS from the data in `header/aliases`"""
-
-        chart_css = CssStyle()
-
-        color_aliases = self.header.aliases.colors.model_dump()
-        attribute_aliases = self.header.aliases.attributes.merge_with_defaults()
-
-        # Save color aliases as CSS variables for use in the rest of the CSS
-        chart_css += {
-            f"--{color_name}": color_value
-            for color_name, color_value in color_aliases.items()
-        }
-
-        # Generate CSS class for nodes to set the appropriate size
-        node_size = self.header.chart.nodeSize
-        chart_css += {
-            "circle": {"stroke-width": 0, "r": f"calc({node_size} * var(--spacing))"}
-        }
-
-        # Generate CSS classes for attribute aliases
-        for alias_name, attributes_list in attribute_aliases.items():
-            style, aliases = style_and_aliases_from_attributes(attributes_list)
-
-            style = copy.deepcopy(style)
-            for alias in aliases:
-                style.append(chart_css[css_class_name(alias)])
-
-            for property in ["fill", "stroke"]:
-                if property in style.keys() and style[property] in color_aliases:
-                    # This is a color alias, so we need to use the CSS variable instead
-                    style += {property: f"var(--{style[property]})"}
-
-            chart_css += {css_class_name(alias_name): style}
-
-        return chart_css
 
     def normalize_chart_dimensions(self):
         """
@@ -285,6 +181,7 @@ class Collection(pydantic.BaseModel):
 
     model_config = pydantic.ConfigDict(extra="allow")
     _input_file: Optional[str] = None
+    _is_collection: Optional[bool] = None
 
     def __init__(self, spec, input_file=None):
         from jsonschema import RefResolver
@@ -300,9 +197,11 @@ class Collection(pydantic.BaseModel):
         if matches_ref("#/$defs/collection_spec"):
             # This is a genuine collection
             super().__init__(**spec)
+            self._is_collection = True
         elif matches_ref("#/$defs/chart_spec"):
             # This is a single chart, so we need to wrap it in a collection
-            super().__init__(charts=[Chart(spec)])
+            super().__init__(charts=[Chart(**spec)])
+            self._is_collection = False
         else:
             # Impossible due to schema
             raise NotImplementedError
@@ -327,7 +226,7 @@ class Collection(pydantic.BaseModel):
                 chart_path = Path(self._input_file).parent / chart
                 with open(chart_path, "r") as f:
                     chart_spec = json.load(f)
-                expanded_charts.append(Chart(chart_spec))
+                expanded_charts.append(Chart(**chart_spec))
             else:
                 # This is a Chart object
                 expanded_charts.append(chart)
