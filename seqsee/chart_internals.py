@@ -7,7 +7,7 @@ class DimensionRange(pydantic.BaseModel):
     min: Optional[int] = None
     max: Optional[int] = None
 
-    def __contains__(self, item: int) -> bool:
+    def __contains__(self, item: float) -> bool:
         if self.min is not None and item < self.min:
             return False
         if self.max is not None and item > self.max:
@@ -170,25 +170,42 @@ class Header(pydantic.BaseModel):
 
 
 class Node(pydantic.BaseModel):
-    x: int
-    y: int
+    x: Optional[int] = None
+    y: Optional[int] = None
+    absoluteX: Optional[float] = None
+    absoluteY: Optional[float] = None
     position: int = 0
     label: str = ""
     attributes: Attributes = []
 
-    _absoluteX: Optional[float] = None
-    _absoluteY: Optional[float] = None
-
     model_config = pydantic.ConfigDict(extra="forbid")
+
+    def x_coord(self) -> float:
+        if self.x is not None:
+            return self.x
+        elif self.absoluteX is not None:
+            return self.absoluteX
+        else:
+            # Impossible due to schema
+            raise NotImplementedError
+
+    def y_coord(self) -> float:
+        if self.y is not None:
+            return self.y
+        elif self.absoluteY is not None:
+            return self.absoluteY
+        else:
+            # Impossible due to schema
+            raise NotImplementedError
 
     def svg(self, scale: float) -> str:
         from seqsee.css import style_and_aliases_from_attributes
 
-        assert self._absoluteX is not None
-        assert self._absoluteY is not None
+        assert self.absoluteX is not None
+        assert self.absoluteY is not None
 
-        cx = self._absoluteX * scale
-        cy = self._absoluteY * scale
+        cx = self.absoluteX * scale
+        cy = self.absoluteY * scale
 
         style, aliases = style_and_aliases_from_attributes(self.attributes)
         style = style.generate(indent=0).replace("\n", " ").strip(" {}")
@@ -224,26 +241,26 @@ class Edge(pydantic.BaseModel):
 
         assert self._concrete_source is not None
         source = self._concrete_source
-        assert source._absoluteX is not None
-        assert source._absoluteY is not None
+        assert source.absoluteX is not None
+        assert source.absoluteY is not None
 
         if self.target is not None:
             assert self._concrete_target is not None
             target = self._concrete_target
-            assert target._absoluteX is not None
-            assert target._absoluteY is not None
+            assert target.absoluteX is not None
+            assert target.absoluteY is not None
 
-            target_x = target._absoluteX * scale
-            target_y = target._absoluteY * scale
+            target_x = target.absoluteX * scale
+            target_y = target.absoluteY * scale
         elif self.offset is not None:
-            target_x = (source._absoluteX + self.offset.x) * scale
-            target_y = (source._absoluteY + self.offset.y) * scale
+            target_x = (source.absoluteX + self.offset.x) * scale
+            target_y = (source.absoluteY + self.offset.y) * scale
         else:
             # Impossible due to schema
             raise NotImplementedError
 
-        x1 = source._absoluteX * scale
-        y1 = source._absoluteY * scale
+        x1 = source.absoluteX * scale
+        y1 = source.absoluteY * scale
 
         attributes = self.attributes
         style, aliases = style_and_aliases_from_attributes(attributes)

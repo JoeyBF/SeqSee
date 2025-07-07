@@ -46,7 +46,7 @@ class Chart(pydantic.BaseModel):
         jsonschema.validate(instance=chart_spec, schema=schema)
         super().__init__(**chart_spec)
 
-    def normalize_chart_dimensions(self):
+    def normalize_chart_dimensions(self) -> None:
         """
         This replaces the null values in `self.width` and `self.height` by autodetected boundaries,
         and ensures that the values are even numbers.
@@ -58,35 +58,37 @@ class Chart(pydantic.BaseModel):
         """
 
         def compute_dimension_bounds(
-            dim_range: DimensionRange, coord: Callable[[Node], int], default: int
-        ):
+            dim_range: DimensionRange, coord: Callable[[Node], float], default: int
+        ) -> None:
             coords = [coord(node) for node in self.nodes.values()]
 
             if dim_range.min is None:
                 # Greatest even number strictly smaller than the minimum coordinate of any node
-                dimension = 2 * (min(coords, default=default) // 2 - 1)
+                dimension = 2 * (int(min(coords, default=default) // 2) - 1)
                 dim_range.min = dimension
 
             if dim_range.max is None:
                 # Smallest even number strictly greater than the maximum coordinate of any node
-                dimension = 2 * (max(coords, default=default) // 2 + 1)
+                dimension = 2 * (int(max(coords, default=default) // 2) + 1)
                 dim_range.max = dimension
 
         # Arbitrary default values. These are only used if there are no nodes.
-        compute_dimension_bounds(self.header.chart.width, lambda node: node.x, 0)
-        compute_dimension_bounds(self.header.chart.height, lambda node: node.y, 0)
+        compute_dimension_bounds(self.header.chart.width, Node.x_coord, 0)
+        compute_dimension_bounds(self.header.chart.height, Node.y_coord, 0)
 
         # Make sure that the min and max values are even numbers
         self.header.chart.width.make_even()
         self.header.chart.height.make_even()
 
-    def trim_contents(self):
+    def trim_contents(self) -> None:
         """Remove all nodes and edges that are not within bounds."""
 
         # Remove nodes that are not in the chart
         trimmed_nodes = {}
         for node_id, node in self.nodes.items():
-            if node.x in self.header.chart.width and node.y in self.header.chart.height:
+            x_in_bounds = node.x_coord() in self.header.chart.width
+            y_in_bounds = node.y_coord() in self.header.chart.height
+            if x_in_bounds and y_in_bounds:
                 trimmed_nodes[node_id] = node
         self.nodes = trimmed_nodes
 
@@ -99,21 +101,32 @@ class Chart(pydantic.BaseModel):
                     trimmed_edges.append(edge)
         self.edges = trimmed_edges
 
-    def calculate_absolute_positions(self):
+    def calculate_absolute_positions(self) -> None:
         """
         Compute the final positions of the nodes in the chart.
 
-        This computes the values of the `_absoluteX` and `_absoluteY` properties of all nodes in
+        This computes the values of the `absoluteX` and `absoluteY` properties of all nodes in
         `self.nodes`. Those values will be used by the SVG generation code to place the nodes at the
         correct positions and to draw the edges.
         """
 
         nodes_by_bidegree = defaultdict(list)
+        nodes_off_grid: List[Node] = []
 
         # Group nodes by bidegree
         for node_id, node in self.nodes.items():
             x, y = node.x, node.y
-            nodes_by_bidegree[x, y].append(node_id)
+            if x is not None and y is not None:
+                nodes_by_bidegree[x, y].append(node_id)
+            else:
+                nodes_off_grid.append(node)
+
+        # Deal with nodes that are off grid first
+        for node in nodes_off_grid:
+            if node.absoluteX is None:
+                node.absoluteX = node.x
+            if node.absoluteY is None:
+                node.absoluteY = node.y
 
         # Sort bidegrees by the `position` attribute of the nodes
         for bidegree, nodes in nodes_by_bidegree.items():
@@ -142,8 +155,8 @@ class Chart(pydantic.BaseModel):
             first_center_to_last_center = (bidegree_rank - 1) * distance_between_centers
             for i, node_id in enumerate(nodes):
                 offset = -first_center_to_last_center / 2 + i * distance_between_centers
-                self.nodes[node_id]._absoluteX = x + offset * math.cos(theta)
-                self.nodes[node_id]._absoluteY = y + offset * math.sin(theta)
+                self.nodes[node_id].absoluteX = x + offset * math.cos(theta)
+                self.nodes[node_id].absoluteY = y + offset * math.sin(theta)
 
     def add_nodes_to_edges(self):
         """

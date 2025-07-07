@@ -92,13 +92,28 @@
           "additionalProperties": {
             "type": "object",
             "properties": {
-              "x"         : {"type": "integer"}              ,
-              "y"         : {"type": "integer"}              ,
+              "x"         : {"type": "integer"},
+              "absoluteX" : {"type": "number"},
+              "y"         : {"type": "integer"},
+              "absoluteY" : {"type": "number"},
               "position"  : {"type": "integer", "default": 0},
-              "label"     : {"type": "string"}               ,
+              "label"     : {"type": "string"},
               "attributes": {"$ref": "#/$defs/attributes"}
             },
-            "required": ["x", "y"],
+            "allOf": [
+              {
+                "oneOf": [
+                  { "required": ["x"        ] },
+                  { "required": ["absoluteX"] }
+                ]
+              },
+              {
+                "oneOf": [
+                  { "required": ["y"        ] },
+                  { "required": ["absoluteY"] }
+                ]
+              }
+            ],
             "additionalProperties": false
           }
         },
