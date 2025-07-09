@@ -223,7 +223,7 @@ class Edge(pydantic.BaseModel):
     target: Optional[str] = None
     offset: Optional[Point] = None
     label: str = ""
-    bezier: Optional[List[Point]] = None
+    bezier: List[Point] = []
     attributes: Attributes = []
 
     _concrete_source: Optional[Node] = None
@@ -267,7 +267,7 @@ class Edge(pydantic.BaseModel):
         style = style.generate(indent=0).replace("\n", " ").strip(" {}")
         aliases = " ".join(aliases)
 
-        if self.bezier is not None:
+        if len(self.bezier) > 0:
             control_points = self.bezier
             if len(control_points) == 1:
                 control_x = control_points[0].x * scale + x1

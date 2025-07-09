@@ -222,6 +222,7 @@ class Collection(pydantic.BaseModel):
         self._input_file = input_file
 
         self._load_charts()
+        self._sort_charts()
 
     def __iter__(self):
         return self.charts.__iter__()
@@ -244,6 +245,9 @@ class Collection(pydantic.BaseModel):
                 # This is a Chart object
                 expanded_charts.append(chart)
         self.charts = expanded_charts
+
+    def _sort_charts(self):
+        self.charts.sort(key=lambda chart: chart.header.metadata.id)
 
     def generate_html(self):
         for chart in self:
