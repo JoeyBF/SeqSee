@@ -165,15 +165,15 @@ class Chart(pydantic.BaseModel):
         """
 
         for edge in self.edges:
-            assert (
-                edge.source in self.nodes
-            ), f"Edge {edge} has source {edge.source} that is not in the chart."
+            assert edge.source in self.nodes, (
+                f"Edge {edge} has source {edge.source} that is not in the chart."
+            )
             edge._concrete_source = self.nodes[edge.source]
 
             if edge.target is not None:
-                assert (
-                    edge.target in self.nodes
-                ), f"Edge {edge} has target {edge.target} that is not in the chart."
+                assert edge.target in self.nodes, (
+                    f"Edge {edge} has target {edge.target} that is not in the chart."
+                )
                 edge._concrete_target = self.nodes[edge.target]
 
     def prepare(self):
@@ -190,7 +190,8 @@ class Chart(pydantic.BaseModel):
 
 class Collection(pydantic.BaseModel):
     header: Header = Header()
-    charts: List[Union[Chart, str]] = []
+    chart_refs: List[Union[Chart, str]] = []
+    charts: List[Chart] = []
 
     model_config = pydantic.ConfigDict(extra="allow")
     _input_file: Optional[str] = None
@@ -208,12 +209,16 @@ class Collection(pydantic.BaseModel):
             return validator.is_valid(spec)
 
         if matches_ref("#/$defs/collection_spec"):
-            # This is a genuine collection
+            spec = dict(spec)  # make a shallow copy
+            # Extract the raw charts and store as chart_refs
+            raw_chart_refs = spec.pop("charts", [])
+            spec["chart_refs"] = raw_chart_refs
+
             super().__init__(**spec)
             self._is_collection = True
         elif matches_ref("#/$defs/chart_spec"):
             # This is a single chart, so we need to wrap it in a collection
-            super().__init__(charts=[Chart(**spec)])
+            super().__init__(chart_refs=[Chart(**spec)])
             self._is_collection = False
         else:
             # Impossible due to schema
@@ -227,16 +232,16 @@ class Collection(pydantic.BaseModel):
     def __iter__(self):
         return self.charts.__iter__()
 
-    def _load_charts(self):
+    def _load_charts(self) -> None:
         """Replace all internal chart references with the actual chart objects."""
 
         expanded_charts = []
-        for chart in self.charts:
+        for chart in self.chart_refs:
             if isinstance(chart, str):
                 # This is a reference to another chart
-                assert (
-                    self._input_file is not None
-                ), "Cannot load chart from file without input file"
+                assert self._input_file is not None, (
+                    "Cannot load chart from file without input file"
+                )
                 chart_path = Path(self._input_file).parent / chart
                 with open(chart_path, "r") as f:
                     chart_spec = json.load(f)

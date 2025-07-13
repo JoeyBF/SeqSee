@@ -54,52 +54,17 @@ Examples of collections can be found in `html/Adams-classical.html` and `html/Ad
   - `w`: Previous chart
   - `s`: Next chart
 
-## Running SeqSee
+## Installation
 
-`SeqSee` is packaged with Poetry for easy dependency management and script execution. Below are the
-instructions for setting up and running `SeqSee`.
-
-### Prerequisites
-
-Ensure you have the following installed:
-
-- **Python** 3.11+
-- **Poetry** 2.0+ for dependency management
-
-### Installation
-
-#### Option 1: Install from PyPI (Recommended)
+Install SeqSee from PyPI:
 
 ```bash
 pip install seqsee
 ```
 
-Or with Poetry:
-
-```bash
-poetry add seqsee
-```
-
-#### Option 2: Install from Source
-
-1. **Clone the Repository:**
-
-   ```bash
-   git clone https://github.com/JoeyBF/SeqSee.git
-   cd SeqSee
-   ```
-
-2. **Install the package using Poetry:**
-
-   ```bash
-   poetry install
-   ```
-
-### Usage
+## Usage
 
 Once installed, you can use the following commands:
-
-#### If installed from PyPI
 
 - **Generate a Spectral Sequence Chart**:
 
@@ -107,8 +72,7 @@ Once installed, you can use the following commands:
   seqsee input_file.json output_chart.html
   ```
 
-- **Convert CSV to JSON**: To convert the CSV data in `csv/` to a JSON file compatible with
-  `SeqSee`, use:
+- **Convert CSV to JSON**: To convert CSV data to a JSON file compatible with SeqSee:
 
   ```bash
   seqsee-jsonmaker input_file.csv output_file.json
@@ -120,30 +84,12 @@ Once installed, you can use the following commands:
   seqsee-convert-all
   ```
 
-#### If installed from source
-
-Use `poetry run` to execute the commands:
-
-- **Generate a Spectral Sequence Chart**:
-
-  ```bash
-  poetry run seqsee input_file.json output_chart.html
-  ```
-
-- **Convert CSV to JSON**:
-
-  ```bash
-  poetry run seqsee-jsonmaker input_file.csv output_file.json
-  ```
-
-- **Convert Multiple Files**:
-
-  ```bash
-  poetry run seqsee-convert-all
-  ```
-
   This script converts every CSV file in `csv/` to a JSON file in `json/`, then converts every JSON
   file in `json/` to an HTML chart in `html/`.
+
+## Development
+
+For contributors and developers, see [DEVELOPMENT.md](DEVELOPMENT.md) for setup instructions and development workflows.
 
 ## Input Schema
 
