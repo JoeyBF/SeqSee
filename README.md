@@ -26,9 +26,9 @@ Specifically, they depend on:
 - `path-data-polyfill` 1.0.9 to handle curved edges.
 - The "Computer Modern" font for the axis labels.
 
-For demonstration purposes, the script `convert_all` takes every CSV file in `csv/`, converts them
-to JSON using `jsonmaker`, and then converts each JSON file in `json/` into an HTML file using
-`SeqSee`.
+For demonstration purposes, the script `seqsee-convert-all` takes every CSV file in `csv/`, converts them
+to JSON using `seqsee-jsonmaker`, and then converts each JSON file in `json/` into an HTML file using
+`seqsee`.
 
 ## Collections
 
@@ -64,27 +64,42 @@ instructions for setting up and running `SeqSee`.
 Ensure you have the following installed:
 
 - **Python** 3.11+
-- **Poetry** for dependency management
+- **Poetry** 2.0+ for dependency management
 
 ### Installation
+
+#### Option 1: Install from PyPI (Recommended)
+
+```bash
+pip install seqsee
+```
+
+Or with Poetry:
+
+```bash
+poetry add seqsee
+```
+
+#### Option 2: Install from Source
 
 1. **Clone the Repository:**
 
    ```bash
-   git clone git@github.com:JoeyBF/SeqSee.git
+   git clone https://github.com/JoeyBF/SeqSee.git
    cd SeqSee
    ```
 
-2. **Initialize the Environment:** Install the scripts using Poetry:
+2. **Install the package using Poetry:**
 
    ```bash
-   poetry shell
    poetry install
    ```
 
 ### Usage
 
-Once set up, you can use the following commands:
+Once installed, you can use the following commands:
+
+#### If installed from PyPI
 
 - **Generate a Spectral Sequence Chart**:
 
@@ -96,20 +111,39 @@ Once set up, you can use the following commands:
   `SeqSee`, use:
 
   ```bash
-  jsonmaker input_file.csv output_file.json
+  seqsee-jsonmaker input_file.csv output_file.json
   ```
 
 - **Convert Multiple Files**: For batch conversion or processing:
 
   ```bash
-  convert_all
+  seqsee-convert-all
+  ```
+
+#### If installed from source
+
+Use `poetry run` to execute the commands:
+
+- **Generate a Spectral Sequence Chart**:
+
+  ```bash
+  poetry run seqsee input_file.json output_chart.html
+  ```
+
+- **Convert CSV to JSON**:
+
+  ```bash
+  poetry run seqsee-jsonmaker input_file.csv output_file.json
+  ```
+
+- **Convert Multiple Files**:
+
+  ```bash
+  poetry run seqsee-convert-all
   ```
 
   This script converts every CSV file in `csv/` to a JSON file in `json/`, then converts every JSON
   file in `json/` to an HTML chart in `html/`.
-
-These commands are registered as Poetry scripts, so they can be run directly after activating the
-environment with `poetry shell`.
 
 ## Input Schema
 
@@ -193,7 +227,7 @@ specifying its properties:
 - **`attributes`**: An [attribute list](#attribute-lists) for custom styling.
 
 **Coordinate system**: Each node requires exactly one X coordinate (`x` or `absoluteX`) and one Y
-coordinate (`y` or `absoluteY`). 
+coordinate (`y` or `absoluteY`).
 
 - **Grid coordinates** (`x`, `y`): Nodes are positioned automatically using the global `nodeSpacing`
   and `nodeSlope` settings, with multiple nodes at the same coordinates arranged according to their
@@ -229,6 +263,7 @@ the `nodes` and `edges` sections are ignored, and each chart in the collection i
 separate object with its own `header`, `nodes`, and `edges` sections.
 
 Each chart in the collection can be either:
+
 - A complete chart specification object with `header`, `nodes`, and `edges` sections
 - A string path to a separate JSON file containing a chart specification
 
@@ -345,7 +380,7 @@ remain, later entries in the list override previous ones.
 - See `json/dark_theme.json` for an example of a dark themed chart.
 
 - See the rest of the `json/` directory for significantly more involved examples. These have all
-  been generated from the files in the `csv/` directory using `jsonmaker`, through `convert_all`.
+  been generated from the files in the `csv/` directory using `seqsee-jsonmaker`, through `seqsee-convert-all`.
 
 ## Future Development
 
