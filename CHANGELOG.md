@@ -5,30 +5,33 @@
 ### Added
 
 **User-facing features:**
+
 - Absolute node positioning with `absoluteX` and `absoluteY` properties for precise chart control
 - `c` key shortcut to copy current node labels to clipboard
 - Enhanced chart titles with floating display for better visual hierarchy
 - Improved chart dimension enforcement with automatic boundary calculation
 
 **Developer improvements:**
+
 - Deep Pydantic integration with comprehensive type annotations and schema validation
 - Modular code structure with new `chart_internals.py` and `css.py` modules
-- CSS custom properties (variables) for dynamic theming support
-- Enhanced template system with improved rendering architecture
 
 ### Changed
 
 **User-facing changes:**
+
 - **BREAKING:** Attribute names must now be valid CSS identifiers
 - Chart titles (`header/metadata/displaytitle`) now render directly in charts
 - Example JSON files renamed for clarity (`example4.json` → `curves.json`, etc.)
-- Improved node positioning system supporting both grid coordinates and absolute positioning
 
 **Developer changes:**
+
 - Complete internal refactoring from monolithic `main.py` to modular architecture
 - Replaced manual JSON parsing with robust Pydantic models for type safety
 - Enhanced CSS generation using custom properties for better maintainability
 - Updated template to minimize boilerplate generation at runtime
+- Switched to `uv` instead of Poetry for virtual environment management
+- Switched to flake-based development environment instead of `devenv`
 
 ## [0.2.0] - 2025-04-17
 
