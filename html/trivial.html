@@ -744,6 +744,7 @@ circle {
           const label = this.getAttribute("data-label");
           if (label) {
             tooltip.innerHTML = label;
+            tooltip.setAttribute("data-text", label)
             window.renderMathInElement(tooltip, katexOptions);
             tooltip.style.display = "block";
           }
@@ -829,6 +830,20 @@ circle {
         case ")":
           event.preventDefault();
           initialZoom();
+          break;
+
+        // -- Other --
+        // Copy tooltip text to clipboard
+        case "c":
+        case "C":
+          if (tooltip.style.display != "none" && tooltip.getAttribute("data-text")) {
+            const text = tooltip.getAttribute("data-text");
+            navigator.clipboard.writeText(text).then(() => {
+              console.log("Copied to clipboard:", text);
+            }).catch(err => {
+              console.error("Failed to copy text:", err);
+            });
+          }
           break;
       }
     });
