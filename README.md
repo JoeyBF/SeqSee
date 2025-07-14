@@ -26,9 +26,9 @@ Specifically, they depend on:
 - `path-data-polyfill` 1.0.9 to handle curved edges.
 - The "Computer Modern" font for the axis labels.
 
-For demonstration purposes, the script `seqsee-convert-all` takes every CSV file in `csv/`, converts them
-to JSON using `seqsee-jsonmaker`, and then converts each JSON file in `json/` into an HTML file using
-`seqsee`.
+For demonstration purposes, the script `seqsee-convert-all` takes every CSV file in `csv/`, converts
+them to JSON using `seqsee-jsonmaker`, and then converts each JSON file in `json/` into an HTML file
+using `seqsee`.
 
 ## Collections
 
@@ -89,7 +89,8 @@ Once installed, you can use the following commands:
 
 ## Development
 
-For contributors and developers, see [DEVELOPMENT.md](DEVELOPMENT.md) for setup instructions and development workflows.
+For contributors and developers, see [DEVELOPMENT.md](DEVELOPMENT.md) for setup instructions and
+development workflows.
 
 ## Input Schema
 
@@ -326,7 +327,8 @@ remain, later entries in the list override previous ones.
 - See `json/dark_theme.json` for an example of a dark themed chart.
 
 - See the rest of the `json/` directory for significantly more involved examples. These have all
-  been generated from the files in the `csv/` directory using `seqsee-jsonmaker`, through `seqsee-convert-all`.
+  been generated from the files in the `csv/` directory using `seqsee-jsonmaker`, through
+  `seqsee-convert-all`.
 
 ## Future Development
 
