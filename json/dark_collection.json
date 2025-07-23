@@ -1,0 +1,23 @@
+{
+  "$schema": "../seqsee/input_schema.json",
+  "header": {
+    "metadata": {"displaytitle": "Dark-themed collection"},
+    "aliases": {
+      "colors": {
+        "backgroundColor": "#1a1a1a",
+        "textColor"      : "#ffffff",
+        "borderColor"    : "#4a4a4a",
+        "neonBlue"       : "#00ffff",
+        "neonPink"       : "#ff69b4",
+        "neonGreen"      : "#39ff14"
+      },
+      "attributes": {
+        "defaultNode": [ {"color": "neonBlue"                    } ],
+        "defaultEdge": [ {"color": "neonPink",  "thickness": 0.03} ],
+        "grid"       : [ {"color": "#2a2a2a",   "thickness": 0.02} ],
+        "special"    : [ {"color": "neonGreen"                   } ]
+      }
+    }
+  },
+  "charts": ["dark_theme.json"]
+}

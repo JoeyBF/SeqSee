@@ -1,25 +1,53 @@
-[tool.poetry]
-name = "SeqSee"
-version = "0.2.0"
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "seqsee"
+version = "0.3.0"
 description = "A generic visualization tool for spectral sequence data"
 authors = [
-    "Joey Beauvais-Feisthauer <joeybf@wayne.edu>",
-    "Dan Isaksen <isaksen@wayne.edu>",
+    { name = "Joey Beauvais-Feisthauer", email = "joeybf@wayne.edu" },
+    { name = "Dan Isaksen", email = "isaksen@wayne.edu" },
 ]
 readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+keywords = [
+    "spectral-sequence",
+    "visualization",
+    "mathematics",
+    "topology",
+    "html",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "compact-json>=1.0.0",
+    "jinja2>=3.0.0",
+    "jsonschema>=4.0.0",
+    "pandas>=2.0.0",
+    "pydantic>=2.11.4",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-compact-json = "^1"
-jinja2 = "^3"
-jsonschema = "^4"
-pandas = "^2"
+[dependency-groups]
+dev = ["types-jsonschema>=4.23.0.20241208"]
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[project.urls]
+Homepage = "https://github.com/JoeyBF/SeqSee"
+Repository = "https://github.com/JoeyBF/SeqSee"
+Documentation = "https://github.com/JoeyBF/SeqSee#readme"
+Issues = "https://github.com/JoeyBF/SeqSee/issues"
 
-[tool.poetry.scripts]
-seqsee = 'seqsee.main:main'
-jsonmaker = 'seqsee.jsonmaker:main'
-convert_all = 'seqsee.convert_all:main'
+[project.scripts]
+seqsee = "seqsee.main:main"
+seqsee-jsonmaker = "seqsee.jsonmaker:main"
+seqsee-convert-all = "seqsee.convert_all:main"
+
+[tool.setuptools.packages.find]
+include = ["seqsee*"]

@@ -1,6 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/JoeyBF/SeqSee/refs/heads/master/seqsee/input_schema.json", 
   "header": {
+    "metadata": {
+      "htmltitle": "Adams-classical-Einfty", 
+      "title": "Adams-classical-Einfty", 
+      "author": "jsonmaker.py", 
+      "displaytitle": "Adams-classical-$E_{\\infty}$", 
+      "id": 999
+    }, 
     "aliases": {
       "attributes": {
         "defaultNode": [ {"color": "gray"} ], 
@@ -10,16 +17,16 @@
         "tau3": [ {"color": "darkgreen"} ], 
         "tau4plus": [ {"color": "purple"} ], 
         "dr": [ {"color": "darkcyan"} ], 
-        "2": [ {"color": "darkcyan"} ], 
-        "3": [ {"color": "red"} ], 
-        "4": [ {"color": "darkgreen"} ], 
-        "5": [ {"color": "blue"} ], 
-        "6": [ {"color": "orange"} ], 
-        "7": [ {"color": "orange"} ], 
-        "8": [ {"color": "orange"} ], 
-        "9": [ {"color": "orange"} ], 
-        "10": [ {"color": "orange"} ], 
-        "11": [ {"color": "orange"} ], 
+        "n2": [ {"color": "darkcyan"} ], 
+        "n3": [ {"color": "red"} ], 
+        "n4": [ {"color": "darkgreen"} ], 
+        "n5": [ {"color": "blue"} ], 
+        "n6": [ {"color": "orange"} ], 
+        "n7": [ {"color": "orange"} ], 
+        "n8": [ {"color": "orange"} ], 
+        "n9": [ {"color": "orange"} ], 
+        "n10": [ {"color": "orange"} ], 
+        "n11": [ {"color": "orange"} ], 
         "t": [ {"color": "magenta"} ], 
         "t2": [ {"color": "orange"} ], 
         "t3": [ {"color": "orange"} ], 
@@ -849,7 +856,7 @@
     {"source": "P x76,6", "target": "P h1 x76,6"}, 
     {"source": "D^2 T", "target": "D^2 c1 g"}, 
     {"source": "h1 f2", "target": "h1^2 f2"}, 
-    { "source": "h1 f2", "target": "M D h1 d0", "attributes": ["dr", "p", "10"] }, 
+    { "source": "h1 f2", "target": "M D h1 d0", "attributes": ["dr", "p", "n10"] }, 
     {"source": "x85,6 + h0^3 c3", "target": "h2 h4 Q3"}, 
     {"source": "x85,6 + h0^3 c3", "target": "h1 x85,6"}, 
     {
@@ -860,7 +867,7 @@
     {
       "source": "x85,6 + h0^3 c3", 
       "target": "M D h1 d0", 
-      "attributes": ["dr", "p", "9"]
+      "attributes": ["dr", "p", "n9"]
     }, 
     { "source": "h2 h4 Q3", "target": "h0 g2^2", "attributes": ["hh2"] }, 
     {"source": "P h6 d0", "target": "P h1 h6 d0"}, 
@@ -893,7 +900,7 @@
     {"source": "P^3 h0 h2 h6", "target": "P^3 h1^3 h6"}, 
     {"source": "P^11 h1^2", "target": "P^11 h1^3"}, 
     {"source": "h4^2 D3", "target": "h1 h4^2 D3"}, 
-    { "source": "h4^2 D3", "target": "M D h1 g", "attributes": ["dr", "p", "9"] }, 
+    { "source": "h4^2 D3", "target": "M D h1 g", "attributes": ["dr", "p", "n9"] }, 
     {"source": "P^11 h2", "target": "P^11 h0 h2"}, 
     {"source": "P^11 h0 h2", "target": "P^11 h1^3"}, 
     {"source": "h0 g3", "target": "h0^2 g3"}, 

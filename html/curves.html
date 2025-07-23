@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>{{ collection.header.metadata.htmltitle }}</title>
+  <title></title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
   <!-- KaTeX for math rendering -->
@@ -18,7 +18,7 @@
   <script src="https://cdn.jsdelivr.net/npm/path-data-polyfill@1.0.9/path-data-polyfill.min.js"></script>
   <style>
     :root {
-      --spacing: {{ collection.header.chart.scale }}px;
+      --spacing: 60.0px;
     }
 
     body {
@@ -148,46 +148,99 @@
         text-decoration: underline;
       }
 
-      {{ collection.header.css().generate() -}}
-    }
+          --backgroundColor: white;
+    --borderColor: black;
+    --textColor: black;
 
-    {% for chart in collection %}
-    {% set config = chart.header -%}
-    .chart-{{ config.metadata.id }} {
-      {{ config.css().generate() -}}
-    }
-    {% endfor -%}
-  </style>
+circle {
+    stroke-width: 0px;
+    r: calc(0.04 * var(--spacing));
+}
+
+.grid {
+    fill: #ccc;
+    stroke: #ccc;
+    stroke-width: calc(0.01 * var(--spacing));
+}
+
+.defaultNode {
+    fill: black;
+    stroke: black;
+}
+
+.defaultEdge {
+    fill: black;
+    stroke: black;
+    stroke-width: calc(0.02 * var(--spacing));
+}
+}
+
+    
+    .chart-0 {
+          --backgroundColor: white;
+    --borderColor: black;
+    --textColor: black;
+    --hiddenh0color: red;
+    --hiddenh1color: blue;
+    --hiddenh2color: green;
+
+circle {
+    stroke-width: 0px;
+    r: calc(0.04 * var(--spacing));
+}
+
+.grid {
+    fill: #ccc;
+    stroke: #ccc;
+    stroke-width: calc(0.01 * var(--spacing));
+}
+
+.defaultNode {
+    fill: black;
+    stroke: black;
+}
+
+.defaultEdge {
+    fill: black;
+    stroke: black;
+    stroke-width: calc(0.02 * var(--spacing));
+}
+
+.hh0 {
+    fill: var(--hiddenh0color);
+    stroke: var(--hiddenh0color);
+}
+
+.hh1 {
+    fill: var(--hiddenh1color);
+    stroke: var(--hiddenh1color);
+}
+
+.hh2 {
+    fill: var(--hiddenh2color);
+    stroke: var(--hiddenh2color);
+}
+}
+    </style>
   <script>
     // Define global constants
 
-    const spacing = {{ collection.header.chart.scale }};
+    const spacing = 60.0;
     const axisSpacing = 0.6 * spacing;
 
-    const isCollection = {{ "true" if collection._is_collection else "false" }}
+    const isCollection = false
   </script>
 </head>
 
 <body>
   <div id="index-page" class="background-style" style="display: none;">
-    <h1 id="index-title" class="use-katex">{{ collection.header.metadata.title }}</h1>
+    <h1 id="index-title" class="use-katex"></h1>
     <div class="container">
       <div class="column">
         <ul>
-          {%- for chart in collection %}
-          {%- set meta = chart.header.metadata %}
-          <li class="big-link"><button class="use-katex" data-id="{{ meta.id }}">
-            {% if meta.displaytitle -%}
-              {{- meta.displaytitle -}}
-            {%- elif meta.title -%}
-              {{- meta.title -}}
-            {%- elif meta.htmltitle -%}
-              {{- meta.htmltitle -}}
-            {%- else -%}
-              {{- meta.id -}}
-            {%- endif %}
+          <li class="big-link"><button class="use-katex" data-id="0">
+            Curvy stuff
           </button></li>
-          {%- endfor %}
         </ul>
       </div>
     </div>
@@ -358,9 +411,7 @@
       window.addEventListener("popstate", () => renderFromHash(false));
     </script>
   </div>
-  {% for chart in collection.charts -%}
-  {% set config = chart.header -%}
-  <template id="chart-{{ config.metadata.id }}">
+  <template id="chart-0">
     <svg id="svg-canvas" class="background-style" width="100%" height="100%">
       <defs>
         <!-- Define the arrowhead markers -->
@@ -369,30 +420,34 @@
           <path d='M0,0 V4 L2,2 Z' />
         </marker>
         <!-- Define the grid pattern -->
-        <pattern id="grid" width="{{ 2 * config.chart.scale }}" height="{{ 2 * config.chart.scale }}" patternUnits="userSpaceOnUse">
-          <path id="grid-path" d="M {{ 2 * config.chart.scale }} 0 L 0 0 0 {{ 2 * config.chart.scale }}" class="grid" style="fill: none;"/>
+        <pattern id="grid" width="120.0" height="120.0" patternUnits="userSpaceOnUse">
+          <path id="grid-path" d="M 120.0 0 L 0 0 0 120.0" class="grid" style="fill: none;"/>
         </pattern>
       </defs>
       <g id="chart-content" class="svg-pan-zoom_viewport">
         <!-- Translate the grid so that it covers the appropriate region outside the first quadrant -->
-        <g id="origin-translate" transform="translate({{ config.chart.width.min * config.chart.scale }} {{ -config.chart.height.min * config.chart.scale }})">
+        <g id="origin-translate" transform="translate(-120.0 120.0)">
           <!-- Apply the grid pattern to a background rectangle -->
           <rect
             id="grid-background"
-            width="{{ (config.chart.width.max - config.chart.width.min) * config.chart.scale }}px"
-            height="{{ (config.chart.height.max - config.chart.height.min) * config.chart.scale }}px"
+            width="360.0px"
+            height="480.0px"
             fill="url(#grid)"
           />
         </g>
         <g id="edges">
-          {%- for edge in chart.edges %}
-          {{ edge.svg(config.chart.scale) }}
-          {%- endfor %}
+          <line x1="0.0" y1="60.0" x2="60.0" y2="120.0" class="defaultEdge "></line>
+          <path d="M 0.0 60.0 C 0.0 120.0 120.0 240.0 180.0 240.0" class="hh2" style="fill: none;"></path>
+          <line x1="60.0" y1="0.0" x2="60.0" y2="120.0" class="defaultEdge hh0"></line>
+          <line x1="60.0" y1="0.0" x2="120.0" y2="120.0" class="defaultEdge hh1"></line>
+          <line x1="120.0" y1="120.0" x2="180.0" y2="240.0" class="defaultEdge hh1"></line>
         </g>
         <g id="nodes">
-          {%- for node in chart.nodes.values() %}
-          {{ node.svg(config.chart.scale) }}
-          {%- endfor %}
+          <circle class="defaultNode " cx="0.0" cy="60.0" data-label=""></circle>
+          <circle class="defaultNode " cx="60.0" cy="0.0" data-label=""></circle>
+          <circle class="defaultNode " cx="60.0" cy="120.0" data-label=""></circle>
+          <circle class="defaultNode " cx="120.0" cy="120.0" data-label=""></circle>
+          <circle class="defaultNode " cx="180.0" cy="240.0" data-label=""></circle>
         </g>
       </g>
       <g id="chart-axes">
@@ -406,22 +461,24 @@
         <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
         <g id="ticks">
           <g id="x-ticks">
-            {%- for i in range(config.chart.width.min, config.chart.width.max + 1, 2) %}
-            <text x="{{ i * config.chart.scale }}" y="{{ 0.5 * config.chart.scale }}">{{ i }}</text>
-            {%- endfor %}
+            <text x="-120.0" y="30.0">-2</text>
+            <text x="0.0" y="30.0">0</text>
+            <text x="120.0" y="30.0">2</text>
+            <text x="240.0" y="30.0">4</text>
           </g>
           <g id="y-ticks">
-            {%- for j in range(config.chart.height.min, config.chart.height.max + 1, 2) %}
-            <text x="{{ 0.5 * config.chart.scale }}" y="{{ j * config.chart.scale }}">{{ j }}</text>
-            {%- endfor %}
+            <text x="30.0" y="-120.0">-2</text>
+            <text x="30.0" y="0.0">0</text>
+            <text x="30.0" y="120.0">2</text>
+            <text x="30.0" y="240.0">4</text>
+            <text x="30.0" y="360.0">6</text>
           </g>
         </g>
       </g>
     </svg>
-    <div id="floating-title" class="background-style">{{ config.metadata.displaytitle }}</div>
+    <div id="floating-title" class="background-style"></div>
     <div id="tooltip" class="background-style"></div>
   </template>
-  {% endfor -%}
   <!-- This div will be filled with the correct template dynamically -->
   <div id="chart-container"></div>
   <script>

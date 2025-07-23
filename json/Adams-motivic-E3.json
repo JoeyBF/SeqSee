@@ -1,6 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/JoeyBF/SeqSee/refs/heads/master/seqsee/input_schema.json", 
   "header": {
+    "metadata": {
+      "htmltitle": "Adams-motivic-E3", 
+      "title": "Adams-motivic-E3", 
+      "author": "jsonmaker.py", 
+      "displaytitle": "Adams-motivic-$E_{3}$", 
+      "id": 3
+    }, 
     "aliases": {
       "attributes": {
         "defaultNode": [ {"color": "gray"} ], 
@@ -10,16 +17,16 @@
         "tau3": [ {"color": "darkgreen"} ], 
         "tau4plus": [ {"color": "purple"} ], 
         "dr": [ {"color": "darkcyan"} ], 
-        "2": [ {"color": "darkcyan"} ], 
-        "3": [ {"color": "red"} ], 
-        "4": [ {"color": "darkgreen"} ], 
-        "5": [ {"color": "blue"} ], 
-        "6": [ {"color": "orange"} ], 
-        "7": [ {"color": "orange"} ], 
-        "8": [ {"color": "orange"} ], 
-        "9": [ {"color": "orange"} ], 
-        "10": [ {"color": "orange"} ], 
-        "11": [ {"color": "orange"} ], 
+        "n2": [ {"color": "darkcyan"} ], 
+        "n3": [ {"color": "red"} ], 
+        "n4": [ {"color": "darkgreen"} ], 
+        "n5": [ {"color": "blue"} ], 
+        "n6": [ {"color": "orange"} ], 
+        "n7": [ {"color": "orange"} ], 
+        "n8": [ {"color": "orange"} ], 
+        "n9": [ {"color": "orange"} ], 
+        "n10": [ {"color": "orange"} ], 
+        "n11": [ {"color": "orange"} ], 
         "t": [ {"color": "magenta"} ], 
         "t2": [ {"color": "orange"} ], 
         "t3": [ {"color": "orange"} ], 
