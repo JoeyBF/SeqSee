@@ -196,9 +196,9 @@ Defines directed or undirected edges between nodes.
 - **`bezier`**: Specifies the control point(s) for the Bézier curve representing this edge. If
   present, it is an array containing one or two objects with keys `x` and `y`, representing
   coordinates:
-  - **Length 1**: A single control point for a quadratic Bézier curve. Coordinates are relative to
+  - **1 Object**: A single control point for a quadratic Bézier curve. Coordinates are relative to
     the source node.
-  - **Length 2**: Two control points for a cubic Bézier curve. The first point's coordinates are
+  - **2 Objects**: Two control points for a cubic Bézier curve. The first point's coordinates are
     relative to the source node, and the second point's coordinates are relative to the endpoint.
 - **`attributes`**: An [attribute list](#attribute-lists) for edge-specific styling. Defaults to
   `[]`.
