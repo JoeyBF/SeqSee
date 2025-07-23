@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "seqsee"
-version = "0.2.0"
+version = "0.3.0"
 description = "A generic visualization tool for spectral sequence data"
 authors = [
     { name = "Joey Beauvais-Feisthauer", email = "joeybf@wayne.edu" },
