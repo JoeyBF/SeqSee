@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased]
+
+## [0.3.1] - 2025-07-24
+
+### Fixed
+
+- The required `input_schema.json` and `template.html.jinja` are now correctly packaged.
+
 ## [0.3.0] - 2025-07-23
 
 ### Added

@@ -1,7 +1,7 @@
 
 [project]
 name = "seqsee"
-version = "0.3.0"
+version = "0.3.1"
 description = "A generic visualization tool for spectral sequence data"
 authors = [
     { name = "Joey Beauvais-Feisthauer", email = "joeybf@wayne.edu" },
