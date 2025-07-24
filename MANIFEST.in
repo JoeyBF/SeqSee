@@ -1,0 +1,2 @@
+include seqsee/*.json
+include seqsee/*.jinja

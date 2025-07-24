@@ -1,3 +1,4 @@
+import importlib
 import json
 import jsonschema
 import math
@@ -6,7 +7,8 @@ import os
 import pydantic
 
 from collections import defaultdict
-from jinja2 import Environment, FileSystemLoader
+from importlib.resources import files
+from jinja2 import BaseLoader, Environment
 from pathlib import Path
 from seqsee.chart_internals import (
     DimensionRange,
@@ -16,12 +18,12 @@ from seqsee.chart_internals import (
 )
 from typing import Callable, Dict, List, Optional, Union
 
+src_dir = files("seqsee")
+
 
 def load_schema():
-    schema_path = os.path.join(os.path.dirname(__file__), "input_schema.json")
-    with open(schema_path, "r") as f:
-        schema = json.load(f)
-    return schema
+    with (src_dir / "input_schema.json").open("r") as f:
+        return json.load(f)
 
 
 schema = load_schema()
@@ -29,9 +31,8 @@ chart_schema = schema["$defs"]["chart_spec"]
 
 
 def load_template():
-    env = Environment(loader=FileSystemLoader(searchpath=os.path.dirname(__file__)))
-    template = env.get_template("template.html.jinja")
-    return template
+    template_text = (src_dir / "template.html.jinja").read_text()
+    return Environment(loader=BaseLoader()).from_string(template_text)
 
 
 class Chart(pydantic.BaseModel):
