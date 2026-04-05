@@ -265,7 +265,7 @@ class Edge(pydantic.BaseModel):
         attributes = self.attributes
         style, aliases = style_and_aliases_from_attributes(attributes)
         style = style.generate(indent=0).replace("\n", " ").strip(" {}")
-        aliases = " ".join(aliases)
+        classes = "defaultEdge " + " ".join(aliases)
 
         if len(self.bezier) > 0:
             control_points = self.bezier
@@ -282,10 +282,10 @@ class Edge(pydantic.BaseModel):
             else:
                 # Impossible due to schema
                 raise NotImplementedError
-            edge_svg = f'<path d="M {x1} {y1} {curve_d}" class="{aliases}" style="fill: none;{style}"></path>'
+            edge_svg = f'<path d="M {x1} {y1} {curve_d}" class="{classes}" style="fill: none;{style}"></path>'
         else:
             if style:
                 style = f' style="{style}"'
-            edge_svg = f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="defaultEdge {aliases}"{style}></line>'
+            edge_svg = f'<line x1="{x1}" y1="{y1}" x2="{target_x}" y2="{target_y}" class="{classes}"{style}></line>'
 
         return edge_svg

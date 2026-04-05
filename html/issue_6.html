@@ -180,9 +180,6 @@ circle {
           --backgroundColor: white;
     --borderColor: black;
     --textColor: black;
-    --hiddenh0color: red;
-    --hiddenh1color: blue;
-    --hiddenh2color: green;
 
 circle {
     stroke-width: 0px;
@@ -205,21 +202,6 @@ circle {
     stroke: black;
     stroke-width: calc(0.02 * var(--spacing));
 }
-
-.hh0 {
-    fill: var(--hiddenh0color);
-    stroke: var(--hiddenh0color);
-}
-
-.hh1 {
-    fill: var(--hiddenh1color);
-    stroke: var(--hiddenh1color);
-}
-
-.hh2 {
-    fill: var(--hiddenh2color);
-    stroke: var(--hiddenh2color);
-}
 }
     </style>
   <script>
@@ -239,7 +221,7 @@ circle {
       <div class="column">
         <ul>
           <li class="big-link"><button class="use-katex" data-id="0">
-            Curvy stuff
+            Issue #6
           </button></li>
         </ul>
       </div>
@@ -426,28 +408,21 @@ circle {
       </defs>
       <g id="chart-content" class="svg-pan-zoom_viewport">
         <!-- Translate the grid so that it covers the appropriate region outside the first quadrant -->
-        <g id="origin-translate" transform="translate(-120.0 120.0)">
+        <g id="origin-translate" transform="translate(1080.0 -240.0)">
           <!-- Apply the grid pattern to a background rectangle -->
           <rect
             id="grid-background"
             width="360.0px"
-            height="480.0px"
+            height="360.0px"
             fill="url(#grid)"
           />
         </g>
         <g id="edges">
-          <line x1="0.0" y1="60.0" x2="60.0" y2="120.0" class="defaultEdge "></line>
-          <path d="M 0.0 60.0 C 0.0 120.0 120.0 240.0 180.0 240.0" class="defaultEdge hh2" style="fill: none;"></path>
-          <line x1="60.0" y1="0.0" x2="60.0" y2="120.0" class="defaultEdge hh0"></line>
-          <line x1="60.0" y1="0.0" x2="120.0" y2="120.0" class="defaultEdge hh1"></line>
-          <line x1="120.0" y1="120.0" x2="180.0" y2="240.0" class="defaultEdge hh1"></line>
+          <path d="M 1200.0 360.0 C 1200.0 390.0 1350.0 540.0 1380.0 540.0" class="defaultEdge " style="fill: none;"></path>
         </g>
         <g id="nodes">
-          <circle class="defaultNode " cx="0.0" cy="60.0" data-label=""></circle>
-          <circle class="defaultNode " cx="60.0" cy="0.0" data-label=""></circle>
-          <circle class="defaultNode " cx="60.0" cy="120.0" data-label=""></circle>
-          <circle class="defaultNode " cx="120.0" cy="120.0" data-label=""></circle>
-          <circle class="defaultNode " cx="180.0" cy="240.0" data-label=""></circle>
+          <circle class="defaultNode " cx="1200.0" cy="360.0" data-label=""></circle>
+          <circle class="defaultNode " cx="1380.0" cy="540.0" data-label=""></circle>
         </g>
       </g>
       <g id="chart-axes">
@@ -461,17 +436,16 @@ circle {
         <!-- Tick marks. We use Jinja2 templating syntax to place them automatically -->
         <g id="ticks">
           <g id="x-ticks">
-            <text x="-120.0" y="30.0">-2</text>
-            <text x="0.0" y="30.0">0</text>
-            <text x="120.0" y="30.0">2</text>
-            <text x="240.0" y="30.0">4</text>
+            <text x="1080.0" y="30.0">18</text>
+            <text x="1200.0" y="30.0">20</text>
+            <text x="1320.0" y="30.0">22</text>
+            <text x="1440.0" y="30.0">24</text>
           </g>
           <g id="y-ticks">
-            <text x="30.0" y="-120.0">-2</text>
-            <text x="30.0" y="0.0">0</text>
-            <text x="30.0" y="120.0">2</text>
             <text x="30.0" y="240.0">4</text>
             <text x="30.0" y="360.0">6</text>
+            <text x="30.0" y="480.0">8</text>
+            <text x="30.0" y="600.0">10</text>
           </g>
         </g>
       </g>

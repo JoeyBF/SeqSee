@@ -1,0 +1,11 @@
+{
+  "header": { "metadata": {"htmltitle": "Issue #6", "author": "isaksendan"} },
+  "nodes" : { "h0 h2 e0": {"x": 20, "y": 6}, "P h1 d0": {"x": 23, "y": 9} },
+  "edges" : [
+    {
+      "source": "h0 h2 e0",
+      "target": "P h1 d0",
+      "bezier": [ {"x": 0.0, "y": 0.5}, {"x": -0.5, "y": 0.0} ]
+    }
+  ]
+}
